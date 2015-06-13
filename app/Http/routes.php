@@ -2,15 +2,13 @@
 
 /*
 |--------------------------------------------------------------------------
-| Application Routes
+| Dynamic Application Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+\Locales::set();
+
+$slug = new \App\Services\Slug();
+if ($slug->match()) {
+    $router->{$slug->getMethod()}(\Locales::getLanguage() . '/' . $slug->getSlug(), $slug->getController());
+}
