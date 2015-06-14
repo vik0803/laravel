@@ -14,6 +14,6 @@ class LocaleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['locales'] = $this->app->share(function() { return new Locales(); });
+        $this->app->singleton('locales', function() { return new Locales(); });
     }
 }
