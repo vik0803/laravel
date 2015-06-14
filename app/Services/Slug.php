@@ -14,13 +14,14 @@ class Slug
     protected $slug;
     protected $slugs;
     protected $method;
+    protected $parameters = null;
 
     /**
      * Creates new instance.
      */
     public function __construct()
     {
-        $this->setSlug();
+        $this->setSlug(rtrim(ltrim(StaticStringy::replace(urldecode(\Request::path()), \Locales::getLanguage(), ''), '/'), '/'));
     }
 
     /**
@@ -57,9 +58,21 @@ class Slug
                 if (count($this->slugs) > 0) {
                     if (isset($route['/'])) {
                         return $this->matchRecursive($route['/']);
+                    } elseif (isset($route[$this->method])) {
+                        $r = $route[$this->method];
+                        if (is_array($r)) {
+                            if (isset($r['parameters'])) {
+                                $this->setParameters($r['parameters']);
+
+                                $paramsCount = count(explode('/', $r['parameters']));
+                                $slug = implode('/', array_slice(explode('/', $this->getSlug()), 0, -$paramsCount));
+                                $this->setSlug($slug);
+                            }
+                            $this->setController(Str::title($this->subdomain) . '\\' . $r['controller']);
+                            return true;
+                        }
                     }
-                    return false;
-                } elseif (isset($route[$this->method])) {
+                } elseif (isset($route[$this->method]) && !is_array($route[$this->method])) {
                     $this->setController(Str::title($this->subdomain) . '\\' . $route[$this->method]);
                     return true;
                 }
@@ -84,9 +97,9 @@ class Slug
      *
      * @return string
      */
-    public function setSlug()
+    public function setSlug($slug)
     {
-        return $this->slug = rtrim(ltrim(StaticStringy::replace(urldecode(\Request::path()), \Locales::getLanguage(), ''), '/'), '/');
+        return $this->slug = $slug;
     }
 
     /**
@@ -117,5 +130,25 @@ class Slug
     public function setController($controller)
     {
         $this->controller = $controller;
+    }
+
+    /**
+     * Get the route parameters
+     *
+     * @return string
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * Set the route parameters
+     *
+     * @return void
+     */
+    public function setParameters($parameters)
+    {
+        $this->parameters = '/' . $parameters;
     }
 }

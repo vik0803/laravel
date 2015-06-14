@@ -11,15 +11,12 @@ return [
     |
     */
 
-    '/' => ['slug' => '', 'get' => 'LoginController@show', 'post' => 'LoginController@login'],
-    'logout' => ['slug' => 'logout', 'get' => 'LoginController@logout'],
+    '/' => ['slug' => '', 'get' => 'AuthController@getLogin', 'post' => 'AuthController@postLogin'],
+    'logout' => ['slug' => 'logout', 'get' => 'AuthController@getLogout'],
     'home' => ['slug' => 'home', 'get' => 'PageController@home'],
-    'page' => ['slug' => 'page', 'get' => 'PageController@show'],
-    'pf' => ['slug' => 'pf', 'get' => 'PasswordController@show', 'post' => 'PasswordController@pf', '/' => [
-        'mail' => ['slug' => 'mail', 'get' => 'PageController@showSubpage'],
-        'reset' => ['slug' => 'reset', 'get' => 'PageController@getReset'],
-        ]
-    ],
-    'reset' => ['slug' => 'reset', 'get' => 'PasswordController@getReset', 'post' => 'PasswordController@postReset'],
+    'page' => ['slug' => 'page', 'get' => 'PageController@page'],
+    'pf' => ['slug' => 'pf', 'get' => 'PasswordController@getEmail', 'post' => 'PasswordController@postEmail'],
+    'reset' => ['slug' => 'reset', 'get' => ['controller' => 'PasswordController@getReset', 'parameters' => '{token}'], 'post' => 'PasswordController@postReset'],
+    'register' => ['slug' => 'register', 'get' => 'AuthController@getRegister', 'post' => 'AuthController@postRegister'],
 
 ];

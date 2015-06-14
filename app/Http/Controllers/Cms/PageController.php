@@ -21,7 +21,7 @@ class PageController extends Controller {
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => 'showSubpage']);
+        $this->middleware('auth');
     }
 
     /**
@@ -29,19 +29,9 @@ class PageController extends Controller {
      *
      * @return Response
      */
-    public function show()
+    public function page()
     {
         return view('cms.page');
-    }
-
-    /**
-     * Show the application dashboard to the user.
-     *
-     * @return Response
-     */
-    public function showSubpage()
-    {
-        return view('cms.subpage');
     }
 
     /**
@@ -52,16 +42,6 @@ class PageController extends Controller {
     public function home()
     {
         return view('cms.home');
-    }
-
-    /**
-     * Show the application dashboard to the user.
-     *
-     * @return Response
-     */
-    public function getReset()
-    {
-        return view('cms.subpage');
     }
 
 }

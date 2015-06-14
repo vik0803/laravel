@@ -17,6 +17,7 @@ return [
 	"user" => "Няма потребител с такъв e-mail... We can't find a user with that e-mail address.",
 	"token" => "This password reset token is invalid.",
 	"sent" => "We have e-mailed your password reset link!",
-	"reset" => "Your password has been reset!",
+    "reset" => "Your password has been reset!",
+	"reset_link" => "Your Password Reset Link",
 
 ];

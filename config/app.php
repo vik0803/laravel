@@ -182,7 +182,7 @@ return [
         'Lang'      => Illuminate\Support\Facades\Lang::class,
         'Log'       => Illuminate\Support\Facades\Log::class,
         'Mail'      => Illuminate\Support\Facades\Mail::class,
-        'Password'  => Illuminate\Support\Facades\Password::class,
+        // 'Password'  => Illuminate\Support\Facades\Password::class,
         'Queue'     => Illuminate\Support\Facades\Queue::class,
         'Redirect'  => Illuminate\Support\Facades\Redirect::class,
         'Redis'     => Illuminate\Support\Facades\Redis::class,
@@ -200,6 +200,7 @@ return [
         'HTML'      => Illuminate\Html\HtmlFacade::class,
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Locales'   => App\Facades\Locale::class,
+        'Password'  => App\Facades\Password::class,
 
     ],
 

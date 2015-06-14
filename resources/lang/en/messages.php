@@ -13,5 +13,6 @@ return [
 
     'laravel' => 'Laravel',
     'welcome' => 'Welcome',
+    "failedLogin" => "These credentials do not match our records.",
 
 ];

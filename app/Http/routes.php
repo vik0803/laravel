@@ -10,5 +10,5 @@
 
 $slug = new \App\Services\Slug();
 if ($slug->match()) {
-    $router->{$slug->getMethod()}(\Locales::getLanguage() . '/' . $slug->getSlug(), $slug->getController());
+    $router->{$slug->getMethod()}(\Locales::getLanguage() . '/' . $slug->getSlug() . $slug->getParameters(), $slug->getController());
 }
