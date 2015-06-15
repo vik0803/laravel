@@ -83,6 +83,16 @@ class Slug
     }
 
     /**
+     * Create routes.php file
+     *
+     * @return string
+     */
+    public function createRoutes()
+    {
+        // to do: create routes.php files
+    }
+
+    /**
      * Get the Request slug
      *
      * @return string
