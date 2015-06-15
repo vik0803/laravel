@@ -147,6 +147,7 @@ return [
         Illuminate\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         App\Providers\LocaleServiceProvider::class,
+        App\Providers\SlugServiceProvider::class,
 
     ],
 
@@ -200,7 +201,7 @@ return [
         'HTML'      => Illuminate\Html\HtmlFacade::class,
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Locales'   => App\Facades\Locale::class,
-        'Password'  => App\Facades\Password::class,
+        'Slug'   => App\Facades\Slug::class,
 
     ],
 

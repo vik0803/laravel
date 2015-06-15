@@ -124,11 +124,9 @@ class Locales
      */
     public function getLocaleURL($locale)
     {
-        $slug = new \App\Services\Slug();
-
         $this->setSubdomain();
         $this->routes = \Lang::get($this->subdomain . '/routes', [], ($locale == $this->getDefault() ? $this->getLanguage() : $locale));
-        $this->slugs = explode('/', $slug->getSlug());
+        $this->slugs = explode('/', \Slug::getSlug());
         $slugPath = $this->matchRecursive($this->routes);
         if ($slugPath) {
             $slugString = rtrim(implode('/', array_reverse($slugPath)), '/');
