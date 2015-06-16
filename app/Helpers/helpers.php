@@ -2,6 +2,13 @@
 
 namespace App\Helpers;
 
+function autover($dir, $file)
+{
+    $time = filemtime(public_path() . $dir . '/' . $file);
+    $dot = strrpos($file, '.');
+    return asset($dir . '/' . substr($file, 0, $dot) . '.' . $time . substr($file, $dot));
+}
+
 function array_search_key_recursive($key, $array, $parents = false)
 {
     if (isset($array[$key])) {
