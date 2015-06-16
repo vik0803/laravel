@@ -2,11 +2,11 @@
 
 namespace App\Helpers;
 
-function autover($dir, $file)
+function autover($resource)
 {
-    $time = filemtime(public_path() . $dir . '/' . $file);
-    $dot = strrpos($file, '.');
-    return asset($dir . '/' . substr($file, 0, $dot) . '.' . $time . substr($file, $dot));
+    $time = filemtime(public_path() . $resource);
+    $dot = strrpos($resource, '.');
+    return asset(substr($resource, 0, $dot) . '.' . $time . substr($resource, $dot));
 }
 
 function array_search_key_recursive($key, $array, $parents = false)
