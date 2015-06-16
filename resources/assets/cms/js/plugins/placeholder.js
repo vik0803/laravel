@@ -1,0 +1,21 @@
+function placeholder()
+{
+    jQuery.support.placeholder = ('placeholder' in document.createElement('input'));
+    if (!$.support.placeholder) {
+        var active = document.activeElement;
+        $(':text, input[type="date"], textarea').focus(function () {
+            if ($(this).attr('placeholder') != '' && $(this).val() == $(this).attr('placeholder')) {
+                $(this).val('').removeClass('ie-placeholder');
+            }
+        }).blur(function() {
+            if ($(this).attr('placeholder') != '' && ($(this).val() == '' || $(this).val() == $(this).attr('placeholder'))) {
+                $(this).val($(this).attr('placeholder')).addClass('ie-placeholder');
+            }
+        });
+        $(':text, input[type="date"], textarea').blur();
+        $(active).focus();
+        $('form:eq(0)').submit(function() {
+            $(':text.ie-placeholder, input[type="date"].ie-placeholder, textarea.ie-placeholder').val('');
+        });
+    }
+}
