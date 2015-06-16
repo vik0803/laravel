@@ -1,4 +1,9 @@
-@extends('cms.app')
+<?php
+$metaTitle = 'Login';
+$metaDescription = 'Description';
+?>
+
+@extends('cms.auth.master')
 
 @section('content')
 <div class="container">
@@ -14,6 +19,7 @@
         </div>
     @endif
 
+    <img src="{{ \App\Helpers\autover('/img/cms/logo.png') }}">
     <form class="form-horizontal" role="form" method="POST" action="{{ url(\Locales::getLocalizedURL()) }}">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
