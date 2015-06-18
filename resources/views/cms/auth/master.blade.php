@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>{{ $metaTitle }}</title>
     <meta name="description" content="{{ $metaDescription }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="apple-touch-icon" href="{{ \App\Helpers\autover('/apple-touch-icon.png') }}">
     <!-- Place favicon.ico in the root directory -->
@@ -23,27 +24,7 @@
     @yield('header')
 </head>
 <body>
-    <!--[if lt IE 8]>
-        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-	<nav class="navbar navbar-default">
-        <ul class="nav navbar-nav">
-            <li><a href="{{ url(\Locales::getLocaleURL('bg')) }}">Български</a></li>
-            <li><a href="{{ url(\Locales::getLocaleURL('en')) }}">English</a></li>
-        </ul>
-
-        <ul class="nav navbar-nav navbar-right">
-        @if (Auth::guest())
-            <li><a href="{{ url(\Locales::getLocalizedURL()) }}">Login</a></li>
-            <li><a href="{{ url(\Locales::getLocalizedURL('register')) }}">Register</a></li>
-        @else
-            <li>{{ Auth::user()->name }}</li>
-            <li><a href="{{ url(\Locales::getLocalizedURL('logout')) }}">Logout</a></li>
-        @endif
-        </ul>
-    </nav>
-
-	@yield('content')
+    @yield('content')
 
 	<script>
     Modernizr.load([
@@ -64,7 +45,15 @@
         {
             load: ['{{ \App\Helpers\autover('/js/cms/main.min.js') }}'],
             complete: function() {
-                $.ajaxSetup({cache: true}); // cache script loaded with $.getScript
+
+                @yield('script');
+
+                $.ajaxSetup({
+                    cache: true, // cache script loaded with $.getScript
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 $.getScript('{{ \App\Helpers\autover('/js/cms/google.min.js') }}');
             }
         }

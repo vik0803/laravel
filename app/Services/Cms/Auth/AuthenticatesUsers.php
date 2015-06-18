@@ -34,14 +34,22 @@ trait AuthenticatesUsers
         $credentials = $this->getCredentials($request);
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
-            return redirect()->intended($this->redirectPath());
+            if ($request->ajax()) {
+                return response()->json(['redirect' => $this->redirectPath()]);
+            } else {
+                return redirect()->intended($this->redirectPath());
+            }
         }
 
-        return redirect($this->loginPath())
-            ->withInput($request->only('email', 'remember'))
-            ->withErrors([
-                'email' => trans('messages.failedLogin'),
-            ]);
+        if ($request->ajax()) {
+            return response()->json(['errors' => [trans('messages.failedLogin')], 'ids' => ['email'], 'resetOnly' => ['password']]);
+        } else {
+            return redirect($this->loginPath())
+                ->withInput($request->only('email', 'remember'))
+                ->withErrors([
+                    'email' => trans('messages.failedLogin'),
+                ]);
+        }
     }
 
     /**
