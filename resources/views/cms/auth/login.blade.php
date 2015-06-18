@@ -6,7 +6,12 @@ $metaDescription = 'Description';
 @extends('cms.auth.master')
 
 @section('content')
-<div class="container">
+<div class="login-wrapper">
+
+    {!! HTML::image(\App\Helpers\autover('/img/cms/logo.png'), 'Logo') !!}
+
+    <div class="login-box">
+        <h1>Login</h1>
 
     @if (count($errors) > 0)
         <div class="alert alert-danger">
@@ -19,42 +24,41 @@ $metaDescription = 'Description';
         </div>
     @endif
 
-    <img src="{{ \App\Helpers\autover('/img/cms/logo.png') }}">
-    <form class="form-horizontal" role="form" method="POST" action="{{ url(\Locales::getLocalizedURL()) }}">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
+    {!! Form::open(['id' => 'login-form', 'class' => 'form-horizontal', 'role' => 'form']) !!}
         <div class="form-group">
-            <label class="col-md-4 control-label">E-Mail Address</label>
-            <div class="col-md-6">
-                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+            {!! Form::label('input-email', 'E-mail Address', ['class' => 'sr-only']) !!}
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-email"></span></span>
+                {!! Form::email('email', null, ['id' => 'input-email', 'class' => 'form-control', 'placeholder' => 'E-mail']) !!}
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-md-4 control-label">Password</label>
-            <div class="col-md-6">
-                <input type="password" class="form-control" name="password">
+            {!! Form::label('input-password', 'Password', ['class' => 'sr-only']) !!}
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-security"></span></span>
+                {!! Form::password('password', ['id' => 'input-password', 'class' => 'form-control', 'placeholder' => 'Password']) !!}
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-6 col-md-offset-4">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="remember"> Remember Me
-                    </label>
-                </div>
+            <div class="checkbox">
+                {!! Form::checkbox('remember', 1, null, ['id' => 'input-remember']) !!}
+                {!! Form::label('input-remember', 'Remember me') !!}
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-6 col-md-offset-4">
-                <button type="submit" class="btn btn-primary">Login</button>
-
-                <a class="btn btn-link" href="{{ url(\Locales::getLocalizedURL('pf')) }}">Forgot Your Password?</a>
-            </div>
+            {!! Form::submit('Login', ['class' => 'btn btn-primary']) !!}
+            <a class="btn btn-link" href="{{ url(\Locales::getLocalizedURL('pf')) }}">Forgot Your Password?</a>
         </div>
-    </form>
+    {!! Form::close() !!}
+
+    </div>
 
 </div>
+@endsection
+
+@section('script')
+ajax_submit('login-form', true);
 @endsection
