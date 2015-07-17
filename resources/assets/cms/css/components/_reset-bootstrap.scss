@@ -118,6 +118,39 @@ pre {
 }
 
 //
+// Dropdown menus
+// --------------------------------------------------
+
+.caret {
+    margin-left: 0.125em; /* 2/16 */
+}
+
+.dropdown-menu {
+    min-width: 12.5em; /* 200/16 */
+    padding: 0.3125em 0; /* 5/16 */
+    margin: 0.125em 0 0; // override default ul /* 2/16 */
+
+    .divider {
+        margin: (($line-height-computed / 4) - ((1px / $font-size-root) + $font-unit)) 0;
+    }
+
+    > li > a {
+        padding: 0.1875em 1.25em; /* 3/16 */ /* 20/16 */
+    }
+}
+
+.dropdown-header {
+    padding: 0.1875em 1.25em; /* 3/16 */ /* 20/16 */
+}
+
+.dropup,
+.navbar-fixed-bottom .dropdown {
+    .dropdown-menu {
+        margin-bottom: 0.125em; /* 2/16 */
+    }
+}
+
+//
 // Forms
 // --------------------------------------------------
 
