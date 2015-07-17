@@ -1,0 +1,25 @@
+.languages-wrapper {
+    margin-top: ($line-height-computed / 2);
+
+    .dropdown {
+        .caret {
+            border-width: $caret-width-large $caret-width-large 0;
+            margin-left: 0.3125em; /* 5/16 */
+        }
+
+        > .dropdown-menu {
+            width: 100%;
+            padding: 0.125em; /* 2/16 */
+
+            > .active span {
+                color: $gray-lighter;
+            }
+
+            span {
+                font-size: $font-size-h5;
+                margin-left: 0.3125em; /* 5/16 */
+                color: $gray-light;
+            }
+        }
+    }
+}
