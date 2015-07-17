@@ -1,0 +1,45 @@
+.auth-wrapper {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width: 320px;
+    margin-left: -160px;
+    background-color: $gray-lighter;
+    @include gradient-vertical($start-color: #fff, $end-color: $gray-lighter, $start-percent: 0%, $end-percent: 100%);
+    border: 1px solid #ddd;
+    border-radius: 0.3125em; /* 5/16 */
+    padding: 1.25em; /* 20/16 */
+    text-align: center; /* for the image */
+
+    .auth-box {
+        form {
+            text-align: left;
+        }
+
+        .alert {
+            font-size: $font-size-h5;
+            text-align: left;
+        }
+
+        > h1 {
+            font-size: $font-size-h3;
+        }
+
+        > p {
+            margin: ($line-height-computed / 2) 0 0;
+        }
+
+        ul {
+            padding: 0;
+            list-style-type: none;
+
+            > li {
+                margin-top: 0.3125em; /* 5/16 */
+
+                > .glyphicon {
+                    margin-right: 0.3125em; /* 5/16 */
+                }
+            }
+        }
+    }
+ }

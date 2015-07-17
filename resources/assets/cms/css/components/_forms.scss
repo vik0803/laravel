@@ -1,0 +1,28 @@
+.has-addon-feedback .form-control-feedback {
+    right: auto;
+    display: inline-block;
+    margin-left: -$input-height-base;
+}
+
+.form-group-left {
+    @include span(6);
+}
+
+.form-group-right {
+    @include span(6 last);
+}
+
+html .form-horizontal {
+    .checkbox-inline {
+        padding-top: 0;
+    }
+}
+
+.js-ie-placeholder,
+.js-default-option {
+    color: $input-color-placeholder;
+
+    > option {
+        color: $gray;
+    }
+}
