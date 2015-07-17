@@ -25,7 +25,14 @@
     @yield('header')
 </head>
 <body>
-    @yield('content')
+    <div class="auth-wrapper">
+        {!! HTML::image(\App\Helpers\autover('/img/cms/logo.png'), trans('cms/messages.altLogo')) !!}
+        <div class="auth-box">
+
+        @yield('content')
+
+        </div>
+    </div>
 
 	<script>
     Modernizr.load([
