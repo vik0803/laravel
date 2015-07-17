@@ -1,65 +1,62 @@
-@extends('cms.app')
+<?php
+$metaTitle = 'Register';
+$metaDescription = 'Register Description';
+?>
+
+@extends('cms.auth.master')
 
 @section('content')
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Register</div>
-				<div class="panel-body">
-					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							<strong>Whoops!</strong> There were some problems with your input.<br><br>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
+<div class="auth-wrapper">
+    {!! HTML::image(\App\Helpers\autover('/img/cms/logo.png'), trans('cms/messages.altLogo')) !!}
+    <div class="auth-box">
+        <h1>{{ trans('cms/auth.registerTitle') }}</h1>
 
-					<form class="form-horizontal" role="form" method="POST" action="{{ url(\Locales::getLocalizedURL('register')) }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+        @if ($errors->any())
+        <div class="alert-messages">
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
+                {!! trans('cms/js.ajaxErrorMessage') !!}
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li><span class="glyphicon glyphicon-warning-sign"></span>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        @endif
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">Name</label>
-							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ old('name') }}">
-							</div>
-						</div>
+        {!! Form::open(['id' => 'register-form', 'class' => 'ajax-lock', 'role' => 'form']) !!}
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">E-Mail Address</label>
-							<div class="col-md-6">
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
-							</div>
-						</div>
+        <div class="form-group{!! ($errors->has('name') ? ' has-error has-feedback' : '') !!}">
+            {!! Form::label('input-name', trans('cms/forms.nameLabel'), ['class' => 'sr-only']) !!}
+            {!! Form::text('name', null, ['id' => 'input-name', 'class' => 'form-control', 'placeholder' => trans('cms/forms.namePlaceholder')]) !!}
+            @if ($errors->has('name'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
+        </div>
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password">
-							</div>
-						</div>
+        <div class="form-group{!! ($errors->has('email') ? ' has-error has-feedback' : '') !!}">
+            {!! Form::label('input-email', trans('cms/forms.emailLabel'), ['class' => 'sr-only']) !!}
+            {!! Form::email('email', null, ['id' => 'input-email', 'class' => 'form-control', 'placeholder' => trans('cms/forms.emailPlaceholder')]) !!}
+            @if ($errors->has('email'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
+        </div>
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">Confirm Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password_confirmation">
-							</div>
-						</div>
+        <div class="form-group{!! ($errors->has('password') ? ' has-error has-feedback' : '') !!}">
+            {!! Form::label('input-password', trans('cms/forms.passwordLabel'), ['class' => 'sr-only']) !!}
+            {!! Form::password('password', ['id' => 'input-password', 'class' => 'form-control', 'placeholder' => trans('cms/forms.passwordPlaceholder')]) !!}
+            @if ($errors->has('password'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
+        </div>
 
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">
-									Register
-								</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
+        <div class="form-group{!! ($errors->has('password_confirmation') ? ' has-error has-feedback' : '') !!}">
+            {!! Form::label('input-password_confirmation', trans('cms/forms.confirmPasswordLabel'), ['class' => 'sr-only']) !!}
+            {!! Form::password('password_confirmation', ['id' => 'input-password_confirmation', 'class' => 'form-control', 'placeholder' => trans('cms/forms.confirmPasswordPlaceholder')]) !!}
+            @if ($errors->has('password_confirmation'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
+        </div>
+
+        {!! Form::submit(trans('cms/forms.registerButton'), ['class' => 'btn btn-primary btn-block']) !!}
+        {!! Form::close() !!}
 	</div>
 </div>
+@endsection
+
+@section('script')
+unikat.ajax_submit('register-form');
 @endsection
