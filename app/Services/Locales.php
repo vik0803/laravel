@@ -79,6 +79,16 @@ class Locales
     }
 
     /**
+     * Get all supported locales
+     *
+     * @return array Returns all supported locales
+     */
+    public function getSupportedLocales()
+    {
+        return $this->supportedLocales;
+    }
+
+    /**
      * Get current language for links
      *
      * @return string Returns current locale
