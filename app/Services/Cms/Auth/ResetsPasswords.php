@@ -33,15 +33,23 @@ trait ResetsPasswords
         $this->validate($request, ['email' => 'required|email']);
 
         $response = Password::sendResetLink($request->only('email'), function (Message $message) {
-            $message->subject(trans('password.reset_link'));
+            $message->subject(trans('passwords.reset_link'));
         });
 
         switch ($response) {
             case Password::RESET_LINK_SENT:
-                return redirect()->back()->with('status', trans($response));
+                if ($request->ajax()) {
+                    return response()->json(['success' => trans($response)]);
+                } else {
+                    return redirect()->back()->with('success', trans($response));
+                }
 
             case Password::INVALID_USER:
-                return redirect()->back()->withErrors(['email' => trans($response)]);
+                if ($request->ajax()) {
+                    return response()->json(['errors' => [trans($response)], 'ids' => ['email']]);
+                } else {
+                    return redirect()->back()->withErrors(['email' => trans($response)]);
+                }
         }
     }
 
@@ -84,12 +92,20 @@ trait ResetsPasswords
 
         switch ($response) {
             case Password::PASSWORD_RESET:
-                return redirect($this->redirectPath());
+                if ($request->ajax()) {
+                    return response()->json(['redirect' => $this->redirectPath()]);
+                } else {
+                    return redirect($this->redirectPath());
+                }
 
             default:
-                return redirect()->back()
+                if ($request->ajax()) {
+                    return response()->json(['errors' => [trans($response)], 'ids' => ['email'], 'resetExcept' => ['email']]);
+                } else {
+                    return redirect()->back()
                             ->withInput($request->only('email'))
                             ->withErrors(['email' => trans($response)]);
+                }
         }
     }
 

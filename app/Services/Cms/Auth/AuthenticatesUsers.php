@@ -28,7 +28,8 @@ trait AuthenticatesUsers
     public function postLogin(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email', 'password' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
         $credentials = $this->getCredentials($request);
@@ -42,12 +43,12 @@ trait AuthenticatesUsers
         }
 
         if ($request->ajax()) {
-            return response()->json(['errors' => [trans('messages.failedLogin')], 'ids' => ['email'], 'resetOnly' => ['password']]);
+            return response()->json(['errors' => [trans('cms/auth.failedLogin')], 'ids' => ['email'], 'resetOnly' => ['password']]);
         } else {
             return redirect($this->loginPath())
                 ->withInput($request->only('email', 'remember'))
                 ->withErrors([
-                    'email' => trans('messages.failedLogin'),
+                    'email' => trans('cms/auth.failedLogin'),
                 ]);
         }
     }
