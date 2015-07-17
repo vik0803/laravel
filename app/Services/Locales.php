@@ -49,6 +49,26 @@ class Locales
     }
 
     /**
+     * Get current locale name
+     *
+     * @return string Returns current locale name
+     */
+    public function getName()
+    {
+        return $this->supportedLocales[$this->currentLocale]['name'];
+    }
+
+    /**
+     * Get current locale native name
+     *
+     * @return string Returns current locale native name
+     */
+    public function getNativeName()
+    {
+        return $this->supportedLocales[$this->currentLocale]['native'];
+    }
+
+    /**
      * Get default locale
      *
      * @return string Returns default locale
