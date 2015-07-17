@@ -1,6 +1,6 @@
 <!doctype html>
 <html class="no-js" lang="{{ \Locales::get() }}">
-<head>
+<head dir="{{ \Locales::getScript() }}">
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,13 +12,14 @@
     <!-- Place favicon.ico in the root directory -->
 
     <link href="{{ \App\Helpers\autover('/css/cms/main.min.css') }}" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 
     <script src="{{ \App\Helpers\autover('/js/cms/vendor/modernizr-2.8.3.min.js') }}"></script>
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
-        <script src="{{ \App\Helpers\autover('/js/cms/ie8.min.js') }}"></script>
+        <script src="{{ \App\Helpers\autover('/js/cms/vendor/ie8.min.js') }}"></script>
 	<![endif]-->
 
     @yield('header')
@@ -46,15 +47,27 @@
             load: ['{{ \App\Helpers\autover('/js/cms/main.min.js') }}'],
             complete: function() {
 
+                unikat.setJSVariables({
+                    'ajaxErrorMessage': '{!! trans('cms/js.ajaxErrorMessage') !!}',
+                    'loadingImageSrc': '{{ \App\Helpers\autover('/img/cms/loading.gif') }}',
+                    'loadingImageAlt': '{{ trans('cms/js.loadingImageAlt') }}',
+                    'loadingImageTitle': '{{ trans('cms/js.loadingImageTitle') }}',
+                    'loadingText': '{{ trans('cms/js.loadingText') }}'
+                });
+
                 @yield('script');
 
                 $.ajaxSetup({
-                    cache: true, // cache script loaded with $.getScript
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-                $.getScript('{{ \App\Helpers\autover('/js/cms/google.min.js') }}');
+
+                $.ajax({
+                    url: '{{ \App\Helpers\autover('/js/cms/google.min.js') }}',
+                    dataType: "script",
+                    cache: true
+                });
             }
         }
     ]);
