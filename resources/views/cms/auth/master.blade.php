@@ -27,6 +27,40 @@
 <body>
     <div class="auth-wrapper">
         {!! HTML::image(\App\Helpers\autover('/img/cms/logo.png'), trans('cms/messages.altLogo')) !!}
+
+        <div class="languages-wrapper">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button">
+                    {!! HTML::image(\App\Helpers\autover('/img/cms/languages.png'), trans('cms/messages.changeLanguage')) !!}
+                    {{ trans('cms/messages.changeLanguage') }}
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="active">
+                        <a href="{{ url(\Locales::getLocaleURL(\Locales::get())) }}">
+                        {{ \Locales::getNativeName() }}
+                        @if (\Locales::getName() != \Locales::getNativeName())
+                            <span>({{ \Locales::getName() }})</span>
+                        @endif
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    @foreach (\Locales::getSupportedLocales() as $key => $value)
+                        @if ($key != \Locales::get())
+                            <li>
+                                <a href="{{ url(\Locales::getLocaleURL($key)) }}">
+                                {{ $value['native'] }}
+                                @if ($value['name'] != $value['native'])
+                                    <span>({{ $value['name'] }})</span>
+                                @endif
+                                </a>
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+
         <div class="auth-box">
 
         @yield('content')
@@ -53,7 +87,6 @@
         {
             load: ['{{ \App\Helpers\autover('/js/cms/main.min.js') }}'],
             complete: function() {
-
                 unikat.setJSVariables({
                     'ajaxErrorMessage': '{!! trans('cms/js.ajaxErrorMessage') !!}',
                     'loadingImageSrc': '{{ \App\Helpers\autover('/img/cms/loading.gif') }}',
