@@ -12,7 +12,7 @@
     <!-- Place favicon.ico in the root directory -->
 
     <link href="{{ \App\Helpers\autover('/css/cms/main.min.css') }}" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,700,700italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
     <script src="{{ \App\Helpers\autover('/js/cms/vendor/modernizr-2.8.3.min.js') }}"></script>
 
