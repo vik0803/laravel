@@ -12,5 +12,6 @@ return [
 	*/
 
     'altLogo' => 'Logo',
+    'changeLanguage' => 'Change Language',
 
 ];
