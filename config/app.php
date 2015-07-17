@@ -144,10 +144,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        Illuminate\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+
         App\Providers\LocaleServiceProvider::class,
         App\Providers\SlugServiceProvider::class,
+        App\Providers\FormServiceProvider::class, // Illuminate\Html\HtmlServiceProvider::class,
 
     ],
 
@@ -201,7 +202,7 @@ return [
         'HTML'      => Illuminate\Html\HtmlFacade::class,
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Locales'   => App\Facades\Locale::class,
-        'Slug'   => App\Facades\Slug::class,
+        'Slug'      => App\Facades\Slug::class,
 
     ],
 
