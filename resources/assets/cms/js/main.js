@@ -41,6 +41,16 @@ var unikat = function() {
     $(document).ready(function() {
         placeholder();
 
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown').removeClass('open');
+            }
+        });
+
+        $(document).on('click', '.dropdown', function() {
+            $(this).toggleClass('open');
+        });
+
         $(document).on('click', alertMessagesClass + ' ' + buttonCloseClass, function() {
             $(this).closest(alertMessagesClass).remove();
         });
