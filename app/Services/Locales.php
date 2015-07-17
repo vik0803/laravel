@@ -39,6 +39,16 @@ class Locales
     }
 
     /**
+     * Get current locale script
+     *
+     * @return string Returns current locale script
+     */
+    public function getScript()
+    {
+        return $this->supportedLocales[$this->currentLocale]['script'];
+    }
+
+    /**
      * Get default locale
      *
      * @return string Returns default locale
