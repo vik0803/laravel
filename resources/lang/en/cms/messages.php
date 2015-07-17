@@ -11,6 +11,6 @@ return [
 	|
 	*/
 
-    'test' => 'Test CMS',
+    'altLogo' => 'Logo',
 
 ];
