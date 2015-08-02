@@ -3,6 +3,8 @@ $screen-sm: 768px;
 $screen-md: 992px;
 $screen-lg: 1200px;
 
+$brand-primary: #5ca4a1; // 589ec3
+
 $font-size-root: 16px;
 $font-unit: 0em;
 
@@ -50,6 +52,8 @@ $table-condensed-cell-padding: .3125 + $font-unit; /* 5/16 */
 $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + ((2px / $font-size-root) + $font-unit));
 $input-height-large: (($font-size-large * $line-height-large) + ($padding-large-vertical * 2) + ((2px / $font-size-root) + $font-unit));
 $input-height-small: (($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + ((2px / $font-size-root) + $font-unit));
+
+$input-border-focus: $brand-primary;
 
 $form-group-margin-bottom: .9375 + $font-unit; /* 15/16 */
 
@@ -115,39 +119,6 @@ html {
 pre {
     font-size: ($font-size-base - ((1px / $font-size-root) + $font-unit));
     padding: (($line-height-computed - ((1px / $font-size-root) + $font-unit)) / 2);
-}
-
-//
-// Dropdown menus
-// --------------------------------------------------
-
-.caret {
-    margin-left: 0.125em; /* 2/16 */
-}
-
-.dropdown-menu {
-    min-width: 12.5em; /* 200/16 */
-    padding: 0.3125em 0; /* 5/16 */
-    margin: 0.125em 0 0; // override default ul /* 2/16 */
-
-    .divider {
-        margin: (($line-height-computed / 4) - ((1px / $font-size-root) + $font-unit)) 0;
-    }
-
-    > li > a {
-        padding: 0.1875em 1.25em; /* 3/16 */ /* 20/16 */
-    }
-}
-
-.dropdown-header {
-    padding: 0.1875em 1.25em; /* 3/16 */ /* 20/16 */
-}
-
-.dropup,
-.navbar-fixed-bottom .dropdown {
-    .dropdown-menu {
-        margin-bottom: 0.125em; /* 2/16 */
-    }
 }
 
 //
