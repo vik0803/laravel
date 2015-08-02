@@ -24,34 +24,37 @@
 
     @yield('header')
 </head>
-<body>
+<body id="body-auth">
+    <script>(function() { var pad = '000'; var random = Math.floor((Math.random() * 298) + 1); var img = pad.substring(0, pad.length - random.toString().length) + random.toString(); document.getElementById('body-auth').style.backgroundImage = "url('/img/cms/auth/" + img + ".jpg')"; })();</script>
+    <div class="auth-quote">{{ Inspiring::quote() }}</div>
     <div class="auth-wrapper">
-        {!! HTML::image(\App\Helpers\autover('/img/cms/logo.png'), trans('cms/messages.altLogo')) !!}
+        <a href="{{ url(\Locales::getLocalizedURL()) }}">{!! HTML::image(\App\Helpers\autover('/img/cms/logo.png'), trans('cms/messages.altLogo')) !!}</a>
+
+        <div class="auth-box">@yield('content')</div>
 
         <div class="languages-wrapper">
             <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button">
+                <a href="#" class="btn btn-default dropdown-toggle dropdown-toggle-left">
                     {!! HTML::image(\App\Helpers\autover('/img/cms/languages.png'), trans('cms/messages.changeLanguage')) !!}
                     {{ trans('cms/messages.changeLanguage') }}
-                    <span class="caret"></span>
-                </button>
+                    <span class="caret caret-right"></span>
+                </a>
                 <ul class="dropdown-menu">
                     <li class="active">
                         <a href="{{ url(\Locales::getLocaleURL(\Locales::get())) }}">
                         {{ \Locales::getNativeName() }}
                         @if (\Locales::getName() != \Locales::getNativeName())
-                            <span>({{ \Locales::getName() }})</span>
+                            <span class="sub-text">({{ \Locales::getName() }})</span>
                         @endif
                         </a>
                     </li>
-                    <li class="divider"></li>
                     @foreach (\Locales::getSupportedLocales() as $key => $value)
                         @if ($key != \Locales::get())
                             <li>
                                 <a href="{{ url(\Locales::getLocaleURL($key)) }}">
                                 {{ $value['native'] }}
                                 @if ($value['name'] != $value['native'])
-                                    <span>({{ $value['name'] }})</span>
+                                    <span class="sub-text">({{ $value['name'] }})</span>
                                 @endif
                                 </a>
                             </li>
@@ -59,12 +62,6 @@
                     @endforeach
                 </ul>
             </div>
-        </div>
-
-        <div class="auth-box">
-
-        @yield('content')
-
         </div>
     </div>
 
@@ -88,6 +85,7 @@
             load: ['{{ \App\Helpers\autover('/js/cms/main.min.js') }}'],
             complete: function() {
                 unikat.setJSVariables({
+                    'is_auth': true,
                     'ajaxErrorMessage': '{!! trans('cms/js.ajaxErrorMessage') !!}',
                     'loadingImageSrc': '{{ \App\Helpers\autover('/img/cms/loading.gif') }}',
                     'loadingImageAlt': '{{ trans('cms/js.loadingImageAlt') }}',
