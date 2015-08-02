@@ -14,7 +14,7 @@ $susy: (
 $max-width: 1260px;
 
 $selection-color: lighten(#0da3ed, 20%);
-$brand-secondary: darken($brand-primary, 10%);
+$brand-secondary: #db6969;
 
 /* Preload images */
 body:after {
@@ -22,7 +22,12 @@ body:after {
   display: none;
 }
 
+@import 'components/layout';
 @import 'components/ajax';
 @import 'components/forms';
+@import 'components/dropdown';
+
+@import 'components/fixed-header';
+@import 'components/sidebar';
+
 @import 'components/login';
-@import 'components/languages';
