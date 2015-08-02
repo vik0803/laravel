@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Cms;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
+use App\Services\Cms\Auth\ThrottlesLogins;
 use App\Services\Cms\Auth\AuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller
 {
 
-	/*
+    /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
     |--------------------------------------------------------------------------
@@ -21,7 +22,7 @@ class AuthController extends Controller
     |
     */
 
-    use AuthenticatesAndRegistersUsers;
+    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     /**
      * Create a new authentication controller instance.

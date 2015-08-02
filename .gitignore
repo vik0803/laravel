@@ -1,6 +1,8 @@
 /vendor
 /node_modules
-.env
+Homestead.yaml
+Homestead.json
+prepros.cfg
 *.sublime-project
 *.sublime-workspace
-prepros.cfg
+.env

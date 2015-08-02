@@ -1032,9 +1032,10 @@ DirectoryIndex index.html index.php
 #    RewriteRule ^(.*)$ $1/ [R=301,L]
 # </IfModule>
 
-# Redirect Trailing Slashes... `domain.com/foo/` -> `domain.com/foo`
+# Redirect Trailing Slashes If Not A Folder...
 <IfModule mod_rewrite.c>
    RewriteEngine On
+   RewriteCond %{REQUEST_FILENAME} !-d
    RewriteRule ^(.*)/$ /$1 [L,R=301]
 </IfModule>
 

@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Cms;
 use App\Http\Controllers\Controller;
 use App\Services\Cms\Auth\ResetsPasswords;
 
-class PasswordController extends Controller {
+class PasswordController extends Controller
+{
 
-	/*
+    /*
     |--------------------------------------------------------------------------
     | Password Reset Controller
     |--------------------------------------------------------------------------

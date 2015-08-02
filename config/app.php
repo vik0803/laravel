@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG'),
+    'debug' => env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -160,7 +160,6 @@ return [
         App\Providers\LocaleServiceProvider::class,
         App\Providers\SlugServiceProvider::class,
         App\Providers\FormServiceProvider::class, // Illuminate\Html\HtmlServiceProvider::class,
-
     ],
 
     /*
@@ -214,7 +213,6 @@ return [
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Locales'   => App\Facades\Locale::class,
         'Slug'      => App\Facades\Slug::class,
-
     ],
 
 ];
