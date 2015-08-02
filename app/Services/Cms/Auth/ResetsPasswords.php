@@ -10,8 +10,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 trait ResetsPasswords
 {
-    use RedirectsUsers;
-
     /**
      * Display the form to request a password reset link.
      *
@@ -33,7 +31,7 @@ trait ResetsPasswords
         $this->validate($request, ['email' => 'required|email']);
 
         $response = Password::sendResetLink($request->only('email'), function (Message $message) {
-            $message->subject(trans('passwords.reset_link'));
+            $message->subject($this->getEmailSubject());
         });
 
         switch ($response) {
@@ -51,6 +49,16 @@ trait ResetsPasswords
                     return redirect()->back()->withErrors(['email' => trans($response)]);
                 }
         }
+    }
+
+    /**
+     * Get the e-mail subject line to be used for the reset link email.
+     *
+     * @return string
+     */
+    protected function getEmailSubject()
+    {
+        return isset($this->subject) ? $this->subject : trans('passwords.reset_link');
     }
 
     /**
@@ -123,5 +131,19 @@ trait ResetsPasswords
         $user->save();
 
         Auth::login($user);
+    }
+
+    /**
+     * Get the post register / login redirect path.
+     *
+     * @return string
+     */
+    public function redirectPath()
+    {
+        if (property_exists($this, 'redirectPath')) {
+            return $this->redirectPath;
+        }
+
+        return property_exists($this, 'redirectTo') ? $this->redirectTo : \Locales::getLocalizedURL(\Config::get('app.defaultAuthRoute'));
     }
 }
