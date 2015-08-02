@@ -35,7 +35,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next)
     {
         if ($this->auth->check()) {
-            return redirect(\Locales::getLocalizedURL('home'));
+            return redirect(\Locales::getLocalizedURL(\Config::get('app.defaultAuthRoute')));
         }
 
         return $next($request);

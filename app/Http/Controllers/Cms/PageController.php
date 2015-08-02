@@ -39,9 +39,9 @@ class PageController extends Controller {
      *
      * @return Response
      */
-    public function home()
+    public function dashboard()
     {
-        return view('cms.home');
+        return view('cms.dashboard');
     }
 
 }

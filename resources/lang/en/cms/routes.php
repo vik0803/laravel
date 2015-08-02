@@ -13,7 +13,7 @@ return [
 
     '/' => ['id' => 1, 'slug' => '', 'get' => 'AuthController@getLogin', 'post' => 'AuthController@postLogin'],
     'logout' => ['id' => 2, 'slug' => 'logout', 'get' => 'AuthController@getLogout'],
-    'home' => ['id' => 3, 'slug' => 'home', 'get' => 'PageController@home'],
+    'dashboard' => ['id' => 3, 'slug' => 'dashboard', 'get' => 'PageController@dashboard'],
     'page' => ['id' => 4, 'slug' => 'page', 'get' => 'PageController@page'],
     'pf' => ['id' => 5, 'slug' => 'pf', 'get' => 'PasswordController@getEmail', 'post' => 'PasswordController@postEmail'],
     'reset' => ['id' => 6, 'slug' => 'reset', 'get' => ['controller' => 'PasswordController@getReset', 'parameters' => '{token}'], 'post' => 'PasswordController@postReset'],
