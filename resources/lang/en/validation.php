@@ -13,6 +13,8 @@ return [
     |
     */
 
+    'tokenMismatchException' => 'Seems you could not submit form for a longtime. Please try again.',
+
     'accepted'             => 'The :attribute must be accepted.',
     'active_url'           => 'The :attribute is not a valid URL.',
     'after'                => 'The :attribute must be a date after :date.',
