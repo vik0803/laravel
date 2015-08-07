@@ -51,9 +51,12 @@ class Authenticate
 
         if ($this->auth->guest()) {
             if ($request->ajax()) {
-                return response('Unauthorized.', 401);
+                // return response('Unauthorized.', 401);
+                \Session::flash('errors', new \Illuminate\Support\MessageBag([trans('messages.sessionExpired')]));
+                \Session::flash('session_expired', true);
+                return response()->json(['redirect' => \Locales::getLocalizedURL()]);
             } else {
-                return redirect()->guest(\Locales::getLocalizedURL());
+                return redirect()->to(\Locales::getLocalizedURL())->withErrors([trans('messages.sessionExpired')])->with('session_expired', true);
             }
         }
 
