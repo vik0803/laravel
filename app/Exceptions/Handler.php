@@ -40,13 +40,8 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         if ($e instanceof \Illuminate\Session\TokenMismatchException) {
-            if ($request->ajax()) {
-                $request->flashExcept('_token');
-                $request->session()->flash('errors', new \Illuminate\Support\MessageBag([trans('validation.tokenMismatchException')]));
-                return response()->json(['redirect' => $request->fullUrl()]);
-            } else {
-                return redirect()->back()->withInput(\Input::except('_token'))->withErrors([trans('validation.tokenMismatchException')]);
-            }
+            // redirect back with error message does not work when session is expired, because the session is regenrated 2 times.
+            // instead I've overwritten the Illuminate\Foundation\Http\Middleware\VerifyCsrfToken handle method in the VerifyCsrfToken middleware.
         }
 
         return parent::render($request, $e);
