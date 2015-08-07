@@ -24,6 +24,7 @@
                     background-image: none;
                     background-repeat: no-repeat;
                     filter: none;
+                    border-left: 3px solid darken($brand-secondary, 20%);
                 }
             }
 
@@ -34,15 +35,16 @@
                 border: 1px solid #ddd;
                 color: $gray-dark;
                 padding: 0.375em; /* 6/16 */
+                border-left: 3px solid #ddd;
 
                 &:hover,
                 &:focus {
-                    color: $brand-secondary;
                     text-decoration: none;
                     background-color: #fcfcfc;
                     background-image: none;
                     background-repeat: no-repeat;
                     filter: none;
+                    border-left: 3px solid $brand-secondary;
                 }
 
                 > .glyphicon {
