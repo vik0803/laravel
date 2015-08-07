@@ -34,6 +34,21 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
+        /* This however doe not take into account the 'remember me' checkbox.
+        if (\Session::has('lastActivityTime')) {
+            if (time() - \Session::get('lastActivityTime') > (\Config::get('session.lifetime') * 60)) {
+                \Session::forget('lastActivityTime');
+                $this->auth->logout();
+
+                if ($request->ajax()) {
+                    \Session::flash('errors', new \Illuminate\Support\MessageBag([trans('messages.sessionExpired')]));
+                    return response()->json(['redirect' => \Locales::getLocalizedURL()]);
+                } else {
+                    return redirect()->to(\Locales::getLocalizedURL())->withErrors([trans('messages.sessionExpired')]);
+                }
+            }
+        }*/
+
         if ($this->auth->guest()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
@@ -41,6 +56,8 @@ class Authenticate
                 return redirect()->guest(\Locales::getLocalizedURL());
             }
         }
+
+        // \Session::put('lastActivityTime', time());
 
         return $next($request);
     }
