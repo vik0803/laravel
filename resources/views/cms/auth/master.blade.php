@@ -84,28 +84,19 @@
         {
             load: ['{{ \App\Helpers\autover('/js/cms/main.min.js') }}'],
             complete: function() {
-                unikat.setJSVariables({
-                    'is_auth': true,
-                    'ajaxErrorMessage': '{!! trans('cms/js.ajaxErrorMessage') !!}',
-                    'loadingImageSrc': '{{ \App\Helpers\autover('/img/cms/loading.gif') }}',
-                    'loadingImageAlt': '{{ trans('cms/js.loadingImageAlt') }}',
-                    'loadingImageTitle': '{{ trans('cms/js.loadingImageTitle') }}',
-                    'loadingText': '{{ trans('cms/js.loadingText') }}'
+                $.extend(unikat.variables, {
+                    is_auth: true,
+                    ajaxErrorMessage: '{!! trans('cms/js.ajaxErrorMessage') !!}',
+                    loadingImageSrc: '{{ \App\Helpers\autover('/img/cms/loading.gif') }}',
+                    loadingImageAlt: '{{ trans('cms/js.loadingImageAlt') }}',
+                    loadingImageTitle: '{{ trans('cms/js.loadingImageTitle') }}',
+                    loadingText: '{{ trans('cms/js.loadingText') }}',
+                    urlGoogleAnalytics: '{{ \App\Helpers\autover('/js/cms/google.min.js') }}'
                 });
 
-                @yield('script');
+                @yield('script')
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    url: '{{ \App\Helpers\autover('/js/cms/google.min.js') }}',
-                    dataType: "script",
-                    cache: true
-                });
+                unikat.run();
             }
         }
     ]);

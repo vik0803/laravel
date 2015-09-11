@@ -12,7 +12,7 @@
     <!-- Place favicon.ico in the root directory -->
 
     <link href="{{ \App\Helpers\autover('/css/cms/main.min.css') }}" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,700,700italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Oswald|Roboto:400,400italic,700,700italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
     <script src="{{ \App\Helpers\autover('/js/cms/vendor/modernizr-2.8.3.min.js') }}"></script>
 
@@ -31,18 +31,22 @@
         </div>
     </header>
     <main>
-        <div id="main-wrapper">
+        <div id="wrapper"{!! isset($jsCookies['navState']) ? ' class="collapsed"' : '' !!}>
             <div id="sidebar-wrapper">
                 @include('cms/partials.sidebar')
             </div>
-            <div id="content-wrapper">
-                @yield('content')
+            <div id="main-wrapper">
+                @include('cms/partials.breadcrumbs')
+
+                <div id="content-wrapper">
+                    @yield('content')
+                </div>
             </div>
         </div>
     </main>
     <footer>
         <div id="footer-wrapper">
-            Footer
+            @include('cms/partials.footer')
         </div>
     </footer>
 
@@ -65,27 +69,33 @@
         {
             load: ['{{ \App\Helpers\autover('/js/cms/main.min.js') }}'],
             complete: function() {
-                unikat.setJSVariables({
-                    'ajaxErrorMessage': '{!! trans('cms/js.ajaxErrorMessage') !!}',
-                    'loadingImageSrc': '{{ \App\Helpers\autover('/img/cms/loading.gif') }}',
-                    'loadingImageAlt': '{{ trans('cms/js.loadingImageAlt') }}',
-                    'loadingImageTitle': '{{ trans('cms/js.loadingImageTitle') }}',
-                    'loadingText': '{{ trans('cms/js.loadingText') }}'
+                $.extend(unikat.variables, {
+                    ajaxErrorMessage: '{!! trans('cms/js.ajaxErrorMessage') !!}',
+                    loadingImageSrc: '{{ \App\Helpers\autover('/img/cms/loading.gif') }}',
+                    loadingImageAlt: '{{ trans('cms/js.loadingImageAlt') }}',
+                    loadingImageTitle: '{{ trans('cms/js.loadingImageTitle') }}',
+                    loadingText: '{{ trans('cms/js.loadingText') }}',
+                    urlGoogleAnalytics: '{{ \App\Helpers\autover('/js/cms/google.min.js') }}',
+                    headroomOffset: 300,
                 });
 
-                @yield('script');
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
+                @if (isset($datatables))
+                <?php $size = ($datatables['count'] <= 100 ? 'Small' : ($datatables['count'] <= 1000 ? 'Medium' : 'Large')); ?>
+                $.extend(unikat.variables, {
+                    datatables: true,
+                    datatablesAjax: {!! isset($datatables['ajax']) ? "'" . $datatables['ajax'] . "'" : 'false' !!},
+                    datatablesCount: {{ $datatables['count'] }},
+                    datatablesPipeline: {{ \Config::get('datatables.pipeline') }},
+                    datatablesPagingType: '{{ \Config::get('datatables.pagingType' . $size) }}',
+                    datatablesPageLength: {{ \Config::get('datatables.pageLength' . $size) }},
+                    datatablesLengthMenu: {!! str_replace('all', trans('cms/messages.all'), \Config::get('datatables.lengthMenu' . $size)) !!},
+                    datatablesLanguage: '{{ \App\Helpers\autover('/lng/datatables/' . \Locales::get() . '.json') }}'
                 });
+                @endif
 
-                $.ajax({
-                    url: '{{ \App\Helpers\autover('/js/cms/google.min.js') }}',
-                    dataType: "script",
-                    cache: true
-                });
+                @yield('script')
+
+                unikat.run();
             }
         }
     ]);
