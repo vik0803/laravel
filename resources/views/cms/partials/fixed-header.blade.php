@@ -1,10 +1,11 @@
 <div id="fixed-header">
-    <div class="nav-toggle"><a href="#"><span class="glyphicon glyphicon-menu-hamburger"></span></a></div>
-    <a href="{{ url(\Locales::getLocaleURL(\Locales::get())) }}">{!! HTML::image(\App\Helpers\autover('/img/cms/logo-mobile.png'), trans('cms/messages.altLogo'), ['class' => 'mobile-logo']) !!}</a>
+    <a class="mobile-logo" href="{{ url(\Locales::getLocaleURL(\Locales::get())) }}">
+        {!! HTML::image(\App\Helpers\autover('/img/cms/logo-nav.png'), trans('cms/messages.altLogo')) !!}
+        Vadenka.com
+    </a>
     <ul>
         <li class="dropdown">
             <a class="dropdown-toggle">
-                {!! HTML::image(\App\Helpers\autover('/img/cms/languages.png'), trans('cms/messages.changeLanguage')) !!}
                 {{ trans('cms/messages.changeLanguage') }}
                 <span class="caret"></span>
             </a>
@@ -34,11 +35,11 @@
         <li class="dropdown">
             <a class="dropdown-toggle">{{ Auth::user()->name }} <span class="caret"></span></a>
             <ul class="dropdown-menu dropdown-menu-right">
-                <li><a href="{{ url(\Locales::getLocalizedURL('logout')) }}"><span class="glyphicon glyphicon-user"></span>{{ trans('cms/messages.profile') }}</a></li>
-                <li class="active"><a href="{{ url(\Locales::getLocalizedURL('logout')) }}"><span class="glyphicon glyphicon-inbox"></span>{{ trans('cms/messages.messages') }}</a></li>
-                <li><a href="{{ url(\Locales::getLocalizedURL('logout')) }}"><span class="glyphicon glyphicon-cog"></span>{{ trans('cms/messages.settings') }}</a></li>
+                <li{!! $slug == 'profile' ? ' class="active"' : '' !!}><a href="{{ url(\Locales::getLocalizedURL('profile')) }}"><span class="glyphicon glyphicon-user"></span>{{ trans('cms/nav.profile') }}</a></li>
+                <li{!! $slug == 'messages' ? ' class="active"' : '' !!}><a href="{{ url(\Locales::getLocalizedURL('messages')) }}"><span class="glyphicon glyphicon-inbox"></span>{{ trans('cms/nav.messages') }}</a></li>
+                <li{!! $slug == 'settings' ? ' class="active"' : '' !!}><a href="{{ url(\Locales::getLocalizedURL('settings')) }}"><span class="glyphicon glyphicon-cog"></span>{{ trans('cms/nav.settings') }}</a></li>
                 <li class="divider"></li>
-                <li><a href="{{ url(\Locales::getLocalizedURL('logout')) }}"><span class="glyphicon glyphicon-remove"></span>{{ trans('cms/messages.logout') }}</a></li>
+                <li><a href="{{ url(\Locales::getLocalizedURL('logout')) }}"><span class="glyphicon glyphicon-remove"></span>{{ trans('cms/nav.logout') }}</a></li>
             </ul>
         </li>
     </ul>
