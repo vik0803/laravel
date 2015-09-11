@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         if ($e instanceof \Illuminate\Session\TokenMismatchException) {
-            // redirect back with error message does not work when session is expired, because the session is regenrated 2 times.
+            // redirect back with error message does not work when session is expired, because the session is regenerated 2 times.
             // instead I've overwritten the Illuminate\Foundation\Http\Middleware\VerifyCsrfToken handle method in the VerifyCsrfToken middleware.
         }
 
