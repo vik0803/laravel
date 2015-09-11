@@ -7,7 +7,7 @@ return [
 	| Forms
 	|--------------------------------------------------------------------------
 	|
-	| Input Fields, Placeholders, Buttons
+	| Input Fields, Labels, Placeholders, Buttons
 	|
 	*/
 
