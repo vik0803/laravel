@@ -21,7 +21,7 @@ class Slug
      */
     public function __construct()
     {
-        $this->setSlug(rtrim(ltrim(StaticStringy::replace(urldecode(\Request::path()), \Locales::getLanguage(), ''), '/'), '/'));
+        $this->setSlug(trim(StaticStringy::replace(urldecode(\Request::path()), \Locales::getLanguage(), ''), '/'));
     }
 
     /**
@@ -100,6 +100,26 @@ class Slug
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Get the Request slugs
+     *
+     * @return array
+     */
+    public function getSlugs()
+    {
+        return explode('/', $this->getSlug());
+    }
+
+    /**
+     * Get the current slug
+     *
+     * @return array
+     */
+    public function getCurrentSlug()
+    {
+        return last($this->getSlugs());
     }
 
     /**
