@@ -41,5 +41,9 @@ $metaDescription = 'Register Description';
 @endsection
 
 @section('script')
-unikat.ajax_submit('register-form');
+unikat.callback = function() {
+    'use strict';
+
+    unikat.ajax_submit('register-form');
+};
 @endsection

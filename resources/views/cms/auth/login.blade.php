@@ -36,5 +36,9 @@ $metaDescription = 'Login Description';
 @endsection
 
 @section('script')
-unikat.ajax_submit('login-form');
+unikat.callback = function() {
+    'use strict';
+
+    unikat.ajax_submit('login-form');
+};
 @endsection

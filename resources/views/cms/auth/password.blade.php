@@ -25,5 +25,9 @@ $metaDescription = 'Password Forgotten Description';
 @endsection
 
 @section('script')
-unikat.ajax_submit('reset-form');
+unikat.callback = function() {
+    'use strict';
+
+    unikat.ajax_submit('reset-form');
+};
 @endsection

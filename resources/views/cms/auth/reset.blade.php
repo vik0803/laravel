@@ -36,5 +36,9 @@ $metaDescription = 'Reset Password Description';
 @endsection
 
 @section('script')
-unikat.ajax_submit('reset-form');
+unikat.callback = function() {
+    'use strict';
+
+    unikat.ajax_submit('reset-form');
+};
 @endsection
