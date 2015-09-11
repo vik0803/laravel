@@ -106,7 +106,7 @@ class Locales
     public function getLocalizedURL($slug = null, $locale = null)
     {
         if ($slug) {
-            $slugs = explode('/', $slug);
+            $slugs = explode('/', trim($slug, '/'));
         } else {
             $slugs = ['/'];
         }
