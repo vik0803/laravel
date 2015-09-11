@@ -14,6 +14,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         require app_path('Helpers/helpers.php');
+        view()->share('slug', \Slug::getSlug());
+        view()->share('slugs', \Slug::getSlugs());
+        view()->share('jsCookies', isset($_COOKIE['jsCookies']) ? json_decode($_COOKIE['jsCookies'], true) : []);
     }
 
     /**
@@ -23,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton('App\Http\Middleware\StartSessionExtend'); // Unikat extended session
     }
 }
