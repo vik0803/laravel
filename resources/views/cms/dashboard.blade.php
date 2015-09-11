@@ -1,10 +1,12 @@
 <?php
-$metaTitle = 'Dashboard';
-$metaDescription = 'Dashboard';
+$metaName = 'Page Name: Dashboard';
+$metaTitle = 'Page Title: Dashboard';
+$metaDescription = 'Page Description: Dashboard';
 ?>
 
 @extends('cms.master')
 
 @section('content')
-    You are logged in!
+<h1>{{ $metaName }}</h1>
+You are logged in!
 @endsection
