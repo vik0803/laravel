@@ -83,10 +83,11 @@ trait AuthenticatesUsers
             return $this->authenticated($request, Auth::user());
         }
 
+        $redirect = redirect()->intended($this->redirectPath());
         if ($request->ajax()) {
-            return response()->json(['redirect' => $this->redirectPath()]);
+            return response()->json(['redirect' => $redirect->getTargetUrl()]);
         } else {
-            return redirect()->intended($this->redirectPath());
+            return $redirect;
         }
     }
 

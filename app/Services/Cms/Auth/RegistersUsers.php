@@ -37,10 +37,11 @@ trait RegistersUsers
 
         Auth::login($this->create($request->all()));
 
+        $redirect = redirect($this->redirectPath());
         if ($request->ajax()) {
-            return response()->json(['redirect' => $this->redirectPath()]);
+            return response()->json(['redirect' => $redirect->getTargetUrl()]);
         } else {
-            return redirect($this->redirectPath());
+            return $redirect;
         }
     }
 }

@@ -19,9 +19,11 @@ class VerifyCsrfToken extends BaseVerifier
      * I could have used the App\Exceptions\Handler.php render method, but...
      *
      * ...redirect back with error message does not work when session is expired,
-     * because the session is regenrated 2 times...
+     * because the session is regenerated 2 times...
      *
      * ...so I overwrite the BaseVerifier handle method instead.
+     *
+     * This is executed before the Authenticate Middleware !
      *
      * Handle an incoming request.
      *
@@ -38,12 +40,11 @@ class VerifyCsrfToken extends BaseVerifier
 
         // throw new TokenMismatchException;
 
+        $redirect = redirect()->to($request->fullUrl())->withInput(\Input::except('_token'))->withErrors([trans('validation.tokenMismatchException')]);
         if ($request->ajax()) {
-            $request->flashExcept('_token');
-            $request->session()->flash('errors', new \Illuminate\Support\MessageBag([trans('validation.tokenMismatchException')]));
-            return response()->json(['redirect' => $request->fullUrl()]);
+            return response()->json(['redirect' => $redirect->getTargetUrl()]);
         } else {
-            return redirect()->to($request->fullUrl())->withInput(\Input::except('_token'))->withErrors([trans('validation.tokenMismatchException')]);
+            return $redirect;
         }
     }
 }
