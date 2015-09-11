@@ -6,9 +6,6 @@
 |--------------------------------------------------------------------------
 */
 
-\Locales::set();
-
-$slug = new \App\Services\Slug();
-if ($slug->match()) {
-    $router->{$slug->getMethod()}(\Locales::getLanguage() . '/' . $slug->getSlug() . $slug->getParameters(), $slug->getController());
+if (Slug::match()) {
+    $router->{Slug::getMethod()}(Locales::getLanguage() . '/' . Slug::getSlug() . Slug::getParameters(), Slug::getController());
 }

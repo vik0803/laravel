@@ -16,4 +16,14 @@ class LocaleServiceProvider extends ServiceProvider
     {
         $this->app->singleton('locales', function() { return new Locales(); });
     }
+
+    /**
+     * Set current locale
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        \Locales::set();
+    }
 }
