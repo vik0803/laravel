@@ -2,11 +2,12 @@
 //@prepros-prepend vendor/plugins/*.js
 //@prepros-prepend vendor/headroom.min.js
 //@prepros-prepend vendor/js.cookie.js
+//@prepros-prepend vendor/history.min.js
 
 var unikat = function() {
     'use strict';
 
-    var JSVariables = {};
+    var variables = {};
 
     var htmlLoading;
 
@@ -40,71 +41,156 @@ var unikat = function() {
     var lock_time = 0;
     var jqxhr;
 
-    function setJSVariables(data) {
-        JSVariables = data;
+    function run() {
+        htmlLoading = '<div tabindex="-1" class="ajax-locked"><div><div><img src="' + variables.loadingImageSrc + '" alt="' + variables.loadingImageAlt + '" title="' + variables.loadingImageTitle + '">' + variables.loadingText + '</div></div></div>';
+        errorMessageHtmlStart = variables.ajaxErrorMessage + errorMessageHtmlStart;
 
-        htmlLoading = '<div tabindex="-1" class="ajax-locked"><div><div><img src="' + JSVariables.loadingImageSrc + '" alt="' + JSVariables.loadingImageAlt + '" title="' + JSVariables.loadingImageTitle + '">' + JSVariables.loadingText + '</div></div></div>';
-        errorMessageHtmlStart = JSVariables.ajaxErrorMessage + errorMessageHtmlStart;
+        placeholder();
 
-        $(document).ready(function() {
-            placeholder();
+        if (!variables.is_auth) {
+            var location = window.history.location || window.location;
 
-            if (!JSVariables.is_auth) {
-                $('#fixed-header').headroom({
-                    offset: 50,
-                    tolerance: 5
-                });
+            $(window).on('popstate', function(e) {
+                var $sidebars = $('.sidebar');
+                var $tabs = $('.sidebar-tabs li');
+                var hash = window.location.hash; //.substring(1);
+                var $index = (hash ? $sidebars.index($(hash)) : 0);
+                var jsCookies = Cookies.getJSON('jsCookies');
 
-                if (Cookies.get('nav-toggle') == 'collapsed') {
-                    $('#main-wrapper').toggleClass('mobile');
-                    $('.nav-toggle').toggleClass('collapsed');
+                $sidebars.removeClass('sidebar-active');
+                $tabs.removeClass('sidebar-tab-active');
+                $sidebars.eq($index).addClass('sidebar-active').css('opacity', 0).animate({opacity: 1}, 'fast');
+                $tabs.eq($index).addClass('sidebar-tab-active');
+
+                Cookies.set('jsCookies', { sidebar: $index, navState: (jsCookies ? jsCookies.navState : null) }, { expires: 365 });
+            });
+
+            $('#fixed-header').headroom({
+                offset: variables.headroomOffset
+            });
+
+            $('.nav-toggle').on('click', 'a', function(e) {
+                e.preventDefault();
+
+                $(this).parent().toggleClass('collapsed');
+                $('#wrapper').toggleClass('collapsed');
+
+                var navState;
+                if ($('#wrapper').hasClass('collapsed')) {
+                    navState = 'collapsed';
+                } else {
+                    navState = null;
                 }
 
-                $('.nav-toggle').click(function(e) {
-                    e.preventDefault();
+                var jsCookies = Cookies.getJSON('jsCookies');
+                Cookies.set('jsCookies', { navState: navState, sidebar: (jsCookies ? jsCookies.sidebar : null) }, { expires: 365 });
+            });
 
-                    $(this).toggleClass('collapsed');
-                    $('#main-wrapper').toggleClass('collapsed');
+            $('.sidebar-tabs').on('click', 'a', function(e) {
+                e.preventDefault();
 
-                    if ($('#main-wrapper').hasClass('collapsed')) {
-                        Cookies.set('nav-toggle', 'collapsed');
-                    } else {
-                        Cookies.set('nav-toggle', 'expanded');
+                var $parent = $(this).parent();
+                var $tabs = $('.sidebar-tabs li');
+                var $sidebars = $('.sidebar');
+                var $index = $tabs.index($parent);
+
+                $tabs.removeClass('sidebar-tab-active');
+                $parent.addClass('sidebar-tab-active');
+
+                $sidebars.removeClass('sidebar-active');
+                $sidebars.eq($index).addClass('sidebar-active').css('opacity', 0).animate({opacity: 1}, 'fast');
+
+                history.pushState(null, document.title, $(this).attr('href'));
+
+                var jsCookies = Cookies.getJSON('jsCookies');
+                Cookies.set('jsCookies', { sidebar: $index, navState: (jsCookies ? jsCookies.navState : null) }, { expires: 365 });
+            });
+
+            if (variables.datatables) {
+                $.extend($.fn.dataTable.defaults, {
+                    dom: "<'clearfix'<'dataTableL'l><'dataTableF'f>>tr<'clearfix'<'dataTableI'i><'dataTableP'p>>",
+                    paging: (variables.datatablesCount <= 10 ? false : true),
+                    stateSave: true,
+                    deferRender: true,
+                    retrieve: true,
+                    stateDuration: 0,
+                    defaultContent: '',
+                    searchDelay: (variables.datatablesAjax ? 400 : 0),
+                    serverSide: (variables.datatablesAjax ? true : false),
+                    // deferLoading: variables.datatablesCount, // State can't be saved with pipelining and deferLoading enabled
+                    pagingType: variables.datatablesPagingType,
+                    pageLength: variables.datatablesPageLength,
+                    lengthMenu: variables.datatablesLengthMenu,
+                    language: {
+                        url: variables.datatablesLanguage
+                    },
+                    initComplete: function(settings, json) {
+                        var $searchInput = $('input', settings.aanFeatures.f);
+                        $searchInput.off('keyup.DT input.DT'); // disable global search events except: search.DT paste.DT cut.DT
+                        var table = $('.dataTable').DataTable(); // get the api
+
+                        $(document).on('input keyup', $searchInput.selector, $.debounce(settings.searchDelay, function(e) {
+                            table.search(this.value).draw();
+                        }));
+                    }
+                });
+
+                // Register an API method that will empty the pipelined data, forcing an Ajax
+                // fetch on the next draw (i.e. `table.clearPipeline().draw()`)
+                $.fn.dataTable.Api.register('clearPipeline()', function() {
+                    return this.iterator('table', function(settings) {
+                        settings.clearCache = true;
+                    });
+                });
+            }
+        }
+
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').each(function() {
+                    if (!$(this).hasClass('dropdown-menu-static')) {
+                        if ($(this).hasClass('dropdown-menu-slide')) {
+                            $(this).slideUp();
+                        } else {
+                            $(this).removeClass('open');
+                        }
                     }
                 });
             }
+        });
 
-            $(document).on('click', function(e) {
-                if (!$(e.target).closest('.dropdown').length) {
-                    $('.dropdown-menu').each(function() {
-                        if (!$(this).hasClass('dropdown-menu-static')) {
-                            if ($(this).hasClass('dropdown-menu-slide')) {
-                                $(this).slideUp();
-                            } else {
-                                $(this).removeClass('open');
-                            }
-                        }
-                    });
-                }
-            });
+        $(document).on('click', '.dropdown-toggle', function(e) {
+            e.preventDefault();
 
-            $(document).on('click', '.dropdown-toggle', function(e) {
-                e.preventDefault();
+            var that = $(this).next();
 
-                var that = $(this).next();
+            $('.dropdown-menu.open').not(['.dropdown-menu-static', that[0]]).removeClass('open');
 
-                $('.dropdown-menu.open').not(['.dropdown-menu-static', that[0]]).removeClass('open');
+            if (that.hasClass('dropdown-menu-slide')) {
+                that.slideToggle();
+            } else {
+                that.toggleClass('open');
+            }
+        });
 
-                if (that.hasClass('dropdown-menu-slide')) {
-                    that.slideToggle();
-                } else {
-                    that.toggleClass('open');
-                }
-            });
+        $(document).on('click', alertMessagesClass + ' ' + buttonCloseClass, function() {
+            $(this).closest(alertMessagesClass).remove();
+        });
 
-            $(document).on('click', alertMessagesClass + ' ' + buttonCloseClass, function() {
-                $(this).closest(alertMessagesClass).remove();
-            });
+        if (typeof this.callback == 'function') {
+            this.callback();
+        }
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: variables.urlGoogleAnalytics,
+            dataType: "script",
+            cache: true
         });
     }
 
@@ -268,6 +354,9 @@ var unikat = function() {
             e.preventDefault();
 
             var that = $(this);
+            if (typeof jqxhr != 'undefined') {
+                ajax_unlock(that);
+            }
             ajax_lock(that);
 
             jqxhr = $.post(that.attr('action'), that.serialize());
@@ -299,5 +388,117 @@ var unikat = function() {
         });
     };
 
-    return { ajax_submit: ajax_submit, setJSVariables: setJSVariables }
+    function datatables(params) {
+        var params = $.extend({
+            pipeline: variables.datatablesPipeline, // number of pages to cache/pipeline
+            url: '',  // script url
+            data: null, // function or object with parameters to send to the server matching how `ajax.data` works in DataTables
+            method: 'GET' // Ajax HTTP method
+        }, params);
+
+        // Private variables for storing the cache
+        var cacheLower = -1;
+        var cacheUpper = null;
+        var cacheLastRequest = null;
+        var cacheLastJson = null;
+
+        return function (request, callback, settings) {
+            var ajax = false;
+            var requestStart = request.start;
+            var drawStart = request.start;
+            var requestLength = request.length;
+            var requestEnd = requestStart + requestLength;
+
+            if (settings.clearCache) { // API requested that the cache be cleared
+                ajax = true;
+                settings.clearCache = false;
+            } else if (cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper) { // outside cached data - need to make a request
+                ajax = true;
+            } else if (JSON.stringify(request.order) !== JSON.stringify(cacheLastRequest.order) || JSON.stringify(request.columns) !== JSON.stringify(cacheLastRequest.columns) || JSON.stringify(request.search) !== JSON.stringify(cacheLastRequest.search)) { // properties changed (ordering, columns, searching)
+                ajax = true;
+            }
+
+            // Store the request for checking next time around
+            cacheLastRequest = $.extend(true, {}, request);
+
+            if (ajax) { // Need data from the server
+                if (requestStart < cacheLower) {
+                    requestStart = requestStart - (requestLength * (params.pipeline - 1));
+                    if (requestStart < 0) {
+                        requestStart = 0;
+                    }
+                }
+
+                cacheLower = requestStart;
+                cacheUpper = requestStart + (requestLength * params.pipeline);
+
+                request.start = requestStart;
+                request.length = requestLength * params.pipeline;
+
+                // Provide the same `data` options as DataTables.
+                if ($.isFunction(params.data)) {
+                    // As a function it is executed with the data object as an arg
+                    // for manipulation. If an object is returned, it is used as the
+                    // data object to submit
+                    var d = params.data(request);
+                    if (d) {
+                        $.extend(request, d);
+                    }
+                } else if ($.isPlainObject(params.data)) { // As an object, the data given extends the default
+                    $.extend(request, params.data);
+                }
+
+                var that = $(this).closest(ajaxLockClass);
+
+                if (typeof jqxhr != 'undefined') {
+                    ajax_unlock(that);
+                }
+                ajax_lock(that);
+
+                if (params.method == 'GET') {
+                    jqxhr = $.get(params.url, request);
+                } else {
+                    jqxhr = $.post(params.url, request);
+                }
+
+                jqxhr.done(function(data, status, xhr) {
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                    } else {
+                        ajax_unlock(that);
+                        if (data.success) {
+                            ajax_success_text(that, data.success);
+                            ajax_reset_form(that);
+                        } else if (data.errors) {
+                            ajax_error(that, data);
+                        } else {
+                            cacheLastJson = $.extend(true, {}, data);
+                            if (cacheLower != drawStart) {
+                                data.data.splice(0, drawStart - cacheLower);
+                            }
+                            data.data.splice(requestLength, data.data.length);
+                            callback(data);
+                        }
+                    }
+                });
+
+                jqxhr.fail(function(xhr, textStatus, errorThrown) {
+                    ajax_unlock(that);
+                    if (xhr.status == 422) { // laravel response for validation errors
+                        ajax_error_validation(that, xhr.responseJSON);
+                    } else {
+                        ajax_error_text(that, textStatus + ': ' + errorThrown);
+                    }
+                });
+            } else {
+                var json = $.extend(true, {}, cacheLastJson);
+                json.draw = request.draw; // Update the echo for each response
+                json.data.splice(0, requestStart - cacheLower);
+                json.data.splice(requestLength, json.data.length);
+                callback(json);
+            }
+        }
+    };
+
+    return { ajax_submit: ajax_submit, datatables: datatables, run: run, variables: variables }
 }();
