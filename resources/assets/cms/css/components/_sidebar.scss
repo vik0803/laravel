@@ -1,30 +1,95 @@
 #sidebar-wrapper {
-    > ul {
+    > .sidebar-tabs {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        height: 1.875em; /* 30/16 */
+        @include clearfix;
+        @include gradient-vertical($start-color: #fff, $end-color: #f5f5f5, $start-percent: 0%, $end-percent: 100%);
+
+        > li {
+            float: left;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 50%;
+            text-align: center;
+            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+
+            &:last-child {
+                border-right: 0;
+            }
+
+            &.sidebar-tab-active {
+                background-color: $gray-lighter;
+
+                &:hover {
+                    background-color: $gray-lighter;
+                }
+            }
+
+            &:hover {
+                background-color: #fcfcfc;
+            }
+
+            > a {
+                display: block;
+                height: 100%;
+                line-height: 1.5em; /* 24/16 */
+                color: $dropdown-link-color;
+                outline: none;
+
+                > span {
+                    font-size: 1.25em; /* 20/16 */
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+
+    > .sidebar {
         list-style-type: none;
         padding: 0.3125em; /* 5/16 */
         margin: 0 1px 1px;
+        display: none;
+
+        &.sidebar-active {
+            display: block;
+        }
 
         > li {
             margin-top: 1px;
 
             .dropdown-menu {
+                padding: 0.3125em; /* 5/16 */
                 border-left: 1px solid #ddd;
                 border-right: 1px solid #ddd;
                 border-bottom: 1px solid #ddd;
+
+                > li {
+                    background-color: transparent;
+                }
             }
 
-            &.active > a {
-                &,
-                &:hover,
-                &:focus {
-                    color: $dropdown-link-active-color;
-                    outline: 0;
-                    border: 1px solid darken($brand-secondary, 10%);
-                    background-color: $brand-secondary;
-                    background-image: none;
-                    background-repeat: no-repeat;
-                    filter: none;
-                    border-left: 3px solid darken($brand-secondary, 20%);
+            &.active {
+                > a {
+                    &,
+                    &:hover,
+                    &:focus {
+                        color: $dropdown-link-active-color;
+                        outline: 0;
+                        border: 1px solid darken($brand-secondary, 10%);
+                        background-color: $brand-secondary;
+                        background-image: none;
+                        background-repeat: no-repeat;
+                        filter: none;
+                        border-left: 3px solid darken($brand-secondary, 20%);
+                    }
+                }
+
+                > .dropdown-menu-static {
+                    display: block;
                 }
             }
 
@@ -33,9 +98,9 @@
                 position: relative;
                 @include gradient-vertical($start-color: #fff, $end-color: #f5f5f5, $start-percent: 0%, $end-percent: 100%);
                 border: 1px solid #ddd;
-                color: $gray-dark;
+                color: $gray;
                 padding: 0.375em; /* 6/16 */
-                border-left: 3px solid #ddd;
+                border-left: 3px solid #ccc;
 
                 &:hover,
                 &:focus {
@@ -44,6 +109,7 @@
                     background-image: none;
                     background-repeat: no-repeat;
                     filter: none;
+                    @include reset-filter();
                     border-left: 3px solid $brand-secondary;
                 }
 

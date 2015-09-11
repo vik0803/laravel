@@ -12,6 +12,7 @@ $susy: (
 );
 
 $max-width: 1260px;
+$z-index-top: 9999;
 
 $selection-color: lighten(#0da3ed, 20%);
 $brand-secondary: #db6969;
@@ -26,8 +27,11 @@ body:after {
 @import 'components/ajax';
 @import 'components/forms';
 @import 'components/dropdown';
+@import 'components/datatables';
 
 @import 'components/fixed-header';
+@import 'components/breadcrumbs';
 @import 'components/sidebar';
+@import 'components/footer';
 
 @import 'components/login';

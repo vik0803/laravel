@@ -32,6 +32,11 @@
         &:focus {
             outline: 0;
         }
+
+        > .glyphicon {
+            margin-right: 0.3125em; /* 5/16 */
+            font-size: 0.875em; /* 14/16 */
+        }
     }
 }
 
