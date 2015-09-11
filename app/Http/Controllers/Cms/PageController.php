@@ -6,7 +6,7 @@ class PageController extends Controller {
 
 	/*
 	|--------------------------------------------------------------------------
-	| Home Controller
+	| Page Controller
 	|--------------------------------------------------------------------------
 	|
 	| This controller renders the application's "dashboard" for users that
@@ -25,13 +25,13 @@ class PageController extends Controller {
     }
 
     /**
-     * Show the application dashboard to the user.
+     * Show a page to the user.
      *
      * @return Response
      */
-    public function page()
+    public function pages()
     {
-        return view('cms.page');
+        return view('cms.pages');
     }
 
     /**
