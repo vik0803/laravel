@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Cms;
+namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
-use App\Services\Cms\Auth\ThrottlesLogins;
-use App\Services\Cms\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller
 {
@@ -30,8 +30,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => ['getLogout', 'getRegister', 'postRegister']]);
-        $this->middleware('auth', ['only' => ['getRegister', 'postRegister']]);
+        $this->middleware('guest', ['except' => 'getLogout']);
     }
 
     /**
@@ -45,7 +44,7 @@ class AuthController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'password' => array('required', 'confirmed', 'regex:/^(?=.*\p{Ll})(?=.*\p{Lu})(?=.*[\p{N}\p{P}]).{6,}$/u'), // /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d\W]).{6,}$/ // http://www.zorched.net/2009/05/08/password-strength-validation-with-regular-expressions/
+            'password' => 'required|confirmed|min:6',
         ]);
     }
 
