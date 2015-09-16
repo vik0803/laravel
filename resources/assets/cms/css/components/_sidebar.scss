@@ -50,8 +50,8 @@
 
     > .sidebar {
         list-style-type: none;
-        padding: 0.3125em; /* 5/16 */
-        margin: 0 1px 1px;
+        padding: 0.625em 0 0; /* 10/16 */
+        margin: 0;
         display: none;
 
         &.sidebar-active {
@@ -59,17 +59,8 @@
         }
 
         > li {
-            margin-top: 1px;
-
             .dropdown-menu {
-                padding: 0.3125em; /* 5/16 */
-                border-left: 1px solid #ddd;
-                border-right: 1px solid #ddd;
-                border-bottom: 1px solid #ddd;
-
-                > li {
-                    background-color: transparent;
-                }
+                background-color: transparent;
             }
 
             &.active {
@@ -77,14 +68,9 @@
                     &,
                     &:hover,
                     &:focus {
-                        color: $dropdown-link-active-color;
                         outline: 0;
-                        border: 1px solid darken($brand-secondary, 10%);
-                        background-color: $brand-secondary;
-                        background-image: none;
-                        background-repeat: no-repeat;
-                        filter: none;
-                        border-left: 3px solid darken($brand-secondary, 20%);
+                        background-color: #ddd;
+                        border-left: 3px solid $brand-secondary;
                     }
                 }
 
@@ -96,20 +82,14 @@
             > a {
                 display: block;
                 position: relative;
-                @include gradient-vertical($start-color: #fff, $end-color: #f5f5f5, $start-percent: 0%, $end-percent: 100%);
-                border: 1px solid #ddd;
                 color: $gray;
                 padding: 0.375em; /* 6/16 */
-                border-left: 3px solid #ccc;
+                border-left: 3px solid transparent;
 
                 &:hover,
                 &:focus {
                     text-decoration: none;
-                    background-color: #fcfcfc;
-                    background-image: none;
-                    background-repeat: no-repeat;
-                    filter: none;
-                    @include reset-filter();
+                    background-color: #fff;
                     border-left: 3px solid $brand-secondary;
                 }
 
