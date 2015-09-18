@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -49,6 +50,30 @@ class Handler extends ExceptionHandler
 
         if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
+        }
+
+        if ($e instanceof \PDOException) {
+            if ($e instanceof \Illuminate\Database\QueryException) {
+                $response = new Response('', 503);
+                $status = $response->getStatusCode();
+                $statusText = \Illuminate\Http\Response::$statusTexts[$response->getStatusCode()];
+
+                $content = view('errors.db', compact('status', 'statusText'))->with('message', $e->getMessage())->render();
+                $response->setContent($content);
+
+                return $response;
+            } else {
+                $response = new Response('', 503);
+                $status = $response->getStatusCode();
+                $statusText = \Illuminate\Http\Response::$statusTexts[$response->getStatusCode()];
+
+                $content = view('errors.db', compact('status', 'statusText'))->with('message', $e->getMessage())->render();
+                $response->setContent($content);
+
+                $response->sendHeaders();
+                die ($response->getContent());
+                // return $response; // returns the content twice
+            }
         }
 
         return parent::render($request, $e);
