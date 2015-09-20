@@ -61,6 +61,27 @@
         > li {
             .dropdown-menu {
                 background-color: transparent;
+
+                > li {
+                    &.active > a {
+                        background-color: #ddd;
+                        border-left: 3px solid $brand-primary;
+
+                        &:hover {
+                            background-color: #ddd;
+                        }
+                    }
+
+                    > a {
+                        color: inherit;
+                        background-color: inherit;
+
+                        &:hover,
+                        &:focus {
+                            background-color: #e7e7e7;
+                        }
+                    }
+                }
             }
 
             &.active {
@@ -79,6 +100,17 @@
                 }
             }
 
+            &.dropdown {
+                > a {
+                    background-color: inherit;
+
+                    &:hover,
+                    &:focus {
+                        background-color: #e7e7e7;
+                    }
+                }
+            }
+
             > a {
                 display: block;
                 position: relative;
@@ -89,7 +121,7 @@
                 &:hover,
                 &:focus {
                     text-decoration: none;
-                    background-color: #fff;
+                    background-color: #e7e7e7;
                     border-left: 3px solid $brand-secondary;
                 }
 
