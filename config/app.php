@@ -151,6 +151,9 @@ return [
         /*
          * Application Service Providers...
          */
+        App\Providers\LocaleServiceProvider::class, // Set Locale early
+        App\Providers\SlugServiceProvider::class, // Initialize slugs early
+
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
@@ -158,8 +161,6 @@ return [
 
         Barryvdh\Debugbar\ServiceProvider::class,
 
-        App\Providers\LocaleServiceProvider::class,
-        App\Providers\SlugServiceProvider::class,
         App\Providers\FormServiceProvider::class, // Illuminate\Html\HtmlServiceProvider::class,
     ],
 
