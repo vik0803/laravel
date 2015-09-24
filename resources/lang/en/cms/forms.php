@@ -16,6 +16,7 @@ return [
     'sendPasswordReseLinktButton' => 'Send Password Reset Link',
     'resetPasswordButton' => 'Reset Password',
     'registerButton' => 'Register',
+    'createUserButton' => 'Create User',
 
     // Labels
     'emailLabel' => 'E-mail Address',

@@ -8,7 +8,12 @@ $metaDescription = 'Page Description: Users';
 
 @section('content')
 @if (isset($datatables))
-<h1>{{ $metaName }}</h1>
+<div class="content-header">
+    <h1>{{ $metaName }}</h1>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary" id="js-create-user"><span class="glyphicon glyphicon-plus"></span>{{ trans('cms/forms.createUserButton') }}</button>
+    </div>
+</div>
 <div class="dataTableWrapper table-responsive ajax-lock">
     <table id="datatablesUsers" class="dataTable table table-striped table-bordered table-hover">
         @if (isset($datatables['ajax']))
@@ -28,6 +33,10 @@ $metaDescription = 'Page Description: Users';
             </tbody>
         @endif
     </table>
+</div>
+
+<div class="mfp-hide magnific-popup" id="js-popup-user-form">
+    Test Form
 </div>
 @endif
 @endsection

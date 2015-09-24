@@ -15,5 +15,8 @@ return [
     'loadingImageAlt' => 'Loading...',
     'loadingImageTitle' => 'Loading...',
     'loadingText' => 'Loading...',
+    'magnificPopupClose' => 'Close (ESC key)',
+    'magnificPopupLoading' => 'Loading...',
+    'magnificPopupAjaxError' => '<a href="%url%">The content</a> could not be loaded.',
 
 ];
