@@ -9,6 +9,8 @@ var unikat = function() {
 
     var variables = {};
 
+    var jsCreateHook = "js-create-";
+
     var htmlLoading;
 
     var errorWrapperHtmlStart = '<div class="alert alert-danger alert-dismissible"><button type="button" class="close"><span aria-hidden="true">&times;</span></button>';
@@ -105,6 +107,29 @@ var unikat = function() {
                 var jsCookies = Cookies.getJSON('jsCookies');
                 Cookies.set('jsCookies', { sidebar: $index, navState: (jsCookies ? jsCookies.navState : null) }, { expires: 365 });
             });
+
+            $('[id^=' + jsCreateHook + ']').on('click', function() {
+                var id = $(this).attr('id').substring(jsCreateHook.length);
+
+                $.magnificPopup.open({
+                    type: 'ajax',
+                    key: 'popup-form',
+                    focus: 'input',
+                    closeOnBgClick: false,
+                    // alignTop: true,
+                    tClose: variables.magnificPopupClose,
+                    tLoading: variables.magnificPopupLoading,
+                    ajax: {
+                        tError: variables.magnificPopupAjaxError
+                    },
+                    preloader: true,
+                    removalDelay: 500,
+                    mainClass: 'mfp-zoom-in',
+                    items: {
+                        src: 'http://cms.laravel.local/users/admins/create' //'#js-popup-' + id + '-form'
+                    }
+                });
+            })
 
             if (variables.datatables) {
                 $.extend($.fn.dataTable.defaults, {

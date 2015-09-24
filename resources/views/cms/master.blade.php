@@ -75,6 +75,9 @@
                     loadingImageAlt: '{{ trans('cms/js.loadingImageAlt') }}',
                     loadingImageTitle: '{{ trans('cms/js.loadingImageTitle') }}',
                     loadingText: '{{ trans('cms/js.loadingText') }}',
+                    magnificPopupClose: '{{ trans('cms/js.magnificPopupClose') }}',
+                    magnificPopupLoading: '{{ trans('cms/js.magnificPopupLoading') }}',
+                    magnificPopupAjaxError: '{!! trans('cms/js.magnificPopupAjaxError') !!}',
                     urlGoogleAnalytics: '{{ \App\Helpers\autover('/js/cms/google.min.js') }}',
                     headroomOffset: 300,
                 });
