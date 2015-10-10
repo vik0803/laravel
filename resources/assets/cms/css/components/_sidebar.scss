@@ -60,12 +60,13 @@
 
         > li {
             .dropdown-menu {
+                border-left: 3px solid $brand-secondary;
                 background-color: transparent;
 
                 > li {
                     &.active > a {
                         background-color: #ddd;
-                        border-left: 3px solid $brand-primary;
+                        border-left: 3px solid transparent;
 
                         &:hover {
                             background-color: #ddd;
@@ -75,6 +76,7 @@
                     > a {
                         color: inherit;
                         background-color: inherit;
+                        border-left: 3px solid transparent;
 
                         &:hover,
                         &:focus {
