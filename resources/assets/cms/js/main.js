@@ -177,7 +177,7 @@ var unikat = function() {
                         if ($(this).hasClass('dropdown-menu-slide')) {
                             $(this).slideUp();
                         } else {
-                            $(this).removeClass('open');
+                            $(this).removeClass('active');
                         }
                     }
                 });
@@ -189,12 +189,12 @@ var unikat = function() {
 
             var that = $(this).next();
 
-            $('.dropdown-menu.open').not(['.dropdown-menu-static', that[0]]).removeClass('open');
+            $('.dropdown-menu.active').not(['.dropdown-menu-static', that[0]]).removeClass('active');
 
             if (that.hasClass('dropdown-menu-slide')) {
                 that.slideToggle();
             } else {
-                that.toggleClass('open');
+                that.toggleClass('active');
             }
         });
 

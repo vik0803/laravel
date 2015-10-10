@@ -11,6 +11,7 @@ class Locales
     protected $useAcceptLanguageHeader;
     protected $hideDefaultLocaleInURL;
     protected $currentLocale = null;
+    protected $routesLocale;
 
     protected $routes;
     protected $subdomain;
@@ -22,10 +23,11 @@ class Locales
      */
     public function __construct()
     {
-        $this->defaultLocale = \Config::get('app.locale');
+        $this->defaultLocale = \Config::get('app.fallback_locale');
         $this->supportedLocales = \Config::get('locales.supportedLocales');
         $this->useAcceptLanguageHeader = \Config::get('locales.useAcceptLanguageHeader');
         $this->hideDefaultLocaleInURL = \Config::get('locales.hideDefaultLocaleInURL');
+        $this->subdomain = explode('.', \Request::getHost())[0];
     }
 
     /**
@@ -33,9 +35,19 @@ class Locales
      *
      * @return string Returns current locale
      */
-    public function get()
+    public function getCurrent()
     {
         return $this->currentLocale;
+    }
+
+    /**
+     * Set current locale
+     *
+     * @return void
+     */
+    public function setCurrent($locale)
+    {
+        $this->currentLocale = $locale;
     }
 
     /**
@@ -45,7 +57,7 @@ class Locales
      */
     public function getScript()
     {
-        return $this->supportedLocales[$this->currentLocale]['script'];
+        return $this->supportedLocales[$this->getCurrent()]['script'];
     }
 
     /**
@@ -55,7 +67,7 @@ class Locales
      */
     public function getName()
     {
-        return $this->supportedLocales[$this->currentLocale]['name'];
+        return $this->supportedLocales[$this->getCurrent()]['name'];
     }
 
     /**
@@ -65,7 +77,7 @@ class Locales
      */
     public function getNativeName()
     {
-        return $this->supportedLocales[$this->currentLocale]['native'];
+        return $this->supportedLocales[$this->getCurrent()]['native'];
     }
 
     /**
@@ -93,88 +105,190 @@ class Locales
      *
      * @return string Returns current locale
      */
-    public function getLanguage()
+    public function getLanguage($locale = null)
     {
-        return ($this->hideDefaultLocaleInURL && $this->currentLocale == $this->defaultLocale) ? '' : $this->currentLocale;
+        $locale = $locale ?: $this->getCurrent();
+        return ($this->hideDefaultLocaleInURL && $locale == $this->getDefault()) ? '' : $locale;
     }
 
     /**
-     * Get localized url
+     * Get language translation for a given route
+     *
+     * @return string Returns translated route
+     */
+    public function getRoute($route)
+    {
+        return $this->getRoutesLocalePrefix() . \Lang::get($this->subdomain . '/routes.' . $route, [], $this->getRoutesLocale());
+    }
+
+    /**
+     * Get route locale
+     *
+     * @return string Returns current route locale
+     */
+    public function getRoutesLocale()
+    {
+        return $this->routesLocale;
+    }
+
+    /**
+     * Set route locale
+     *
+     * @return void
+     */
+    public function setRoutesLocale($locale)
+    {
+        return $this->routesLocale = $locale;
+    }
+
+    /**
+     * Get route locale prefix
+     *
+     * @return string Returns current route locale prefix
+     */
+    public function getRoutesLocalePrefix()
+    {
+        return (($this->hideDefaultLocaleInURL && $this->getRoutesLocale() == $this->getDefault()) ? '' : $this->getRoutesLocale()) . $this->separator($this->getRoutesLocale());
+    }
+
+    /**
+     * Get language translation for a given sub route
+     *
+     * @return string Returns translated route
+     */
+    public function getSubRoute($route)
+    {
+        return \Lang::get($this->subdomain . '/routes.' . $route, [], $this->getRoutesLocale());
+    }
+
+    /**
+     * Get localized url from current slug
      *
      * @return string
      */
-    public function getLocalizedURL($slug = null, $locale = null)
+    public function rawUrl($locale = null)
     {
-        if ($slug) {
-            $slugs = explode('/', trim($slug, '/'));
-        } else {
-            $slugs = ['/'];
-        }
+        $locale = $locale ?: $this->getCurrent();
+        $url = ($locale == $this->getDefault() ? $this->getLanguage($locale) : $locale) . '/';
 
-        $this->setSubdomain();
-        $locale = $locale ?: $this->getLanguage();
-        $url = ($locale == $this->getDefault() ? '' : $locale);
-        $path = '';
-        foreach ($slugs as $slug) {
-            $url .= '/' . \Lang::get($this->subdomain . '/routes.' . $path . $slug . '.slug', [], $locale);
-            $path .= $slug . './.';
-        }
-        return rtrim($url, '/');
-    }
+        $this->routes = \Lang::get($this->subdomain . '/routes', [], ($this->getCurrent() == $this->getDefault() ? $locale : $this->getCurrent()));
+        $slugs = \Slug::getSlugs();
 
-    /**
-     * Match current slug recursively
-     *
-     * @return string Returns localized slugs
-     */
-    public function matchRecursive($routes)
-    {
-        foreach ($routes as $slug => $route) {
-            if ($this->getLanguage()) {
-                $match = $route['slug'];
-            } else {
-                $match = $slug;
+        $slug = '';
+        $key = '';
+        if ($this->getCurrent() == $this->getDefault() && $locale != $this->getDefault()) {
+            for ($i = 0; $i < count($slugs); $i++) {
+                $key .= ($i ? '/' : '') . $slugs[$i];
+                if (array_key_exists($key, $this->routes)) {
+                    $slug .= $this->routes[$key] . '/';
+                    $this->routes = array_filter($this->routes, function($k) use ($key) {
+                        return strpos($k, $key . '/') === 0;
+                    }, ARRAY_FILTER_USE_KEY);
+                }
             }
-
-            if ($match == head($this->slugs)) {
-                array_shift($this->slugs);
-
-                if (count($this->slugs) > 0) {
-                    if (isset($route['/'])) {
-                        $return = $this->matchRecursive($route['/']);
-                        if ($return) {
-                            $return[] = $slug;
-                            return $return;
-                        }
-                        return false;
+        } else {
+            for ($i = 0; $i < count($slugs); $i++) {
+                if (($key = array_search($slugs[$i], $this->routes)) !== false) {
+                    if ($locale == $this->getCurrent()) {
+                        $slug .= $this->routes[$key] . '/'; // = $slugs[$i]
+                    } else {
+                        $slug = $key;
                     }
-                } else {
-                    $return[] = $slug;
-                    return $return;
+                    $this->routes = array_filter($this->routes, function($k) use ($key) {
+                        return strpos($k, $key . '/') === 0;
+                    }, ARRAY_FILTER_USE_KEY);
                 }
             }
         }
-        return false;
+
+        return url(rtrim($url . $slug, '/'));
     }
 
     /**
-     * Get languages url
+     * Get localized url from current route
      *
      * @return string
      */
-    public function getLocaleURL($locale)
+    public function url($locale = null)
     {
-        $this->setSubdomain();
-        $this->routes = \Lang::get($this->subdomain . '/routes', [], ($locale == $this->getDefault() ? $this->getLanguage() : $locale));
-        $this->slugs = explode('/', \Slug::getSlug());
-        $slugPath = $this->matchRecursive($this->routes);
-        if ($slugPath) {
-            $slugString = rtrim(implode('/', array_reverse($slugPath)), '/');
-        } else {
-            $slugString = null;
+        $locale = $locale ?: $this->getCurrent();
+        $route = $this->getLanguage($locale) . $this->separator($locale);
+        $route .= \Route::has($route . \Slug::getRouteSlug()) ? \Slug::getRouteSlug() : \Config::get('app.defaultAuthRoute');
+        return \Route::has($route) ? route($route, \Request::route()->parameters()) : '';
+    }
+
+    /**
+     * Get localized route
+     *
+     * @return string
+     */
+    public function route($route = null) {
+        $route = $route ?: \Config::get('app.defaultAuthRoute');
+        $route = $this->getLanguage() . $this->separator() . $route;
+        return \Route::has($route) ? route($route) : '';
+    }
+
+    /**
+     * Get locale separator
+     *
+     * @return string
+     */
+    public function separator($locale = null) {
+        $locale = $locale ?: $this->getCurrent();
+        return ($this->hideDefaultLocaleInURL && $locale == $this->getDefault()) ? '' : '/';
+    }
+
+    /**
+     * Create Breadcrumbs array from route slugs
+     *
+     * @return array
+     */
+    public function createBreadcrumbsFromSlugs($slugs = null) {
+        $slugs = $slugs ?: \Slug::getRouteSlugs();
+        $breadcrumbs = [];
+        $breadcrumbPath = '';
+
+        if (head($slugs) != \Config::get('app.defaultAuthRoute')) {
+            array_unshift($slugs, \Config::get('app.defaultAuthRoute'));
         }
 
-        return $this->getLocalizedURL($slugString, $locale);
+        foreach ($slugs as $slug) {
+            $breadcrumbPath = trim($breadcrumbPath . '/' . $slug, '/');
+            $breadcrumbs[$slug]['link'] = $this->route($breadcrumbPath);
+            $breadcrumbs[$slug]['name'] = trans('cms/nav.' . $slug);
+            $breadcrumbs[$slug]['last'] = ($slug == last($slugs) ? true : false);
+
+            if ($breadcrumbPath == \Config::get('app.defaultAuthRoute')) {
+                $breadcrumbPath = '';
+            }
+        }
+
+        return $breadcrumbs;
+    }
+
+    /**
+     * Get Languages
+     *
+     * @return array
+     */
+    public function getLanguages() {
+        $languages = [];
+
+        foreach ($this->getSupportedLocales() as $locale => $data) {
+            $active = ($locale == $this->getCurrent() ? true : false);
+            $language['active'] = $active;
+            $language['link'] = $this->url($locale);
+            $language['native'] = $data['native'];
+            $language['name'] = ($data['name'] != $data['native'] ? $data['name'] : '');
+
+            if ($active) {
+                $languages = array_merge([$locale => $language], $languages);
+            } else {
+                $languages[$locale] = $language;
+            }
+        }
+
+        return $languages;
     }
 
     /**
@@ -192,32 +306,22 @@ class Locales
         }
 
         if (isset($this->supportedLocales[$locale])) {
-            $this->currentLocale = $locale;
+            $this->setCurrent($locale);
         } else {
             // if the first segment/locale passed is not valid the locale could be taken by the browser depending on your configuration
             $locale = null;
 
             // if we reached this point and hideDefaultLocaleInURL is true we have to assume we are routing to a defaultLocale route.
             if ($this->hideDefaultLocaleInURL) {
-                $this->currentLocale = $this->defaultLocale;
+                $this->setCurrent($this->getDefault());
             } elseif ($this->useAcceptLanguageHeader) { // but if hideDefaultLocaleInURL is false && useAcceptLanguageHeader is true, we have to retrieve it from the browser...
-                $this->currentLocale = $this->negotiateLanguage();
+                $this->setCurrent($this->negotiateLanguage());
             } else { // or just get application default locale
-                $this->currentLocale = $this->defaultLocale;
+                $this->setCurrent($this->getDefault());
             }
         }
 
-        \App::setLocale($this->currentLocale);
-    }
-
-    /**
-     * Set the subdomain
-     *
-     * @return string
-     */
-    public function setSubdomain()
-    {
-        return $this->subdomain = explode('.', \Request::getHost())[0];
+        \App::setLocale($this->getCurrent());
     }
 
     /**
@@ -246,7 +350,7 @@ class Locales
         }
         // If any (i.e. "*") is acceptable, return the default locale
         if (isset($matches['*'])) {
-            return $this->defaultLocale;
+            return $this->getDefault();
         }
 
         if (class_exists('Locale') && !empty(\Request::server('HTTP_ACCEPT_LANGUAGE'))) {
@@ -266,7 +370,7 @@ class Locales
             }
         }
 
-        return $this->defaultLocale;
+        return $this->getDefault();
     }
 
     /**

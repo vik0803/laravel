@@ -17,6 +17,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Domain
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'domain' => env('APP_DOMAIN', 'laravel.local'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |
@@ -26,7 +35,7 @@ return [
     |
     */
 
-    'url' => 'http://www.laravel.local',
+    'url' => 'http://cms.' . env('APP_DOMAIN', 'laravel.local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -151,6 +160,8 @@ return [
         /*
          * Application Service Providers...
          */
+        App\Providers\LocaleServiceProvider::class, // Set Locale early
+
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
@@ -158,9 +169,9 @@ return [
 
         Barryvdh\Debugbar\ServiceProvider::class,
 
-        App\Providers\LocaleServiceProvider::class,
-        App\Providers\SlugServiceProvider::class,
         App\Providers\FormServiceProvider::class, // Illuminate\Html\HtmlServiceProvider::class,
+        App\Providers\SlugServiceProvider::class, // Slugs management
+        App\Providers\ComposerServiceProvider::class, // View Composers
     ],
 
     /*

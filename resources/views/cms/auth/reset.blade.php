@@ -10,7 +10,7 @@ $metaDescription = 'Reset Password Description';
 
     @include('cms/shared.errors')
 
-    {!! Form::open(['id' => 'reset-form', 'class' => 'ajax-lock', 'role' => 'form', 'url' => url(\Locales::getLocalizedURL('reset'))]) !!}
+    {!! Form::open(['id' => 'reset-form', 'class' => 'ajax-lock', 'role' => 'form', 'url' => \Locales::route('reset', '')]) !!}
     {!! Form::hidden('token', $token) !!}
 
     <div class="form-group{!! ($errors->has('email') ? ' has-error has-feedback' : '') !!}">

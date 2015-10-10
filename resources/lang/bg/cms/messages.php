@@ -11,6 +11,10 @@ return [
 	|
 	*/
 
-	'test' => 'Тест CMS',
+    'altLogo' => 'Лого',
+    'changeLanguage' => 'Change Language',
+    'contactAdmin' => 'Contact Admin',
+    'all' => 'All',
+    'footerText' => '&copy; ' . date("Y") . ' Vadenka.com',
 
 ];

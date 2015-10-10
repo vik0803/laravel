@@ -2,94 +2,19 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Str;
 use Stringy\StaticStringy;
 
 class Slug
 {
-    protected $controller;
-    protected $subdomains;
-    protected $routes;
-    protected $subdomain;
     protected $slug;
-    protected $slugs;
-    protected $method;
-    protected $parameters = null;
+    protected $routeSlug;
 
     /**
      * Creates new instance.
      */
     public function __construct()
     {
-        $this->setSlug(trim(StaticStringy::replace(urldecode(\Request::path()), \Locales::getLanguage(), ''), '/'));
-    }
-
-    /**
-     * Match slug
-     *
-     * @return boolean
-     */
-    public function match()
-    {
-        $this->subdomain = explode('.', \Request::getHost())[0];
-        $this->routes = \Lang::get($this->subdomain . '/routes');
-        $this->subdomains = \Config::get('subdomains');
-        $this->slugs = explode('/', $this->getSlug());
-        $this->method = Str::lower(\Request::method());
-
-        if (in_array($this->subdomain, $this->subdomains)) {
-            return $this->matchRecursive($this->routes);
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Match current slug recursively
-     *
-     * @return string Returns controller@method
-     */
-    public function matchRecursive($routes)
-    {
-        foreach ($routes as $route) {
-            if ($route['slug'] == head($this->slugs)) {
-                array_shift($this->slugs);
-
-                if (count($this->slugs) > 0) {
-                    if (isset($route['/'])) {
-                        return $this->matchRecursive($route['/']);
-                    } elseif (isset($route[$this->method])) {
-                        $r = $route[$this->method];
-                        if (is_array($r)) {
-                            if (isset($r['parameters'])) {
-                                $this->setParameters($r['parameters']);
-
-                                $paramsCount = count(explode('/', $r['parameters']));
-                                $slug = implode('/', array_slice(explode('/', $this->getSlug()), 0, -$paramsCount));
-                                $this->setSlug($slug);
-                            }
-                            $this->setController(Str::title($this->subdomain) . '\\' . $r['controller']);
-                            return true;
-                        }
-                    }
-                } elseif (isset($route[$this->method]) && !is_array($route[$this->method])) {
-                    $this->setController(Str::title($this->subdomain) . '\\' . $route[$this->method]);
-                    return true;
-                }
-                return false;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Create routes.php file
-     *
-     * @return string
-     */
-    public function createRoutes()
-    {
-        // to do: create routes.php files
+        $this->setSlug(urldecode(\Request::path()));
     }
 
     /**
@@ -99,27 +24,7 @@ class Slug
      */
     public function getSlug()
     {
-        return $this->slug;
-    }
-
-    /**
-     * Get the Request slugs
-     *
-     * @return array
-     */
-    public function getSlugs()
-    {
-        return explode('/', $this->getSlug());
-    }
-
-    /**
-     * Get the current slug
-     *
-     * @return array
-     */
-    public function getCurrentSlug()
-    {
-        return last($this->getSlugs());
+        return $this->slug ?: '/';
     }
 
     /**
@@ -129,56 +34,72 @@ class Slug
      */
     public function setSlug($slug)
     {
-        return $this->slug = $slug;
+        return $this->slug = StaticStringy::removeLeft($slug, \Locales::getCurrent() . '/');
     }
 
     /**
-     * Get the Request method
+     * Get the Request slugs
+     *
+     * @return array
+     */
+    public function getSlugs()
+    {
+        return $this->getSlug() == '/' ? [] : explode('/', $this->getSlug());
+    }
+
+    /**
+     * Get the Route slug
      *
      * @return string
      */
-    public function getMethod()
+    public function getRouteSlug()
     {
-        return $this->method;
+        return $this->routeSlug ?: '/';
     }
 
     /**
-     * Get the controller@method
+     * Set the Route slug
      *
      * @return string
      */
-    public function getController()
+    public function setRouteSlug($slug)
     {
-        return $this->controller;
+        return $this->routeSlug = StaticStringy::removeLeft($slug, \Locales::getCurrent() . '/');
     }
 
     /**
-     * Set the controller@method
+     * Get the Route slugs
      *
-     * @return void
+     * @return array
      */
-    public function setController($controller)
+    public function getRouteSlugs()
     {
-        $this->controller = $controller;
+        return $this->getRouteSlug() == '/' ? [] : explode('/', $this->getRouteSlug());
     }
 
     /**
-     * Get the route parameters
+     * Compares given route slug with current route slug
      *
-     * @return string
+     * @param  string  $slug
+     * @param  int  $index
+     * @return string Returns class name
      */
-    public function getParameters()
+    public function isActive($slug, $index = null)
     {
-        return $this->parameters;
+        $routeSlug = $index ? $this->getRouteSlugs()[--$index] : $this->getRouteSlug();
+        return $routeSlug == $slug ? 'active' : null;
     }
 
     /**
-     * Set the route parameters
+     * Compares given route slug with current route slug
      *
-     * @return void
+     * @param  string  $slug
+     * @param  int  $index
+     * @return string Returns HTML class attribute
      */
-    public function setParameters($parameters)
+    public function isActiveClass($slug, $index = null)
     {
-        $this->parameters = '/' . $parameters;
+        $class = $this->isActive($slug, $index);
+        return $class ? ' class="' . $class . '"' : null;
     }
 }

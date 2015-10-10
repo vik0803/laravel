@@ -19,7 +19,6 @@ class UserController extends Controller {
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -83,7 +82,7 @@ class UserController extends Controller {
             if ($count <= \Config::get('datatables.clientSideLimit')) {
                 $datatables['data'] = $user->select('name', 'email')->get()->toJson();
             } else {
-                $datatables['ajax'] = url(\Locales::getLocaleURL(\Locales::get()));
+                $datatables['ajax'] = $request->url();
                 /* State can't be saved with pipelining and deferLoading enabled and first result page in html
                 $data = $user->select('name', 'email');
 

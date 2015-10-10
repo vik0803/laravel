@@ -64,7 +64,7 @@ trait AuthenticatesUsers
     {
         Auth::logout();
 
-        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : \Locales::getLocalizedURL());
+        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : \Locales::route('/'));
     }
 
     /**
@@ -74,6 +74,6 @@ trait AuthenticatesUsers
      */
     public function loginPath()
     {
-        return property_exists($this, 'loginPath') ? $this->loginPath : \Locales::getLocalizedURL();
+        return property_exists($this, 'loginPath') ? $this->loginPath : \Locales::route('/');
     }
 }

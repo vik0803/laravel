@@ -24,10 +24,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        if (!\Storage::exists(app_path('Http/routes.php'))) {
-            \Slug::createRoutes();
-        }
-
         parent::boot($router);
     }
 

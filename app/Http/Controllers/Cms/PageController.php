@@ -21,7 +21,6 @@ class PageController extends Controller {
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -41,7 +40,7 @@ class PageController extends Controller {
      */
     public function dashboard()
     {
-        return view('cms.dashboard');
+        return view('cms.' . \Config::get('app.defaultAuthRoute'));
     }
 
 }

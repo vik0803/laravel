@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <form class="form-horizontal" role="form" method="POST" action="{{ url(\Locales::getLocalizedURL()) }}">
+    <form class="form-horizontal" role="form" method="POST" action="{{ \Locales::route('/') }}">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
         <div class="form-group">
@@ -45,7 +45,7 @@
             <div class="col-md-6 col-md-offset-4">
                 <button type="submit" class="btn btn-primary">Login</button>
 
-                <a class="btn btn-link" href="{{ url(\Locales::getLocalizedURL('pf')) }}">Forgot Your Password?</a>
+                <a class="btn btn-link" href="{{ \Locales::route('pf') }}">Forgot Your Password?</a>
             </div>
         </div>
     </form>
