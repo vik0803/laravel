@@ -145,6 +145,6 @@ trait ResetsPasswords
             return $this->redirectPath;
         }
 
-        return property_exists($this, 'redirectTo') ? $this->redirectTo : \Locales::getLocalizedURL(\Config::get('app.defaultAuthRoute'));
+        return property_exists($this, 'redirectTo') ? $this->redirectTo : \Locales::route();
     }
 }

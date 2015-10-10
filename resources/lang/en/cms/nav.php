@@ -15,7 +15,7 @@ return [
     'profile' => 'Profile',
     'messages' => 'Messages',
     'settings' => 'Settings',
-    'dashboard' => 'Dashboard',
+    \Config::get('app.defaultAuthRoute') => 'Dashboard',
     'pages' => 'Pages',
     'users' => 'Users',
     'admins' => 'Admins',

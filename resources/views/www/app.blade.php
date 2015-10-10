@@ -41,25 +41,25 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="{{  url(\Locales::getLocalizedURL()) }}">WWW</a>
+				<a class="navbar-brand" href="{{ \Locales::route('/') }}">WWW</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="{{ url(\Locales::getLocalizedURL('home')) }}">Home</a></li>
+					<li><a href="{{ \Locales::route() }}">Home</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ url(\Locales::getLocaleURL('bg')) }}">Български</a></li>
-                    <li><a href="{{ url(\Locales::getLocaleURL('en')) }}">English</a></li>
+                    <li><a href="{{ \Locales::url('bg') }}">Български</a></li>
+                    <li><a href="{{ \Locales::url('en') }}">English</a></li>
 					@if (Auth::guest())
-						<li><a href="{{ url(\Locales::getLocalizedURL()) }}">Login</a></li>
-                        <li><a href="{{ url(\Locales::getLocalizedURL('register')) }}">Register</a></li>
+						<li><a href="{{ \Locales::route('/') }}">Login</a></li>
+                        <li><a href="{{ \Locales::route('register') }}">Register</a></li>
 					@else
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="{{ url(\Locales::getLocalizedURL('logout')) }}">Logout</a></li>
+								<li><a href="{{ \Locales::route('logout') }}">Logout</a></li>
 							</ul>
 						</li>
 					@endif

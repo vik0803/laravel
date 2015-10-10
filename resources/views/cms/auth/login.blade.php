@@ -31,7 +31,7 @@ $metaDescription = 'Login Description';
     {!! Form::submit(trans('cms/forms.signInButton'), ['class' => 'btn btn-primary btn-block']) !!}
     {!! Form::close() !!}
     <p>
-        <a href="{{ url(\Locales::getLocalizedURL('pf')) }}">{{ trans('cms/auth.passwordForgottenHelpText') }}</a>
+        <a href="{{ \Locales::route('pf') }}">{{ trans('cms/auth.passwordForgottenHelpText') }}</a>
     </p>
 @endsection
 

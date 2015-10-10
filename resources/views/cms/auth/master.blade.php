@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="{{ \Locales::get() }}">
+<html class="no-js" lang="{{ \Locales::getCurrent() }}">
 <head dir="{{ \Locales::getScript() }}">
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -28,7 +28,7 @@
     <script>(function() { var pad = '000'; var random = Math.floor((Math.random() * 298) + 1); var img = pad.substring(0, pad.length - random.toString().length) + random.toString(); document.getElementById('body-auth').style.backgroundImage = "url('/img/cms/auth/" + img + ".jpg')"; })();</script>
     <div class="auth-quote">{{ Inspiring::quote() }}</div>
     <div class="auth-wrapper">
-        <a href="{{ url(\Locales::getLocalizedURL()) }}">{!! HTML::image(\App\Helpers\autover('/img/cms/logo.png'), trans('cms/messages.altLogo')) !!}</a>
+        <a href="{{ \Locales::route('/') }}">{!! HTML::image(\App\Helpers\autover('/img/cms/logo.png'), trans('cms/messages.altLogo')) !!}</a>
 
         <div class="auth-box">@yield('content')</div>
 
@@ -40,26 +40,13 @@
                     <span class="caret caret-right"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li class="active">
-                        <a href="{{ url(\Locales::getLocaleURL(\Locales::get())) }}">
-                        {{ \Locales::getNativeName() }}
-                        @if (\Locales::getName() != \Locales::getNativeName())
-                            <span class="sub-text">({{ \Locales::getName() }})</span>
-                        @endif
+                @foreach (\Locales::getLanguages() as $key => $language)
+                    <li{!! $language['active'] ? ' class="active"' : '' !!}>
+                        <a href="{{ $language['link'] }}">
+                            {{ $language['native'] }}@if ($language['name'])<span class="sub-text">({{ $language['name'] }})</span>@endif
                         </a>
                     </li>
-                    @foreach (\Locales::getSupportedLocales() as $key => $value)
-                        @if ($key != \Locales::get())
-                            <li>
-                                <a href="{{ url(\Locales::getLocaleURL($key)) }}">
-                                {{ $value['native'] }}
-                                @if ($value['name'] != $value['native'])
-                                    <span class="sub-text">({{ $value['name'] }})</span>
-                                @endif
-                                </a>
-                            </li>
-                        @endif
-                    @endforeach
+                @endforeach
                 </ul>
             </div>
         </div>

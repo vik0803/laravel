@@ -38,7 +38,7 @@ class RedirectIfAuthenticated
             if (redirect()->back()->getTargetUrl() != $request->fullUrl()) {
                 return redirect()->back();
             } else { // this happens when session is expired ad there is no HTTP_REFFERER URL
-                return redirect(\Locales::getLocalizedURL(\Config::get('app.defaultAuthRoute')));
+                return redirect(\Locales::route());
             }
         }
 

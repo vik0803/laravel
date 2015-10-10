@@ -28,6 +28,8 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot($events);
 
-        //
+        $events->listen('router.matched', function($route, $request) {
+            \Slug::setRouteSlug($route->getName());
+        });
     }
 }

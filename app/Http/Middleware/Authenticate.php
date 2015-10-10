@@ -40,7 +40,7 @@ class Authenticate
                 \Session::forget('lastActivityTime');
                 $this->auth->logout();
 
-                $redirect = redirect()->to(\Locales::getLocalizedURL())->withErrors([trans('messages.sessionExpired')]);
+                $redirect = redirect()->to(\Locales::route('/'))->withErrors([trans('messages.sessionExpired')]);
                 if ($request->ajax()) {
                     return response()->json(['redirect' => $redirect->getTargetUrl()]);
                 } else {
@@ -50,7 +50,7 @@ class Authenticate
         }*/
 
         if ($this->auth->guest()) {
-            $redirect = redirect()->guest(\Locales::getLocalizedURL())->withErrors([trans('messages.sessionExpired')])->with('session_expired', true);
+            $redirect = redirect()->guest(\Locales::route('/'))->withErrors([trans('messages.sessionExpired')])->with('session_expired', true);
             if ($request->ajax()) {
                 // return response('Unauthorized.', 401);
                 return response()->json(['redirect' => $redirect->getTargetUrl()]);

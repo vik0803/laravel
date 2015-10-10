@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="{{ \Locales::get() }}">
+<html class="no-js" lang="{{ \Locales::getCurrent() }}">
 <head dir="{{ \Locales::getScript() }}">
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -92,7 +92,7 @@
                     datatablesPagingType: '{{ \Config::get('datatables.pagingType' . $size) }}',
                     datatablesPageLength: {{ \Config::get('datatables.pageLength' . $size) }},
                     datatablesLengthMenu: {!! str_replace('all', trans('cms/messages.all'), \Config::get('datatables.lengthMenu' . $size)) !!},
-                    datatablesLanguage: '{{ \App\Helpers\autover('/lng/datatables/' . \Locales::get() . '.json') }}'
+                    datatablesLanguage: '{{ \App\Helpers\autover('/lng/datatables/' . \Locales::getCurrent() . '.json') }}'
                 });
                 @endif
 
