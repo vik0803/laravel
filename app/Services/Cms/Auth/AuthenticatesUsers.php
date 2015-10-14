@@ -116,7 +116,7 @@ trait AuthenticatesUsers
      *
      * @return \Illuminate\Http\Response
      */
-    public function getLogout()
+    public function getSignout()
     {
         Auth::logout();
 

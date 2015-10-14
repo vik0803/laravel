@@ -29,16 +29,23 @@ if ($subdomain == 'cms') {
                 Route::get(\Locales::getRoute('register'), 'AuthController@getRegister')->name(\Locales::getRoutesLocalePrefix() . 'register');
                 Route::post(\Locales::getRoute('register'), 'AuthController@postRegister');
 
-                Route::get(\Locales::getRoute('signout'), 'AuthController@getLogout')->name(\Locales::getRoutesLocalePrefix() . 'logout');
+                Route::get(\Locales::getRoute('signout'), 'AuthController@getSignout')->name(\Locales::getRoutesLocalePrefix() . 'signout');
 
                 Route::get(\Locales::getRoute(\Config::get('app.defaultAuthRoute')), 'PageController@' . \Config::get('app.defaultAuthRoute'))->name(\Locales::getRoutesLocalePrefix() . \Config::get('app.defaultAuthRoute'));
 
                 Route::get(\Locales::getRoute('pages'), 'PageController@pages')->name(\Locales::getRoutesLocalePrefix() . 'pages');
 
-                Route::group(['as' => \Locales::getRoutesLocalePrefix() . 'users/', 'prefix' => \Locales::getRoute('users')], function() {
-                    Route::get(\Locales::getSubRoute('users/admins'), 'UserController@admins')->name('admins');
-                    Route::get(\Locales::getSubRoute('users/operators'), 'UserController@operators')->name('operators');
-                });
+                Route::get(\Locales::getRoute('users') . '/{group?}', 'UserController@index')->name(\Locales::getRoutesLocalePrefix() . 'users')->where('group', 'admins|operators');
+                Route::get(\Locales::getRoute('users') . '/create', 'UserController@index')->name(\Locales::getRoutesLocalePrefix() . 'users/create');
+                /*Route::group(['as' => \Locales::getRoutesLocalePrefix() . 'users/', 'prefix' => \Locales::getRoute('users')], function() {
+                    Route::get(\Locales::getSubRoute('users/admins'), 'UserController@index')->name('admins');
+                    Route::group(['as' => 'admins/', 'prefix' => \Locales::getSubRoute('users/admins')], function() {
+                        Route::get(\Locales::getSubRoute('users/admins/create'), 'UserController@create')->name('create');
+                        Route::post(\Locales::getSubRoute('users/admins/create'), 'UserController@store');
+                    });
+
+                    Route::get(\Locales::getSubRoute('users/operators'), 'UserController@index')->name('operators');
+                });*/
 
                 Route::get(\Locales::getRoute('profile'), 'PageController@pages')->name(\Locales::getRoutesLocalePrefix() . 'profile');
 

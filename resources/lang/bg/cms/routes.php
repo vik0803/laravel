@@ -20,6 +20,7 @@ return [
     'register' => 'регистрация',
     'users' => 'потребители',
         'users/admins' => 'администратори',
+            'users/admins/create' => 'създай',
         'users/operators' => 'оператори',
     'profile' => 'профил',
     'messages' => 'съобщения',

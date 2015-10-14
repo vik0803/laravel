@@ -22,11 +22,11 @@
         <li class="dropdown">
             <a class="dropdown-toggle">{{ Auth::user()->name }} <span class="caret"></span></a>
             <ul class="dropdown-menu dropdown-menu-right">
-                <li{!! \Slug::isActiveClass('profile') !!}><a href="{{ \Locales::route('profile') }}"><span class="glyphicon glyphicon-user"></span>{{ trans('cms/nav.profile') }}</a></li>
-                <li{!! \Slug::isActiveClass('messages') !!}><a href="{{ \Locales::route('messages') }}"><span class="glyphicon glyphicon-inbox"></span>{{ trans('cms/nav.messages') }}</a></li>
-                <li{!! \Slug::isActiveClass('settings') !!}><a href="{{ \Locales::route('settings') }}"><span class="glyphicon glyphicon-cog"></span>{{ trans('cms/nav.settings') }}</a></li>
+                <li{!! \Slug::isActiveClass('profile') !!}><a href="{{ \Locales::route('profile') }}"><span class="glyphicon glyphicon-user"></span>{{ trans('cms/routes.profile') }}</a></li>
+                <li{!! \Slug::isActiveClass('messages') !!}><a href="{{ \Locales::route('messages') }}"><span class="glyphicon glyphicon-inbox"></span>{{ trans('cms/routes.messages') }}</a></li>
+                <li{!! \Slug::isActiveClass('settings') !!}><a href="{{ \Locales::route('settings') }}"><span class="glyphicon glyphicon-cog"></span>{{ trans('cms/routes.settings') }}</a></li>
                 <li class="divider"></li>
-                <li><a href="{{ \Locales::route('logout') }}"><span class="glyphicon glyphicon-remove"></span>{{ trans('cms/nav.logout') }}</a></li>
+                <li><a href="{{ \Locales::route('signout') }}"><span class="glyphicon glyphicon-remove"></span>{{ trans('cms/routes.signout') }}</a></li>
             </ul>
         </li>
     </ul>

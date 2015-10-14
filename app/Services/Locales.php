@@ -214,7 +214,9 @@ class Locales
         $locale = $locale ?: $this->getCurrent();
         $route = $this->getLanguage($locale) . $this->separator($locale);
         $route .= \Route::has($route . \Slug::getRouteSlug()) ? \Slug::getRouteSlug() : \Config::get('app.defaultAuthRoute');
-        return \Route::has($route) ? route($route, \Request::route()->parameters()) : '';
+        $currentRoute = \Route::current();
+        $params = $currentRoute ? $currentRoute->parameters() : ''; // \Request::route()->parameters()
+        return \Route::has($route) ? route($route, $params) : '';
     }
 
     /**
@@ -225,7 +227,9 @@ class Locales
     public function route($route = null) {
         $route = $route ?: \Config::get('app.defaultAuthRoute');
         $route = $this->getLanguage() . $this->separator() . $route;
-        return \Route::has($route) ? route($route) : '';
+        $currentRoute = \Route::current();
+        $params = $currentRoute ? $currentRoute->parameters() : ''; // \Request::route()->parameters()
+        return \Route::has($route) ? route($route, $params) : '';
     }
 
     /**
@@ -254,9 +258,26 @@ class Locales
 
         foreach ($slugs as $slug) {
             $breadcrumbPath = trim($breadcrumbPath . '/' . $slug, '/');
-            $breadcrumbs[$slug]['link'] = $this->route($breadcrumbPath);
-            $breadcrumbs[$slug]['name'] = trans('cms/nav.' . $slug);
-            $breadcrumbs[$slug]['last'] = ($slug == last($slugs) ? true : false);
+            $link = $this->route($breadcrumbPath);
+
+            $last = ($slug == last($slugs) ? true : false);
+
+            $parentSlug = $slug . '/';
+            if (\Lang::has('cms/routes.' . $parentSlug)) { // translation for 'slug/' == dropdowm
+                $breadcrumbs[$parentSlug]['link'] = '#'; // dropdown
+                $breadcrumbs[$parentSlug]['name'] = trans('cms/routes.' . $breadcrumbPath);
+                $breadcrumbs[$parentSlug]['last'] = false;
+
+                if ($last) {
+                    $breadcrumbs[$slug]['link'] = $link;
+                    $breadcrumbs[$slug]['name'] = trans('cms/routes.' . $parentSlug);
+                    $breadcrumbs[$slug]['last'] = $last;
+                }
+            } else {
+                $breadcrumbs[$slug]['link'] = $link;
+                $breadcrumbs[$slug]['name'] = trans('cms/routes.' . $breadcrumbPath);
+                $breadcrumbs[$slug]['last'] = $last;
+            }
 
             if ($breadcrumbPath == \Config::get('app.defaultAuthRoute')) {
                 $breadcrumbPath = '';

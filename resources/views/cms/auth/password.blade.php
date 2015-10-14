@@ -23,11 +23,3 @@ $metaDescription = 'Password Forgotten Description';
     {!! Form::submit(trans('cms/forms.sendPasswordReseLinktButton'), ['class' => 'btn btn-primary btn-block']) !!}
     {!! Form::close() !!}
 @endsection
-
-@section('script')
-unikat.callback = function() {
-    'use strict';
-
-    unikat.ajax_submit('reset-form');
-};
-@endsection

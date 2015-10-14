@@ -21,8 +21,6 @@
 	<!--[if lt IE 9]>
         <script src="{{ \App\Helpers\autover('/js/cms/vendor/ie8.min.js') }}"></script>
 	<![endif]-->
-
-    @yield('header')
 </head>
 <body>
     <header>
@@ -103,8 +101,6 @@
         }
     ]);
     </script>
-
-    @yield('footer')
 
 </body>
 </html>

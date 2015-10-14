@@ -39,11 +39,3 @@ $metaDescription = 'Register Description';
     {!! Form::submit(trans('cms/forms.registerButton'), ['class' => 'btn btn-primary btn-block']) !!}
     {!! Form::close() !!}
 @endsection
-
-@section('script')
-unikat.callback = function() {
-    'use strict';
-
-    unikat.ajax_submit('register-form');
-};
-@endsection

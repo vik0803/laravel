@@ -34,11 +34,3 @@ $metaDescription = 'Login Description';
         <a href="{{ \Locales::route('pf') }}">{{ trans('cms/auth.passwordForgottenHelpText') }}</a>
     </p>
 @endsection
-
-@section('script')
-unikat.callback = function() {
-    'use strict';
-
-    unikat.ajax_submit('login-form');
-};
-@endsection

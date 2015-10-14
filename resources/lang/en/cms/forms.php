@@ -17,6 +17,7 @@ return [
     'resetPasswordButton' => 'Reset Password',
     'registerButton' => 'Register',
     'createUserButton' => 'Create User',
+    'saveButton' => 'Save',
 
     // Labels
     'emailLabel' => 'E-mail Address',

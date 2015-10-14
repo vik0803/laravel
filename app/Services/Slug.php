@@ -82,12 +82,32 @@ class Slug
      *
      * @param  string  $slug
      * @param  int  $index
+     * @return boolean
+     */
+    public function is($slug, $index = null)
+    {
+        $routeSlug = null;
+        if ($index) {
+            if (isset($this->getRouteSlugs()[--$index])) {
+                $routeSlug = $this->getRouteSlugs()[$index];
+            }
+        } else {
+            $routeSlug = $this->getRouteSlug();
+        }
+
+        return $routeSlug == $slug ? true : false;
+    }
+
+    /**
+     * Compares given route slug with current route slug
+     *
+     * @param  string  $slug
+     * @param  int  $index
      * @return string Returns class name
      */
     public function isActive($slug, $index = null)
     {
-        $routeSlug = $index ? $this->getRouteSlugs()[--$index] : $this->getRouteSlug();
-        return $routeSlug == $slug ? 'active' : null;
+        return $this->is($slug, $index) ? 'active' : null;
     }
 
     /**

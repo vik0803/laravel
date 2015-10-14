@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Validator;
 use Illuminate\Http\Request;
 
 class UserController extends Controller {
@@ -22,22 +23,14 @@ class UserController extends Controller {
     }
 
     /**
-     * Show users default view.
+     * Show users.
      *
      * @return View
      */
-    public function users()
+    public function index(User $user, Request $request, $group = null)
     {
-        return view('cms.users');
-    }
+        // group ?
 
-    /**
-     * Show admins.
-     *
-     * @return View
-     */
-    public function admins(User $user, Request $request)
-    {
         if ($request->ajax()) {
             /* State can't be saved with pipelining and deferLoading enabled and first result page in html
             $request->session()->put('datatablesStart', $request->input('start', 0));
@@ -102,8 +95,57 @@ class UserController extends Controller {
                 $datatables['data'] = $data->get();*/
             }
 
-            return view('cms.users', compact('datatables'));
+            return view('cms.users.index', compact('datatables'));
         }
+    }
+
+    /**
+     * Show create new users view.
+     *
+     * @return View
+     */
+    public function create(Request $request)
+    {
+        $view = \View::make('cms.users.create');
+        if ($request->ajax()) {
+            $sections = $view->renderSections();
+            return $sections['content'];
+        }
+        return $view;
+    }
+
+    /**
+     * Store new user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => array('required', 'confirmed', 'regex:/^(?=.*\p{Ll})(?=.*\p{Lu})(?=.*[\p{N}\p{P}]).{6,}$/u'), // /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d\W]).{6,}$/ // http://www.zorched.net/2009/05/08/password-strength-validation-with-regular-expressions/
+        ]);
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        dd(User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+        ]));
+
+        /*$redirect = redirect($this->redirectPath());
+        if ($request->ajax()) {
+            return response()->json(['redirect' => $redirect->getTargetUrl()]);
+        } else {
+            return $redirect;
+        }*/
     }
 
 }

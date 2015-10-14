@@ -9,7 +9,7 @@ var unikat = function() {
 
     var variables = {};
 
-    var jsCreateHook = "js-create-";
+    var jsCreateHook = '.js-create';
 
     var htmlLoading;
 
@@ -108,8 +108,10 @@ var unikat = function() {
                 Cookies.set('jsCookies', { sidebar: $index, navState: (jsCookies ? jsCookies.navState : null) }, { expires: 365 });
             });
 
-            $('[id^=' + jsCreateHook + ']').on('click', function() {
-                var id = $(this).attr('id').substring(jsCreateHook.length);
+            $('body').on('click', jsCreateHook, function(e) {
+                e.preventDefault();
+
+                var src = $(this).attr('href');
 
                 $.magnificPopup.open({
                     type: 'ajax',
@@ -126,7 +128,7 @@ var unikat = function() {
                     removalDelay: 500,
                     mainClass: 'mfp-zoom-in',
                     items: {
-                        src: 'http://cms.laravel.local/users/admins/create' //'#js-popup-' + id + '-form'
+                        src: src
                     }
                 });
             })
@@ -205,6 +207,43 @@ var unikat = function() {
         if (typeof this.callback == 'function') {
             this.callback();
         }
+
+        $(document).on('submit', 'form', function(e) {
+            e.preventDefault();
+
+            var that = $(this);
+            if (typeof jqxhr != 'undefined') {
+                ajax_unlock(that);
+            }
+            ajax_lock(that);
+
+            jqxhr = $.post(that.attr('action'), that.serialize());
+
+            jqxhr.done(function(data, status, xhr) {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                } else {
+                    ajax_unlock(that);
+                    if (data.success) {
+                        ajax_success_text(that, data.success);
+                        ajax_reset_form(that);
+                    } else {
+                        ajax_error(that, data);
+                    }
+                }
+            });
+
+            jqxhr.fail(function(xhr, textStatus, errorThrown) {
+                ajax_unlock(that);
+                if (xhr.status == 422) { // laravel response for validation errors
+                    ajax_error_validation(that, xhr.responseJSON);
+                } else {
+                    ajax_error_text(that, textStatus + ': ' + errorThrown);
+                }
+            });
+
+            return false;
+        });
 
         $.ajaxSetup({
             headers: {
@@ -374,45 +413,6 @@ var unikat = function() {
         ajax_message(that, msg);
     };
 
-    function ajax_submit(form) {
-        $('#' + form).submit(function(e) {
-            e.preventDefault();
-
-            var that = $(this);
-            if (typeof jqxhr != 'undefined') {
-                ajax_unlock(that);
-            }
-            ajax_lock(that);
-
-            jqxhr = $.post(that.attr('action'), that.serialize());
-
-            jqxhr.done(function(data, status, xhr) {
-                if (data.redirect) {
-                    window.location.href = data.redirect;
-                } else {
-                    ajax_unlock(that);
-                    if (data.success) {
-                        ajax_success_text(that, data.success);
-                        ajax_reset_form(that);
-                    } else {
-                        ajax_error(that, data);
-                    }
-                }
-            });
-
-            jqxhr.fail(function(xhr, textStatus, errorThrown) {
-                ajax_unlock(that);
-                if (xhr.status == 422) { // laravel response for validation errors
-                    ajax_error_validation(that, xhr.responseJSON);
-                } else {
-                    ajax_error_text(that, textStatus + ': ' + errorThrown);
-                }
-            });
-
-            return false;
-        });
-    };
-
     function datatables(params) {
         var params = $.extend({
             pipeline: variables.datatablesPipeline, // number of pages to cache/pipeline
@@ -525,5 +525,5 @@ var unikat = function() {
         }
     };
 
-    return { ajax_submit: ajax_submit, datatables: datatables, run: run, variables: variables }
+    return { datatables: datatables, run: run, variables: variables }
 }();

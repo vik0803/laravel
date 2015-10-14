@@ -21,8 +21,6 @@
 	<!--[if lt IE 9]>
         <script src="{{ \App\Helpers\autover('/js/cms/vendor/ie8.min.js') }}"></script>
 	<![endif]-->
-
-    @yield('header')
 </head>
 <body id="body-auth">
     <script>(function() { var pad = '000'; var random = Math.floor((Math.random() * 298) + 1); var img = pad.substring(0, pad.length - random.toString().length) + random.toString(); document.getElementById('body-auth').style.backgroundImage = "url('/img/cms/auth/" + img + ".jpg')"; })();</script>
@@ -88,8 +86,6 @@
         }
     ]);
     </script>
-
-    @yield('footer')
 
 </body>
 </html>

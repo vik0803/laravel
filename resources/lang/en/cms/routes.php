@@ -20,6 +20,7 @@ return [
     'register' => 'register',
     'users' => 'users',
         'users/admins' => 'admins',
+            'users/admins/create' => 'create',
         'users/operators' => 'operators',
     'profile' => 'profile',
     'messages' => 'messages',
