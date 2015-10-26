@@ -48,3 +48,13 @@ function array_search_value_recursive($value, $array, $parents = false)
     }
     return false;
 }
+
+function multiKsort(&$array)
+{
+    ksort($array);
+    foreach (array_keys($array) as $k) {
+        if (is_array($array[$k])) {
+            multiKsort($array[$k]);
+        }
+    }
+}
