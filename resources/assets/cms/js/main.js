@@ -173,14 +173,16 @@ var unikat = function() {
         }
 
         $(document).on('click', function(e) {
-            if (!$(e.target).closest('.dropdown').length) {
+            if (!$(e.target).closest('.submenu').length) {
                 $('.dropdown-menu').each(function() {
-                    if (!$(this).hasClass('dropdown-menu-static')) {
-                        if ($(this).hasClass('dropdown-menu-slide')) {
-                            $(this).slideUp();
-                        } else {
-                            $(this).removeClass('active');
-                        }
+                    if (!$(this).hasClass('menu-static')) {
+                        $(this).removeClass('active');
+                    }
+                });
+
+                $('.slidedown-menu').each(function() {
+                    if (!$(this).hasClass('menu-static')) {
+                        $(this).slideUp();
                     }
                 });
             }
@@ -189,15 +191,24 @@ var unikat = function() {
         $(document).on('click', '.dropdown-toggle', function(e) {
             e.preventDefault();
 
+            $(this).toggleClass('active');
+
             var that = $(this).next();
 
-            $('.dropdown-menu.active').not(['.dropdown-menu-static', that[0]]).removeClass('active');
+            $('.dropdown-menu.active').not(that[0]).removeClass('active');
 
-            if (that.hasClass('dropdown-menu-slide')) {
-                that.slideToggle();
-            } else {
-                that.toggleClass('active');
+            that.toggleClass('active');
+        });
+
+        $(document).on('click', '.slidedown-toggle', function(e) {
+            e.preventDefault();
+
+            if (!$(e.target).closest('.dropdown-menu').length) {
+                $('.dropdown-menu.active').removeClass('active');
             }
+
+            $(this).toggleClass('active');
+            $(this).next().slideToggle();
         });
 
         $(document).on('click', alertMessagesClass + ' ' + buttonCloseClass, function() {

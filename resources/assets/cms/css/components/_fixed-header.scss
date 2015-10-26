@@ -74,16 +74,10 @@
             }
 
             > .dropdown-menu {
-                margin: 0;
                 border-radius: 0;
 
                 a {
-                    padding: 0.1875em 0.625em; /* 3/16 */ /* 10/16 */
-                }
-
-                .glyphicon {
-                    margin-right: 0.3125em; /* 5/16 */
-                    font-size: $font-size-small;
+                    padding: 0.1875em 0.625em 0.1875em 0.3125em; /* 3/16 */ /* 10/16 */ /* 5/16 */
                 }
             }
         }

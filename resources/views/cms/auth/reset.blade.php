@@ -1,8 +1,3 @@
-<?php
-$metaTitle = 'Reset Password';
-$metaDescription = 'Reset Password Description';
-?>
-
 @extends('cms.auth.master')
 
 @section('content')

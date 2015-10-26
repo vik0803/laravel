@@ -4,8 +4,8 @@
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>{{ $metaTitle }}</title>
-    <meta name="description" content="{{ $metaDescription }}">
+	<title>{{ \Locales::getMetaTitle() }}</title>
+    <meta name="description" content="{{ \Locales::getMetaDescription() }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="apple-touch-icon" href="{{ \App\Helpers\autover('/apple-touch-icon.png') }}">
@@ -31,7 +31,7 @@
         <div class="auth-box">@yield('content')</div>
 
         <div class="languages-wrapper">
-            <div class="dropdown">
+            <div class="submenu">
                 <a href="#" class="btn btn-default dropdown-toggle dropdown-toggle-left">
                     {!! HTML::image(\App\Helpers\autover('/img/cms/languages.png'), trans('cms/messages.changeLanguage')) !!}
                     {{ trans('cms/messages.changeLanguage') }}

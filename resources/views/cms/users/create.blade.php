@@ -1,9 +1,3 @@
-<?php
-$metaName = 'Page Name: Users Create';
-$metaTitle = 'Page Title: Users Create';
-$metaDescription = 'Page Description: Users Create';
-?>
-
 @extends('cms.master')
 
 @section('content')

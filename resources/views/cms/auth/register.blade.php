@@ -1,8 +1,3 @@
-<?php
-$metaTitle = 'Register';
-$metaDescription = 'Register Description';
-?>
-
 @extends('cms.auth.master')
 
 @section('content')

@@ -4,7 +4,7 @@
         Vadenka.com
     </a>
     <ul>
-        <li class="dropdown">
+        <li class="submenu">
             <a class="dropdown-toggle">
                 {{ trans('cms/messages.changeLanguage') }}
                 <span class="caret"></span>
@@ -19,14 +19,18 @@
             @endforeach
             </ul>
         </li>
-        <li class="dropdown">
+        <li class="submenu">
             <a class="dropdown-toggle">{{ Auth::user()->name }} <span class="caret"></span></a>
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li{!! \Slug::isActiveClass('profile') !!}><a href="{{ \Locales::route('profile') }}"><span class="glyphicon glyphicon-user"></span>{{ trans('cms/routes.profile') }}</a></li>
-                <li{!! \Slug::isActiveClass('messages') !!}><a href="{{ \Locales::route('messages') }}"><span class="glyphicon glyphicon-inbox"></span>{{ trans('cms/routes.messages') }}</a></li>
-                <li{!! \Slug::isActiveClass('settings') !!}><a href="{{ \Locales::route('settings') }}"><span class="glyphicon glyphicon-cog"></span>{{ trans('cms/routes.settings') }}</a></li>
-                <li class="divider"></li>
-                <li><a href="{{ \Locales::route('signout') }}"><span class="glyphicon glyphicon-remove"></span>{{ trans('cms/routes.signout') }}</a></li>
+            <ul class="dropdown-menu dropdown-menu-small dropdown-menu-right">
+            @foreach (\Locales::getNavigation('header') as $nav)
+                @if ($nav['divider-before'])<li class="divider"></li>@endif
+                <li{!! $nav['active'] ? ' class="' . $nav['active'] . '"' : '' !!}>
+                    <a href="{{ $nav['link'] }}">
+                        @if ($nav['icon'])<span class="glyphicon glyphicon-{{ $nav['icon'] }}"></span>@endif{{ $nav['name'] }}
+                    </a>
+                </li>
+                @if ($nav['divider-after'])<li class="divider"></li>@endif
+            @endforeach
             </ul>
         </li>
     </ul>

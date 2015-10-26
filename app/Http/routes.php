@@ -35,17 +35,12 @@ if ($subdomain == 'cms') {
 
                 Route::get(\Locales::getRoute('pages'), 'PageController@pages')->name(\Locales::getRoutesLocalePrefix() . 'pages');
 
-                Route::get(\Locales::getRoute('users') . '/{group?}', 'UserController@index')->name(\Locales::getRoutesLocalePrefix() . 'users')->where('group', 'admins|operators');
-                Route::get(\Locales::getRoute('users') . '/create', 'UserController@index')->name(\Locales::getRoutesLocalePrefix() . 'users/create');
-                /*Route::group(['as' => \Locales::getRoutesLocalePrefix() . 'users/', 'prefix' => \Locales::getRoute('users')], function() {
-                    Route::get(\Locales::getSubRoute('users/admins'), 'UserController@index')->name('admins');
-                    Route::group(['as' => 'admins/', 'prefix' => \Locales::getSubRoute('users/admins')], function() {
-                        Route::get(\Locales::getSubRoute('users/admins/create'), 'UserController@create')->name('create');
-                        Route::post(\Locales::getSubRoute('users/admins/create'), 'UserController@store');
-                    });
-
-                    Route::get(\Locales::getSubRoute('users/operators'), 'UserController@index')->name('operators');
-                });*/
+                Route::get(\Locales::getRoute('users'), 'UserController@index')->name(\Locales::getRoutesLocalePrefix() . 'users');
+                Route::get(\Locales::getRoute('users/create'), 'UserController@create')->name(\Locales::getRoutesLocalePrefix() . 'users/create');
+                Route::get(\Locales::getRoute('users/admins'), 'UserController@index')->name(\Locales::getRoutesLocalePrefix() . 'users/admins');
+                Route::get(\Locales::getRoute('users/admins/create'), 'UserController@create')->name(\Locales::getRoutesLocalePrefix() . 'users/admins/create');
+                Route::post(\Locales::getRoute('users/admins/create'), 'UserController@store');
+                Route::get(\Locales::getRoute('users/operators'), 'UserController@index')->name(\Locales::getRoutesLocalePrefix() . 'users/operators');
 
                 Route::get(\Locales::getRoute('profile'), 'PageController@pages')->name(\Locales::getRoutesLocalePrefix() . 'profile');
 

@@ -1,8 +1,3 @@
-<?php
-$metaTitle = 'Login';
-$metaDescription = 'Login Description';
-?>
-
 @extends('cms.auth.master')
 
 @section('content')

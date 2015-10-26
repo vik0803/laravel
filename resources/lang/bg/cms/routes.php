@@ -11,19 +11,41 @@ return [
     |
     */
 
-    '/' => '',
-    'signout' => 'изход',
-    \Config::get('app.defaultAuthRoute') => 'начало',
-    'pages' => 'страници',
-    'pf' => 'забравена-парола',
-    'reset' => 'възстанови-парола',
-    'register' => 'регистрация',
-    'users' => 'потребители',
+    '/' => [
+        'slug' => ''
+    ],
+    'signout' => [
+        'slug' => 'изход'
+    ],
+    \Config::get('app.defaultAuthRoute') => [
+        'slug' => 'начало'
+    ],
+    'pages' => [
+        'slug' => 'страници'
+    ],
+    'pf' => [
+        'slug' => 'забравена-парола'
+    ],
+    'reset' => [
+        'slug' => 'възстанови-парола'
+    ],
+    'register' => [
+        'slug' => 'регистрация'
+    ],
+    'users' => [
+        'slug' => 'потребители'
+    ],
         'users/admins' => 'администратори',
             'users/admins/create' => 'създай',
         'users/operators' => 'оператори',
-    'profile' => 'профил',
-    'messages' => 'съобщения',
-    'settings' => 'настройки',
+    'profile' => [
+        'slug' => 'профил'
+    ],
+    'messages' => [
+        'slug' => 'съобщения'
+    ],
+    'settings' => [
+        'slug' => 'настройки'
+    ],
 
 ];

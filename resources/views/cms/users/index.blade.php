@@ -1,15 +1,9 @@
-<?php
-$metaName = 'Page Name: Users';
-$metaTitle = 'Page Title: Users';
-$metaDescription = 'Page Description: Users';
-?>
-
 @extends('cms.master')
 
 @section('content')
     @if (isset($datatables))
         <div class="content-header">
-            <h1>{{ $metaName }}</h1>
+            <h1>{{ \Locales::getMetaTitle() }}</h1>
             <div class="btn-group">
                 <a href="{{ \Locales::route('users/admins/create') }}" class="js-create btn btn-primary"><span class="glyphicon glyphicon-plus"></span>{{ trans('cms/forms.createUserButton') }}</a>
             </div>

@@ -1,8 +1,3 @@
-<?php
-$metaTitle = 'Password Forgotten';
-$metaDescription = 'Password Forgotten Description';
-?>
-
 @extends('cms.auth.master')
 
 @section('content')

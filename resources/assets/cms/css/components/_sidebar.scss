@@ -49,98 +49,14 @@
     }
 
     > .sidebar {
-        list-style-type: none;
+        list-style: none;
         padding: 0.625em 0 0; /* 10/16 */
         margin: 0;
         display: none;
+        background-color: $gray-lighter;
 
         &.sidebar-active {
             display: block;
-        }
-
-        > li {
-            .dropdown-menu {
-                border-left: 3px solid $brand-secondary;
-                background-color: transparent;
-
-                > li {
-                    &.active > a {
-                        background-color: #ddd;
-                        border-left: 3px solid transparent;
-
-                        &:hover {
-                            background-color: #ddd;
-                        }
-                    }
-
-                    > a {
-                        color: inherit;
-                        background-color: inherit;
-                        border-left: 3px solid transparent;
-
-                        &:hover,
-                        &:focus {
-                            background-color: #e7e7e7;
-                        }
-                    }
-                }
-            }
-
-            &.active {
-                > a {
-                    &,
-                    &:hover,
-                    &:focus {
-                        outline: 0;
-                        background-color: #ddd;
-                        border-left: 3px solid $brand-secondary;
-                    }
-                }
-
-                > .dropdown-menu-static {
-                    display: block;
-                }
-            }
-
-            &.dropdown {
-                > a {
-                    background-color: inherit;
-
-                    &:hover,
-                    &:focus {
-                        background-color: #e7e7e7;
-                    }
-                }
-            }
-
-            > a {
-                display: block;
-                position: relative;
-                color: $gray;
-                padding: 0.375em; /* 6/16 */
-                border-left: 3px solid transparent;
-
-                &:hover,
-                &:focus {
-                    text-decoration: none;
-                    background-color: #e7e7e7;
-                    border-left: 3px solid $brand-secondary;
-                }
-
-                > .glyphicon {
-                    margin-right: 0.3125em; /* 5/16 */
-                }
-
-                > .caret {
-                    position: absolute;
-                    top: 0;
-                    right: 0.375em; /* 6/16 */
-                    bottom: 0;
-                    left: auto;
-                    margin: auto;
-                    border-width: $caret-width-large $caret-width-large 0;
-                }
-            }
         }
     }
 }
