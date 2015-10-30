@@ -18,10 +18,7 @@ return [
         'metaDescription' => 'Sign In Description',
         'category' => '',
         'parent' => false,
-        'order' => 0,
-        'icon' => '',
-        'divider-before' => false,
-        'divider-after' => false
+        'order' => 0
     ],
     'signout' => [
         'slug' => 'signout',
@@ -32,8 +29,7 @@ return [
         'parent' => false,
         'order' => 4,
         'icon' => 'remove',
-        'divider-before' => true,
-        'divider-after' => false
+        'divider-before' => true
     ],
     \Config::get('app.defaultAuthRoute') => [
         'slug' => 'dashboard',
@@ -44,7 +40,6 @@ return [
         'parent' => false,
         'order' => 1,
         'icon' => 'dashboard',
-        'divider-before' => false,
         'divider-after' => true
     ],
     'pages' => [
@@ -55,9 +50,7 @@ return [
         'category' => 'sidebar',
         'parent' => false,
         'order' => 2,
-        'icon' => 'book',
-        'divider-before' => false,
-        'divider-after' => false
+        'icon' => 'book'
     ],
     'pf' => [
         'slug' => 'pf',
@@ -66,10 +59,7 @@ return [
         'metaDescription' => 'Password Forgotten Description',
         'category' => '',
         'parent' => false,
-        'order' => 0,
-        'icon' => '',
-        'divider-before' => false,
-        'divider-after' => false
+        'order' => 0
     ],
     'reset' => [
         'slug' => 'reset',
@@ -78,10 +68,7 @@ return [
         'metaDescription' => 'Reset Password Description',
         'category' => '',
         'parent' => false,
-        'order' => 0,
-        'icon' => '',
-        'divider-before' => false,
-        'divider-after' => false
+        'order' => 0
     ],
     'register' => [
         'slug' => 'register',
@@ -90,22 +77,21 @@ return [
         'metaDescription' => 'Register Description',
         'category' => '',
         'parent' => false,
-        'order' => 0,
-        'icon' => '',
-        'divider-before' => false,
-        'divider-after' => false
+        'order' => 0
     ],
     'users' => [
         'slug' => 'users',
+        'parameters' => [
+            'admins' => 'admins',
+            'operators' => 'operators'
+        ],
         'name' => 'Users',
         'metaTitle' => 'Users Title',
         'metaDescription' => 'Users Description',
         'category' => 'sidebar',
         'parent' => true,
         'order' => 3,
-        'icon' => 'user',
-        'divider-before' => false,
-        'divider-after' => false
+        'icon' => 'user'
     ],
     'users/' => [
         'slug' => 'users',
@@ -114,22 +100,16 @@ return [
         'metaDescription' => 'All Users Description',
         'category' => 'sidebar',
         'parent' => false,
-        'order' => 1,
-        'icon' => '',
-        'divider-before' => false,
-        'divider-after' => false
+        'order' => 1
     ],
     'users/admins' => [
-        'slug' => 'users/admins',
+        'slug' => 'users',
         'name' => 'Admins',
         'metaTitle' => 'Admins Title',
         'metaDescription' => 'Admins Description',
         'category' => 'sidebar',
         'parent' => false,
-        'order' => 2,
-        'icon' => '',
-        'divider-before' => false,
-        'divider-after' => false
+        'order' => 2
     ],
     'users/admins/create' => [
         'slug' => 'users/admins/create',
@@ -138,22 +118,16 @@ return [
         'metaDescription' => 'Admins Create Description',
         'category' => 'popup',
         'parent' => false,
-        'order' => 1,
-        'icon' => '',
-        'divider-before' => false,
-        'divider-after' => false
+        'order' => 1
     ],
     'users/operators' => [
-        'slug' => 'users/operators',
+        'slug' => 'users',
         'name' => 'Operators',
         'metaTitle' => 'Operators Title',
         'metaDescription' => 'Operators Description',
         'category' => 'sidebar',
         'parent' => false,
-        'order' => 3,
-        'icon' => '',
-        'divider-before' => false,
-        'divider-after' => false
+        'order' => 3
     ],
     'users/create' => [
         'slug' => 'users/create',
@@ -162,10 +136,44 @@ return [
         'metaDescription' => 'Create User Description',
         'category' => 'popup',
         'parent' => false,
-        'order' => 1,
-        'icon' => '',
-        'divider-before' => false,
-        'divider-after' => false
+        'order' => 1
+    ],
+    'clients' => [
+        'slug' => 'clients',
+        'name' => 'Clients',
+        'metaTitle' => 'Clients Title',
+        'metaDescription' => 'Clients Description',
+        'category' => 'sidebar',
+        'parent' => true,
+        'order' => 4,
+        'icon' => 'user'
+    ],
+    'clients/' => [
+        'slug' => 'clients',
+        'name' => 'All Clients',
+        'metaTitle' => 'All Clients Title',
+        'metaDescription' => 'All Clients Description',
+        'category' => 'sidebar',
+        'parent' => false,
+        'order' => 1
+    ],
+    'clients/level1' => [
+        'slug' => 'clients/level1',
+        'name' => 'Level 1',
+        'metaTitle' => 'Level 1 Title',
+        'metaDescription' => 'Level 1 Description',
+        'category' => 'sidebar',
+        'parent' => false,
+        'order' => 2
+    ],
+    'clients/level2' => [
+        'slug' => 'clients/level2',
+        'name' => 'Level 2',
+        'metaTitle' => 'Level 2 Title',
+        'metaDescription' => 'Level 2 Description',
+        'category' => 'sidebar',
+        'parent' => false,
+        'order' => 3
     ],
     'profile' => [
         'slug' => 'profile',
@@ -175,9 +183,7 @@ return [
         'category' => 'header',
         'parent' => false,
         'order' => 1,
-        'icon' => 'user',
-        'divider-before' => false,
-        'divider-after' => false
+        'icon' => 'user'
     ],
     'messages' => [
         'slug' => 'messages',
@@ -187,9 +193,7 @@ return [
         'category' => 'header',
         'parent' => false,
         'order' => 2,
-        'icon' => 'inbox',
-        'divider-before' => false,
-        'divider-after' => false
+        'icon' => 'inbox'
     ],
     'settings' => [
         'slug' => 'settings',
@@ -199,9 +203,7 @@ return [
         'category' => 'header',
         'parent' => false,
         'order' => 3,
-        'icon' => 'cog',
-        'divider-before' => false,
-        'divider-after' => false
+        'icon' => 'cog'
     ],
 
 ];

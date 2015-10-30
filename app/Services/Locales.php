@@ -13,6 +13,7 @@ class Locales
     protected $hideDefaultLocaleInURL;
     protected $currentLocale = null;
     protected $routesLocale;
+    protected $routesArray = [];
 
     protected $subdomain;
     protected $slug;
@@ -28,6 +29,30 @@ class Locales
         $this->useAcceptLanguageHeader = \Config::get('locales.useAcceptLanguageHeader');
         $this->hideDefaultLocaleInURL = \Config::get('locales.hideDefaultLocaleInURL');
         $this->subdomain = explode('.', \Request::getHost())[0];
+
+        foreach (array_keys($this->supportedLocales) as $locale) {
+            $this->setRoutesArray($locale, \Lang::get($this->subdomain . '/routes', [], $locale));
+        }
+    }
+
+    /**
+     * Get routes array for a given locale or all routes
+     *
+     * @return array Returns routes array
+     */
+    public function getRoutesArray($locale = null)
+    {
+        return $locale ? $this->routesArray[$locale] : $this->routesArray;
+    }
+
+    /**
+     * Set routes array for all locales
+     *
+     * @return void
+     */
+    public function setRoutesArray($locale, $routes)
+    {
+        $this->routesArray[$locale] = $routes;
     }
 
     /**
@@ -142,6 +167,27 @@ class Locales
     }
 
     /**
+     * Check if a given route is defined
+     *
+     * @return boolean
+     */
+    public function isRoute($route)
+    {
+        // \Lang::has($this->subdomain . '/routes.' . $route, $this->getRoutesLocale())
+        return empty(\Lang::get($this->subdomain . '/routes.' . $route, [], $this->getRoutesLocale())) ? false : true;
+    }
+
+    /**
+     * Get constraints translation for a given route
+     *
+     * @return string Returns translated route constraints
+     */
+    public function getRouteRegex($route)
+    {
+        return implode('|', \Lang::get($this->subdomain . '/routes.' . $route . '.parameters', [], $this->getRoutesLocale()));
+    }
+
+    /**
      * Get route locale
      *
      * @return string Returns current route locale
@@ -162,6 +208,16 @@ class Locales
     }
 
     /**
+     * Get route locale name
+     *
+     * @return string Returns route locale name
+     */
+    public function getRouteName($name = '')
+    {
+        return $this->getRoutesLocalePrefix() . $name;
+    }
+
+    /**
      * Get route locale prefix
      *
      * @return string Returns current route locale prefix
@@ -172,6 +228,38 @@ class Locales
     }
 
     /**
+     * Get localized parameters from current route
+     *
+     * @return string
+     */
+    public function rawParameters($locale = null)
+    {
+        $locale = $locale ?: $this->getCurrent();
+        $parameters = [];
+        $key = '';
+        $params = \Lang::get($this->subdomain . '/routes.' . \Slug::getRouteName() . '.parameters', [], ($this->getCurrent() == $this->getDefault() ? $locale : $this->getCurrent()));
+        if ($this->getCurrent() == $this->getDefault()) {
+            foreach (\Slug::getRouteParameters() as $name => $value) {
+                if (array_key_exists($value, $params)) {
+                    $parameters[$name] = $params[$value];
+                }
+            }
+        } else {
+            foreach (\Slug::getRouteParameters() as $name => $value) {
+                if (($key = array_search($value, $params)) !== false) {
+                    if ($locale == $this->getCurrent()) {
+                        $parameters[$name] = $params[$key];
+                    } else {
+                        $parameters[$name] = $key;
+                    }
+                }
+            }
+        }
+
+        return $parameters;
+    }
+
+    /**
      * Get localized url from current slug
      *
      * @return string
@@ -179,9 +267,9 @@ class Locales
     public function rawUrl($locale = null)
     {
         $locale = $locale ?: $this->getCurrent();
-        $url = ($locale == $this->getDefault() ? $this->getLanguage($locale) : $locale) . '/';
+        $prefix = $this->getLanguage($locale) . $this->separator($locale);
 
-        $routes = \Lang::get($this->subdomain . '/routes', [], ($this->getCurrent() == $this->getDefault() ? $locale : $this->getCurrent()));
+        $routes = $this->getRoutesArray($this->getCurrent() == $this->getDefault() ? $locale : $this->getCurrent());
         $slugs = \Slug::getSlugs();
 
         $slug = '';
@@ -209,7 +297,7 @@ class Locales
             }
         }
 
-        return url(rtrim($url . $slug, '/'));
+        return url(rtrim($prefix . $slug, '/'));
     }
 
     /**
@@ -232,11 +320,11 @@ class Locales
     public function url($locale = null)
     {
         $locale = $locale ?: $this->getCurrent();
-        $route = $this->getLanguage($locale) . $this->separator($locale);
-        $route .= \Route::has($route . \Slug::getRouteSlug()) ? \Slug::getRouteSlug() : \Config::get('app.defaultAuthRoute');
-        $currentRoute = \Route::current();
-        $params = $currentRoute ? $currentRoute->parameters() : ''; // \Request::route()->parameters()
-        return \Route::has($route) ? route($route, $params) : '';
+        $prefix = $this->getLanguage($locale) . $this->separator($locale);
+        $slug = $prefix . \Slug::getRouteName();
+        $parameters = $this->rawParameters($locale);
+
+        return \Route::has($slug) ? route($slug, $parameters) : route($prefix . \Config::get('app.defaultAuthRoute'), $parameters);
     }
 
     /**
@@ -244,12 +332,11 @@ class Locales
      *
      * @return string
      */
-    public function route($route = null) {
+    public function route($route = null, $parameters = null) {
         $route = $route ?: \Config::get('app.defaultAuthRoute');
         $route = $this->getLanguage() . $this->separator() . $route;
-        $currentRoute = \Route::current();
-        $params = $currentRoute ? $currentRoute->parameters() : ''; // \Request::route()->parameters()
-        return \Route::has($route) ? route($route, $params) : '';
+
+        return \Route::has($route) ? ($parameters ? route($route, $parameters) : route($route)) : '';
     }
 
     /**
@@ -268,7 +355,8 @@ class Locales
      * @return array
      */
     public function createBreadcrumbsFromSlugs($slugs = null) {
-        $slugs = $slugs ?: \Slug::getRouteSlugs();
+        $slugs = $slugs ?: explode('/', \Slug::getRouteName());
+        $lastSlug = last($slugs);
         $breadcrumbs = [];
         $breadcrumbPath = '';
 
@@ -279,18 +367,23 @@ class Locales
         foreach ($slugs as $slug) {
             $breadcrumbPath = trim($breadcrumbPath . '/' . $slug, '/');
             $link = $this->route($breadcrumbPath);
+            $last = ($slug == $lastSlug ? true : false);
 
-            $last = ($slug == last($slugs) ? true : false);
-
-            $parentSlug = $slug . '/';
-            if (\Lang::has('cms/routes.' . $parentSlug)) { // 'slug/' == dropdowm
-                $breadcrumbs[$parentSlug]['link'] = '#'; // dropdown
-                $breadcrumbs[$parentSlug]['name'] = trans('cms/routes.' . $breadcrumbPath . '.name');
-                $breadcrumbs[$parentSlug]['last'] = false;
+            if (\Lang::has('cms/routes.' . $slug . '/')) { // 'slug/' == dropdowm
+                $breadcrumbs[$slug]['link'] = $link . '#'; // dropdown
+                $breadcrumbs[$slug]['name'] = trans('cms/routes.' . $breadcrumbPath . '.name');
+                $breadcrumbs[$slug]['last'] = false;
 
                 if ($last) {
+                    if (\Lang::has('cms/routes.' . $slug . '.parameters')) {
+                        $link = $this->route($slug, \Slug::getRouteParameters());
+                        $slug = \Slug::getRouteSlug();
+                    } else {
+                        $slug .= '/';
+                    }
+
                     $breadcrumbs[$slug]['link'] = $link;
-                    $breadcrumbs[$slug]['name'] = trans('cms/routes.' . $parentSlug . '.name');
+                    $breadcrumbs[$slug]['name'] = trans('cms/routes.' . $slug . '.name');
                     $breadcrumbs[$slug]['last'] = $last;
                 }
             } else {
@@ -338,13 +431,12 @@ class Locales
      * @return array
      */
     public function getNavigation($category) {
-        $routes = array_where(\Lang::get($this->subdomain . '/routes', [], $this->getCurrent()), function ($key, $value) use ($category) {
+        $routes = array_where($this->getRoutesArray($this->getCurrent()), function ($key, $value) use ($category) {
             return $value['category'] == $category;
         });
         ksort($routes);
 
         $navigation = $this->getNavigationRecursive($routes);
-        ksort($navigation);
 
         return $navigation;
     }
@@ -354,40 +446,50 @@ class Locales
      *
      * @return array
      */
-    public function getNavigationRecursive($routes, $i = 1) {
+    public function getNavigationRecursive($routes, $parameters = null, $i = 1) {
         $keys = [];
         $navigation = [];
 
         foreach ($routes as $slug => $route) {
             if (!in_array($slug, $keys)) {
                 if ($route['parent']) {
-                    $link = '#';
+                    $link = $this->route($slug) . '#';
                     $active = \Slug::isActive(last(explode('/', $slug)), $i);
 
                     $subRoutes = $this->filterRoutes($routes, $slug);
-                    ksort($subRoutes);
 
-                    $navigation[$route['order']]['children'] = $this->getNavigationRecursive($subRoutes, $i + 1);
+                    $parameters = null;
+                    if (isset($route['parameters'])) {
+                        $parameters = $route['parameters'];
+                    }
+
+                    $navigation[$route['order']]['children'] = $this->getNavigationRecursive($subRoutes, $parameters, $i + 1);
 
                     $keys = array_merge($keys, array_keys($subRoutes));
                 } else {
-                    if (ends_with($slug, '/')) {
-                        $slug = StaticStringy::removeRight($slug, '/');
+                    $key = StaticStringy::removeLeft($slug, $route['slug'] . '/');
+                    if ($parameters && array_key_exists($key, $parameters)) {
+                        $link = $this->route($route['slug'], $parameters[$key]);
+                        $active = \Slug::isActive($route['slug'] . '/' . $key);
+                    } else {
+                        if (ends_with($slug, '/')) {
+                            $slug = StaticStringy::removeRight($slug, '/');
+                        }
+                        $link = $this->route($slug);
+                        $active = \Slug::isActive($slug);
                     }
-                    $link = $this->route($slug);
-                    $active = \Slug::isActive($slug);
                 }
 
                 $navigation[$route['order']]['level'] = $i;
                 $navigation[$route['order']]['link'] = $link;
                 $navigation[$route['order']]['active'] = $active;
                 $navigation[$route['order']]['name'] = $route['name'];
-                $navigation[$route['order']]['icon'] = $route['icon'] ?: null;
-                $navigation[$route['order']]['divider-before'] = $route['divider-before'];
-                $navigation[$route['order']]['divider-after'] = $route['divider-after'];
-                ksort($navigation);
+                $navigation[$route['order']]['icon'] = isset($route['icon']) ? $route['icon'] : null;
+                $navigation[$route['order']]['divider-before'] = isset($route['divider-before']) ? $route['divider-before'] : false;
+                $navigation[$route['order']]['divider-after'] = isset($route['divider-after']) ? $route['divider-after'] : false;
             }
         }
+        ksort($navigation);
         return $navigation;
     }
 

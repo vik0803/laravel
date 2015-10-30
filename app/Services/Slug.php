@@ -8,6 +8,8 @@ class Slug
 {
     protected $slug;
     protected $routeSlug;
+    protected $routeName;
+    protected $routeParameters;
 
     /**
      * Creates new instance.
@@ -30,11 +32,11 @@ class Slug
     /**
      * Set the Request slug
      *
-     * @return string
+     * @return void
      */
     public function setSlug($slug)
     {
-        return $this->slug = StaticStringy::removeLeft($slug, \Locales::getCurrent() . '/');
+        $this->slug = StaticStringy::removeLeft($slug, \Locales::getCurrent() . '/');
     }
 
     /**
@@ -58,13 +60,29 @@ class Slug
     }
 
     /**
-     * Set the Route slug
+     * Get the Route name
      *
      * @return string
      */
+    public function getRouteName()
+    {
+        return $this->routeName ?: '/';
+    }
+
+    /**
+     * Set the Route slug
+     *
+     * @return void
+     */
     public function setRouteSlug($slug)
     {
-        return $this->routeSlug = StaticStringy::removeLeft($slug, \Locales::getCurrent() . '/');
+        $this->routeName = trim(StaticStringy::removeLeft($slug, \Locales::getCurrent() . '/'), '/');
+        $this->routeSlug = $this->routeName;
+
+        $parameters = \Lang::get('cms/routes.' . $this->routeSlug . '.parameters');
+        foreach ($this->getRouteParameters() as $param) {
+            $this->routeSlug .= '/' . array_search($param, $parameters);
+        }
     }
 
     /**
@@ -75,6 +93,26 @@ class Slug
     public function getRouteSlugs()
     {
         return $this->getRouteSlug() == '/' ? [] : explode('/', $this->getRouteSlug());
+    }
+
+    /**
+     * Get the Route parameters
+     *
+     * @return string
+     */
+    public function getRouteParameters()
+    {
+        return $this->routeParameters ?: [];
+    }
+
+    /**
+     * Set the Route parameters
+     *
+     * @return void
+     */
+    public function setRouteParameters($parameters)
+    {
+        $this->routeParameters = $parameters;
     }
 
     /**

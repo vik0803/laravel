@@ -15,38 +15,41 @@ if ($subdomain == 'cms') {
             \Locales::setRoutesLocale($locale);
 
             Route::group(['middleware' => 'guest'], function() {
-                Route::get(\Locales::getRoute('/'), 'AuthController@getLogin')->name(\Locales::getRoutesLocalePrefix() . '/');
+                Route::get(\Locales::getRoute('/'), 'AuthController@getLogin')->name(\Locales::getRouteName('/'));
                 Route::post(\Locales::getRoute('/'), 'AuthController@postLogin');
 
-                Route::get(\Locales::getRoute('pf'), 'PasswordController@getEmail')->name(\Locales::getRoutesLocalePrefix() . 'pf');
+                Route::get(\Locales::getRoute('pf'), 'PasswordController@getEmail')->name(\Locales::getRouteName('pf'));
                 Route::post(\Locales::getRoute('pf'), 'PasswordController@postEmail');
 
-                Route::get(\Locales::getRoute('reset') . '/{token}', 'PasswordController@getReset')->name(\Locales::getRoutesLocalePrefix() . 'reset');
+                Route::get(\Locales::getRoute('reset') . '/{token}', 'PasswordController@getReset')->name(\Locales::getRouteName('reset'));
                 Route::post(\Locales::getRoute('reset'), 'PasswordController@postReset');
             });
 
             Route::group(['middleware' => 'auth'], function() {
-                Route::get(\Locales::getRoute('register'), 'AuthController@getRegister')->name(\Locales::getRoutesLocalePrefix() . 'register');
+                \Locales::isRoute('register') ? Route::get(\Locales::getRoute('register'), 'AuthController@getRegister')->name(\Locales::getRouteName('register')) : '';
                 Route::post(\Locales::getRoute('register'), 'AuthController@postRegister');
 
-                Route::get(\Locales::getRoute('signout'), 'AuthController@getSignout')->name(\Locales::getRoutesLocalePrefix() . 'signout');
+                Route::get(\Locales::getRoute('signout'), 'AuthController@getSignout')->name(\Locales::getRouteName('signout'));
 
-                Route::get(\Locales::getRoute(\Config::get('app.defaultAuthRoute')), 'PageController@' . \Config::get('app.defaultAuthRoute'))->name(\Locales::getRoutesLocalePrefix() . \Config::get('app.defaultAuthRoute'));
+                Route::get(\Locales::getRoute(\Config::get('app.defaultAuthRoute')), 'PageController@' . \Config::get('app.defaultAuthRoute'))->name(\Locales::getRouteName(\Config::get('app.defaultAuthRoute')));
 
-                Route::get(\Locales::getRoute('pages'), 'PageController@pages')->name(\Locales::getRoutesLocalePrefix() . 'pages');
+                \Locales::isRoute('pages') ? Route::get(\Locales::getRoute('pages'), 'PageController@pages')->name(\Locales::getRouteName('pages')) : '';
 
-                Route::get(\Locales::getRoute('users'), 'UserController@index')->name(\Locales::getRoutesLocalePrefix() . 'users');
-                Route::get(\Locales::getRoute('users/create'), 'UserController@create')->name(\Locales::getRoutesLocalePrefix() . 'users/create');
-                Route::get(\Locales::getRoute('users/admins'), 'UserController@index')->name(\Locales::getRoutesLocalePrefix() . 'users/admins');
-                Route::get(\Locales::getRoute('users/admins/create'), 'UserController@create')->name(\Locales::getRoutesLocalePrefix() . 'users/admins/create');
+                //Route::get(\Locales::getRoute('users'), 'UserController@index')->name(\Locales::getRouteName('users'));
+                \Locales::isRoute('users/create') ? Route::get(\Locales::getRoute('users/create'), 'UserController@create')->name(\Locales::getRouteName('users/create')) : '';
+                \Locales::isRoute('users') ? Route::get(\Locales::getRoute('users') . '/{group?}', 'UserController@index')->name(\Locales::getRouteName('users'))->where('group', \Locales::getRouteRegex('users')) : '';
+                \Locales::isRoute('users/admins/create') ? Route::get(\Locales::getRoute('users/admins/create'), 'UserController@create')->name(\Locales::getRouteName('users/admins/create')) : '';
                 Route::post(\Locales::getRoute('users/admins/create'), 'UserController@store');
-                Route::get(\Locales::getRoute('users/operators'), 'UserController@index')->name(\Locales::getRoutesLocalePrefix() . 'users/operators');
 
-                Route::get(\Locales::getRoute('profile'), 'PageController@pages')->name(\Locales::getRoutesLocalePrefix() . 'profile');
+                \Locales::isRoute('clients') ? Route::get(\Locales::getRoute('clients'), 'UserController@index')->name(\Locales::getRouteName('clients')) : '';
+                \Locales::isRoute('clients/level1') ? Route::get(\Locales::getRoute('clients/level1'), 'UserController@index')->name(\Locales::getRouteName('clients/level1')) : '';
+                \Locales::isRoute('clients/level2') ? Route::get(\Locales::getRoute('clients/level2'), 'UserController@index')->name(\Locales::getRouteName('clients/level2')) : '';
 
-                Route::get(\Locales::getRoute('messages'), 'PageController@pages')->name(\Locales::getRoutesLocalePrefix() . 'messages');
+                \Locales::isRoute('profile') ? Route::get(\Locales::getRoute('profile'), 'PageController@pages')->name(\Locales::getRouteName('profile')) : '';
 
-                Route::get(\Locales::getRoute('settings'), 'PageController@pages')->name(\Locales::getRoutesLocalePrefix() . 'settings');
+                \Locales::isRoute('messages') ? Route::get(\Locales::getRoute('messages'), 'PageController@pages')->name(\Locales::getRouteName('messages')) : '';
+
+                \Locales::isRoute('settings') ? Route::get(\Locales::getRoute('settings'), 'PageController@pages')->name(\Locales::getRouteName('settings')) : '';
             });
         }
 
