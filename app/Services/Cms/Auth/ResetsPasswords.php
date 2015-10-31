@@ -58,7 +58,7 @@ trait ResetsPasswords
      */
     protected function getEmailSubject()
     {
-        return isset($this->subject) ? $this->subject : trans('passwords.reset_link');
+        return property_exists($this, 'subject') ? $this->subject : trans('passwords.reset_link');
     }
 
     /**

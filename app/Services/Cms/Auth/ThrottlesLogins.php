@@ -36,6 +36,21 @@ trait ThrottlesLogins
     }
 
     /**
+     * Determine how many retries are left for the user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return int
+     */
+    protected function retriesLeft(Request $request)
+    {
+        $attempts = app(RateLimiter::class)->attempts(
+            $request->input($this->loginUsername()) . $request->ip()
+        );
+
+        return $this->maxLoginAttempts() - $attempts + 1;
+    }
+
+    /**
      * Redirect the user after determining they are locked out.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -44,7 +59,7 @@ trait ThrottlesLogins
     protected function sendLockoutResponse(Request $request)
     {
         $seconds = app(RateLimiter::class)->availableIn(
-            $request->input($this->loginUsername()).$request->ip()
+            $request->input($this->loginUsername()) . $request->ip()
         );
 
         if ($request->ajax()) {

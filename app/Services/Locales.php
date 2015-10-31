@@ -173,8 +173,7 @@ class Locales
      */
     public function isRoute($route)
     {
-        // \Lang::has($this->subdomain . '/routes.' . $route, $this->getRoutesLocale())
-        return empty(\Lang::get($this->subdomain . '/routes.' . $route, [], $this->getRoutesLocale())) ? false : true;
+        return \Lang::hasForLocale($this->subdomain . '/routes.' . $route, $this->getRoutesLocale());
     }
 
     /**
@@ -369,13 +368,13 @@ class Locales
             $link = $this->route($breadcrumbPath);
             $last = ($slug == $lastSlug ? true : false);
 
-            if (\Lang::has('cms/routes.' . $slug . '/')) { // 'slug/' == dropdowm
+            if (\Lang::hasForLocale('cms/routes.' . $slug . '/', $this->getCurrent())) { // 'slug/' == dropdowm
                 $breadcrumbs[$slug]['link'] = $link . '#'; // dropdown
                 $breadcrumbs[$slug]['name'] = trans('cms/routes.' . $breadcrumbPath . '.name');
                 $breadcrumbs[$slug]['last'] = false;
 
                 if ($last) {
-                    if (\Lang::has('cms/routes.' . $slug . '.parameters')) {
+                    if (\Lang::hasForLocale('cms/routes.' . $slug . '.parameters', $this->getCurrent())) {
                         $link = $this->route($slug, \Slug::getRouteParameters());
                         $slug = \Slug::getRouteSlug();
                     } else {
