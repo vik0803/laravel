@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="magnific-popup">
-    <h1>{{ trans('cms/users.createTitle') }}</h1>
+    <h1>{{ \Locales::getMetaTitle() }}</h1>
 
     @include('cms/shared.errors')
 
-    {!! Form::open(['id' => 'create-user-form', 'class' => 'ajax-lock', 'role' => 'form']) !!}
+    {!! Form::open(['url' => \Locales::route('users/create'), 'id' => 'create-user-form', 'class' => 'ajax-lock', 'role' => 'form']) !!}
 
     <div class="form-group{!! ($errors->has('email') ? ' has-error has-feedback' : '') !!}">
         {!! Form::label('input-email', trans('cms/forms.emailLabel'), ['class' => 'sr-only']) !!}

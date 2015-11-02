@@ -5,7 +5,7 @@
         <div class="content-header">
             <h1>{{ \Locales::getMetaTitle() }}</h1>
             <div class="btn-group">
-                <a href="{{ \Locales::route('users/admins/create') }}" class="js-create btn btn-primary"><span class="glyphicon glyphicon-plus"></span>{{ trans('cms/forms.createUserButton') }}</a>
+                <a href="{{ \Locales::route('users/create', true) }}" class="js-create btn btn-primary"><span class="glyphicon glyphicon-plus"></span>{{ trans('cms/forms.createUserButton') }}</a>
             </div>
         </div>
         <div class="dataTableWrapper table-responsive ajax-lock">
