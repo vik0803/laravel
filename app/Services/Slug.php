@@ -78,8 +78,20 @@ class Slug
     {
         $this->routeName = trim(StaticStringy::removeLeft($slug, \Locales::getCurrent() . '/'), '/');
         $this->routeSlug = $this->routeName;
+        $parameters = [];
 
-        $parameters = \Lang::get('cms/routes.' . $this->routeSlug . '.parameters');
+        if (\Lang::hasForLocale(\Locales::getRoutesPath() . $this->routeSlug . '.parameters', \Locales::getCurrent())) {
+            $parameters = \Lang::get(\Locales::getRoutesPath() . $this->routeSlug . '.parameters');
+        } else {
+            $slugs = explode('/', $this->routeSlug);
+            for ($i = count($slugs) - 1; $i >= 0; $i--) {
+                if (\Lang::hasForLocale(\Locales::getRoutesPath() . $slugs[$i] . '.parameters', \Locales::getCurrent())) {
+                    $parameters = \Lang::get(\Locales::getRoutesPath() . $slugs[$i] . '.parameters');
+                    break;
+                }
+            }
+        }
+
         foreach ($this->getRouteParameters() as $param) {
             $this->routeSlug .= '/' . array_search($param, $parameters);
         }

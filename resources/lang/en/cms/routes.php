@@ -111,15 +111,6 @@ return [
         'parent' => false,
         'order' => 2
     ],
-    'users/admins/create' => [
-        'slug' => 'users/admins/create',
-        'name' => 'Admins Create',
-        'metaTitle' => 'Admins Create Title',
-        'metaDescription' => 'Admins Create Description',
-        'category' => 'popup',
-        'parent' => false,
-        'order' => 1
-    ],
     'users/operators' => [
         'slug' => 'users',
         'name' => 'Operators',
@@ -131,12 +122,12 @@ return [
     ],
     'users/create' => [
         'slug' => 'users/create',
-        'name' => 'Create User',
-        'metaTitle' => 'Create User Title',
-        'metaDescription' => 'Create User Description',
+        'name' => 'Create',
+        'metaTitle' => 'Create Title',
+        'metaDescription' => 'Create Description',
         'category' => 'popup',
         'parent' => false,
-        'order' => 1
+        'order' => 0
     ],
     'clients' => [
         'slug' => 'clients',

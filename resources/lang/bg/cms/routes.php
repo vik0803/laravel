@@ -111,15 +111,6 @@ return [
         'parent' => false,
         'order' => 2
     ],
-    'users/admins/create' => [
-        'slug' => 'потребители/администратори/създай',
-        'name' => 'Admins Create',
-        'metaTitle' => 'Admins Create Title',
-        'metaDescription' => 'Admins Create Description',
-        'category' => 'popup',
-        'parent' => false,
-        'order' => 1
-    ],
     'users/operators' => [
         'slug' => 'users',
         'name' => 'Оператори',
@@ -131,12 +122,12 @@ return [
     ],
     'users/create' => [
         'slug' => 'потребители/създай',
-        'name' => 'Create User',
-        'metaTitle' => 'Create User Title',
-        'metaDescription' => 'Create User Description',
+        'name' => 'Създай',
+        'metaTitle' => 'Създай Title',
+        'metaDescription' => 'Създай Description',
         'category' => 'popup',
         'parent' => false,
-        'order' => 1
+        'order' => 0
     ],
     'clients' => [
         'slug' => 'клиенти',

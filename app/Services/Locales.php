@@ -16,6 +16,7 @@ class Locales
     protected $routesArray = [];
 
     protected $subdomain;
+    protected $routesPath;
     protected $slug;
     protected $slugs;
 
@@ -28,11 +29,52 @@ class Locales
         $this->supportedLocales = \Config::get('locales.supportedLocales');
         $this->useAcceptLanguageHeader = \Config::get('locales.useAcceptLanguageHeader');
         $this->hideDefaultLocaleInURL = \Config::get('locales.hideDefaultLocaleInURL');
-        $this->subdomain = explode('.', \Request::getHost())[0];
+        $this->setSubdomain(explode('.', \Request::getHost())[0]);
+        $this->setRoutesPath($this->getSubdomain() . '/routes.');
 
         foreach (array_keys($this->supportedLocales) as $locale) {
-            $this->setRoutesArray($locale, \Lang::get($this->subdomain . '/routes', [], $locale));
+            $this->setRoutesArray($locale, \Lang::get($this->getSubdomain() . '/routes', [], $locale));
         }
+    }
+
+    /**
+     * Get the current subdomain
+     *
+     * @return string Returns the current subdomain
+     */
+    public function getSubdomain()
+    {
+        return $this->subdomain;
+    }
+
+    /**
+     * Set the current subdomain
+     *
+     * @return void
+     */
+    public function setSubdomain($subdomain)
+    {
+        $this->subdomain = $subdomain;
+    }
+
+    /**
+     * Get routes path
+     *
+     * @return string Returns the routes path
+     */
+    public function getRoutesPath()
+    {
+        return $this->routesPath;
+    }
+
+    /**
+     * Set the routes path
+     *
+     * @return void
+     */
+    public function setRoutesPath($path)
+    {
+        $this->routesPath = $path;
     }
 
     /**
@@ -132,7 +174,11 @@ class Locales
      */
     public function getMetaTitle()
     {
-        return trans('cms/routes.' . \Slug::getRouteSlug() . '.metaTitle');
+        if (\Lang::hasForLocale($this->getRoutesPath() . \Slug::getRouteSlug(), $this->getCurrent())) {
+            return trans($this->getRoutesPath() . \Slug::getRouteSlug() . '.metaTitle');
+        } else {
+            return trans($this->getRoutesPath() . \Slug::getRouteName() . '.metaTitle');
+        }
     }
 
     /**
@@ -142,7 +188,11 @@ class Locales
      */
     public function getMetaDescription()
     {
-        return trans('cms/routes.' . \Slug::getRouteSlug() . '.metaDescription');
+        if (\Lang::hasForLocale($this->getRoutesPath() . \Slug::getRouteSlug(), $this->getCurrent())) {
+            return trans($this->getRoutesPath() . \Slug::getRouteSlug() . '.metaDescription');
+        } else {
+            return trans($this->getRoutesPath() . \Slug::getRouteName() . '.metaDescription');
+        }
     }
 
     /**
@@ -153,7 +203,7 @@ class Locales
     public function getLanguage($locale = null)
     {
         $locale = $locale ?: $this->getCurrent();
-        return ($this->hideDefaultLocaleInURL && $locale == $this->getDefault()) ? '' : $locale;
+        return ($this->hideDefaultLocaleInURL && $locale == $this->getDefault()) ? '' : $locale . '/';
     }
 
     /**
@@ -163,7 +213,7 @@ class Locales
      */
     public function getRoute($route, $prefix = true)
     {
-        return ($prefix ? $this->getRoutesLocalePrefix() : '') . \Lang::get($this->subdomain . '/routes.' . $route . '.slug', [], $this->getRoutesLocale());
+        return ($prefix ? $this->getLanguage($this->getRoutesLocale()) : '') . \Lang::get($this->getRoutesPath() . $route . '.slug', [], $this->getRoutesLocale());
     }
 
     /**
@@ -173,7 +223,7 @@ class Locales
      */
     public function isRoute($route)
     {
-        return \Lang::hasForLocale($this->subdomain . '/routes.' . $route, $this->getRoutesLocale());
+        return \Lang::hasForLocale($this->getRoutesPath() . $route, $this->getRoutesLocale());
     }
 
     /**
@@ -183,7 +233,7 @@ class Locales
      */
     public function getRouteRegex($route)
     {
-        return implode('|', \Lang::get($this->subdomain . '/routes.' . $route . '.parameters', [], $this->getRoutesLocale()));
+        return implode('|', \Lang::get($this->getRoutesPath() . $route . '.parameters', [], $this->getRoutesLocale()));
     }
 
     /**
@@ -213,17 +263,19 @@ class Locales
      */
     public function getRouteName($name = '')
     {
-        return $this->getRoutesLocalePrefix() . $name;
+        return $this->getLanguage($this->getRoutesLocale()) . $name;
     }
 
     /**
-     * Get route locale prefix
+     * Filter routes array
      *
-     * @return string Returns current route locale prefix
+     * @return array Returns all keys starting with '$key/''
      */
-    public function getRoutesLocalePrefix()
+    public function filterRoutes($routes, $key)
     {
-        return (($this->hideDefaultLocaleInURL && $this->getRoutesLocale() == $this->getDefault()) ? '' : $this->getRoutesLocale()) . $this->separator($this->getRoutesLocale());
+        return array_filter($routes, function($k) use ($key) {
+            return strpos($k, $key . '/') === 0;
+        }, ARRAY_FILTER_USE_KEY);
     }
 
     /**
@@ -236,7 +288,21 @@ class Locales
         $locale = $locale ?: $this->getCurrent();
         $parameters = [];
         $key = '';
-        $params = \Lang::get($this->subdomain . '/routes.' . \Slug::getRouteName() . '.parameters', [], ($this->getCurrent() == $this->getDefault() ? $locale : $this->getCurrent()));
+        $langLocale = ($this->getCurrent() == $this->getDefault() ? $locale : $this->getCurrent());
+
+        $params = [];
+        if (\Lang::hasForLocale($this->getRoutesPath() . \Slug::getRouteName() . '.parameters', $langLocale)) {
+            $params = \Lang::get($this->getRoutesPath() . \Slug::getRouteName() . '.parameters', [], $langLocale);
+        } else {
+            $slugs = explode('/', \Slug::getRouteName());
+            for ($i = count($slugs) - 1; $i >= 0; $i--) {
+                if (\Lang::hasForLocale($this->getRoutesPath() . $slugs[$i] . '.parameters', $langLocale)) {
+                    $params = \Lang::get($this->getRoutesPath() . $slugs[$i] . '.parameters', [], $langLocale);
+                    break;
+                }
+            }
+        }
+
         if ($this->getCurrent() == $this->getDefault()) {
             foreach (\Slug::getRouteParameters() as $name => $value) {
                 if (array_key_exists($value, $params)) {
@@ -266,7 +332,6 @@ class Locales
     public function rawUrl($locale = null)
     {
         $locale = $locale ?: $this->getCurrent();
-        $prefix = $this->getLanguage($locale) . $this->separator($locale);
 
         $routes = $this->getRoutesArray($this->getCurrent() == $this->getDefault() ? $locale : $this->getCurrent());
         $slugs = \Slug::getSlugs();
@@ -296,19 +361,7 @@ class Locales
             }
         }
 
-        return url(rtrim($prefix . $slug, '/'));
-    }
-
-    /**
-     * Filter routes array
-     *
-     * @return array Returns all keys starting with '$key/''
-     */
-    public function filterRoutes($routes, $key)
-    {
-        return array_filter($routes, function($k) use ($key) {
-            return strpos($k, $key . '/') === 0;
-        }, ARRAY_FILTER_USE_KEY);
+        return url(rtrim($this->getLanguage($locale) . $slug, '/'));
     }
 
     /**
@@ -319,7 +372,7 @@ class Locales
     public function url($locale = null)
     {
         $locale = $locale ?: $this->getCurrent();
-        $prefix = $this->getLanguage($locale) . $this->separator($locale);
+        $prefix = $this->getLanguage($locale);
         $slug = $prefix . \Slug::getRouteName();
         $parameters = $this->rawParameters($locale);
 
@@ -332,20 +385,13 @@ class Locales
      * @return string
      */
     public function route($route = null, $parameters = null) {
-        $route = $route ?: \Config::get('app.defaultAuthRoute');
-        $route = $this->getLanguage() . $this->separator() . $route;
+        $route = $this->getLanguage() . ($route ?: \Config::get('app.defaultAuthRoute'));
+
+        if ($parameters === true) {
+            $parameters = \Slug::getRouteParameters();
+        }
 
         return \Route::has($route) ? ($parameters ? route($route, $parameters) : route($route)) : '';
-    }
-
-    /**
-     * Get locale separator
-     *
-     * @return string
-     */
-    public function separator($locale = null) {
-        $locale = $locale ?: $this->getCurrent();
-        return ($this->hideDefaultLocaleInURL && $locale == $this->getDefault()) ? '' : '/';
     }
 
     /**
@@ -368,26 +414,30 @@ class Locales
             $link = $this->route($breadcrumbPath);
             $last = ($slug == $lastSlug ? true : false);
 
-            if (\Lang::hasForLocale('cms/routes.' . $slug . '/', $this->getCurrent())) { // 'slug/' == dropdowm
+            if (\Lang::hasForLocale($this->getRoutesPath() . $slug . '/', $this->getCurrent())) { // 'slug/' == dropdowm
                 $breadcrumbs[$slug]['link'] = $link . '#'; // dropdown
-                $breadcrumbs[$slug]['name'] = trans('cms/routes.' . $breadcrumbPath . '.name');
+                $breadcrumbs[$slug]['name'] = trans($this->getRoutesPath() . $breadcrumbPath . '.name');
                 $breadcrumbs[$slug]['last'] = false;
 
                 if ($last) {
-                    if (\Lang::hasForLocale('cms/routes.' . $slug . '.parameters', $this->getCurrent())) {
-                        $link = $this->route($slug, \Slug::getRouteParameters());
+                    if (\Lang::hasForLocale($this->getRoutesPath() . $slug . '.parameters', $this->getCurrent())) {
+                        $link = $this->route($slug, true);
                         $slug = \Slug::getRouteSlug();
                     } else {
                         $slug .= '/';
                     }
 
                     $breadcrumbs[$slug]['link'] = $link;
-                    $breadcrumbs[$slug]['name'] = trans('cms/routes.' . $slug . '.name');
+                    $breadcrumbs[$slug]['name'] = trans($this->getRoutesPath() . $slug . '.name');
                     $breadcrumbs[$slug]['last'] = $last;
                 }
             } else {
+                if ($last) {
+                    $link = $this->route($breadcrumbPath, true);
+                }
+
                 $breadcrumbs[$slug]['link'] = $link;
-                $breadcrumbs[$slug]['name'] = trans('cms/routes.' . $breadcrumbPath . '.name');
+                $breadcrumbs[$slug]['name'] = trans($this->getRoutesPath() . $breadcrumbPath . '.name');
                 $breadcrumbs[$slug]['last'] = $last;
             }
 

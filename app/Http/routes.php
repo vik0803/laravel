@@ -35,11 +35,9 @@ if ($subdomain == 'cms') {
 
                 \Locales::isRoute('pages') ? Route::get(\Locales::getRoute('pages'), 'PageController@pages')->name(\Locales::getRouteName('pages')) : '';
 
-                //Route::get(\Locales::getRoute('users'), 'UserController@index')->name(\Locales::getRouteName('users'));
-                \Locales::isRoute('users/create') ? Route::get(\Locales::getRoute('users/create'), 'UserController@create')->name(\Locales::getRouteName('users/create')) : '';
                 \Locales::isRoute('users') ? Route::get(\Locales::getRoute('users') . '/{group?}', 'UserController@index')->name(\Locales::getRouteName('users'))->where('group', \Locales::getRouteRegex('users')) : '';
-                \Locales::isRoute('users/admins/create') ? Route::get(\Locales::getRoute('users/admins/create'), 'UserController@create')->name(\Locales::getRouteName('users/admins/create')) : '';
-                Route::post(\Locales::getRoute('users/admins/create'), 'UserController@store');
+                \Locales::isRoute('users/create') ? Route::get(\Locales::getRoute('users/create') . '/{group?}', 'UserController@create')->name(\Locales::getRouteName('users/create'))->where('group', \Locales::getRouteRegex('users')) : '';
+                Route::post(\Locales::getRoute('users/create'), 'UserController@store');
 
                 \Locales::isRoute('clients') ? Route::get(\Locales::getRoute('clients'), 'UserController@index')->name(\Locales::getRouteName('clients')) : '';
                 \Locales::isRoute('clients/level1') ? Route::get(\Locales::getRoute('clients/level1'), 'UserController@index')->name(\Locales::getRouteName('clients/level1')) : '';
