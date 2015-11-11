@@ -26,7 +26,13 @@ body {
             display: table-cell;
             height: auto;
             vertical-align: top;
-            position: relative;
+        }
+    }
+
+    > header,
+    > footer {
+        > div {
+            position: relative; // IE11
         }
     }
 
@@ -53,15 +59,16 @@ body {
     }
 
     #sidebar-wrapper {
-        position: absolute;
+        float: left;
+        height: 100%;
         width: 18.75em; /* 300/16 */
         @include transition(margin 0.1s ease-in-out 0s);
-        height: 100%;
         border-right: 1px solid #ddd;
         background-color: $gray-lighter;
     }
 
     #main-wrapper {
+        overflow: hidden;
         margin-left: 18.75em; /* 300/16 */;
         @include transition(margin 0.1s ease-in-out 0s);
     }
