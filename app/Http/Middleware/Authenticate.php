@@ -40,7 +40,7 @@ class Authenticate
                 \Session::forget('lastActivityTime');
                 $this->auth->logout();
 
-                $redirect = redirect()->to(\Locales::route('/'))->withErrors([trans('messages.sessionExpired')]);
+                $redirect = redirect(\Locales::route('/'))->withErrors([trans('messages.sessionExpired')]);
                 if ($request->ajax()) {
                     return response()->json(['redirect' => $redirect->getTargetUrl()]);
                 } else {
