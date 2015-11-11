@@ -42,6 +42,7 @@ var unikat = function() {
     var lock_timer;
     var lock_time = 0;
     var jqxhr;
+    var jqxhrDataTables;
 
     function run() {
         htmlLoading = '<div tabindex="-1" class="ajax-locked"><div><div><img src="' + variables.loadingImageSrc + '" alt="' + variables.loadingImageAlt + '" title="' + variables.loadingImageTitle + '">' + variables.loadingText + '</div></div></div>';
@@ -152,7 +153,7 @@ var unikat = function() {
                         url: variables.datatablesLanguage
                     },
                     initComplete: function(settings, json) {
-                        var $searchInput = $('input', settings.aanFeatures.f);
+                        var $searchInput = $('div.dataTables_filter input'); // $('#' + $(settings.aanFeatures.f).attr('id') + ' input');
                         $searchInput.off('keyup.DT input.DT'); // disable global search events except: search.DT paste.DT cut.DT
                         var table = $('.dataTable').DataTable(); // get the api
 
@@ -231,6 +232,19 @@ var unikat = function() {
             jqxhr = $.post(that.attr('action'), that.serialize());
 
             jqxhr.done(function(data, status, xhr) {
+                if (data.reloadTable) {
+                    var table = $('.dataTable').DataTable(); // get the api
+                    if (data.ajaxURL) {
+                        if (typeof table.ajax.url() == 'function') {
+                            table.clearPipeline().draw(false); // table.ajax.reload();
+                        } else {
+                            table.ajax.url(data.ajaxURL).load();
+                        }
+                    } else {
+                        table.clear().rows.add(data.data).draw();
+                    }
+                }
+
                 if (data.redirect) {
                     window.location.href = data.redirect;
                 } else {
@@ -293,7 +307,9 @@ var unikat = function() {
         }
     };
 
-    function ajax_lock(that) {
+    function ajax_lock(that, datatable) {
+        datatable = datatable || false;
+
         $('[type=submit]', that).prop('disabled', true);
 
         lock_timer = window.setTimeout(function() {
@@ -304,7 +320,7 @@ var unikat = function() {
 
                 var code = e.keyCode ? e.keyCode : e.which;
                 if (code == 27) { // ESC
-                    ajax_unlock(that);
+                    ajax_unlock(that, datatable);
                 }
                 return false;
             });
@@ -312,8 +328,17 @@ var unikat = function() {
         return true;
     };
 
-    function ajax_unlock(that) {
-        jqxhr.abort();
+    function ajax_unlock(that, datatable) {
+        datatable = datatable || false;
+
+        if (typeof jqxhr != 'undefined') {
+            jqxhr.abort();
+        }
+
+        if (datatable && typeof jqxhrDataTables != 'undefined') {
+            jqxhrDataTables.abort();
+        }
+
         window.clearTimeout(lock_timer);
         that.prev(alertMessagesClass).empty();
         $('[type=submit]', that).prop('disabled', false);
@@ -439,10 +464,14 @@ var unikat = function() {
         var cacheLastJson = null;
 
         return function (request, callback, settings) {
+            var table = $('.dataTable').DataTable();
             var ajax = false;
             var requestStart = request.start;
             var drawStart = request.start;
             var requestLength = request.length;
+            if (requestLength < 0) { // all
+                requestLength = table.page.len();
+            }
             var requestEnd = requestStart + requestLength;
 
             if (settings.clearCache) { // API requested that the cache be cleared
@@ -486,22 +515,22 @@ var unikat = function() {
 
                 var that = $(this).closest(ajaxLockClass);
 
-                if (typeof jqxhr != 'undefined') {
-                    ajax_unlock(that);
+                if (typeof jqxhrDataTables != 'undefined') {
+                    ajax_unlock(that, true);
                 }
-                ajax_lock(that);
+                ajax_lock(that, true);
 
                 if (params.method == 'GET') {
-                    jqxhr = $.get(params.url, request);
+                    jqxhrDataTables = $.get(params.url, request);
                 } else {
-                    jqxhr = $.post(params.url, request);
+                    jqxhrDataTables = $.post(params.url, request);
                 }
 
-                jqxhr.done(function(data, status, xhr) {
+                jqxhrDataTables.done(function(data, status, xhr) {
                     if (data.redirect) {
                         window.location.href = data.redirect;
                     } else {
-                        ajax_unlock(that);
+                        ajax_unlock(that, true);
                         if (data.success) {
                             ajax_success_text(that, data.success);
                             ajax_reset_form(that);
@@ -513,13 +542,16 @@ var unikat = function() {
                                 data.data.splice(0, drawStart - cacheLower);
                             }
                             data.data.splice(requestLength, data.data.length);
+                            if (data.search) {
+                                $('div.dataTables_filter input').focus();
+                            }
                             callback(data);
                         }
                     }
                 });
 
-                jqxhr.fail(function(xhr, textStatus, errorThrown) {
-                    ajax_unlock(that);
+                jqxhrDataTables.fail(function(xhr, textStatus, errorThrown) {
+                    ajax_unlock(that, true);
                     if (xhr.status == 422) { // laravel response for validation errors
                         ajax_error_validation(that, xhr.responseJSON);
                     } else {
