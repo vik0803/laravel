@@ -39,7 +39,7 @@ trait ResetsPasswords
                 if ($request->ajax()) {
                     return response()->json(['success' => trans($response)]);
                 } else {
-                    return redirect()->back()->with('success', trans($response));
+                    return redirect()->back()->withSuccess([trans($response)]);
                 }
 
             case Password::INVALID_USER:
