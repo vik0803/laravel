@@ -233,6 +233,10 @@ input[type="checkbox"] {
   }
 }
 
+select + .form-control-feedback {
+    right: 1.25em; /* 20/16 */
+}
+
 output {
     padding-top: ($padding-base-vertical + ((1px / $font-size-root) + $font-unit));
 }
