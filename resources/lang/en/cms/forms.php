@@ -24,6 +24,7 @@ return [
     'passwordLabel' => 'Password',
     'confirmPasswordLabel' => 'Confirm Password',
     'nameLabel' => 'Name',
+    'groupLabel' => 'Group',
 
     // Placeholders
     'emailPlaceholder' => 'E-mail',
@@ -33,5 +34,13 @@ return [
 
     // Options
     'rememberOption' => 'Keep me signed in',
+
+    // Successful messages
+    'createdSuccessfully' => ':entity created successfully',
+
+    // Entities
+    'entityUsers' => 'User',
+    'entityUsersAdmins' => 'Admin',
+    'entityUsersOperators' => 'Operator',
 
 ];

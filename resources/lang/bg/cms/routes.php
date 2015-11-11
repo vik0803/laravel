@@ -123,8 +123,8 @@ return [
     'users/create' => [
         'slug' => 'потребители/създай',
         'name' => 'Създай',
-        'metaTitle' => 'Създай Title',
-        'metaDescription' => 'Създай Description',
+        'metaTitle' => 'Създай Потребител Title',
+        'metaDescription' => 'Създай Потребител Description',
         'category' => 'popup',
         'parent' => false,
         'order' => 0

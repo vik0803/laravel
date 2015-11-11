@@ -13,6 +13,7 @@ return [
     |
     */
 
+    'regex' => 'Passwords must be at least six characters and contains: Uppercase letters, Lowercase letters, Numbers and Symbols (found on the keyboard).',
     'password' => 'Passwords must be at least six characters and match the confirmation.',
     'reset' => 'Your password has been reset!',
     'reset_link' => 'Your Password Reset Link',

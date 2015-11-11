@@ -123,8 +123,8 @@ return [
     'users/create' => [
         'slug' => 'users/create',
         'name' => 'Create',
-        'metaTitle' => 'Create Title',
-        'metaDescription' => 'Create Description',
+        'metaTitle' => 'Create User Title',
+        'metaDescription' => 'Create User Description',
         'category' => 'popup',
         'parent' => false,
         'order' => 0
