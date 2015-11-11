@@ -168,6 +168,31 @@ class Locales
     }
 
     /**
+     * Get route parameters
+     *
+     * @return array Returns route parameters
+     */
+    public function getRouteParameters($route, $locale = null)
+    {
+        $locale = $locale ?: $this->getCurrent();
+        $parameters = [];
+        if (\Lang::hasForLocale($this->getRoutesPath() . $route . '.parameters', $locale)) {
+            $parameters = \Lang::get($this->getRoutesPath() . $route . '.parameters', [], $locale);
+        }
+        return $parameters;
+    }
+
+    /**
+     * Get route default parameters
+     *
+     * @return string|boolean Returns default route parameters or false
+     */
+    public function getDefaultParameter($route, $parameter)
+    {
+        return array_search($parameter, $this->getRouteParameters($route));
+    }
+
+    /**
      * Get current route Meta Title
      *
      * @return string Returns Meta Title of the current route
@@ -233,7 +258,7 @@ class Locales
      */
     public function getRouteRegex($route)
     {
-        return implode('|', \Lang::get($this->getRoutesPath() . $route . '.parameters', [], $this->getRoutesLocale()));
+        return implode('|', $this->getRouteParameters($route, $this->getRoutesLocale()));
     }
 
     /**
@@ -290,14 +315,12 @@ class Locales
         $key = '';
         $langLocale = ($this->getCurrent() == $this->getDefault() ? $locale : $this->getCurrent());
 
-        $params = [];
-        if (\Lang::hasForLocale($this->getRoutesPath() . \Slug::getRouteName() . '.parameters', $langLocale)) {
-            $params = \Lang::get($this->getRoutesPath() . \Slug::getRouteName() . '.parameters', [], $langLocale);
-        } else {
+        $params = $this->getRouteParameters(\Slug::getRouteName(), $langLocale);
+        if (empty($params)) {
             $slugs = explode('/', \Slug::getRouteName());
             for ($i = count($slugs) - 1; $i >= 0; $i--) {
-                if (\Lang::hasForLocale($this->getRoutesPath() . $slugs[$i] . '.parameters', $langLocale)) {
-                    $params = \Lang::get($this->getRoutesPath() . $slugs[$i] . '.parameters', [], $langLocale);
+                $params = $this->getRouteParameters($slugs[$i], $langLocale);
+                if (!empty($params)) {
                     break;
                 }
             }
