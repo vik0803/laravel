@@ -36,7 +36,7 @@ if ($subdomain == 'cms') {
                 \Locales::isRoute('pages') ? Route::get(\Locales::getRoute('pages'), 'PageController@pages')->name(\Locales::getRouteName('pages')) : '';
 
                 \Locales::isRoute('users') ? Route::get(\Locales::getRoute('users') . '/{group?}', 'UserController@index')->name(\Locales::getRouteName('users'))->where('group', \Locales::getRouteRegex('users')) : '';
-                \Locales::isRoute('users/create') ? Route::get(\Locales::getRoute('users/create') . '/{group?}', 'UserController@create')->name(\Locales::getRouteName('users/create'))->where('group', \Locales::getRouteRegex('users')) : '';
+                \Locales::isRoute('users/create') ? Route::get(\Locales::getRoute('users/create'), 'UserController@create')->name(\Locales::getRouteName('users/create')) : '';
                 Route::post(\Locales::getRoute('users/create'), 'UserController@store');
 
                 \Locales::isRoute('clients') ? Route::get(\Locales::getRoute('clients'), 'UserController@index')->name(\Locales::getRouteName('clients')) : '';
