@@ -5,9 +5,12 @@
         <div class="content-header">
             <h1>{{ \Locales::getMetaTitle() }}</h1>
             <div class="btn-group">
-                <a href="{{ \Locales::route('users/create', true) }}" class="js-create btn btn-primary"><span class="glyphicon glyphicon-plus"></span>{{ trans('cms/forms.createUserButton') }}</a>
+                <a href="{{ \Locales::route('users/create') }}" class="js-create btn btn-primary"><span class="glyphicon glyphicon-plus"></span>{{ trans('cms/forms.createUserButton') }}</a>
             </div>
         </div>
+
+        @include('cms/shared.success')
+
         <div class="dataTableWrapper table-responsive ajax-lock">
             <table id="datatablesUsers" class="dataTable table table-striped table-bordered table-hover">
             @if (isset($datatables['ajax']))
