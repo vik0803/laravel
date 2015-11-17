@@ -7,7 +7,7 @@
 var unikat = function() {
     'use strict';
 
-    var variables = {};
+    var variables = {tables: []};
 
     var jsCreateHook = '.js-create';
 
@@ -39,10 +39,7 @@ var unikat = function() {
     var inputGroupAddonClass = 'input-group-addon';
     var buttonCloseClass = 'button.close';
 
-    var lock_timer;
     var lock_time = 0;
-    var jqxhr;
-    var jqxhrDataTables;
 
     function run() {
         htmlLoading = '<div tabindex="-1" class="ajax-locked"><div><div><img src="' + variables.loadingImageSrc + '" alt="' + variables.loadingImageAlt + '" title="' + variables.loadingImageTitle + '">' + variables.loadingText + '</div></div></div>';
@@ -111,8 +108,9 @@ var unikat = function() {
 
             $('body').on('click', jsCreateHook, function(e) {
                 e.preventDefault();
-
-                var src = $(this).attr('href');
+                var table = $(this).data('table');
+                var separator = $(this).attr('href').indexOf('?') == -1 ? '?' : '&';
+                var src = $(this).attr('href') + (table ? separator + 'table=' + table : '');
 
                 $.magnificPopup.open({
                     type: 'ajax',
@@ -145,14 +143,10 @@ var unikat = function() {
                     language: {
                         url: variables.datatablesLanguage
                     },
-                    initComplete: function(settings, json) {
-                        var $searchInput = $('div.dataTables_filter input'); // $('#' + $(settings.aanFeatures.f).attr('id') + ' input');
-                        $searchInput.off('keyup.DT input.DT'); // disable global search events except: search.DT paste.DT cut.DT
-                        var table = $('.dataTable').DataTable(); // get the api
-
-                        $(document).on('input keyup', $searchInput.selector, $.debounce(settings.searchDelay, function(e) {
-                            table.search(this.value).draw();
-                        }));
+                    rowCallback: function( row, data ) { // MAYBE BETTER EVENT???
+                        if ( $.inArray(data.DT_RowId, selected) !== -1 ) {
+                            $(row).addClass('selected');
+                        }
                     }
                 });
 
@@ -162,6 +156,34 @@ var unikat = function() {
                     return this.iterator('table', function(settings) {
                         settings.clearCache = true;
                     });
+                });
+
+                var filterClass = '.dataTables_filter';
+                $(document).on('preInit.dt', function(e, settings) {
+                    $(filterClass + ' input').off('keyup.DT input.DT'); // disable global search events except: search.DT paste.DT cut.DT
+                });
+
+                $(document).on('input keyup', filterClass + ' input', $.debounce(variables.datatablesSearchDelay, function(e) {
+                    var tableId = $(this).parents(filterClass).attr('id').replace('_filter', '');
+                    var table = variables.tables[tableId];
+                    table.search(this.value).draw();
+                }));
+
+                var selected = [];
+                $(document).on('click', '.dataTable tbody tr', function() {
+                    var tableId = $(this).parents('table').attr('id');
+                    var table = variables.tables[tableId];
+
+                    var id = this.id;
+                    var index = $.inArray(id, selected);
+
+                    if ( index === -1 ) {
+                        selected.push( id );
+                    } else {
+                        selected.splice( index, 1 );
+                    }
+
+                    $(this).toggleClass('selected');
                 });
             }
         }
@@ -216,48 +238,12 @@ var unikat = function() {
         $(document).on('submit', 'form', function(e) {
             e.preventDefault();
 
-            var that = $(this);
-            if (typeof jqxhr != 'undefined') {
-                ajax_unlock(that);
-            }
-            ajax_lock(that);
-
-            jqxhr = $.post(that.attr('action'), that.serialize());
-
-            jqxhr.done(function(data, status, xhr) {
-                if (data.reloadTable) {
-                    var table = $('.dataTable').DataTable(); // get the api
-                    if (data.ajaxURL) {
-                        if (typeof table.ajax.url() == 'function') {
-                            table.clearPipeline().draw(false); // table.ajax.reload();
-                        } else {
-                            table.ajax.url(data.ajaxURL).load();
-                        }
-                    } else {
-                        table.clear().rows.add(data.data).draw();
-                    }
-                }
-
-                if (data.redirect) {
-                    window.location.href = data.redirect;
-                } else {
-                    ajax_unlock(that);
-                    if (data.success) {
-                        ajax_success_text(that, data.success);
-                        ajax_reset_form(that);
-                    } else {
-                        ajax_error(that, data);
-                    }
-                }
-            });
-
-            jqxhr.fail(function(xhr, textStatus, errorThrown) {
-                ajax_unlock(that);
-                if (xhr.status == 422) { // laravel response for validation errors
-                    ajax_error_validation(that, xhr.responseJSON);
-                } else {
-                    ajax_error_text(that, textStatus + ': ' + errorThrown);
-                }
+            ajaxify({
+                that: $(this),
+                method: 'post',
+                queue: $(this).data('ajaxQueue'),
+                action: $(this).attr('action'),
+                data: $(this).serialize()
             });
 
             return false;
@@ -275,6 +261,66 @@ var unikat = function() {
             cache: true
         });
     }
+
+    function ajaxify(params) {
+        var deferred = $.Deferred();
+
+        ajax_abort(params.that);
+        ajax_lock(params.that);
+
+        if (params.method == 'get') {
+            var jqxhr = $.getq(params.queue, params.action, params.data);
+        } else {
+            var jqxhr = $.postq(params.queue, params.action, params.data);
+        }
+
+        jqxhr.done(function(data, status, xhr) {
+            $.each(data, function(key) {
+                if (typeof data[key] == 'object') {
+                    if (data[key].updateTable) {
+                        var table = variables.tables['datatable' + key]; // get the api
+                        if (data[key].ajax && typeof table.ajax.url() == 'function') {
+                            table.clearPipeline().draw(false); // update clearPipeline to reset only current table // no pipeline: table.ajax.reload();
+                        } else if (data[key].data) {
+                            table.clear().rows.add(data[key].data).draw();
+                        } else {
+                            // datatable initialized with DOM data so I can't use ajax to reload the data.
+                        }
+                    }
+
+                    if (data[key].reloadTable) {
+                        data[key].table = key;
+                        deferred.resolve(data[key]);
+                    }
+                }
+            });
+
+            if (data.redirect) {
+                window.location.href = data.redirect;
+            } else {
+                ajax_unlock(params.that);
+                ajax_reset(params.that, data);
+                if (data.success) {
+                    ajax_success_text(params.that, data.success);
+                } else if (data.errors) {
+                    ajax_error(params.that, data.errors);
+                }
+            }
+        });
+
+        jqxhr.fail(function(xhr, textStatus, errorThrown) {
+            if (textStatus != 'abort') {
+                ajax_unlock(params.that);
+                if (xhr.status == 422) { // laravel response for validation errors
+                    ajax_error_validation(params.that, xhr.responseJSON);
+                } else {
+                    ajax_error_text(params.that, textStatus + ': ' + errorThrown);
+                }
+            }
+        });
+
+        return deferred.promise();
+    };
 
     function ajax_reset_form(form, excluded, included) {
         var inputs = form.find('input:not(:button, :submit, :reset, :radio, :checkbox, [type=hidden]), select, textarea');
@@ -300,20 +346,19 @@ var unikat = function() {
         }
     };
 
-    function ajax_lock(that, datatable) {
-        datatable = datatable || false;
-
+    function ajax_lock(that) {
         $('[type=submit]', that).prop('disabled', true);
 
-        lock_timer = window.setTimeout(function() {
+        that.lock_timer = window.setTimeout(function() {
             $(htmlLoading).prependTo(that.closest(ajaxLockClass)).focus();
+
             $(ajaxLockedClass, that).on('keydown', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
 
                 var code = e.keyCode ? e.keyCode : e.which;
                 if (code == 27) { // ESC
-                    ajax_unlock(that, datatable);
+                    ajax_unlock(that);
                 }
                 return false;
             });
@@ -321,22 +366,18 @@ var unikat = function() {
         return true;
     };
 
-    function ajax_unlock(that, datatable) {
-        datatable = datatable || false;
-
-        if (typeof jqxhr != 'undefined') {
-            jqxhr.abort();
-        }
-
-        if (datatable && typeof jqxhrDataTables != 'undefined') {
-            jqxhrDataTables.abort();
-        }
-
-        window.clearTimeout(lock_timer);
+    function ajax_unlock(that) {
+        window.clearTimeout(that.lock_timer);
         that.prev(alertMessagesClass).empty();
         $('[type=submit]', that).prop('disabled', false);
         $(ajaxLockedClass, that).remove();
         return true;
+    };
+
+    function ajax_abort(that) {
+        if (/^sync-/.test(that.data('ajaxQueue')) && $.ajaxq.isRunning(that.data('ajaxQueue'))) {
+            $.ajaxq.abort(that.data('ajaxQueue'));
+        }
     };
 
     function ajax_message(that, msg) {
@@ -382,13 +423,33 @@ var unikat = function() {
         ajax_message(that, msg);
     };
 
+    function ajax_reset(that, data) {
+        var excluded = [];
+        var included = [];
+
+        if (data.resetOnly) {
+            for (var i = 0; i < data.resetOnly.length; i++) {
+                included.push('#input-' + data.resetOnly[i]);
+            }
+            if (included.length) {
+                ajax_reset_form(that, null, included.join());
+            }
+        } else if (data.resetExcept) {
+            for (var i = 0; i < data.resetExcept.length; i++) {
+                excluded.push('#input-' + data.resetExcept[i]);
+            }
+            if (excluded.length) {
+                ajax_reset_form(that, excluded.join());
+            }
+        } else if (data.reset) {
+            ajax_reset_form(that);
+        }
+    }
+
     function ajax_error(that, data) {
         ajax_clear(that);
 
         var msg = '';
-        var excluded = [];
-        var included = [];
-
         if (typeof data == 'object') {
             if (data.errors) {
                 msg += errorWrapperHtmlStart + errorMessageHtmlStart;
@@ -406,24 +467,6 @@ var unikat = function() {
                         $('#input-' + data.ids[i]).closest(formGroupClass).addClass(hasErrorClass).append(glyphiconRemove);
                     }
                 }
-            }
-
-            if (data.resetOnly) {
-                for (var i = 0; i < data.resetOnly.length; i++) {
-                    included.push('#input-' + data.resetOnly[i]);
-                }
-                if (included.length) {
-                    ajax_reset_form(that, null, included.join());
-                }
-            } else if (data.resetExcept) {
-                for (var i = 0; i < data.resetExcept.length; i++) {
-                    excluded.push('#input-' + data.resetExcept[i]);
-                }
-                if (excluded.length) {
-                    ajax_reset_form(that, excluded.join());
-                }
-            } else if (data.reset) {
-                ajax_reset_form(that);
             }
         }
 
@@ -447,7 +490,7 @@ var unikat = function() {
             pipeline: variables.datatablesPipeline, // number of pages to cache/pipeline
             url: '',  // script url
             data: null, // function or object with parameters to send to the server matching how `ajax.data` works in DataTables
-            method: 'GET' // Ajax HTTP method
+            method: 'get' // Ajax HTTP method
         }, params);
 
         // Private variables for storing the cache
@@ -457,20 +500,19 @@ var unikat = function() {
         var cacheLastJson = null;
 
         return function (request, callback, settings) {
-            var table = $('.dataTable').DataTable();
             var ajax = false;
             var requestStart = request.start;
             var drawStart = request.start;
             var requestLength = request.length;
             if (requestLength < 0) { // all
-                requestLength = table.page.len();
+                requestLength = 0;
             }
             var requestEnd = requestStart + requestLength;
 
             if (settings.clearCache) { // API requested that the cache be cleared
                 ajax = true;
                 settings.clearCache = false;
-            } else if (cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper) { // outside cached data - need to make a request
+            } else if (requestLength == 0 || cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper) { // outside cached data - need to make a request
                 ajax = true;
             } else if (JSON.stringify(request.order) !== JSON.stringify(cacheLastRequest.order) || JSON.stringify(request.columns) !== JSON.stringify(cacheLastRequest.columns) || JSON.stringify(request.search) !== JSON.stringify(cacheLastRequest.search)) { // properties changed (ordering, columns, searching)
                 ajax = true;
@@ -508,58 +550,40 @@ var unikat = function() {
 
                 var that = $(this).closest(ajaxLockClass);
 
-                if (typeof jqxhrDataTables != 'undefined') {
-                    ajax_unlock(that, true);
-                }
-                ajax_lock(that, true);
-
-                if (params.method == 'GET') {
-                    jqxhrDataTables = $.get(params.url, request);
-                } else {
-                    jqxhrDataTables = $.post(params.url, request);
-                }
-
-                jqxhrDataTables.done(function(data, status, xhr) {
-                    if (data.redirect) {
-                        window.location.href = data.redirect;
-                    } else {
-                        ajax_unlock(that, true);
-                        if (data.success) {
-                            ajax_success_text(that, data.success);
-                            ajax_reset_form(that);
-                        } else if (data.errors) {
-                            ajax_error(that, data);
-                        } else {
-                            cacheLastJson = $.extend(true, {}, data);
-                            if (cacheLower != drawStart) {
-                                data.data.splice(0, drawStart - cacheLower);
-                            }
-                            data.data.splice(requestLength, data.data.length);
-                            if (data.search) {
-                                $('div.dataTables_filter input').focus();
-                            }
-                            callback(data);
-                        }
-                    }
+                var result = ajaxify({
+                    that: that,
+                    method: params.method,
+                    queue: that.data('ajaxQueue'),
+                    action: params.url,
+                    data: request
                 });
 
-                jqxhrDataTables.fail(function(xhr, textStatus, errorThrown) {
-                    ajax_unlock(that, true);
-                    if (xhr.status == 422) { // laravel response for validation errors
-                        ajax_error_validation(that, xhr.responseJSON);
-                    } else {
-                        ajax_error_text(that, textStatus + ': ' + errorThrown);
+                result.done(function(data) {
+                    cacheLastJson = $.extend(true, {}, data);
+                    if (cacheLower != drawStart) {
+                        data.data.splice(0, drawStart - cacheLower);
                     }
+
+                    if (requestLength > 0) {
+                        data.data.splice(requestLength, data.data.length);
+                    }
+
+                    if (data.search) {
+                        $('#datatable' + data.table + '_filter input').focus();
+                    }
+                    callback(data);
                 });
             } else {
                 var json = $.extend(true, {}, cacheLastJson);
                 json.draw = request.draw; // Update the echo for each response
                 json.data.splice(0, requestStart - cacheLower);
-                json.data.splice(requestLength, json.data.length);
+                if (requestLength > 0) {
+                    json.data.splice(requestLength, json.data.length);
+                }
                 callback(json);
             }
         }
     };
 
-    return { datatables: datatables, run: run, variables: variables }
+    return {run: run, variables: variables, datatables: datatables}
 }();

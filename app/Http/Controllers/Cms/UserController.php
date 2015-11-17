@@ -22,24 +22,45 @@ class UserController extends Controller {
      */
     public function __construct()
     {
+        $this->datatables = [
+            'admins' => [
+                'class' => 'table-striped table-bordered table-hover',
+                'columns' => ['name', 'email'],
+                'orderByColumn' => 0,
+                'order' => 'asc',
+                'buttons' => [
+                    0 => [
+                        'url' => \Locales::route('users/create'),
+                        'class' => 'btn-primary js-create',
+                        'icon' => 'plus',
+                        'name' => trans('cms/forms.createUserButton')
+                    ]
+                ]
+            ],
+            'operators' => [
+                'class' => '',
+                'columns' => ['email', 'name'],
+                'orderByColumn' => 0,
+                'order' => 'asc',
+                'buttons' => [
+                    0 => [
+                        'url' => \Locales::route('users/create'),
+                        'class' => 'btn-primary js-create',
+                        'icon' => 'plus',
+                        'name' => trans('cms/forms.createUserButton')
+                    ]
+                ]
+            ]
+        ];
     }
 
-    /**
-     * Get users Data.
-     *
-     * @return JSON Users Data
-     */
-    public function getData(User $user, Role $role, Request $request, $group = null)
+    public function getDataTables($group)
     {
-        $userRole = $group ? $role->select('id')->where('slug', $group)->get()->first()->id : false;
-
-        $count = $userRole ? $user->where('role_id', $userRole)->count() : $user->count();
-        if ($count <= \Config::get('datatables.clientSideLimit')) {
-            $sql = $user->select('name', 'email');
-            $sql = $userRole ? $sql->where('role_id', $userRole) : $sql;
-            $datatables['data'] = $sql->get();
+        $datatables = [];
+        if ($group) {
+            $datatables = [$group => $this->datatables[$group]];
         } else {
-            $datatables['ajax'] = \Locales::route('users', $request->session()->get('usersRouteParameters'));
+            $datatables = $this->datatables;
         }
 
         return $datatables;
@@ -50,84 +71,103 @@ class UserController extends Controller {
      *
      * @return View
      */
-    public function index(User $user, Role $role, Request $request, $group = null)
+    public function index(User $user, Role $role, Request $request, $group = null, $internal = false)
     {
-        $userRole = $group ? $role->select('id')->where('slug', $group)->get()->first()->id : false;
-
-        $request->session()->put('usersRouteName', \Slug::getRouteName());
-        $routeParameter = \Locales::getDefaultParameter(\Slug::getRouteName(), $group);
-        $request->session()->put('usersRouteParameters', $routeParameter);
-
-        if ($request->ajax()) {
-            /* State can't be saved with pipelining and deferLoading enabled and first result page in html
-            $request->session()->put('datatablesStart', $request->input('start', 0));
-            if ($request->input('length')) {
-                $length = $request->input('length') / \Config::get('datatables.pipeline');
-            } else {
-                $length = \Config::get('datatables.pageLengthLarge');
-            }
-            $request->session()->put('datatablesLength', $length);
-            $request->session()->put('datatablesSearch', $request->input('search.value', ''));*/
-
-            $column = $request->input('columns.' . $request->input('order.0.column') . '.data', 'name');
-            $dir = $request->input('order.0.dir', 'asc');
-
-            $count = $userRole ? $user->where('role_id', $userRole)->count() : $user->count();
-            $datatables['draw'] = (int)$request->input('draw', 1);
-            $datatables['recordsTotal'] = $count;
-
-            $sql = $user->select('name', 'email');
-            $sql = $userRole ? $sql->where('role_id', $userRole) : $sql;
-            $sql = $sql->orderBy($column, $dir);
-
-            if ($request->input('search.value')) {
-                $datatables['search'] = true;
-                $datatables['data'] = $sql->where('name', 'like', '%' . $request->input('search.value') . '%')->orWhere('email', 'like', '%' . $request->input('search.value') . '%')->skip($request->input('start'))->take($request->input('length'))->get();
-                $sql = $userRole ? $user->where('role_id', $userRole) : $user;
-                $datatables['recordsFiltered'] = $sql->where('name', 'like', '%' . $request->input('search.value') . '%')->orWhere('email', 'like', '%' . $request->input('search.value') . '%')->count();
-            } else {
-                $datatables['recordsFiltered'] = $count;
-                if ($request->input('length') > 0) { // All = -1
-                    if ($request->input('start') > 0) {
-                        $sql = $sql->skip($request->input('start'));
-                    }
-
-                    $sql = $sql->take($request->input('length'));
-                }
-
-                $datatables['data'] = $sql->get();
-            }
-
-            return response()->json($datatables);
+        if ($internal) {
+            $datatables = $this->getDataTables($group);
         } else {
-            $count = $userRole ? $user->where('role_id', $userRole)->count() : $user->count();
-            $datatables = ['count' => $count];
+            $request->session()->put('usersRouteName', \Slug::getRouteName());
+            $routeParameter = \Locales::getDefaultParameter(\Slug::getRouteName(), $group);
+            $request->session()->put('usersRouteParameters', $routeParameter);
 
-            if ($count <= \Config::get('datatables.clientSideLimit')) {
-                $sql = $user->select('name', 'email');
+            $datatables = $this->getDataTables($routeParameter);
+        }
+
+        //$userRole = $group ? $role->select('id')->where('slug', $group)->get()->first()->id : false;
+
+        foreach ($datatables as $key => $value) {
+            $datatables[$key]['url'] = \Locales::route($request->session()->get('usersRouteName', \Slug::getRouteName()), $key);
+
+            $userRole = $role->select('id')->where('slug', $key)->get()->first()->id;
+
+            if (!$internal && $request->ajax()) {
+                $datatables[$key]['reloadTable'] = true;
+
+                $count = $userRole ? $user->where('role_id', $userRole)->count() : $user->count();
+                $datatables[$key]['draw'] = (int)$request->input('draw', 1);
+                $datatables[$key]['recordsTotal'] = $count;
+
+                $sql = $user->select($datatables[$key]['columns']);
                 $sql = $userRole ? $sql->where('role_id', $userRole) : $sql;
-                $datatables['data'] = $sql->get()->toJson();
-            } else {
-                $datatables['ajax'] = $request->url();
-                /* State can't be saved with pipelining and deferLoading enabled and first result page in html
-                $data = $user->select('name', 'email');
 
-                if ($request->session()->has('datatablesSearch') && !empty($request->session()->get('datatablesSearch'))) {
-                    $data = $data->where('name', 'like', '%' . $request->session()->get('datatablesSearch') . '%')->orWhere('email', 'like', '%' . $request->session()->get('datatablesSearch') . '%');
-                }
+                $column = $request->input('columns.' . $request->input('order.0.column') . '.data', $datatables[$key]['columns'][$datatables[$key]['orderByColumn']]);
+                $dir = $request->input('order.0.dir', $datatables[$key]['order']);
+                $sql = $sql->orderBy($column, $dir);
 
-                $limit = $request->session()->get('datatablesLength', \Config::get('datatables.pageLengthLarge'));
-                if ($limit > 0) { // All = -1
-                    if ($request->session()->has('datatablesStart') && $request->session()->get('datatablesStart') > 0) {
-                        $data = $data->skip($request->session()->get('datatablesStart'));
+                if ($request->input('search.value')) {
+                    $sql = $sql->where(function($query) use ($request) {
+                        $query->where('name', 'like', '%' . $request->input('search.value') . '%')->orWhere('email', 'like', '%' . $request->input('search.value') . '%');
+                    });
+
+                    $sql2 = $sql;
+
+                    if ($request->input('length') > 0) { // All = -1
+                        if ($request->input('start') > 0) {
+                            $sql = $sql->skip($request->input('start'));
+                        }
+
+                        $sql = $sql->take($request->input('length'));
                     }
 
-                    $data = $data->take($limit);
+                    $datatables[$key]['search'] = true;
+                    $datatables[$key]['data'] = $sql->get();
+                    $datatables[$key]['recordsFiltered'] = $sql2->count();
+                } else {
+                    $datatables[$key]['recordsFiltered'] = $count;
+
+                    if ($request->input('length') > 0) { // All = -1
+                        if ($request->input('start') > 0) {
+                            $sql = $sql->skip($request->input('start'));
+                        }
+
+                        $sql = $sql->take($request->input('length'));
+                    }
+
+                    $datatables[$key]['data'] = $sql->get();
                 }
 
-                $datatables['data'] = $data->get();*/
-            }
+                return response()->json($datatables);
+            } else {
+                $count = $userRole ? $user->where('role_id', $userRole)->count() : $user->count();
 
+                if (!$internal) {
+                    $datatables[$key]['count'] = $count;
+
+                    $size = ($count <= 100 ? 'Small' : ($count <= 1000 ? 'Medium' : 'Large'));
+                    $datatables[$key]['size'] = $size;
+                }
+
+                if ($count < \Config::get('datatables.clientSideLimit')) {
+                    $datatables[$key]['ajax'] = false;
+
+                    $sql = $user->select($datatables[$key]['columns']);
+                    $sql = $userRole ? $sql->where('role_id', $userRole) : $sql;
+
+                    if ($internal) {
+                        $datatables[$key]['data'] = $sql->get();
+                    } else {
+                        $sql = $sql->orderBy($datatables[$key]['columns'][$datatables[$key]['orderByColumn']], $datatables[$key]['order']);
+                        $datatables[$key]['data'] = $sql->get()->toJson();
+                    }
+                } else {
+                    $datatables[$key]['ajax'] = true;
+                }
+            }
+        }
+
+        if ($internal) {
+            return $datatables;
+        } else {
             return view('cms.users.index', compact('datatables'));
         }
     }
@@ -139,13 +179,20 @@ class UserController extends Controller {
      */
     public function create(Request $request, Role $role)
     {
-        $group = $request->session()->get('usersRouteParameters');
         $roles = ['' => ''];
         foreach ($role::all() as $value) {
             $roles[$value->slug] = $value->name;
         }
 
-        $view = \View::make('cms.users.create', compact('roles', 'group'));
+        $table = false;
+        if ($request->input('table')) { // magnific popup request
+            $table = $request->input('table');
+            $group = $table;
+        } else {
+            $group = $request->session()->get('usersRouteParameters');
+        }
+
+        $view = \View::make('cms.users.create', compact('roles', 'group', 'table'));
         if ($request->ajax()) {
             $sections = $view->renderSections();
             return $sections['content'];
@@ -170,12 +217,14 @@ class UserController extends Controller {
             'password' => bcrypt($request->input('password')),
         ]);
 
-        $successMessage = trans('cms/forms.createdSuccessfully', ['entity' => trans('cms/forms.entityUsers' . ucfirst($request->session()->get('usersRouteParameters')))]);
+        $group = $request->session()->get('usersRouteParameters') ?: $request->input('table');
 
-        $redirect = redirect(\Locales::route('users', $request->session()->get('usersRouteParameters')))->withSuccess([$successMessage]);
+        $successMessage = trans('cms/forms.createdSuccessfully', ['entity' => trans('cms/forms.entityUsers' . ucfirst($group))]);
+
+        $redirect = redirect(\Locales::route($request->session()->get('usersRouteName'), $group))->withSuccess([$successMessage]);
         if ($request->ajax()) {
-            $datatables = $this->getData($user, $role, $request, $request->session()->get('usersRouteParameters'));
-            return response()->json(['reloadTable' => true, 'data' => (isset($datatables['data']) ? $datatables['data'] : ''), 'ajaxURL' => (isset($datatables['ajax']) ? $datatables['ajax'] : ''), 'success' => $successMessage]);
+            $datatables = $this->index($user, $role, $request, $group, true);
+            return response()->json([$group => ['updateTable' => true, 'data' => (isset($datatables[$group]['data']) ? $datatables[$group]['data'] : false), 'ajax' => $datatables[$group]['ajax']], 'success' => $successMessage, 'resetExcept' => ['group']]);
         } else {
             return $redirect;
         }
