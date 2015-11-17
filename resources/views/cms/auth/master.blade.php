@@ -51,6 +51,7 @@
     </div>
 
 	<script>
+    'use strict';
     Modernizr.load([
         {
             test: typeof isOldIe == 'undefined',
