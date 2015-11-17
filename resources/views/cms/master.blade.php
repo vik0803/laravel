@@ -78,21 +78,13 @@
                     magnificPopupAjaxError: '{!! trans('cms/js.magnificPopupAjaxError') !!}',
                     urlGoogleAnalytics: '{{ \App\Helpers\autover('/js/cms/google.min.js') }}',
                     headroomOffset: 300,
+                    @if (isset($datatables) && count($datatables) > 0)
+                        datatables: true,
+                        datatablesLanguage: '{{ \App\Helpers\autover('/lng/datatables/' . \Locales::getCurrent() . '.json') }}',
+                        datatablesPipeline: {{ \Config::get('datatables.pipeline') }},
+                        datatablesSearchDelay: {{ \Config::get('datatables.searchDelay') }},
+                    @endif
                 });
-
-                @if (isset($datatables))
-                <?php $size = ($datatables['count'] <= 100 ? 'Small' : ($datatables['count'] <= 1000 ? 'Medium' : 'Large')); ?>
-                $.extend(unikat.variables, {
-                    datatables: true,
-                    datatablesAjax: {!! isset($datatables['ajax']) ? "'" . $datatables['ajax'] . "'" : 'false' !!},
-                    datatablesCount: {{ $datatables['count'] }},
-                    datatablesPipeline: {{ \Config::get('datatables.pipeline') }},
-                    datatablesPagingType: '{{ \Config::get('datatables.pagingType' . $size) }}',
-                    datatablesPageLength: {{ \Config::get('datatables.pageLength' . $size) }},
-                    datatablesLengthMenu: {!! str_replace('all', trans('cms/messages.all'), \Config::get('datatables.lengthMenu' . $size)) !!},
-                    datatablesLanguage: '{{ \App\Helpers\autover('/lng/datatables/' . \Locales::getCurrent() . '.json') }}'
-                });
-                @endif
 
                 @yield('script')
 

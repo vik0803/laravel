@@ -7,6 +7,12 @@ return [
     // number of pages to pipeline when using server side ajax loading
     'pipeline' => 10,
 
+    // min number of records to enable paging
+    'paging' => 10,
+
+    // ajax search delay in milliseconds
+    'searchDelay' => 400,
+
     'pagingTypeSmall' => 'numbers',
     'pagingTypeMedium' => 'simple_numbers',
     'pagingTypeLarge' => 'full_numbers',

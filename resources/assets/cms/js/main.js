@@ -137,18 +137,11 @@ var unikat = function() {
             if (variables.datatables) {
                 $.extend($.fn.dataTable.defaults, {
                     dom: "<'clearfix'<'dataTableL'l><'dataTableF'f>>tr<'clearfix'<'dataTableI'i><'dataTableP'p>>",
-                    paging: (variables.datatablesCount <= 10 ? false : true),
                     stateSave: true,
                     deferRender: true,
                     retrieve: true,
                     stateDuration: 0,
                     defaultContent: '',
-                    searchDelay: (variables.datatablesAjax ? 400 : 0),
-                    serverSide: (variables.datatablesAjax ? true : false),
-                    // deferLoading: variables.datatablesCount, // State can't be saved with pipelining and deferLoading enabled
-                    pagingType: variables.datatablesPagingType,
-                    pageLength: variables.datatablesPageLength,
-                    lengthMenu: variables.datatablesLengthMenu,
                     language: {
                         url: variables.datatablesLanguage
                     },
