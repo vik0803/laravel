@@ -284,7 +284,7 @@ var unikat = function() {
                         } else if (data[key].data) {
                             table.clear().rows.add(data[key].data).draw();
                         } else {
-                            // datatable initialized with DOM data so I can't use ajax to reload the data.
+                            // datatable initialized with DOM data so I can't use ajax to reload the data: table.ajax.url(data[key].url).load();
                         }
                     }
 
