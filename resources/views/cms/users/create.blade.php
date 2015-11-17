@@ -6,7 +6,7 @@
 
     @include('cms/shared.errors')
 
-    {!! Form::open(['url' => \Locales::route('users/create'), 'id' => 'create-user-form', 'class' => 'ajax-lock', 'role' => 'form']) !!}
+    {!! Form::open(['url' => \Locales::route('users/create'), 'id' => 'create-user-form', 'data-ajax-queue' => 'sync', 'class' => 'ajax-lock', 'role' => 'form']) !!}
 
     <div class="form-group{!! ($errors->has('group') ? ' has-error has-feedback' : '') !!}">
         {!! Form::label('input-group', trans('cms/forms.groupLabel')) !!}

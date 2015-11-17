@@ -5,7 +5,7 @@
 
     @include('cms/shared.errors')
 
-    {!! Form::open(['id' => 'reset-form', 'class' => 'ajax-lock', 'role' => 'form', 'url' => \Locales::route('reset', '')]) !!}
+    {!! Form::open(['id' => 'reset-form', 'class' => 'ajax-lock', 'data-ajax-queue' => 'sync', 'role' => 'form', 'url' => \Locales::route('reset', '')]) !!}
     {!! Form::hidden('token', $token) !!}
 
     <div class="form-group{!! ($errors->has('email') ? ' has-error has-feedback' : '') !!}">

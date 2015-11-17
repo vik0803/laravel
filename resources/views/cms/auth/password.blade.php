@@ -7,7 +7,7 @@
 
     @include('cms/shared.errors')
 
-    {!! Form::open(['id' => 'reset-form', 'class' => 'ajax-lock', 'role' => 'form']) !!}
+    {!! Form::open(['id' => 'reset-form', 'class' => 'ajax-lock', 'data-ajax-queue' => 'sync', 'role' => 'form']) !!}
 
     <div class="form-group{!! ($errors->has('email') ? ' has-error has-feedback' : '') !!}">
         {!! Form::label('input-email', trans('cms/forms.emailLabel'), ['class' => 'sr-only']) !!}
