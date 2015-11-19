@@ -504,7 +504,7 @@ class Locales
      */
     public function getNavigation($category) {
         $routes = array_where($this->getRoutesArray($this->getCurrent()), function ($key, $value) use ($category) {
-            return $value['category'] == $category;
+            return isset($value['category']) ? $value['category'] == $category : false;
         });
         ksort($routes);
 
