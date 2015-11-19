@@ -16,6 +16,15 @@ class UserController extends Controller {
 	*/
 
     /**
+     * Single or Multiple DataTables on one page.
+     *
+     * @var string
+     */
+    protected $multipleDatatables = true;
+
+    protected $route = 'users';
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -23,9 +32,31 @@ class UserController extends Controller {
     public function __construct()
     {
         $this->datatables = [
+            $this->route => [
+                'class' => 'table-checkbox table-striped table-bordered table-hover',
+                'checkbox' => true,
+                'columns' => [
+                    ['id' => 'name', 'name' => trans('cms/datatables.name')],
+                    ['id' => 'email', 'name' => trans('cms/datatables.email')],
+                ],
+                'orderByColumn' => 0,
+                'order' => 'asc',
+                'buttons' => [
+                    0 => [
+                        'url' => \Locales::route('users/create'),
+                        'class' => 'btn-primary js-create',
+                        'icon' => 'plus',
+                        'name' => trans('cms/forms.createUserButton')
+                    ]
+                ]
+            ],
             'admins' => [
-                'class' => 'table-striped table-bordered table-hover',
-                'columns' => ['name', 'email'],
+                'class' => 'table-checkbox table-striped table-bordered table-hover',
+                'checkbox' => true,
+                'columns' => [
+                    ['id' => 'name', 'name' => trans('cms/datatables.name')],
+                    ['id' => 'email', 'name' => trans('cms/datatables.email')],
+                ],
                 'orderByColumn' => 0,
                 'order' => 'asc',
                 'buttons' => [
@@ -39,7 +70,11 @@ class UserController extends Controller {
             ],
             'operators' => [
                 'class' => '',
-                'columns' => ['email', 'name'],
+                'checkbox' => false,
+                'columns' => [
+                    ['id' => 'email', 'name' => trans('cms/datatables.email')],
+                    ['id' => 'name', 'name' => trans('cms/datatables.name')],
+                ],
                 'orderByColumn' => 0,
                 'order' => 'asc',
                 'buttons' => [
@@ -60,7 +95,11 @@ class UserController extends Controller {
         if ($group) {
             $datatables = [$group => $this->datatables[$group]];
         } else {
-            $datatables = $this->datatables;
+            if ($this->multipleDatatables) {
+                return array_except($this->datatables, [$this->route]);
+            } else {
+                return [$this->route => $this->datatables[$this->route]];
+            }
         }
 
         return $datatables;
@@ -76,31 +115,35 @@ class UserController extends Controller {
         if ($internal) {
             $datatables = $this->getDataTables($group);
         } else {
-            $request->session()->put('usersRouteName', \Slug::getRouteName());
-            $routeParameter = \Locales::getDefaultParameter(\Slug::getRouteName(), $group);
+            $routeParameter = \Locales::getDefaultParameter($this->route, $group);
             $request->session()->put('usersRouteParameters', $routeParameter);
 
             $datatables = $this->getDataTables($routeParameter);
         }
 
-        //$userRole = $group ? $role->select('id')->where('slug', $group)->get()->first()->id : false;
+        if (!$this->multipleDatatables) {
+            $datatables[$group ?: $this->route]['url'] = \Locales::route($this->route, $group);
+            $userRole = $group ? $role->select('id')->where('slug', $group)->get()->first()->id : false;
+            $count = $userRole ? $user->where('role_id', $userRole)->count() : $user->count();
+        }
 
         foreach ($datatables as $key => $value) {
-            $datatables[$key]['url'] = \Locales::route($request->session()->get('usersRouteName', \Slug::getRouteName()), $key);
-
-            $userRole = $role->select('id')->where('slug', $key)->get()->first()->id;
+            if ($this->multipleDatatables) {
+                $datatables[$key]['url'] = \Locales::route($this->route, $key);
+                $userRole = $role->select('id')->where('slug', $key)->get()->first()->id;
+                $count = $userRole ? $user->where('role_id', $userRole)->count() : $user->count();
+            }
 
             if (!$internal && $request->ajax()) {
                 $datatables[$key]['reloadTable'] = true;
 
-                $count = $userRole ? $user->where('role_id', $userRole)->count() : $user->count();
                 $datatables[$key]['draw'] = (int)$request->input('draw', 1);
                 $datatables[$key]['recordsTotal'] = $count;
 
-                $sql = $user->select($datatables[$key]['columns']);
+                $sql = $user->select(array_column($datatables[$key]['columns'], 'id'));
                 $sql = $userRole ? $sql->where('role_id', $userRole) : $sql;
 
-                $column = $request->input('columns.' . $request->input('order.0.column') . '.data', $datatables[$key]['columns'][$datatables[$key]['orderByColumn']]);
+                $column = $request->input('columns.' . $request->input('order.0.column') . '.data', $datatables[$key]['columns'][$datatables[$key]['orderByColumn']]['id']);
                 $dir = $request->input('order.0.dir', $datatables[$key]['order']);
                 $sql = $sql->orderBy($column, $dir);
 
@@ -138,27 +181,24 @@ class UserController extends Controller {
 
                 return response()->json($datatables);
             } else {
-                $count = $userRole ? $user->where('role_id', $userRole)->count() : $user->count();
-
                 if (!$internal) {
                     $datatables[$key]['count'] = $count;
 
-                    $size = ($count <= 100 ? 'Small' : ($count <= 1000 ? 'Medium' : 'Large'));
+                    $size = ($count <= 100 ? 'small' : ($count <= 1000 ? 'medium' : 'large'));
                     $datatables[$key]['size'] = $size;
                 }
 
                 if ($count < \Config::get('datatables.clientSideLimit')) {
                     $datatables[$key]['ajax'] = false;
 
-                    $sql = $user->select($datatables[$key]['columns']);
+                    $sql = $user->select(array_column($datatables[$key]['columns'], 'id'));
                     $sql = $userRole ? $sql->where('role_id', $userRole) : $sql;
 
-                    if ($internal) {
-                        $datatables[$key]['data'] = $sql->get();
-                    } else {
-                        $sql = $sql->orderBy($datatables[$key]['columns'][$datatables[$key]['orderByColumn']], $datatables[$key]['order']);
-                        $datatables[$key]['data'] = $sql->get()->toJson();
+                    if (!$internal) {
+                        $sql = $sql->orderBy($datatables[$key]['columns'][$datatables[$key]['orderByColumn']]['id'], $datatables[$key]['order']);
                     }
+
+                    $datatables[$key]['data'] = $sql->get();
                 } else {
                     $datatables[$key]['ajax'] = true;
                 }
@@ -168,7 +208,8 @@ class UserController extends Controller {
         if ($internal) {
             return $datatables;
         } else {
-            return view('cms.users.index', compact('datatables'));
+            $multipleDatatables = $this->multipleDatatables;
+            return view('cms.users.index', compact('datatables', 'multipleDatatables'));
         }
     }
 
@@ -219,12 +260,13 @@ class UserController extends Controller {
 
         $group = $request->session()->get('usersRouteParameters') ?: $request->input('table');
 
-        $successMessage = trans('cms/forms.createdSuccessfully', ['entity' => trans('cms/forms.entityUsers' . ucfirst($group))]);
+        $successMessage = trans('cms/forms.createdSuccessfully', ['entity' => trans('cms/forms.entityUsers' . ucfirst($request->input('group')))]);
 
-        $redirect = redirect(\Locales::route($request->session()->get('usersRouteName'), $group))->withSuccess([$successMessage]);
+        $redirect = redirect(\Locales::route($this->route, $group))->withSuccess([$successMessage]);
         if ($request->ajax()) {
             $datatables = $this->index($user, $role, $request, $group, true);
-            return response()->json([$group => ['updateTable' => true, 'data' => (isset($datatables[$group]['data']) ? $datatables[$group]['data'] : false), 'ajax' => $datatables[$group]['ajax']], 'success' => $successMessage, 'resetExcept' => ['group']]);
+            $table = $group ?: $this->route;
+            return response()->json([$table => ['updateTable' => true, 'data' => (isset($datatables[$table]['data']) ? $datatables[$table]['data'] : false), 'ajax' => $datatables[$table]['ajax']], 'success' => $successMessage, 'resetExcept' => ['group']]);
         } else {
             return $redirect;
         }
