@@ -38,6 +38,8 @@ if ($subdomain == 'cms') {
                 \Locales::isRoute('users') ? Route::get(\Locales::getRoute('users') . '/{group?}', 'UserController@index')->name(\Locales::getRoutePrefix('users'))->where('group', \Locales::getRouteRegex('users')) : '';
                 \Locales::isRoute('users/create') ? Route::get(\Locales::getRoute('users/create'), 'UserController@create')->name(\Locales::getRoutePrefix('users/create')) : '';
                 Route::post(\Locales::getRoute('users/create'), 'UserController@store');
+                \Locales::isRoute('users/destroy') ? Route::get(\Locales::getRoute('users/destroy'), 'UserController@confirm')->name(\Locales::getRoutePrefix('users/destroy')) : '';
+                Route::delete(\Locales::getRoute('users/destroy'), 'UserController@destroy');
 
                 \Locales::isRoute('clients') ? Route::get(\Locales::getRoute('clients'), 'UserController@index')->name(\Locales::getRoutePrefix('clients')) : '';
                 \Locales::isRoute('clients/level1') ? Route::get(\Locales::getRoute('clients/level1'), 'UserController@index')->name(\Locales::getRoutePrefix('clients/level1')) : '';

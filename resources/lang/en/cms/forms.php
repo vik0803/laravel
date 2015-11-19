@@ -16,7 +16,8 @@ return [
     'sendPasswordReseLinktButton' => 'Send Password Reset Link',
     'resetPasswordButton' => 'Reset Password',
     'registerButton' => 'Register',
-    'createUserButton' => 'Create User',
+    'createButton' => 'Create',
+    'destroyButton' => 'Delete',
     'saveButton' => 'Save',
 
     // Labels
@@ -37,10 +38,15 @@ return [
 
     // Successful messages
     'createdSuccessfully' => ':entity created successfully',
+    'deletedSuccessfully' => 'The selected :entity have been deleted successfully',
+
+    // Error messages
+    'createdError' => ':entity can not be created',
+    'deletedError' => 'The selected :entity can not be deleted',
 
     // Entities
-    'entityUsers' => 'User',
-    'entityUsersAdmins' => 'Admin',
-    'entityUsersOperators' => 'Operator',
+    'entityUsers' => 'User|Users',
+    'entityUsersAdmins' => 'Admin|Admins',
+    'entityUsersOperators' => 'Operator|Operators',
 
 ];

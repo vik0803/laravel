@@ -16,9 +16,6 @@ return [
         'name' => 'Sign In',
         'metaTitle' => 'Sign In Title',
         'metaDescription' => 'Sign In Description',
-        'category' => '',
-        'parent' => false,
-        'order' => 0
     ],
     'signout' => [
         'slug' => 'signout',
@@ -57,27 +54,18 @@ return [
         'name' => 'Password Forgotten',
         'metaTitle' => 'Password Forgotten Title',
         'metaDescription' => 'Password Forgotten Description',
-        'category' => '',
-        'parent' => false,
-        'order' => 0
     ],
     'reset' => [
         'slug' => 'reset',
         'name' => 'Reset Password',
         'metaTitle' => 'Reset Password Title',
         'metaDescription' => 'Reset Password Description',
-        'category' => '',
-        'parent' => false,
-        'order' => 0
     ],
     'register' => [
         'slug' => 'register',
         'name' => 'Register',
         'metaTitle' => 'Register Title',
         'metaDescription' => 'Register Description',
-        'category' => '',
-        'parent' => false,
-        'order' => 0
     ],
     'users' => [
         'slug' => 'users',
@@ -125,9 +113,12 @@ return [
         'name' => 'Create',
         'metaTitle' => 'Create User Title',
         'metaDescription' => 'Create User Description',
-        'category' => 'popup',
-        'parent' => false,
-        'order' => 0
+    ],
+     'users/destroy' => [
+        'slug' => 'users/destroy',
+        'name' => 'Delete Users',
+        'metaTitle' => 'Are you sure that you want to permanently delete the selected users?',
+        'metaDescription' => 'Are you sure that you want to permanently delete the selected users?',
     ],
     'clients' => [
         'slug' => 'clients',

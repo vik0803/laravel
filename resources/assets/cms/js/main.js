@@ -12,6 +12,7 @@ var unikat = function() {
         rows_selected: {},
         lock_time: 0,
         jsCreateHook: '.js-create',
+        jsDestroyHook: '.js-destroy',
         filterClass: '.dataTables_filter',
         datatablePrefix: 'datatable',
     };
@@ -109,31 +110,49 @@ var unikat = function() {
                 Cookies.set('jsCookies', { sidebar: $index, navState: (jsCookies ? jsCookies.navState : null) }, { expires: 365 });
             });
 
-            $('body').on('click', variables.jsCreateHook, function(e) {
+            var magnificPopupOptions = {
+                type: 'ajax',
+                key: 'popup-form',
+                focus: 'input',
+                closeOnBgClick: false,
+                // alignTop: true,
+                tClose: variables.magnificPopupClose,
+                tLoading: variables.magnificPopupLoading,
+                ajax: {
+                    tError: variables.magnificPopupAjaxError
+                },
+                preloader: true,
+                removalDelay: 500,
+                mainClass: 'mfp-zoom-in',
+            };
+
+            $(document).on('click', variables.jsCreateHook, function(e) {
                 e.preventDefault();
+
                 var table = $(this).data('table');
                 var separator = $(this).attr('href').indexOf('?') == -1 ? '?' : '&';
                 var src = $(this).attr('href') + (table ? separator + 'table=' + table : '');
 
-                $.magnificPopup.open({
-                    type: 'ajax',
-                    key: 'popup-form',
-                    focus: 'input',
-                    closeOnBgClick: false,
-                    // alignTop: true,
-                    tClose: variables.magnificPopupClose,
-                    tLoading: variables.magnificPopupLoading,
-                    ajax: {
-                        tError: variables.magnificPopupAjaxError
-                    },
-                    preloader: true,
-                    removalDelay: 500,
-                    mainClass: 'mfp-zoom-in',
+                $.magnificPopup.open($.extend(magnificPopupOptions, {
                     items: {
-                        src: src
-                    }
-                });
-            })
+                        src: src,
+                    },
+                }));
+            });
+
+            $(document).on('click', variables.jsDestroyHook, function(e) {
+                e.preventDefault();
+
+                var table = $(this).data('table');
+                var separator = $(this).attr('href').indexOf('?') == -1 ? '?' : '&';
+                var src = $(this).attr('href') + (table ? separator + 'table=' + table : '');
+
+                $.magnificPopup.open($.extend(magnificPopupOptions, {
+                    items: {
+                        src: src,
+                    },
+                }));
+            });
 
             if (variables.datatables) {
                 // Register an API method that will empty the pipelined data, forcing an Ajax
@@ -195,18 +214,6 @@ var unikat = function() {
 
                     e.stopPropagation(); // Prevent click event from propagating to parent
                 });
-
-                /*
-                // Handle form submission event
-                $('#frm-example').on('submit', function(e) {
-                    var form = this;
-
-                    // Iterate over all selected checkboxes
-                    $.each(variables.rows_selected, function(index, rowId) {
-                        // Create a hidden element
-                        $(form).append($('<input>').attr('type', 'hidden').attr('name', 'id[]').val(rowId));
-                    });
-                });*/
             }
         }
 
@@ -260,12 +267,21 @@ var unikat = function() {
         $(document).on('submit', 'form', function(e) {
             e.preventDefault();
 
+            var extra = [];
+            var table = $('#input-table').val();
+            if (typeof table != 'undefined') {
+                var tableId = variables.datatablePrefix + table;
+                $.each(variables.rows_selected.tableId, function(key, value) {
+                    extra.push({ name: 'id[]', value: value });
+                });
+            }
+
             ajaxify({
                 that: $(this),
                 method: 'post',
                 queue: $(this).data('ajaxQueue'),
                 action: $(this).attr('action'),
-                data: $(this).serialize()
+                data: $(this).serialize() + '&' + $.param(extra),
             });
 
             return false;
@@ -273,14 +289,14 @@ var unikat = function() {
 
         $.ajaxSetup({
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
         });
 
         $.ajax({
             url: variables.urlGoogleAnalytics,
             dataType: "script",
-            cache: true
+            cache: true,
         });
     }
 
@@ -297,9 +313,12 @@ var unikat = function() {
         }
 
         jqxhr.done(function(data, status, xhr) {
+            var that = params.that;
+
             $.each(data, function(key) {
                 if (typeof data[key] == 'object') {
                     if (data[key].updateTable) {
+                        that = $('#' + variables.datatablePrefix + key).closest(ajaxLockClass);
                         var table = variables.tables[variables.datatablePrefix + key]; // get the api
                         if (data[key].ajax && typeof table.ajax.url() == 'function') {
                             table.clearPipeline().draw(false); // update clearPipeline to reset only current table // no pipeline: table.ajax.reload();
@@ -323,9 +342,14 @@ var unikat = function() {
                 ajax_unlock(params.that);
                 ajax_reset(params.that, data);
                 if (data.success) {
+                    if (data.closePopup) {
+                        params.that = that;
+                        $.magnificPopup.close();
+                    }
+
                     ajax_success_text(params.that, data.success);
                 } else if (data.errors) {
-                    ajax_error(params.that, data.errors);
+                    ajax_error(params.that, data);
                 }
             }
         });
@@ -529,19 +553,25 @@ var unikat = function() {
         var checkbox_select_all = $('thead input[type="checkbox"]', table).get(0);
 
         if ($checkbox_checked.length === 0) { // If none of the checkboxes are checked
+            table.closest('.dataTableWrapper').find('a.js-destroy').addClass('disabled');
+
             checkbox_select_all.checked = false;
             if ('indeterminate' in checkbox_select_all) {
                 checkbox_select_all.indeterminate = false;
             }
-        } else if ($checkbox_checked.length === $checkbox_all.length) { // If all of the checkboxes are checked
-            checkbox_select_all.checked = true;
-            if ('indeterminate' in checkbox_select_all) {
-                checkbox_select_all.indeterminate = false;
-            }
-        } else { // If some of the checkboxes are checked
-            checkbox_select_all.checked = true;
-            if ('indeterminate' in checkbox_select_all) {
-                checkbox_select_all.indeterminate = true;
+        } else {
+            table.closest('.dataTableWrapper').find('a.js-destroy').removeClass('disabled');
+
+            if ($checkbox_checked.length === $checkbox_all.length) { // If all of the checkboxes are checked
+                checkbox_select_all.checked = true;
+                if ('indeterminate' in checkbox_select_all) {
+                    checkbox_select_all.indeterminate = false;
+                }
+            } else { // If some of the checkboxes are checked
+                checkbox_select_all.checked = true;
+                if ('indeterminate' in checkbox_select_all) {
+                    checkbox_select_all.indeterminate = true;
+                }
             }
         }
     }

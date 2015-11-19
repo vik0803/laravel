@@ -9,7 +9,7 @@ table.dataTable {
 }
 
 table.dataTable tbody > tr.selected {
-    background-color: lighten($brand-secondary, 25%);
+    background-color: lighten($brand-secondary, 20%);
 }
 
 table.dataTable.table-checkbox {
