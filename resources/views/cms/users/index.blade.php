@@ -8,8 +8,10 @@
     @include('cms/partials.datatables')
 @endsection
 
+@if (isset($datatables) && count($datatables) > 0)
 @section('script')
     unikat.callback = function() {
-        @include('cms/partials.datatables-scripts')
+        this.datatables({!! json_encode($datatables) !!});
     };
 @endsection
+@endif

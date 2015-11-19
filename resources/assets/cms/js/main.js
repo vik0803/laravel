@@ -135,19 +135,21 @@ var unikat = function() {
             if (variables.datatables) {
                 $.extend($.fn.dataTable.defaults, {
                     dom: "<'clearfix'<'dataTableL'l><'dataTableF'f>>tr<'clearfix'<'dataTableI'i><'dataTableP'p>>",
-                    stateSave: true,
+                    //stateSave: true,
                     deferRender: true,
                     retrieve: true,
                     stateDuration: 0,
+                    rowId: 'id',
                     defaultContent: '',
                     language: {
                         url: variables.datatablesLanguage
-                    },
-                    rowCallback: function( row, data ) { // MAYBE BETTER EVENT???
-                        if ( $.inArray(data.DT_RowId, selected) !== -1 ) {
+                    }/*,
+                    createdRow: function(row, data, dataIndex) {
+                        if ($.inArray(data.id, rows_selected) !== -1 ) {
+                            $(row).find('input[type="checkbox"]').prop('checked', true);
                             $(row).addClass('selected');
                         }
-                    }
+                    }*/
                 });
 
                 // Register an API method that will empty the pipelined data, forcing an Ajax
@@ -169,22 +171,106 @@ var unikat = function() {
                     table.search(this.value).draw();
                 }));
 
-                var selected = [];
-                $(document).on('click', '.dataTable tbody tr', function() {
-                    var tableId = $(this).parents('table').attr('id');
+                /*//
+                // Updates "Select all" control in a data table
+                //
+                function updateDataTableSelectAllCtrl(table) {
+                    var table = $('#' + table);
+
+                    var $chkbox_all = $('tbody input[type="checkbox"]', table);
+                    var $chkbox_checked = $('tbody input[type="checkbox"]:checked', table);
+                    var chkbox_select_all = $('thead input[name="check-admins"]', table).get(0);
+
+                    if ($chkbox_checked.length === 0) { // If none of the checkboxes are checked
+                        chkbox_select_all.checked = false;
+                        if ('indeterminate' in chkbox_select_all) {
+                            chkbox_select_all.indeterminate = false;
+                        }
+                    } else if ($chkbox_checked.length === $chkbox_all.length) { // If all of the checkboxes are checked
+                        chkbox_select_all.checked = true;
+                        if ('indeterminate' in chkbox_select_all) {
+                            chkbox_select_all.indeterminate = false;
+                        }
+                    } else { // If some of the checkboxes are checked
+                        chkbox_select_all.checked = true;
+                        if ('indeterminate' in chkbox_select_all) {
+                            chkbox_select_all.indeterminate = true;
+                        }
+                    }
+                }
+
+                var rows_selected = [];
+
+                // Handle click on checkbox
+                $(document).on('click', '#datatableadmins tbody input[type="checkbox"]', function(e) {
+                    var $row = $(this).closest('tr');
+
+                    // Get row data
+                    var tableId = $('#datatableadmins');
                     var table = variables.tables[tableId];
+                    var data = table.row($row).data();
 
-                    var id = this.id;
-                    var index = $.inArray(id, selected);
+                    // Get row ID
+                    var rowId = data.id;
 
-                    if ( index === -1 ) {
-                        selected.push( id );
-                    } else {
-                        selected.splice( index, 1 );
+                    // Determine whether row ID is in the list of selected row IDs
+                    var index = $.inArray(rowId, rows_selected);
+
+                    // If checkbox is checked and row ID is not in list of selected row IDs
+                    if (this.checked && index === -1) {
+                        rows_selected.push(rowId);
+
+                        // Otherwise, if checkbox is not checked and row ID is in list of selected row IDs
+                    } else if (!this.checked && index !== -1) {
+                        rows_selected.splice(index, 1);
                     }
 
-                    $(this).toggleClass('selected');
+                    if (this.checked) {
+                        $row.addClass('selected');
+                    } else {
+                        $row.removeClass('selected');
+                    }
+
+                    // Update state of "Select all" control
+                    updateDataTableSelectAllCtrl('datatableadmins');
+
+                    // Prevent click event from propagating to parent
+                    e.stopPropagation();
                 });
+
+                // Handle click on table cells with checkboxes
+                $(document).on('click', '#datatableadmins tbody td, thead th:first-child', function(e) {
+                    $(this).parent().find('input[type="checkbox"]').trigger('click');
+                });
+
+                // Handle click on "Select all" control
+                $(document).on('click', '#datatableadmins thead input[name="check-admins"]', function(e) {
+                    if (this.checked) {
+                        $('#datatableadmins tbody input[type="checkbox"]:not(:checked)').trigger('click');
+                    } else {
+                        $('#datatableadmins tbody input[type="checkbox"]:checked').trigger('click');
+                    }
+
+                    // Prevent click event from propagating to parent
+                    e.stopPropagation();
+                });
+
+                // Handle table draw event
+                $(document).on('draw.dt', function(e, settings) {
+                    // Update state of "Select all" control
+                    updateDataTableSelectAllCtrl('datatableadmins');
+                });
+
+                // Handle form submission event
+                $('#frm-example').on('submit', function(e) {
+                    var form = this;
+
+                    // Iterate over all selected checkboxes
+                    $.each(rows_selected, function(index, rowId) {
+                        // Create a hidden element
+                        $(form).append($('<input>').attr('type', 'hidden').attr('name', 'id[]').val(rowId));
+                    });
+                });*/
             }
         }
 
@@ -485,7 +571,48 @@ var unikat = function() {
         ajax_message(that, msg);
     };
 
+    function datatablesColumns(id, data, checkbox) {
+        var columns = [];
+
+        if (checkbox) {
+            columns.push({ data: 'id', title: '<input type="checkbox" value="1" name="check-' + id + '" id="input-check-' + id + '">' });
+        }
+
+        $.each(data, function(key, value) {
+            columns.push({ data: value.id, title: value.name });
+        });
+
+        return columns;
+    }
+
     function datatables(params) {
+        $.each(params, function(id, param) {
+            variables.tables['datatable' + id] = $('#datatable' + id).DataTable({
+                paging: param.count > variables.datatablesPaging ? true : false,
+                searchDelay: param.ajax ? variables.datatablesSearchDelay : 0,
+                serverSide: param.ajax ? true : false,
+                pagingType: variables.datatablesPagingType[param.size],
+                pageLength: variables.datatablesPageLength[param.size],
+                lengthMenu: variables.datatablesLengthMenu[param.size],
+                order: [[(param.checkbox ? ++param.orderByColumn : param.orderByColumn), param.order]],
+                ajax: param.ajax ? ajaxifyDatatables({ url: param.url }) : null,
+                data: param.data ? param.data : null,
+                columns: datatablesColumns(id, param.columns, param.checkbox),
+                columnDefs: param.checkbox ? [{
+                    targets: 0,
+                    width: '1.25em',
+                    searchable: false,
+                    orderable: false,
+                    className: 'text-center',
+                    render: function (data, type, full, meta) {
+                        return '<input type="checkbox">';
+                    }
+                }] : null,
+            });
+        });
+    }
+
+    function ajaxifyDatatables(params) {
         var params = $.extend({
             pipeline: variables.datatablesPipeline, // number of pages to cache/pipeline
             url: '',  // script url
