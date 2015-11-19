@@ -238,7 +238,17 @@ class Locales
      */
     public function getRoute($route, $prefix = true)
     {
-        return ($prefix ? $this->getLanguage($this->getRoutesLocale()) : '') . \Lang::get($this->getRoutesPath() . $route . '.slug', [], $this->getRoutesLocale());
+        return ($prefix ? $this->getRoutePrefix() : '') . \Lang::get($this->getRoutesPath() . $route . '.slug', [], $this->getRoutesLocale());
+    }
+
+    /**
+     * Get language prefix for routes
+     *
+     * @return string Returns language prefix
+     */
+    public function getRoutePrefix($name = '')
+    {
+        return $this->getLanguage($this->getRoutesLocale()) . $name;
     }
 
     /**
@@ -279,16 +289,6 @@ class Locales
     public function setRoutesLocale($locale)
     {
         return $this->routesLocale = $locale;
-    }
-
-    /**
-     * Get route locale name
-     *
-     * @return string Returns route locale name
-     */
-    public function getRouteName($name = '')
-    {
-        return $this->getLanguage($this->getRoutesLocale()) . $name;
     }
 
     /**
