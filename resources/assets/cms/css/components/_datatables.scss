@@ -1,5 +1,22 @@
+// Unikat
+
 .dataTableWrapper {
     font-size: 0.875em; /* 14/16 */
+}
+
+table.dataTable {
+    width: 100%!important;
+}
+
+table.dataTable tbody > tr.selected {
+    background-color: lighten($brand-secondary, 25%);
+}
+
+table.dataTable.table-checkbox {
+    tbody tr,
+    thead th:first-child {
+        cursor: pointer;
+    }
 }
 
 .dataTableL {
@@ -22,7 +39,6 @@
 
 table.dataTable {
   clear: both;
-  width: 100%!important;
   margin-top: 6px !important;
   margin-bottom: 6px !important;
   max-width: none !important;

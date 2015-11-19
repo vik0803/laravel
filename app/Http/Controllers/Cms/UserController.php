@@ -140,7 +140,11 @@ class UserController extends Controller {
                 $datatables[$key]['draw'] = (int)$request->input('draw', 1);
                 $datatables[$key]['recordsTotal'] = $count;
 
-                $sql = $user->select(array_column($datatables[$key]['columns'], 'id'));
+                $columns = array_column($datatables[$key]['columns'], 'id');
+                if ($datatables[$key]['checkbox']) {
+                    array_unshift($columns, 'id');
+                }
+                $sql = $user->select($columns);
                 $sql = $userRole ? $sql->where('role_id', $userRole) : $sql;
 
                 $column = $request->input('columns.' . $request->input('order.0.column') . '.data', $datatables[$key]['columns'][$datatables[$key]['orderByColumn']]['id']);
@@ -191,7 +195,11 @@ class UserController extends Controller {
                 if ($count < \Config::get('datatables.clientSideLimit')) {
                     $datatables[$key]['ajax'] = false;
 
-                    $sql = $user->select(array_column($datatables[$key]['columns'], 'id'));
+                    $columns = array_column($datatables[$key]['columns'], 'id');
+                    if ($datatables[$key]['checkbox']) {
+                        array_unshift($columns, 'id');
+                    }
+                    $sql = $user->select($columns);
                     $sql = $userRole ? $sql->where('role_id', $userRole) : $sql;
 
                     if (!$internal) {

@@ -7,9 +7,14 @@
 var unikat = function() {
     'use strict';
 
-    var variables = {tables: []};
-
-    var jsCreateHook = '.js-create';
+    var variables = {
+        tables: [],
+        rows_selected: {},
+        lock_time: 0,
+        jsCreateHook: '.js-create',
+        filterClass: '.dataTables_filter',
+        datatablePrefix: 'datatable',
+    };
 
     var htmlLoading;
 
@@ -38,8 +43,6 @@ var unikat = function() {
     var alertMessagesClass = '.alert-messages';
     var inputGroupAddonClass = 'input-group-addon';
     var buttonCloseClass = 'button.close';
-
-    var lock_time = 0;
 
     function run() {
         htmlLoading = '<div tabindex="-1" class="ajax-locked"><div><div><img src="' + variables.loadingImageSrc + '" alt="' + variables.loadingImageAlt + '" title="' + variables.loadingImageTitle + '">' + variables.loadingText + '</div></div></div>';
@@ -106,7 +109,7 @@ var unikat = function() {
                 Cookies.set('jsCookies', { sidebar: $index, navState: (jsCookies ? jsCookies.navState : null) }, { expires: 365 });
             });
 
-            $('body').on('click', jsCreateHook, function(e) {
+            $('body').on('click', variables.jsCreateHook, function(e) {
                 e.preventDefault();
                 var table = $(this).data('table');
                 var separator = $(this).attr('href').indexOf('?') == -1 ? '?' : '&';
@@ -133,25 +136,6 @@ var unikat = function() {
             })
 
             if (variables.datatables) {
-                $.extend($.fn.dataTable.defaults, {
-                    dom: "<'clearfix'<'dataTableL'l><'dataTableF'f>>tr<'clearfix'<'dataTableI'i><'dataTableP'p>>",
-                    //stateSave: true,
-                    deferRender: true,
-                    retrieve: true,
-                    stateDuration: 0,
-                    rowId: 'id',
-                    defaultContent: '',
-                    language: {
-                        url: variables.datatablesLanguage
-                    }/*,
-                    createdRow: function(row, data, dataIndex) {
-                        if ($.inArray(data.id, rows_selected) !== -1 ) {
-                            $(row).find('input[type="checkbox"]').prop('checked', true);
-                            $(row).addClass('selected');
-                        }
-                    }*/
-                });
-
                 // Register an API method that will empty the pipelined data, forcing an Ajax
                 // fetch on the next draw (i.e. `table.clearPipeline().draw()`)
                 $.fn.dataTable.Api.register('clearPipeline()', function() {
@@ -160,69 +144,45 @@ var unikat = function() {
                     });
                 });
 
-                var filterClass = '.dataTables_filter';
                 $(document).on('preInit.dt', function(e, settings) {
-                    $(filterClass + ' input').off('keyup.DT input.DT'); // disable global search events except: search.DT paste.DT cut.DT
+                    $(variables.filterClass + ' input').off('keyup.DT input.DT'); // disable global search events except: search.DT paste.DT cut.DT
                 });
 
-                $(document).on('input keyup', filterClass + ' input', $.debounce(variables.datatablesSearchDelay, function(e) {
-                    var tableId = $(this).parents(filterClass).attr('id').replace('_filter', '');
+                $(document).on('input keyup', variables.filterClass + ' input', $.debounce(variables.datatablesSearchDelay, function(e) {
+                    var tableId = $(this).closest(variables.filterClass).attr('id').replace('_filter', '');
                     var table = variables.tables[tableId];
                     table.search(this.value).draw();
                 }));
 
-                /*//
-                // Updates "Select all" control in a data table
-                //
-                function updateDataTableSelectAllCtrl(table) {
-                    var table = $('#' + table);
+                // Handle click on "Select all" checkbox
+                $(document).on('click', '.table-checkbox thead input[type="checkbox"]', function(e) {
+                    var tableId = $(this).closest('table').attr('id');
 
-                    var $chkbox_all = $('tbody input[type="checkbox"]', table);
-                    var $chkbox_checked = $('tbody input[type="checkbox"]:checked', table);
-                    var chkbox_select_all = $('thead input[name="check-admins"]', table).get(0);
-
-                    if ($chkbox_checked.length === 0) { // If none of the checkboxes are checked
-                        chkbox_select_all.checked = false;
-                        if ('indeterminate' in chkbox_select_all) {
-                            chkbox_select_all.indeterminate = false;
-                        }
-                    } else if ($chkbox_checked.length === $chkbox_all.length) { // If all of the checkboxes are checked
-                        chkbox_select_all.checked = true;
-                        if ('indeterminate' in chkbox_select_all) {
-                            chkbox_select_all.indeterminate = false;
-                        }
-                    } else { // If some of the checkboxes are checked
-                        chkbox_select_all.checked = true;
-                        if ('indeterminate' in chkbox_select_all) {
-                            chkbox_select_all.indeterminate = true;
-                        }
+                    if (this.checked) {
+                        $('#' + tableId + ' tbody input[type="checkbox"]:not(:checked)').trigger('click');
+                    } else {
+                        $('#' + tableId + ' tbody input[type="checkbox"]:checked').trigger('click');
                     }
-                }
 
-                var rows_selected = [];
+                    e.stopPropagation(); // Prevent click event from propagating to parent
+                });
+
+                // Handle click on table cells with checkboxes
+                $(document).on('click', '.table-checkbox tbody td, .table-checkbox thead th:first-child', function(e) {
+                    $(this).parent().find('input[type="checkbox"]').trigger('click');
+                });
 
                 // Handle click on checkbox
-                $(document).on('click', '#datatableadmins tbody input[type="checkbox"]', function(e) {
+                $(document).on('click', '.table-checkbox tbody input[type="checkbox"]', function(e) {
+                    var tableId = $(this).closest('table').attr('id');
                     var $row = $(this).closest('tr');
+                    var rowId = $row.attr('id');
+                    var index = $.inArray(rowId, variables.rows_selected.tableId);
 
-                    // Get row data
-                    var tableId = $('#datatableadmins');
-                    var table = variables.tables[tableId];
-                    var data = table.row($row).data();
-
-                    // Get row ID
-                    var rowId = data.id;
-
-                    // Determine whether row ID is in the list of selected row IDs
-                    var index = $.inArray(rowId, rows_selected);
-
-                    // If checkbox is checked and row ID is not in list of selected row IDs
-                    if (this.checked && index === -1) {
-                        rows_selected.push(rowId);
-
-                        // Otherwise, if checkbox is not checked and row ID is in list of selected row IDs
-                    } else if (!this.checked && index !== -1) {
-                        rows_selected.splice(index, 1);
+                    if (this.checked && index === -1) { // If checkbox is checked and row ID is not in list of selected row IDs
+                        variables.rows_selected.tableId.push(rowId);
+                    } else if (!this.checked && index !== -1) { // Otherwise, if checkbox is not checked and row ID is in list of selected row IDs
+                        variables.rows_selected.tableId.splice(index, 1);
                     }
 
                     if (this.checked) {
@@ -231,42 +191,18 @@ var unikat = function() {
                         $row.removeClass('selected');
                     }
 
-                    // Update state of "Select all" control
-                    updateDataTableSelectAllCtrl('datatableadmins');
+                    datatablesUpdateCheckbox(tableId);
 
-                    // Prevent click event from propagating to parent
-                    e.stopPropagation();
+                    e.stopPropagation(); // Prevent click event from propagating to parent
                 });
 
-                // Handle click on table cells with checkboxes
-                $(document).on('click', '#datatableadmins tbody td, thead th:first-child', function(e) {
-                    $(this).parent().find('input[type="checkbox"]').trigger('click');
-                });
-
-                // Handle click on "Select all" control
-                $(document).on('click', '#datatableadmins thead input[name="check-admins"]', function(e) {
-                    if (this.checked) {
-                        $('#datatableadmins tbody input[type="checkbox"]:not(:checked)').trigger('click');
-                    } else {
-                        $('#datatableadmins tbody input[type="checkbox"]:checked').trigger('click');
-                    }
-
-                    // Prevent click event from propagating to parent
-                    e.stopPropagation();
-                });
-
-                // Handle table draw event
-                $(document).on('draw.dt', function(e, settings) {
-                    // Update state of "Select all" control
-                    updateDataTableSelectAllCtrl('datatableadmins');
-                });
-
+                /*
                 // Handle form submission event
                 $('#frm-example').on('submit', function(e) {
                     var form = this;
 
                     // Iterate over all selected checkboxes
-                    $.each(rows_selected, function(index, rowId) {
+                    $.each(variables.rows_selected, function(index, rowId) {
                         // Create a hidden element
                         $(form).append($('<input>').attr('type', 'hidden').attr('name', 'id[]').val(rowId));
                     });
@@ -364,7 +300,7 @@ var unikat = function() {
             $.each(data, function(key) {
                 if (typeof data[key] == 'object') {
                     if (data[key].updateTable) {
-                        var table = variables.tables['datatable' + key]; // get the api
+                        var table = variables.tables[variables.datatablePrefix + key]; // get the api
                         if (data[key].ajax && typeof table.ajax.url() == 'function') {
                             table.clearPipeline().draw(false); // update clearPipeline to reset only current table // no pipeline: table.ajax.reload();
                         } else if (data[key].data) {
@@ -448,7 +384,7 @@ var unikat = function() {
                 }
                 return false;
             });
-        }, lock_time);
+        }, variables.lock_time);
         return true;
     };
 
@@ -585,9 +521,47 @@ var unikat = function() {
         return columns;
     }
 
+    // Updates "Select all" checkbox in a data table
+    function datatablesUpdateCheckbox(tableId) {
+        var table = $('#' + tableId);
+        var $checkbox_all = $('tbody input[type="checkbox"]', table);
+        var $checkbox_checked = $('tbody input[type="checkbox"]:checked', table);
+        var checkbox_select_all = $('thead input[type="checkbox"]', table).get(0);
+
+        if ($checkbox_checked.length === 0) { // If none of the checkboxes are checked
+            checkbox_select_all.checked = false;
+            if ('indeterminate' in checkbox_select_all) {
+                checkbox_select_all.indeterminate = false;
+            }
+        } else if ($checkbox_checked.length === $checkbox_all.length) { // If all of the checkboxes are checked
+            checkbox_select_all.checked = true;
+            if ('indeterminate' in checkbox_select_all) {
+                checkbox_select_all.indeterminate = false;
+            }
+        } else { // If some of the checkboxes are checked
+            checkbox_select_all.checked = true;
+            if ('indeterminate' in checkbox_select_all) {
+                checkbox_select_all.indeterminate = true;
+            }
+        }
+    }
+
     function datatables(params) {
         $.each(params, function(id, param) {
-            variables.tables['datatable' + id] = $('#datatable' + id).DataTable({
+            var tableId = variables.datatablePrefix + id;
+            variables.rows_selected.tableId = [];
+
+            variables.tables[tableId] = $('#' + tableId).DataTable({
+                dom: "<'clearfix'<'dataTableL'l><'dataTableF'f>>tr<'clearfix'<'dataTableI'i><'dataTableP'p>>",
+                stateSave: true,
+                deferRender: true,
+                retrieve: true,
+                stateDuration: 0,
+                rowId: 'id',
+                defaultContent: '',
+                language: {
+                    url: variables.datatablesLanguage
+                },
                 paging: param.count > variables.datatablesPaging ? true : false,
                 searchDelay: param.ajax ? variables.datatablesSearchDelay : 0,
                 serverSide: param.ajax ? true : false,
@@ -608,6 +582,16 @@ var unikat = function() {
                         return '<input type="checkbox">';
                     }
                 }] : null,
+                createdRow: param.checkbox ? function(row, data, dataIndex) {
+                    if ($.inArray(row.id, variables.rows_selected.tableId) !== -1) {
+                        $(row).find('input[type="checkbox"]').prop('checked', true);
+                        $(row).addClass('selected');
+                    }
+                } : null,
+                drawCallback: param.checkbox ? function(settings) {
+                    // Update state of "Select all" checkbox
+                    datatablesUpdateCheckbox(tableId);
+                } : null,
             });
         });
     }
@@ -696,7 +680,7 @@ var unikat = function() {
                     }
 
                     if (data.search) {
-                        $('#datatable' + data.table + '_filter input').focus();
+                        $('#' + variables.datatablePrefix + data.table + '_filter input').focus();
                     }
                     callback(data);
                 });
