@@ -84,6 +84,22 @@
                         datatablesLanguage: '{{ \App\Helpers\autover('/lng/datatables/' . \Locales::getCurrent() . '.json') }}',
                         datatablesPipeline: {{ \Config::get('datatables.pipeline') }},
                         datatablesSearchDelay: {{ \Config::get('datatables.searchDelay') }},
+                        datatablesPaging: {{ \Config::get('datatables.paging') }},
+                        datatablesPagingType: {
+                            @foreach (\Config::get('datatables.sizes') as $size)
+                                {{ $size }}: '{{ \Config::get('datatables.pagingType.' . $size) }}',
+                            @endforeach
+                        },
+                        datatablesPageLength: {
+                            @foreach (\Config::get('datatables.sizes') as $size)
+                                {{ $size }}: {{ \Config::get('datatables.pageLength.' . $size) }},
+                            @endforeach
+                        },
+                        datatablesLengthMenu: {
+                            @foreach (\Config::get('datatables.sizes') as $size)
+                                {{ $size }}: {!! str_replace('all', trans('cms/messages.all'), \Config::get('datatables.lengthMenu.' . $size)) !!},
+                            @endforeach
+                        },
                     @endif
                 });
 

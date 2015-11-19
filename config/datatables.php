@@ -2,6 +2,8 @@
 
 return [
 
+    'sizes' => ['small', 'medium', 'large'],
+
     'clientSideLimit' => 10000,
 
     // number of pages to pipeline when using server side ajax loading
@@ -13,16 +15,22 @@ return [
     // ajax search delay in milliseconds
     'searchDelay' => 400,
 
-    'pagingTypeSmall' => 'numbers',
-    'pagingTypeMedium' => 'simple_numbers',
-    'pagingTypeLarge' => 'full_numbers',
+    'pagingType' => [
+        'small' => 'numbers',
+        'medium' => 'simple_numbers',
+        'large' => 'full_numbers',
+    ],
 
-    'pageLengthSmall' => 25,
-    'pageLengthMedium' => 50,
-    'pageLengthLarge' => 100,
+    'pageLength' => [
+        'small' => 25,
+        'medium' => 50,
+        'large' => 100,
+    ],
 
-    'lengthMenuSmall' => '[[10, 25, 50, -1], [10, 25, 50, "all"]]',
-    'lengthMenuMedium' => '[[10, 25, 50, 100, 250, 500, -1], [10, 25, 50, 100, 250, 500, "all"]]',
-    'lengthMenuLarge' => '[[10, 25, 50, 100, 250, 500, 1000], [10, 25, 50, 100, 250, 500, 1000]]',
+    'lengthMenu' => [
+        'small' => '[[10, 25, 50, -1], [10, 25, 50, "all"]]',
+        'medium' => '[[10, 25, 50, 100, 250, 500, -1], [10, 25, 50, 100, 250, 500, "all"]]',
+        'large' => '[[10, 25, 50, 100, 250, 500, 1000], [10, 25, 50, 100, 250, 500, 1000]]',
+    ],
 
 ];
