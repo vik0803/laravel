@@ -6,5 +6,3 @@ prepros.cfg
 *.sublime-project
 *.sublime-workspace
 .env
-/public/css/cms/main.min.css
-/public/js/cms/main.min.js
