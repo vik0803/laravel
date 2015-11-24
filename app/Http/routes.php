@@ -29,7 +29,7 @@ if ($subdomain == 'cms') {
                 \Locales::isRoute('register') ? Route::get(\Locales::getRoute('register'), 'AuthController@getRegister')->name(\Locales::getRoutePrefix('register')) : '';
                 Route::post(\Locales::getRoute('register'), 'AuthController@postRegister');
 
-                Route::get(\Locales::getRoute('signout'), 'AuthController@getSignout')->name(\Locales::getRoutePrefix('signout'));
+                Route::get(\Locales::getRoute('signout'), 'AuthController@getLogout')->name(\Locales::getRoutePrefix('signout'));
 
                 Route::get(\Locales::getRoute(\Config::get('app.defaultAuthRoute')), 'PageController@' . \Config::get('app.defaultAuthRoute'))->name(\Locales::getRoutePrefix(\Config::get('app.defaultAuthRoute')));
 
