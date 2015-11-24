@@ -17,8 +17,11 @@ return [
     'resetPasswordButton' => 'Reset Password',
     'registerButton' => 'Register',
     'createButton' => 'Create',
-    'destroyButton' => 'Delete',
-    'saveButton' => 'Save',
+    'storeButton' => 'Save',
+    'editButton' => 'Edit',
+    'updateButton' => 'Update',
+    'deleteButton' => 'Delete',
+    'destroyButton' => 'Permanently Delete',
 
     // Labels
     'emailLabel' => 'E-mail Address',
@@ -37,12 +40,15 @@ return [
     'rememberOption' => 'Keep me signed in',
 
     // Successful messages
-    'createdSuccessfully' => ':entity created successfully',
-    'deletedSuccessfully' => 'The selected :entity have been deleted successfully',
+    'storedSuccessfully' => ':entity created successfully',
+    'updatedSuccessfully' => ':entity updated successfully',
+    'destroyedSuccessfully' => 'The selected :entity have been deleted successfully',
 
     // Error messages
-    'createdError' => ':entity can not be created',
-    'deletedError' => 'The selected :entity can not be deleted',
+    'createError' => ':entity can not be created',
+    'editError' => ':entity can not be updated',
+    'deleteError' => 'The selected :entity can not be deleted',
+    'countError' => 'Please select at least one :entity',
 
     // Entities
     'entityUsers' => 'User|Users',

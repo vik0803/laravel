@@ -12,6 +12,7 @@ var unikat = function() {
         rows_selected: {},
         lock_time: 0,
         jsCreateHook: '.js-create',
+        jsEditHook: '.js-edit',
         jsDestroyHook: '.js-destroy',
         filterClass: '.dataTables_filter',
         datatablePrefix: 'datatable',
@@ -154,6 +155,29 @@ var unikat = function() {
                 }));
             });
 
+            $(document).on('click', variables.jsEditHook, function(e) {
+                e.preventDefault();
+
+                var table = $(this).data('table');
+                var separator = $(this).attr('href').indexOf('?') == -1 ? '?' : '&';
+
+                var param = null;
+                var tableId = variables.datatablePrefix + table;
+                if (variables.rows_selected[tableId]) {
+                    param = '/' + variables.rows_selected[tableId][0];
+                }
+
+                var src = $(this).attr('href') + param + (table ? separator + 'table=' + table : '');
+
+                $.magnificPopup.open($.extend(magnificPopupOptions, {
+                    items: {
+                        src: src,
+                    },
+                }));
+
+                ajax_unlock($(this).closest(ajaxLockClass));
+            });
+
             if (variables.datatables) {
                 // Register an API method that will empty the pipelined data, forcing an Ajax
                 // fetch on the next draw (i.e. `table.clearPipeline().draw()`)
@@ -164,14 +188,15 @@ var unikat = function() {
                 });
 
                 $(document).on('preInit.dt', function(e, settings) {
-                    $(variables.filterClass + ' input').off('keyup.DT input.DT'); // disable global search events except: search.DT paste.DT cut.DT
+                    var api = new $.fn.dataTable.Api(settings);
+                    var $table = api.table().node();
+                    var $wrapper = $table.closest('.dataTableWrapper');
+                    var $filter = $($wrapper).find(variables.filterClass + ' input');
+                    $filter.off('keyup.DT input.DT'); // disable global search events except: search.DT paste.DT cut.DT
+                    $filter.on('keyup.DT input.DT', $.debounce(settings.searchDelay, function(e) {
+                        api.search(this.value).draw();
+                    }));
                 });
-
-                $(document).on('input keyup', variables.filterClass + ' input', $.debounce(variables.datatablesSearchDelay, function(e) {
-                    var tableId = $(this).closest(variables.filterClass).attr('id').replace('_filter', '');
-                    var table = variables.tables[tableId];
-                    table.search(this.value).draw();
-                }));
 
                 // Handle click on "Select all" checkbox
                 $(document).on('click', '.table-checkbox thead input[type="checkbox"]', function(e) {
@@ -196,12 +221,12 @@ var unikat = function() {
                     var tableId = $(this).closest('table').attr('id');
                     var $row = $(this).closest('tr');
                     var rowId = $row.attr('id');
-                    var index = $.inArray(rowId, variables.rows_selected.tableId);
+                    var index = $.inArray(rowId, variables.rows_selected[tableId]);
 
                     if (this.checked && index === -1) { // If checkbox is checked and row ID is not in list of selected row IDs
-                        variables.rows_selected.tableId.push(rowId);
+                        variables.rows_selected[tableId].push(rowId);
                     } else if (!this.checked && index !== -1) { // Otherwise, if checkbox is not checked and row ID is in list of selected row IDs
-                        variables.rows_selected.tableId.splice(index, 1);
+                        variables.rows_selected[tableId].splice(index, 1);
                     }
 
                     if (this.checked) {
@@ -271,9 +296,17 @@ var unikat = function() {
             var table = $('#input-table').val();
             if (typeof table != 'undefined') {
                 var tableId = variables.datatablePrefix + table;
-                $.each(variables.rows_selected.tableId, function(key, value) {
-                    extra.push({ name: 'id[]', value: value });
-                });
+                if (variables.rows_selected[tableId]) {
+                    $.each(variables.rows_selected[tableId], function(key, value) {
+                        extra.push({ name: 'id[]', value: value });
+                    });
+                }
+            }
+
+            var data = $(this).serialize();
+            extra = $.param(extra);
+            if (extra) {
+                data += '&' + extra;
             }
 
             ajaxify({
@@ -281,7 +314,7 @@ var unikat = function() {
                 method: 'post',
                 queue: $(this).data('ajaxQueue'),
                 action: $(this).attr('action'),
-                data: $(this).serialize() + '&' + $.param(extra),
+                data: data,
             });
 
             return false;
@@ -316,10 +349,11 @@ var unikat = function() {
             var that = params.that;
 
             $.each(data, function(key) {
-                if (typeof data[key] == 'object') {
+                if (typeof data[key] == 'object' && (data[key].updateTable || data[key].reloadTable)) {
+                    var tableId = variables.datatablePrefix + key;
                     if (data[key].updateTable) {
-                        that = $('#' + variables.datatablePrefix + key).closest(ajaxLockClass);
-                        var table = variables.tables[variables.datatablePrefix + key]; // get the api
+                        that = $('#' + tableId).closest(ajaxLockClass);
+                        var table = variables.tables[tableId]; // get the api
                         if (data[key].ajax && typeof table.ajax.url() == 'function') {
                             table.clearPipeline().draw(false); // update clearPipeline to reset only current table // no pipeline: table.ajax.reload();
                         } else if (data[key].data) {
@@ -327,12 +361,12 @@ var unikat = function() {
                         } else {
                             // datatable initialized with DOM data so I can't use ajax to reload the data: table.ajax.url(data[key].url).load();
                         }
-                    }
-
-                    if (data[key].reloadTable) {
-                        data[key].table = key;
+                    } else if (data[key].reloadTable) {
                         deferred.resolve(data[key]);
                     }
+
+                    $('#' + tableId + ' tbody input[type="checkbox"]:checked').trigger('click');
+                    variables.rows_selected[tableId] = [];
                 }
             });
 
@@ -345,6 +379,7 @@ var unikat = function() {
                     if (data.closePopup) {
                         params.that = that;
                         $.magnificPopup.close();
+                        ajax_unlock(params.that);
                     }
 
                     ajax_success_text(params.that, data.success);
@@ -551,16 +586,23 @@ var unikat = function() {
         var $checkbox_all = $('tbody input[type="checkbox"]', table);
         var $checkbox_checked = $('tbody input[type="checkbox"]:checked', table);
         var checkbox_select_all = $('thead input[type="checkbox"]', table).get(0);
+        var $tableWrapper = table.closest('.dataTableWrapper');
 
         if ($checkbox_checked.length === 0) { // If none of the checkboxes are checked
-            table.closest('.dataTableWrapper').find('a.js-destroy').addClass('disabled');
+            $tableWrapper.find('a' + variables.jsDestroyHook).addClass('disabled');
+            $tableWrapper.find('a' + variables.jsEditHook).addClass('disabled');
 
             checkbox_select_all.checked = false;
             if ('indeterminate' in checkbox_select_all) {
                 checkbox_select_all.indeterminate = false;
             }
         } else {
-            table.closest('.dataTableWrapper').find('a.js-destroy').removeClass('disabled');
+            $tableWrapper.find('a' + variables.jsDestroyHook).removeClass('disabled');
+            if ($checkbox_checked.length == 1) {
+                $tableWrapper.find('a' + variables.jsEditHook).removeClass('disabled');
+            } else {
+                $tableWrapper.find('a' + variables.jsEditHook).addClass('disabled');
+            }
 
             if ($checkbox_checked.length === $checkbox_all.length) { // If all of the checkboxes are checked
                 checkbox_select_all.checked = true;
@@ -579,7 +621,7 @@ var unikat = function() {
     function datatables(params) {
         $.each(params, function(id, param) {
             var tableId = variables.datatablePrefix + id;
-            variables.rows_selected.tableId = [];
+            variables.rows_selected[tableId] = [];
 
             variables.tables[tableId] = $('#' + tableId).DataTable({
                 dom: "<'clearfix'<'dataTableL'l><'dataTableF'f>>tr<'clearfix'<'dataTableI'i><'dataTableP'p>>",
@@ -593,7 +635,7 @@ var unikat = function() {
                     url: variables.datatablesLanguage
                 },
                 paging: param.count > variables.datatablesPaging ? true : false,
-                searchDelay: param.ajax ? variables.datatablesSearchDelay : 0,
+                searchDelay: param.ajax ? variables.datatablesSearchDelay : 100,
                 serverSide: param.ajax ? true : false,
                 pagingType: variables.datatablesPagingType[param.size],
                 pageLength: variables.datatablesPageLength[param.size],
@@ -613,7 +655,7 @@ var unikat = function() {
                     }
                 }] : null,
                 createdRow: param.checkbox ? function(row, data, dataIndex) {
-                    if ($.inArray(row.id, variables.rows_selected.tableId) !== -1) {
+                    if ($.inArray(row.id, variables.rows_selected[tableId]) !== -1) {
                         $(row).find('input[type="checkbox"]').prop('checked', true);
                         $(row).addClass('selected');
                     }
@@ -710,7 +752,11 @@ var unikat = function() {
                     }
 
                     if (data.search) {
-                        $('#' + variables.datatablePrefix + data.table + '_filter input').focus();
+                        var api = new $.fn.dataTable.Api(settings);
+                        var $table = api.table().node();
+                        var $wrapper = $table.closest('.dataTableWrapper');
+                        var $filter = $($wrapper).find(variables.filterClass + ' input');
+                        $filter.focus();
                     }
                     callback(data);
                 });

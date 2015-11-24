@@ -6,6 +6,7 @@ use App\Role;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\EditUserRequest;
 
 class UserController extends Controller {
 
@@ -20,7 +21,7 @@ class UserController extends Controller {
      *
      * @var string
      */
-    protected $multipleDatatables = false;
+    protected $multipleDatatables = true;
 
     protected $route = 'users';
 
@@ -49,10 +50,16 @@ class UserController extends Controller {
                         'name' => trans('cms/forms.createButton')
                     ],
                     [
-                        'url' => \Locales::route('users/destroy'),
+                        'url' => \Locales::route('users/edit'),
+                        'class' => 'btn-warning disabled js-edit',
+                        'icon' => 'edit',
+                        'name' => trans('cms/forms.editButton')
+                    ],
+                    [
+                        'url' => \Locales::route('users/delete'),
                         'class' => 'btn-danger disabled js-destroy',
                         'icon' => 'trash',
-                        'name' => trans('cms/forms.destroyButton')
+                        'name' => trans('cms/forms.deleteButton')
                     ],
                 ],
             ],
@@ -73,10 +80,16 @@ class UserController extends Controller {
                         'name' => trans('cms/forms.createButton')
                     ],
                     [
-                        'url' => \Locales::route('users/destroy'),
+                        'url' => \Locales::route('users/edit'),
+                        'class' => 'btn-warning disabled js-edit',
+                        'icon' => 'edit',
+                        'name' => trans('cms/forms.editButton')
+                    ],
+                    [
+                        'url' => \Locales::route('users/delete'),
                         'class' => 'btn-danger disabled js-destroy',
                         'icon' => 'trash',
-                        'name' => trans('cms/forms.destroyButton')
+                        'name' => trans('cms/forms.deleteButton')
                     ],
                 ],
             ],
@@ -235,7 +248,7 @@ class UserController extends Controller {
      *
      * @return View
      */
-    public function create(Request $request, Role $role)
+    public function create(Role $role, Request $request)
     {
         $group = null;
         $table = $this->route;
@@ -282,7 +295,7 @@ class UserController extends Controller {
         ]);
 
         if ($newUser->id) {
-            $successMessage = trans('cms/forms.createdSuccessfully', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($request->input('group')), 1)]);
+            $successMessage = trans('cms/forms.storedSuccessfully', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($request->input('group')), 1)]);
             $redirect->withSuccess([$successMessage]);
 
             if ($request->ajax()) {
@@ -299,7 +312,7 @@ class UserController extends Controller {
                 ]);
             }
         } else {
-            $errorMessage = trans('cms/forms.createdError', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($request->input('group')), 1)]);
+            $errorMessage = trans('cms/forms.createError', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($request->input('group')), 1)]);
             $redirect->withError([$errorMessage]);
 
             if ($request->ajax()) {
@@ -311,18 +324,18 @@ class UserController extends Controller {
     }
 
     /**
-     * Show destroy users confirmation.
+     * Show delete users confirmation.
      *
      * @return View
      */
-    public function confirm(Request $request)
+    public function delete(Request $request)
     {
         $table = $this->route;
         if ($request->input('table')) { // magnific popup request
             $table = $request->input('table');
         }
 
-        $view = \View::make('cms.users.destroy', compact('table'));
+        $view = \View::make('cms.users.delete', compact('table'));
         if ($request->ajax()) {
             $sections = $view->renderSections();
             return $sections['content'];
@@ -340,9 +353,10 @@ class UserController extends Controller {
     {
         $group = ($request->input('table') == $this->route ? null : $request->input('table'));
         $redirect = redirect(\Locales::route($this->route, $group));
+        $count = count($request->input('id'));
 
-        if ($user->destroy($request->input('id'))) {
-            $successMessage = trans('cms/forms.deletedSuccessfully', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($group), count($request->input('id')))]);
+        if ($count > 0 && $user->destroy($request->input('id'))) {
+            $successMessage = trans('cms/forms.destroyedSuccessfully', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($group), $count)]);
             $redirect->withSuccess([$successMessage]);
 
             if ($request->ajax()) {
@@ -359,7 +373,101 @@ class UserController extends Controller {
                 ]);
             }
         } else {
-            $errorMessage = trans('cms/forms.deletedError', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($group), count($request->input('id')))]);
+            if ($count > 0) {
+                $errorMessage = trans('cms/forms.deleteError', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($group), $count)]);
+            } else {
+                $errorMessage = trans('cms/forms.countError', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($group), 1)]);
+            }
+
+            $redirect->withError([$errorMessage]);
+
+            if ($request->ajax()) {
+                return response()->json(['errors' => [$errorMessage]]);
+            }
+        }
+
+        return $redirect;
+    }
+
+    /**
+     * Edit user.
+     *
+     * @return View
+     */
+    public function edit(Role $role, Request $request, $id = null)
+    {
+        $user = User::findOrFail($id);
+
+        $group = $user->role->slug;
+        $table = $this->route;
+        if ($request->input('table')) { // magnific popup request
+            $table = $request->input('table');
+        }
+
+        $roles = ['' => ''];
+        foreach ($role::all() as $value) {
+            $roles[$value->slug] = $value->name;
+        }
+
+        $view = \View::make('cms.users.create', compact('user', 'roles', 'group', 'table'));
+        if ($request->ajax()) {
+            $sections = $view->renderSections();
+            return $sections['content'];
+        }
+        return $view;
+    }
+
+    /**
+     * Update user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Role $role, EditUserRequest $request)
+    {
+        $user = User::findOrFail($request->input('id'))->first();
+
+        $userRole = $request->input('group') ? $role->select('id')->where('slug', $request->input('group'))->get()->first()->id : false;
+
+        $group = ($request->input('table') == $this->route ? null : $request->input('table'));
+        $redirect = redirect(\Locales::route($this->route, $group));
+
+        if ($user->update([
+            'role_id' => $userRole,
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+        ])) {
+            $successMessage = trans('cms/forms.updatedSuccessfully', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($request->input('group')), 1)]);
+            $redirect->withSuccess([$successMessage]);
+
+            if ($request->ajax()) {
+                $datatables = $this->index($user, $role, $request, $group, true);
+                $table = $request->input('table');
+                $response = [
+                    $table => [
+                        'updateTable' => true,
+                        'data' => (isset($datatables[$table]['data']) ? $datatables[$table]['data'] : false),
+                        'ajax' => $datatables[$table]['ajax']
+                    ],
+                    'success' => $successMessage,
+                    'closePopup' => true
+                ];
+
+                if ($group && $group != $request->input('group')) {
+                    $datatables = $this->index($user, $role, $request, $request->input('group'), true);
+                    $table = $request->input('group');
+                    $response[$table] = [
+                        'updateTable' => true,
+                        'data' => (isset($datatables[$table]['data']) ? $datatables[$table]['data'] : false),
+                        'ajax' => $datatables[$table]['ajax']
+                    ];
+                }
+
+                return response()->json($response);
+            }
+        } else {
+            $errorMessage = trans('cms/forms.editError', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($request->input('group')), 1)]);
             $redirect->withError([$errorMessage]);
 
             if ($request->ajax()) {

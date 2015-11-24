@@ -40,6 +40,8 @@ if ($subdomain == 'cms') {
                 Route::post(\Locales::getRoute('users/create'), 'UserController@store');
                 \Locales::isRoute('users/destroy') ? Route::get(\Locales::getRoute('users/destroy'), 'UserController@confirm')->name(\Locales::getRoutePrefix('users/destroy')) : '';
                 Route::delete(\Locales::getRoute('users/destroy'), 'UserController@destroy');
+                \Locales::isTranslatedRoute('users/edit') ? Route::get(\Locales::getRoute('users/edit') . '/{user?}', 'UserController@edit')->name(\Locales::getRoutePrefix('users/edit'))->where('user', '[0-9]+') : '';
+                \Locales::isTranslatedRoute('users/update') ? Route::put(\Locales::getRoute('users/update'), 'UserController@update')->name(\Locales::getRoutePrefix('users/update')) : '';
 
                 \Locales::isRoute('clients') ? Route::get(\Locales::getRoute('clients'), 'UserController@index')->name(\Locales::getRoutePrefix('clients')) : '';
                 \Locales::isRoute('clients/level1') ? Route::get(\Locales::getRoute('clients/level1'), 'UserController@index')->name(\Locales::getRoutePrefix('clients/level1')) : '';

@@ -114,11 +114,26 @@ return [
         'metaTitle' => 'Create User Title',
         'metaDescription' => 'Create User Description',
     ],
-     'users/destroy' => [
-        'slug' => 'users/destroy',
-        'name' => 'Delete Users',
+    'users/store' => [
+        'slug' => 'users/store',
+    ],
+    'users/edit' => [
+        'slug' => 'users/edit',
+        'name' => 'Edit',
+        'metaTitle' => 'Edit User Title',
+        'metaDescription' => 'Edit User Description',
+    ],
+    'users/update' => [
+        'slug' => 'users/update',
+    ],
+    'users/delete' => [
+        'slug' => 'users/delete',
+        'name' => 'Delete',
         'metaTitle' => 'Are you sure that you want to permanently delete the selected users?',
         'metaDescription' => 'Are you sure that you want to permanently delete the selected users?',
+    ],
+    'users/destroy' => [
+        'slug' => 'users/destroy',
     ],
     'clients' => [
         'slug' => 'clients',

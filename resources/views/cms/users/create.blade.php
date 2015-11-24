@@ -6,7 +6,12 @@
 
     @include('cms/shared.errors')
 
-    {!! Form::open(['url' => \Locales::route('users/create'), 'id' => 'create-user-form', 'data-ajax-queue' => 'sync', 'class' => 'ajax-lock', 'role' => 'form']) !!}
+    @if (isset($user))
+    {!! Form::model($user, ['method' => 'put', 'url' => \Locales::route('users/update'), 'id' => 'edit-user-form', 'data-ajax-queue' => 'sync', 'class' => 'ajax-lock', 'role' => 'form']) !!}
+    @else
+    {!! Form::open(['url' => \Locales::route('users/store'), 'id' => 'create-user-form', 'data-ajax-queue' => 'sync', 'class' => 'ajax-lock', 'role' => 'form']) !!}
+    @endif
+
     {!! Form::hidden('table', $table, ['id' => 'input-table']) !!}
 
     <div class="form-group{!! ($errors->has('group') ? ' has-error has-feedback' : '') !!}">
@@ -39,7 +44,12 @@
         @if ($errors->has('password_confirmation'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
     </div>
 
-    {!! Form::submit(trans('cms/forms.saveButton'), ['class' => 'btn btn-primary btn-block']) !!}
+    @if (isset($user))
+    {!! Form::submit(trans('cms/forms.updateButton'), ['class' => 'btn btn-warning btn-block']) !!}
+    @else
+    {!! Form::submit(trans('cms/forms.storeButton'), ['class' => 'btn btn-primary btn-block']) !!}
+    @endif
+
     {!! Form::close() !!}
 </div>
 @endsection
