@@ -35,6 +35,6 @@ class User extends Model implements AuthenticatableContract,
      */
     public function role()
     {
-        return $this->belongsTo(App\Role::class);
+        return $this->belongsTo(Role::class);
     }
 }
