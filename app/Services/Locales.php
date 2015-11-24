@@ -256,7 +256,7 @@ class Locales
      *
      * @return boolean
      */
-    public function isRoute($route)
+    public function isTranslatedRoute($route)
     {
         return \Lang::hasForLocale($this->getRoutesPath() . $route, $this->getRoutesLocale());
     }
@@ -398,6 +398,7 @@ class Locales
         $prefix = $this->getLanguage($locale);
         $slug = $prefix . \Slug::getRouteName();
         $parameters = $this->rawParameters($locale);
+        $parameters = $parameters ?: \Slug::getRouteParameters();
 
         return \Route::has($slug) ? route($slug, $parameters) : route($prefix . \Config::get('app.defaultAuthRoute'), $parameters);
     }
