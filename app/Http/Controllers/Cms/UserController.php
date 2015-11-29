@@ -16,6 +16,8 @@ class UserController extends Controller {
 	|--------------------------------------------------------------------------
 	*/
 
+    public $datatables;
+
     /**
      * Single or Multiple DataTables on one page.
      *
@@ -44,19 +46,19 @@ class UserController extends Controller {
                 'order' => 'asc',
                 'buttons' => [
                     [
-                        'url' => \Locales::route('users/create'),
+                        'url' => \Locales::route($this->route . '/create'),
                         'class' => 'btn-primary js-create',
                         'icon' => 'plus',
                         'name' => trans('cms/forms.createButton')
                     ],
                     [
-                        'url' => \Locales::route('users/edit'),
+                        'url' => \Locales::route($this->route . '/edit'),
                         'class' => 'btn-warning disabled js-edit',
                         'icon' => 'edit',
                         'name' => trans('cms/forms.editButton')
                     ],
                     [
-                        'url' => \Locales::route('users/delete'),
+                        'url' => \Locales::route($this->route . '/delete'),
                         'class' => 'btn-danger disabled js-destroy',
                         'icon' => 'trash',
                         'name' => trans('cms/forms.deleteButton')
@@ -74,19 +76,19 @@ class UserController extends Controller {
                 'order' => 'asc',
                 'buttons' => [
                     [
-                        'url' => \Locales::route('users/create'),
+                        'url' => \Locales::route($this->route . '/create'),
                         'class' => 'btn-primary js-create',
                         'icon' => 'plus',
                         'name' => trans('cms/forms.createButton')
                     ],
                     [
-                        'url' => \Locales::route('users/edit'),
+                        'url' => \Locales::route($this->route . '/edit'),
                         'class' => 'btn-warning disabled js-edit',
                         'icon' => 'edit',
                         'name' => trans('cms/forms.editButton')
                     ],
                     [
-                        'url' => \Locales::route('users/delete'),
+                        'url' => \Locales::route($this->route . '/delete'),
                         'class' => 'btn-danger disabled js-destroy',
                         'icon' => 'trash',
                         'name' => trans('cms/forms.deleteButton')
@@ -104,7 +106,7 @@ class UserController extends Controller {
                 'order' => 'asc',
                 'buttons' => [
                     [
-                        'url' => \Locales::route('users/create'),
+                        'url' => \Locales::route($this->route . '/create'),
                         'class' => 'btn-primary js-create',
                         'icon' => 'plus',
                         'name' => trans('cms/forms.createButton')
@@ -146,14 +148,14 @@ class UserController extends Controller {
 
         if (!$this->multipleDatatables) {
             $datatables[$group ?: $this->route]['url'] = \Locales::route($this->route, $group);
-            $userRole = $group ? $role->select('id')->where('slug', $group)->get()->first()->id : false;
+            $userRole = $group ? $role->select('id')->where('slug', $group)->firstOrFail()->id : false;
             $count = $userRole ? $user->where('role_id', $userRole)->count() : $user->count();
         }
 
         foreach ($datatables as $key => $value) {
             if ($this->multipleDatatables) {
                 $datatables[$key]['url'] = \Locales::route($this->route, $key);
-                $userRole = $role->select('id')->where('slug', $key)->get()->first()->id;
+                $userRole = $role->select('id')->where('slug', $key)->firstOrFail()->id;
                 $count = $userRole ? $user->where('role_id', $userRole)->count() : $user->count();
             }
 
@@ -239,7 +241,7 @@ class UserController extends Controller {
         if ($internal) {
             return $datatables;
         } else {
-            return view('cms.users.index', compact('datatables'));
+            return view('cms.' . $this->route . '.index', compact('datatables'));
         }
     }
 
@@ -263,10 +265,10 @@ class UserController extends Controller {
                 $roles[$value->slug] = $value->name;
             }
         } else {
-            $roles = [$table => $role::where('slug', $table)->get()->first()->name];
+            $roles = [$table => $role::where('slug', $table)->firstOrFail()->name];
         }
 
-        $view = \View::make('cms.users.create', compact('roles', 'group', 'table'));
+        $view = \View::make('cms.' . $this->route . '.create', compact('roles', 'group', 'table'));
         if ($request->ajax()) {
             $sections = $view->renderSections();
             return $sections['content'];
@@ -282,7 +284,7 @@ class UserController extends Controller {
      */
     public function store(User $user, Role $role, CreateUserRequest $request)
     {
-        $userRole = $request->input('group') ? $role->select('id')->where('slug', $request->input('group'))->get()->first()->id : false;
+        $userRole = $request->input('group') ? $role->select('id')->where('slug', $request->input('group'))->firstOrFail()->id : false;
 
         $group = ($request->input('table') == $this->route ? null : $request->input('table'));
         $redirect = redirect(\Locales::route($this->route, $group));
@@ -335,7 +337,7 @@ class UserController extends Controller {
             $table = $request->input('table');
         }
 
-        $view = \View::make('cms.users.delete', compact('table'));
+        $view = \View::make('cms.' . $this->route . '.delete', compact('table'));
         if ($request->ajax()) {
             $sections = $view->renderSections();
             return $sections['content'];
@@ -409,7 +411,7 @@ class UserController extends Controller {
             $roles[$value->slug] = $value->name;
         }
 
-        $view = \View::make('cms.users.create', compact('user', 'roles', 'group', 'table'));
+        $view = \View::make('cms.' . $this->route . '.create', compact('user', 'roles', 'group', 'table'));
         if ($request->ajax()) {
             $sections = $view->renderSections();
             return $sections['content'];
@@ -427,7 +429,7 @@ class UserController extends Controller {
     {
         $user = User::findOrFail($request->input('id'))->first();
 
-        $userRole = $request->input('group') ? $role->select('id')->where('slug', $request->input('group'))->get()->first()->id : false;
+        $userRole = $request->input('group') ? $role->select('id')->where('slug', $request->input('group'))->firstOrFail()->id : false;
 
         $group = ($request->input('table') == $this->route ? null : $request->input('table'));
         $redirect = redirect(\Locales::route($this->route, $group));
