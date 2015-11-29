@@ -9,6 +9,7 @@ return [
 	*/
 
     'id' => 'ID',
+    'slug' => 'Slug',
     'name' => 'Name',
     'email' => 'E-mail',
 

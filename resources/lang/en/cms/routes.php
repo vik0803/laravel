@@ -135,39 +135,30 @@ return [
     'users/destroy' => [
         'slug' => 'users/destroy',
     ],
-    'clients' => [
-        'slug' => 'clients',
-        'name' => 'Clients',
-        'metaTitle' => 'Clients Title',
-        'metaDescription' => 'Clients Description',
+    'settings' => [
+        'slug' => 'settings',
+        'name' => 'Settings',
+        'metaTitle' => 'Settings Title',
+        'metaDescription' => 'Settings Description',
         'category' => 'sidebar',
         'parent' => true,
         'order' => 4,
-        'icon' => 'user'
+        'icon' => 'cog'
     ],
-    'clients/' => [
-        'slug' => 'clients',
-        'name' => 'All Clients',
-        'metaTitle' => 'All Clients Title',
-        'metaDescription' => 'All Clients Description',
-        'category' => 'sidebar',
-        'parent' => false,
-        'order' => 1
-    ],
-    'clients/level1' => [
-        'slug' => 'clients/level1',
-        'name' => 'Level 1',
-        'metaTitle' => 'Level 1 Title',
-        'metaDescription' => 'Level 1 Description',
+    'settings/domains' => [
+        'slug' => 'settings/domains',
+        'name' => 'Domains',
+        'metaTitle' => 'Domains Title',
+        'metaDescription' => 'Domains Description',
         'category' => 'sidebar',
         'parent' => false,
         'order' => 2
     ],
-    'clients/level2' => [
-        'slug' => 'clients/level2',
-        'name' => 'Level 2',
-        'metaTitle' => 'Level 2 Title',
-        'metaDescription' => 'Level 2 Description',
+    'settings/locales' => [
+        'slug' => 'settings/locales',
+        'name' => 'Locales',
+        'metaTitle' => 'Locales Title',
+        'metaDescription' => 'Locales Description',
         'category' => 'sidebar',
         'parent' => false,
         'order' => 3
@@ -191,16 +182,6 @@ return [
         'parent' => false,
         'order' => 2,
         'icon' => 'inbox'
-    ],
-    'settings' => [
-        'slug' => 'settings',
-        'name' => 'Settings',
-        'metaTitle' => 'Settings Title',
-        'metaDescription' => 'Settings Description',
-        'category' => 'header',
-        'parent' => false,
-        'order' => 3,
-        'icon' => 'cog'
     ],
 
 ];
