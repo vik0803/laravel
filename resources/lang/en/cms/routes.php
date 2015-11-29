@@ -23,7 +23,6 @@ return [
         'metaTitle' => '',
         'metaDescription' => '',
         'category' => 'header',
-        'parent' => false,
         'order' => 4,
         'icon' => 'remove',
         'divider-before' => true
@@ -34,7 +33,6 @@ return [
         'metaTitle' => 'Dashboard Title',
         'metaDescription' => 'Dashboard Description',
         'category' => 'sidebar',
-        'parent' => false,
         'order' => 1,
         'icon' => 'dashboard',
         'divider-after' => true
@@ -45,7 +43,6 @@ return [
         'metaTitle' => 'Pages Title',
         'metaDescription' => 'Pages Description',
         'category' => 'sidebar',
-        'parent' => false,
         'order' => 2,
         'icon' => 'book'
     ],
@@ -87,25 +84,22 @@ return [
         'metaTitle' => 'All Users Title',
         'metaDescription' => 'All Users Description',
         'category' => 'sidebar',
-        'parent' => false,
         'order' => 1
     ],
     'users/admins' => [
-        'slug' => 'users',
+        'slug' => 'users/admins',
         'name' => 'Admins',
         'metaTitle' => 'Admins Title',
         'metaDescription' => 'Admins Description',
         'category' => 'sidebar',
-        'parent' => false,
         'order' => 2
     ],
     'users/operators' => [
-        'slug' => 'users',
+        'slug' => 'users/operators',
         'name' => 'Operators',
         'metaTitle' => 'Operators Title',
         'metaDescription' => 'Operators Description',
         'category' => 'sidebar',
-        'parent' => false,
         'order' => 3
     ],
     'users/create' => [
@@ -151,8 +145,7 @@ return [
         'metaTitle' => 'Domains Title',
         'metaDescription' => 'Domains Description',
         'category' => 'sidebar',
-        'parent' => false,
-        'order' => 2
+        'order' => 1
     ],
     'settings/locales' => [
         'slug' => 'settings/locales',
@@ -160,8 +153,7 @@ return [
         'metaTitle' => 'Locales Title',
         'metaDescription' => 'Locales Description',
         'category' => 'sidebar',
-        'parent' => false,
-        'order' => 3
+        'order' => 2
     ],
     'profile' => [
         'slug' => 'profile',
@@ -169,7 +161,6 @@ return [
         'metaTitle' => 'Profile Title',
         'metaDescription' => 'Profile Description',
         'category' => 'header',
-        'parent' => false,
         'order' => 1,
         'icon' => 'user'
     ],
@@ -179,7 +170,6 @@ return [
         'metaTitle' => 'Messages Title',
         'metaDescription' => 'Messages Description',
         'category' => 'header',
-        'parent' => false,
         'order' => 2,
         'icon' => 'inbox'
     ],

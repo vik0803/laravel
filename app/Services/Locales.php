@@ -415,7 +415,7 @@ class Locales
             $parameters = \Slug::getRouteParameters();
         }
 
-        return \Route::has($route) ? ($parameters ? route($route, $parameters) : route($route)) : '';
+        return \Route::has($route) ? ($parameters ? route($route, $parameters) : route($route)) : url($route);
     }
 
     /**
@@ -424,7 +424,8 @@ class Locales
      * @return array
      */
     public function createBreadcrumbsFromSlugs($slugs = null) {
-        $slugs = $slugs ?: explode('/', \Slug::getRouteName());
+        $routes = $this->getRoutesArray($this->getCurrent());
+        $slugs = $slugs ?: explode('/', \Slug::getRouteSlug());
         $lastSlug = last($slugs);
         $breadcrumbs = [];
         $breadcrumbPath = '';
@@ -435,38 +436,35 @@ class Locales
 
         foreach ($slugs as $slug) {
             $breadcrumbPath = trim($breadcrumbPath . '/' . $slug, '/');
-            $link = $this->route($breadcrumbPath);
-            $last = ($slug == $lastSlug ? true : false);
+            if (array_key_exists($breadcrumbPath, $routes)) {
+                $last = ($slug == $lastSlug ? true : false);
+                $route = $routes[$breadcrumbPath];
 
-            if (\Lang::hasForLocale($this->getRoutesPath() . $slug . '/', $this->getCurrent())) { // 'slug/' == dropdowm
-                $breadcrumbs[$slug]['link'] = $link . '#'; // dropdown
-                $breadcrumbs[$slug]['name'] = trans($this->getRoutesPath() . $breadcrumbPath . '.name');
-                $breadcrumbs[$slug]['last'] = false;
+                if (isset($route['parent'])) { // dropdown
+                    $breadcrumbs[$slug]['link'] = $this->route($route['slug']) . '#';
+                    $breadcrumbs[$slug]['name'] = $route['name'];
+                    $breadcrumbs[$slug]['last'] = false;
 
-                if ($last) {
-                    if (\Lang::hasForLocale($this->getRoutesPath() . $slug . '.parameters', $this->getCurrent())) {
-                        $link = $this->route($slug, true);
-                        $slug = \Slug::getRouteSlug();
-                    } else {
-                        $slug .= '/';
+                    if ($last) {
+                        $slug = $breadcrumbPath . '/';
+
+                        if (array_key_exists($slug, $routes)) {
+                            $route = $routes[$slug];
+
+                            $breadcrumbs[$slug]['link'] = $this->route($route['slug']);
+                            $breadcrumbs[$slug]['name'] = $route['name'];
+                            $breadcrumbs[$slug]['last'] = $last;
+                        }
                     }
-
-                    $breadcrumbs[$slug]['link'] = $link;
-                    $breadcrumbs[$slug]['name'] = trans($this->getRoutesPath() . $slug . '.name');
+                } else {
+                    $breadcrumbs[$slug]['link'] = $this->route($route['slug']);
+                    $breadcrumbs[$slug]['name'] = $route['name'];
                     $breadcrumbs[$slug]['last'] = $last;
                 }
-            } else {
-                if ($last) {
-                    $link = $this->route($breadcrumbPath, true);
+
+                if ($breadcrumbPath == \Config::get('app.defaultAuthRoute')) {
+                    $breadcrumbPath = '';
                 }
-
-                $breadcrumbs[$slug]['link'] = $link;
-                $breadcrumbs[$slug]['name'] = trans($this->getRoutesPath() . $breadcrumbPath . '.name');
-                $breadcrumbs[$slug]['last'] = $last;
-            }
-
-            if ($breadcrumbPath == \Config::get('app.defaultAuthRoute')) {
-                $breadcrumbPath = '';
             }
         }
 
@@ -519,38 +517,24 @@ class Locales
      *
      * @return array
      */
-    public function getNavigationRecursive($routes, $parameters = null, $i = 1) {
+    public function getNavigationRecursive($routes, $i = 1) {
         $keys = [];
         $navigation = [];
 
         foreach ($routes as $slug => $route) {
             if (!in_array($slug, $keys)) {
-                if ($route['parent']) {
-                    $link = $this->route($slug) . '#';
+                if (isset($route['parent'])) {
+                    $link = $this->route($route['slug']) . '#';
                     $active = \Slug::isActive(last(explode('/', $slug)), $i);
 
                     $subRoutes = $this->filterRoutes($routes, $slug);
 
-                    $parameters = null;
-                    if (isset($route['parameters'])) {
-                        $parameters = $route['parameters'];
-                    }
-
-                    $navigation[$route['order']]['children'] = $this->getNavigationRecursive($subRoutes, $parameters, $i + 1);
+                    $navigation[$route['order']]['children'] = $this->getNavigationRecursive($subRoutes, $i + 1);
 
                     $keys = array_merge($keys, array_keys($subRoutes));
                 } else {
-                    $key = StaticStringy::removeLeft($slug, $route['slug'] . '/');
-                    if ($parameters && array_key_exists($key, $parameters)) {
-                        $link = $this->route($route['slug'], $parameters[$key]);
-                        $active = \Slug::isActive($route['slug'] . '/' . $key);
-                    } else {
-                        if (ends_with($slug, '/')) {
-                            $slug = StaticStringy::removeRight($slug, '/');
-                        }
-                        $link = $this->route($slug);
-                        $active = \Slug::isActive($slug);
-                    }
+                    $link = $this->route($route['slug']);
+                    $active = \Slug::isActive(rtrim($slug, '/'));
                 }
 
                 $navigation[$route['order']]['level'] = $i;

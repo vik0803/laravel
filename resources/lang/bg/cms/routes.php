@@ -13,20 +13,16 @@ return [
 
     '/' => [
         'slug' => '',
-        'name' => 'Sign In',
-        'metaTitle' => 'Sign In Title',
-        'metaDescription' => 'Sign In Description',
-        'category' => '',
-        'parent' => false,
-        'order' => 0
+        'name' => 'Вход',
+        'metaTitle' => 'Вход Title',
+        'metaDescription' => 'Вход Description',
     ],
     'signout' => [
         'slug' => 'изход',
-        'name' => 'Sign Out',
+        'name' => 'Изход',
         'metaTitle' => '',
         'metaDescription' => '',
         'category' => 'header',
-        'parent' => false,
         'order' => 4,
         'icon' => 'remove',
         'divider-before' => true
@@ -37,7 +33,6 @@ return [
         'metaTitle' => 'Начало Title',
         'metaDescription' => 'Начало Description',
         'category' => 'sidebar',
-        'parent' => false,
         'order' => 1,
         'icon' => 'dashboard',
         'divider-after' => true
@@ -48,36 +43,26 @@ return [
         'metaTitle' => 'Страници Title',
         'metaDescription' => 'Страници Description',
         'category' => 'sidebar',
-        'parent' => false,
         'order' => 2,
         'icon' => 'book'
     ],
     'pf' => [
         'slug' => 'забравена-парола',
-        'name' => 'Password Forgotten',
-        'metaTitle' => 'Password Forgotten Title',
-        'metaDescription' => 'Password Forgotten Description',
-        'category' => '',
-        'parent' => false,
-        'order' => 0
+        'name' => 'Забравена парола',
+        'metaTitle' => 'Забравена парола Title',
+        'metaDescription' => 'Забравена парола Description',
     ],
     'reset' => [
         'slug' => 'възстанови-парола',
-        'name' => 'Reset Password',
-        'metaTitle' => 'Reset Password Title',
-        'metaDescription' => 'Reset Password Description',
-        'category' => '',
-        'parent' => false,
-        'order' => 0
+        'name' => 'Възстанови парола',
+        'metaTitle' => 'Възстанови парола Title',
+        'metaDescription' => 'Възстанови парола Description',
     ],
     'register' => [
         'slug' => 'регистрация',
-        'name' => 'Register',
-        'metaTitle' => 'Register Title',
-        'metaDescription' => 'Register Description',
-        'category' => '',
-        'parent' => false,
-        'order' => 0
+        'name' => 'Регистрация',
+        'metaTitle' => 'Регистрация Title',
+        'metaDescription' => 'Регистрация Description',
     ],
     'users' => [
         'slug' => 'потребители',
@@ -94,30 +79,27 @@ return [
         'icon' => 'user'
     ],
     'users/' => [
-        'slug' => 'users',
+        'slug' => 'потребители',
         'name' => 'Всички потребители',
         'metaTitle' => 'Всички потребители Title',
         'metaDescription' => 'Всички потребители Description',
         'category' => 'sidebar',
-        'parent' => false,
         'order' => 1
     ],
     'users/admins' => [
-        'slug' => 'users',
+        'slug' => 'потребители/администратори',
         'name' => 'Администратори',
         'metaTitle' => 'Администратори Title',
         'metaDescription' => 'Администратори Description',
         'category' => 'sidebar',
-        'parent' => false,
         'order' => 2
     ],
     'users/operators' => [
-        'slug' => 'users',
+        'slug' => 'потребители/оператори',
         'name' => 'Оператори',
         'metaTitle' => 'Оператори Title',
         'metaDescription' => 'Оператори Description',
         'category' => 'sidebar',
-        'parent' => false,
         'order' => 3
     ],
     'users/create' => [
@@ -125,76 +107,71 @@ return [
         'name' => 'Създай',
         'metaTitle' => 'Създай Потребител Title',
         'metaDescription' => 'Създай Потребител Description',
-        'category' => 'popup',
-        'parent' => false,
-        'order' => 0
     ],
-    'clients' => [
-        'slug' => 'клиенти',
-        'name' => 'Клиенти',
-        'metaTitle' => 'Клиенти Title',
-        'metaDescription' => 'Клиенти Description',
+    'users/store' => [
+        'slug' => 'потребители/съхрани',
+    ],
+    'users/edit' => [
+        'slug' => 'потребители/редактирай',
+        'name' => 'Edit',
+        'metaTitle' => 'Edit User Title',
+        'metaDescription' => 'Edit User Description',
+    ],
+    'users/update' => [
+        'slug' => 'потребители/обнови',
+    ],
+    'users/delete' => [
+        'slug' => 'потребители/изтрий',
+        'name' => 'Delete',
+        'metaTitle' => 'Are you sure that you want to permanently delete the selected users?',
+        'metaDescription' => 'Are you sure that you want to permanently delete the selected users?',
+    ],
+    'users/destroy' => [
+        'slug' => 'потребители/унищожи',
+    ],
+    'settings' => [
+        'slug' => 'настройки',
+        'name' => 'Настройки',
+        'metaTitle' => 'Настройки Title',
+        'metaDescription' => 'Настройки Description',
         'category' => 'sidebar',
         'parent' => true,
         'order' => 4,
-        'icon' => 'user'
+        'icon' => 'cog'
     ],
-    'clients/' => [
-        'slug' => 'клиенти',
-        'name' => 'Всички клиенти',
-        'metaTitle' => 'Всички клиенти Title',
-        'metaDescription' => 'Всички клиенти Description',
+    'settings/domains' => [
+        'slug' => 'настройки/домейни',
+        'name' => 'Домейни',
+        'metaTitle' => 'Домейни Title',
+        'metaDescription' => 'Домейни Description',
         'category' => 'sidebar',
-        'parent' => false,
         'order' => 1
     ],
-    'clients/level1' => [
-        'slug' => 'клиенти/ниво1',
-        'name' => 'Ниво 1',
-        'metaTitle' => 'Ниво 1 Title',
-        'metaDescription' => 'Ниво 1 Description',
+    'settings/locales' => [
+        'slug' => 'настройки/езици',
+        'name' => 'Езици',
+        'metaTitle' => 'Езици Title',
+        'metaDescription' => 'Езици Description',
         'category' => 'sidebar',
-        'parent' => false,
         'order' => 2
-    ],
-    'clients/level2' => [
-        'slug' => 'клиенти/ниво2',
-        'name' => 'Ниво 2',
-        'metaTitle' => 'Ниво 2 Title',
-        'metaDescription' => 'Ниво 2 Description',
-        'category' => 'sidebar',
-        'parent' => false,
-        'order' => 3
     ],
     'profile' => [
         'slug' => 'профил',
-        'name' => 'Profile',
-        'metaTitle' => 'Profile Title',
-        'metaDescription' => 'Profile Description',
+        'name' => 'Профил',
+        'metaTitle' => 'Профил Title',
+        'metaDescription' => 'Профил Description',
         'category' => 'header',
-        'parent' => false,
         'order' => 1,
         'icon' => 'user'
     ],
     'messages' => [
         'slug' => 'съобщения',
-        'name' => 'Messages',
-        'metaTitle' => 'Messages Title',
-        'metaDescription' => 'Messages Description',
+        'name' => 'Съобщения',
+        'metaTitle' => 'Съобщения Title',
+        'metaDescription' => 'Съобщения Description',
         'category' => 'header',
-        'parent' => false,
         'order' => 2,
         'icon' => 'inbox'
-    ],
-    'settings' => [
-        'slug' => 'настройки',
-        'name' => 'Settings',
-        'metaTitle' => 'Settings Title',
-        'metaDescription' => 'Settings Description',
-        'category' => 'header',
-        'parent' => false,
-        'order' => 3,
-        'icon' => 'cog'
     ],
 
 ];
