@@ -171,6 +171,7 @@ return [
 
         App\Providers\FormServiceProvider::class, // Illuminate\Html\HtmlServiceProvider::class,
         App\Providers\SlugServiceProvider::class, // Slugs management
+        App\Providers\DataTableServiceProvider::class, // DataTables Integration
         App\Providers\ComposerServiceProvider::class, // View Composers
     ],
 
@@ -226,6 +227,7 @@ return [
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Locales'   => App\Facades\Locale::class,
         'Slug'      => App\Facades\Slug::class,
+        'DataTable' => App\Facades\DataTable::class,
     ],
 
 ];
