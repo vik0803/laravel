@@ -44,7 +44,20 @@ if ($subdomain == 'cms') {
                 \Locales::isTranslatedRoute('users/destroy') ? Route::delete(\Locales::getRoute('users/destroy'), 'UserController@destroy')->name(\Locales::getRoutePrefix('users/destroy')) : '';
 
                 \Locales::isTranslatedRoute('settings/domains') ? Route::get(\Locales::getRoute('settings/domains'), 'DomainController@index')->name(\Locales::getRoutePrefix('settings/domains')) : '';
+                \Locales::isTranslatedRoute('settings/domains/create') ? Route::get(\Locales::getRoute('settings/domains/create'), 'DomainController@create')->name(\Locales::getRoutePrefix('settings/domains/create')) : '';
+                \Locales::isTranslatedRoute('settings/domains/store') ? Route::post(\Locales::getRoute('settings/domains/store'), 'DomainController@store')->name(\Locales::getRoutePrefix('settings/domains/store')) : '';
+                \Locales::isTranslatedRoute('settings/domains/edit') ? Route::get(\Locales::getRoute('settings/domains/edit') . '/{domain?}', 'DomainController@edit')->name(\Locales::getRoutePrefix('settings/domains/edit'))->where('domain', '[0-9]+') : '';
+                \Locales::isTranslatedRoute('settings/domains/update') ? Route::put(\Locales::getRoute('settings/domains/update'), 'DomainController@update')->name(\Locales::getRoutePrefix('settings/domains/update')) : '';
+                \Locales::isTranslatedRoute('settings/domains/delete') ? Route::get(\Locales::getRoute('settings/domains/delete'), 'DomainController@delete')->name(\Locales::getRoutePrefix('settings/domains/delete')) : '';
+                \Locales::isTranslatedRoute('settings/domains/destroy') ? Route::delete(\Locales::getRoute('settings/domains/destroy'), 'DomainController@destroy')->name(\Locales::getRoutePrefix('settings/domains/destroy')) : '';
+
                 \Locales::isTranslatedRoute('settings/locales') ? Route::get(\Locales::getRoute('settings/locales'), 'LocaleController@index')->name(\Locales::getRoutePrefix('settings/locales')) : '';
+                \Locales::isTranslatedRoute('settings/locales/create') ? Route::get(\Locales::getRoute('settings/locales/create'), 'LocaleController@create')->name(\Locales::getRoutePrefix('settings/locales/create')) : '';
+                \Locales::isTranslatedRoute('settings/locales/store') ? Route::post(\Locales::getRoute('settings/locales/store'), 'LocaleController@store')->name(\Locales::getRoutePrefix('settings/locales/store')) : '';
+                \Locales::isTranslatedRoute('settings/locales/edit') ? Route::get(\Locales::getRoute('settings/locales/edit') . '/{locale?}', 'LocaleController@edit')->name(\Locales::getRoutePrefix('settings/locales/edit'))->where('locale', '[0-9]+') : '';
+                \Locales::isTranslatedRoute('settings/locales/update') ? Route::put(\Locales::getRoute('settings/locales/update'), 'LocaleController@update')->name(\Locales::getRoutePrefix('settings/locales/update')) : '';
+                \Locales::isTranslatedRoute('settings/locales/delete') ? Route::get(\Locales::getRoute('settings/locales/delete'), 'LocaleController@delete')->name(\Locales::getRoutePrefix('settings/locales/delete')) : '';
+                \Locales::isTranslatedRoute('settings/locales/destroy') ? Route::delete(\Locales::getRoute('settings/locales/destroy'), 'LocaleController@destroy')->name(\Locales::getRoutePrefix('settings/locales/destroy')) : '';
 
                 \Locales::isTranslatedRoute('profile') ? Route::get(\Locales::getRoute('profile'), 'PageController@pages')->name(\Locales::getRoutePrefix('profile')) : '';
 

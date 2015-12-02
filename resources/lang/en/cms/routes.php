@@ -147,6 +147,33 @@ return [
         'category' => 'sidebar',
         'order' => 1
     ],
+    'settings/domains/create' => [
+        'slug' => 'settings/domains/create',
+        'name' => 'Create',
+        'metaTitle' => 'Create Domain Title',
+        'metaDescription' => 'Create Domain Description',
+    ],
+    'settings/domains/store' => [
+        'slug' => 'settings/domains/store',
+    ],
+    'settings/domains/edit' => [
+        'slug' => 'settings/domains/edit',
+        'name' => 'Edit',
+        'metaTitle' => 'Edit Domain Title',
+        'metaDescription' => 'Edit Domain Description',
+    ],
+    'settings/domains/update' => [
+        'slug' => 'settings/domains/update',
+    ],
+    'settings/domains/delete' => [
+        'slug' => 'settings/domains/delete',
+        'name' => 'Delete',
+        'metaTitle' => 'Are you sure that you want to permanently delete the selected domains?',
+        'metaDescription' => 'Are you sure that you want to permanently delete the selected domains?',
+    ],
+    'settings/domains/destroy' => [
+        'slug' => 'settings/domains/destroy',
+    ],
     'settings/locales' => [
         'slug' => 'settings/locales',
         'name' => 'Locales',
@@ -154,6 +181,33 @@ return [
         'metaDescription' => 'Locales Description',
         'category' => 'sidebar',
         'order' => 2
+    ],
+    'settings/locales/create' => [
+        'slug' => 'settings/locales/create',
+        'name' => 'Create',
+        'metaTitle' => 'Create Locale Title',
+        'metaDescription' => 'Create Locale Description',
+    ],
+    'settings/locales/store' => [
+        'slug' => 'settings/locales/store',
+    ],
+    'settings/locales/edit' => [
+        'slug' => 'settings/locales/edit',
+        'name' => 'Edit',
+        'metaTitle' => 'Edit Locale Title',
+        'metaDescription' => 'Edit Locale Description',
+    ],
+    'settings/locales/update' => [
+        'slug' => 'settings/locales/update',
+    ],
+    'settings/locales/delete' => [
+        'slug' => 'settings/locales/delete',
+        'name' => 'Delete',
+        'metaTitle' => 'Are you sure that you want to permanently delete the selected locales?',
+        'metaDescription' => 'Are you sure that you want to permanently delete the selected locales?',
+    ],
+    'settings/locales/destroy' => [
+        'slug' => 'settings/locales/destroy',
     ],
     'profile' => [
         'slug' => 'profile',

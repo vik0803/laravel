@@ -10,7 +10,10 @@ return [
 
     'id' => 'ID',
     'slug' => 'Slug',
+    'locale' => 'Locale',
     'name' => 'Name',
+    'native' => 'Native',
+    'script' => 'Script',
     'email' => 'E-mail',
 
 ];

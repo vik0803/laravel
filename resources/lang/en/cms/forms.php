@@ -28,6 +28,10 @@ return [
     'passwordLabel' => 'Password',
     'confirmPasswordLabel' => 'Confirm Password',
     'nameLabel' => 'Name',
+    'slugLabel' => 'Slug',
+    'nativeLabel' => 'Native Name',
+    'scriptLabel' => 'Script',
+    'localeLabel' => 'Locale',
     'groupLabel' => 'Group',
 
     // Placeholders
@@ -35,9 +39,17 @@ return [
     'passwordPlaceholder' => 'Password',
     'confirmPasswordPlaceholder' => 'Confirm Password',
     'namePlaceholder' => 'Name',
+    'nativePlaceholder' => 'Native Name',
+    'scriptPlaceholder' => 'Script',
+    'localePlaceholder' => 'Locale',
+    'slugPlaceholder' => 'Slug',
 
     // Options
     'rememberOption' => 'Keep me signed in',
+    'localeScripts' => [
+        'ltr' => 'Left-to-Right',
+        'rtl' => 'Right-to-Left',
+    ],
 
     // Successful messages
     'storedSuccessfully' => ':entity created successfully',
@@ -51,6 +63,8 @@ return [
     'countError' => 'Please select at least one :entity',
 
     // Entities
+    'entityLocales' => 'Locale|Locales',
+    'entityDomains' => 'Domain|Domains',
     'entityUsers' => 'User|Users',
     'entityUsersAdmins' => 'Admin|Admins',
     'entityUsersOperators' => 'Operator|Operators',
