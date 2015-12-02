@@ -25,7 +25,7 @@ return [
         'category' => 'header',
         'order' => 4,
         'icon' => 'remove',
-        'divider-before' => true
+        'divider-before' => true,
     ],
     \Config::get('app.defaultAuthRoute') => [
         'slug' => 'dashboard',
@@ -35,7 +35,6 @@ return [
         'category' => 'sidebar',
         'order' => 1,
         'icon' => 'dashboard',
-        'divider-after' => true
     ],
     'pages' => [
         'slug' => 'pages',
@@ -44,7 +43,7 @@ return [
         'metaDescription' => 'Pages Description',
         'category' => 'sidebar',
         'order' => 2,
-        'icon' => 'book'
+        'icon' => 'book',
     ],
     'pf' => [
         'slug' => 'pf',
@@ -68,7 +67,7 @@ return [
         'slug' => 'users',
         'parameters' => [
             'admins' => 'admins',
-            'operators' => 'operators'
+            'operators' => 'operators',
         ],
         'name' => 'Users',
         'metaTitle' => 'Users Title',
@@ -76,7 +75,7 @@ return [
         'category' => 'sidebar',
         'parent' => true,
         'order' => 3,
-        'icon' => 'user'
+        'icon' => 'user',
     ],
     'users/' => [
         'slug' => 'users',
@@ -84,7 +83,7 @@ return [
         'metaTitle' => 'All Users Title',
         'metaDescription' => 'All Users Description',
         'category' => 'sidebar',
-        'order' => 1
+        'order' => 1,
     ],
     'users/admins' => [
         'slug' => 'users/admins',
@@ -92,7 +91,7 @@ return [
         'metaTitle' => 'Admins Title',
         'metaDescription' => 'Admins Description',
         'category' => 'sidebar',
-        'order' => 2
+        'order' => 2,
     ],
     'users/operators' => [
         'slug' => 'users/operators',
@@ -100,7 +99,7 @@ return [
         'metaTitle' => 'Operators Title',
         'metaDescription' => 'Operators Description',
         'category' => 'sidebar',
-        'order' => 3
+        'order' => 3,
     ],
     'users/create' => [
         'slug' => 'users/create',
@@ -137,7 +136,7 @@ return [
         'category' => 'sidebar',
         'parent' => true,
         'order' => 4,
-        'icon' => 'cog'
+        'icon' => 'cog',
     ],
     'settings/domains' => [
         'slug' => 'settings/domains',
@@ -145,7 +144,7 @@ return [
         'metaTitle' => 'Domains Title',
         'metaDescription' => 'Domains Description',
         'category' => 'sidebar',
-        'order' => 1
+        'order' => 1,
     ],
     'settings/domains/create' => [
         'slug' => 'settings/domains/create',
@@ -180,7 +179,7 @@ return [
         'metaTitle' => 'Locales Title',
         'metaDescription' => 'Locales Description',
         'category' => 'sidebar',
-        'order' => 2
+        'order' => 2,
     ],
     'settings/locales/create' => [
         'slug' => 'settings/locales/create',
@@ -216,7 +215,7 @@ return [
         'metaDescription' => 'Profile Description',
         'category' => 'header',
         'order' => 1,
-        'icon' => 'user'
+        'icon' => 'user',
     ],
     'messages' => [
         'slug' => 'messages',
@@ -225,7 +224,7 @@ return [
         'metaDescription' => 'Messages Description',
         'category' => 'header',
         'order' => 2,
-        'icon' => 'inbox'
+        'icon' => 'inbox',
     ],
 
 ];
