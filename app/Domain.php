@@ -20,4 +20,26 @@ class Domain extends Model
     {
         return $this->belongsToMany(Locale::class)->withTimestamps()->withPivot('default');
     }
+
+    /**
+     * Eager loading locales count
+     */
+    public function localesCount()
+    {
+        return $this->locales()->selectRaw('count(*) as aggregate')->groupBy('domain_id');
+    }
+
+    /**
+     * Accessor for easier fetching the count
+     */
+    public function getLocalesCountAttribute()
+    {
+        if (!$this->relationLoaded('localesCount')) {
+            $this->load('localesCount');
+        }
+
+        $related = $this->getRelation('localesCount')->first();
+
+        return ($related) ? (int) $related->aggregate : 0;
+    }
 }

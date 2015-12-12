@@ -31,6 +31,10 @@ class DataTable
         $this->setOption('size', ($count <= 100 ? 'small' : ($count <= 1000 ? 'medium' : 'large')));
         $columnsData = $this->getColumnsData();
 
+        foreach ($columnsData['aggregates'] as $aggregate) {
+            $model = $model->with($aggregate['aggregate']);
+        }
+
         if ($this->request->ajax()) {
             $this->setOption('ajax', true);
             if ($internal) {
@@ -77,7 +81,7 @@ class DataTable
                 $model = $model->take($this->request->input('length'));
             }
 
-            $this->setOption('data', $model->get());
+            $this->setOption('data', $model->get()->toArray());
         } else {
             $this->setOption('count', $count);
             $this->setOption('ajax', $count > \Config::get('datatables.clientSideLimit'));
@@ -86,7 +90,24 @@ class DataTable
                 $model = $model->select($columnsData['columns']);
                 $model = $model->orderBy($columnsData['orderByColumn'], $this->getOption('order'));
 
-                $this->setOption('data', $model->get());
+                $data = $model->get()->toArray();
+
+                if (count($columnsData['aggregates'])) {
+                    foreach ($data as $key => $items) {
+                        foreach ($columnsData['aggregates'] as $aggregate) {
+                            $relation = snake_case($aggregate['aggregate']);
+                            if (count($items[$relation])) {
+                                $data[$key][$aggregate['id']] = $items[$relation][0]['aggregate'];
+                            } else {
+                                $data[$key][$aggregate['id']] = 0;
+                            }
+
+                            unset($data[$key][$relation]);
+                        }
+                    }
+                }
+
+                $this->setOption('data', $data);
             }
         }
     }
@@ -123,8 +144,17 @@ class DataTable
 
     public function getColumnsData()
     {
-        $columnsData = [];
-        $columnsData['columns'] = array_column($this->getOption('columns'), 'id');
+        $columnsData = ['aggregates' => []];
+        $columns = array_where($this->getOption('columns'), function ($key, $column) use (&$columnsData) {
+            if (isset($column['aggregate'])) {
+                array_push($columnsData['aggregates'], $column);
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        $columnsData['columns'] = array_column($columns, 'id');
         if ($this->getOption('checkbox')) {
             array_unshift($columnsData['columns'], 'id');
         }

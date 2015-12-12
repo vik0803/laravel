@@ -24,6 +24,7 @@ class DomainController extends Controller {
                 'columns' => [
                     ['id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
                     ['id' => 'slug', 'name' => trans('cms/datatables.slug'), 'search' => true],
+                    ['id' => 'locales', 'name' => trans('cms/datatables.locales'), 'aggregate' => 'localesCount'],
                 ],
                 'orderByColumn' => 0,
                 'order' => 'asc',
