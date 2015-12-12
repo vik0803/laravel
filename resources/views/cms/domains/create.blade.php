@@ -33,5 +33,25 @@
     @endif
 
     {!! Form::close() !!}
+
+    @if (\Request::ajax())<script>@endif
+    @section('script')
+        unikat.magnificPopupCreateCallback = function() {
+        };
+
+        unikat.magnificPopupEditCallback = function() {
+        };
+
+    @if (\Request::ajax())
+        @show
+        </script>
+    @else
+        @if (isset($domain))
+            unikat.magnificPopupEditCallback();
+        @else
+            unikat.magnificPopupCreateCallback();
+        @endif
+    @endsection
+    @endif
 </div>
 @endsection

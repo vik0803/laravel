@@ -149,6 +149,11 @@ var unikat = function() {
                     items: {
                         src: src,
                     },
+                    callbacks: {
+                        ajaxContentAdded: function() {
+                            unikat.magnificPopupCreateCallback();
+                        }
+                    },
                 }));
             });
 
@@ -183,6 +188,11 @@ var unikat = function() {
                 $.magnificPopup.open($.extend(magnificPopupOptions, {
                     items: {
                         src: src,
+                    },
+                    callbacks: {
+                        ajaxContentAdded: function() {
+                            unikat.magnificPopupEditCallback();
+                        }
                     },
                 }));
 
