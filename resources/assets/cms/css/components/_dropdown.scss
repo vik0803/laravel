@@ -173,12 +173,6 @@
                 margin: auto;
                 border-width: $caret-width-large $caret-width-large 0;
             }
-
-            > .sub-text {
-                font-size: $font-size-h5;
-                margin-left: 0.3125em; /* 5/16 */
-                color: $gray-light;
-            }
         }
     }
 }
