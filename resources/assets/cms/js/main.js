@@ -599,7 +599,12 @@ var unikat = function() {
         }
 
         $.each(data, function(key, value) {
-            columns.push({ data: value.id, title: value.name });
+            columns.push({
+                data: value.id,
+                title: value.name,
+                searchable: (value.search ? value.search : false),
+                className: (value.class ? value.class : ''),
+            });
         });
 
         return columns;
