@@ -11,7 +11,6 @@ class ViewComposer
      */
     public function __construct()
     {
-
     }
 
     /**
