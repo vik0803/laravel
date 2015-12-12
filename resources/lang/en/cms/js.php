@@ -15,8 +15,16 @@ return [
     'loadingImageAlt' => 'Loading...',
     'loadingImageTitle' => 'Loading...',
     'loadingText' => 'Loading...',
+
     'magnificPopupClose' => 'Close (ESC key)',
     'magnificPopupLoading' => 'Loading...',
     'magnificPopupAjaxError' => '<a href="%url%">The content</a> could not be loaded.',
+
+    'multiselectCheckAll' => 'Check all',
+    'multiselectUncheckAll' => 'Uncheck all',
+    'multiselectNoneSelected' => 'Select options',
+    'multiselectSelected' => '# of # selected',
+    'multiselectFilterLabel' => '',
+    'multiselectFilterPlaceholder' => 'Enter keywords',
 
 ];

@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Services\DataTable;
 use Illuminate\Http\Request;
 use App\Domain;
+use App\Locale;
 use App\Http\Requests\CreateDomainRequest;
 use App\Http\Requests\EditDomainRequest;
 
@@ -11,6 +12,7 @@ class DomainController extends Controller {
 
     protected $route = 'domains';
     protected $datatables;
+    protected $multiselect;
 
     public function __construct()
     {
@@ -47,6 +49,14 @@ class DomainController extends Controller {
                 ],
             ],
         ];
+
+        $this->multiselect = [
+            'locales' => [
+                'id' => 'id',
+                'name' => 'name',
+                'subText' => 'native',
+            ],
+        ];
     }
 
     public function index(DataTable $datatable, Domain $domain, Request $request)
@@ -62,11 +72,15 @@ class DomainController extends Controller {
         }
     }
 
-    public function create(Request $request)
+    public function create(Domain $domain, Locale $locale, Request $request)
     {
+        $this->multiselect['locales']['options'] = $locale->select($this->multiselect['locales']['id'], $this->multiselect['locales']['name'], $this->multiselect['locales']['subText'])->get()->toArray();
+        $this->multiselect['locales']['selected'] = $domain->locales->lists('id')->toArray();
+        $multiselect = $this->multiselect;
+
         $table = $request->input('table') ?: $this->route;
 
-        $view = \View::make('cms.' . $this->route . '.create', compact('table'));
+        $view = \View::make('cms.' . $this->route . '.create', compact('multiselect', 'table'));
         if ($request->ajax()) {
             $sections = $view->renderSections();
             return $sections['content'];
@@ -91,6 +105,7 @@ class DomainController extends Controller {
                 return response()->json($datatables + [
                     'success' => $successMessage,
                     'reset' => true,
+                    'multiselectRefresh' => 'input-locales',
                 ]);
             }
         } else {
@@ -152,13 +167,17 @@ class DomainController extends Controller {
         return $redirect;
     }
 
-    public function edit(Request $request, $id = null)
+    public function edit(Locale $locale, Request $request, $id = null)
     {
         $domain = Domain::findOrFail($id);
 
+        $this->multiselect['locales']['options'] = $locale->select($this->multiselect['locales']['id'], $this->multiselect['locales']['name'], $this->multiselect['locales']['subText'])->get()->toArray();
+        $this->multiselect['locales']['selected'] = $domain->locales->lists('id')->toArray();
+        $multiselect = $this->multiselect;
+
         $table = $request->input('table') ?: $this->route;
 
-        $view = \View::make('cms.' . $this->route . '.create', compact('domain', 'table'));
+        $view = \View::make('cms.' . $this->route . '.create', compact('multiselect', 'domain', 'table'));
         if ($request->ajax()) {
             $sections = $view->renderSections();
             return $sections['content'];

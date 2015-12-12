@@ -111,6 +111,17 @@ var unikat = function() {
                 Cookies.set('jsCookies', { sidebar: $index, navState: (jsCookies ? jsCookies.navState : null) }, { expires: 365 });
             });
 
+            if (variables.multiselect) {
+                $.extend($.unikat.multiselect.prototype.options, {
+                    checkAllText: variables.multiselectCheckAll,
+                    uncheckAllText: variables.multiselectUncheckAll,
+                    noneSelectedText: variables.multiselectNoneSelected,
+                    selectedText: variables.multiselectSelected,
+                    filterLabel: variables.multiselectFilterLabel,
+                    filterPlaceholder: variables.multiselectFilterPlaceholder,
+                });
+            }
+
             var magnificPopupOptions = {
                 type: 'ajax',
                 key: 'popup-form',
@@ -524,6 +535,10 @@ var unikat = function() {
             }
         } else if (data.reset) {
             ajax_reset_form(that);
+        }
+
+        if (data.multiselectRefresh) {
+            $('#' + data.multiselectRefresh).multiselect('refresh');
         }
     }
 

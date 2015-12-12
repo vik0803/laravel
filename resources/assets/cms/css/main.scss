@@ -5,6 +5,8 @@
 @import 'components/reset';
 @import 'vendor/bootstrap';
 @import 'vendor/magnific-popup';
+@import 'vendor/jquery-ui';
+@import 'vendor/multiselect';
 
 $susy: (
   columns: 12,
@@ -37,3 +39,13 @@ body:after {
 @import 'components/magnific-popup';
 
 @import 'components/login';
+
+a,
+label,
+div {
+    > .sub-text {
+        font-size: $font-size-h5;
+        margin-left: 0.3125em; /* 5/16 */
+        color: $gray-light;
+    }
+}

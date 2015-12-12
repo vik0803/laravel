@@ -79,6 +79,7 @@
                     magnificPopupAjaxError: '{!! trans('cms/js.magnificPopupAjaxError') !!}',
                     urlGoogleAnalytics: '{{ \App\Helpers\autover('/js/cms/google.min.js') }}',
                     headroomOffset: 300,
+
                     @if (isset($datatables) && count($datatables) > 0)
                         datatables: true,
                         datatablesLanguage: '{{ \App\Helpers\autover('/lng/datatables/' . \Locales::getCurrent() . '.json') }}',
@@ -100,6 +101,16 @@
                                 {{ $size }}: {!! str_replace('all', trans('cms/messages.all'), \Config::get('datatables.lengthMenu.' . $size)) !!},
                             @endforeach
                         },
+                    @endif
+
+                    @if (isset($multiselect) && count($multiselect) > 0)
+                        multiselect: true,
+                        multiselectCheckAll: '{{ trans('cms/js.multiselectCheckAll') }}',
+                        multiselectUncheckAll: '{{ trans('cms/js.multiselectUncheckAll') }}',
+                        multiselectNoneSelected: '{{ trans('cms/js.multiselectNoneSelected') }}',
+                        multiselectSelected: '{{ trans('cms/js.multiselectSelected') }}',
+                        multiselectFilterLabel: '{{ trans('cms/js.multiselectFilterLabel') }}',
+                        multiselectFilterPlaceholder: '{{ trans('cms/js.multiselectFilterPlaceholder') }}',
                     @endif
                 });
 
