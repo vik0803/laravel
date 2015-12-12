@@ -211,7 +211,7 @@ var unikat = function() {
                 $(document).on('preInit.dt', function(e, settings) {
                     var api = new $.fn.dataTable.Api(settings);
                     var $table = api.table().node();
-                    var $wrapper = $table.closest('.dataTableWrapper');
+                    var $wrapper = $($table).closest('.dataTableWrapper');
                     var $filter = $($wrapper).find(variables.filterClass + ' input');
                     $filter.off('keyup.DT input.DT'); // disable global search events except: search.DT paste.DT cut.DT
                     $filter.on('keyup.DT input.DT', $.debounce(settings.searchDelay, function(e) {
@@ -779,7 +779,7 @@ var unikat = function() {
                     if (data.search) {
                         var api = new $.fn.dataTable.Api(settings);
                         var $table = api.table().node();
-                        var $wrapper = $table.closest('.dataTableWrapper');
+                        var $wrapper = $($table).closest('.dataTableWrapper');
                         var $filter = $($wrapper).find(variables.filterClass + ' input');
                         $filter.focus();
                     }
