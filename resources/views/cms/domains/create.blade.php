@@ -26,6 +26,12 @@
         @if ($errors->has('slug'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
     </div>
 
+    <div class="form-group{!! ($errors->has('locales') ? ' has-error has-feedback' : '') !!}">
+        {!! Form::label('input-locales', trans('cms/forms.localesLabel')) !!}
+        {!! Form::multiselect('locales[]', $multiselect['locales'], ['id' => 'input-locales', 'class' => 'form-control']) !!}
+        @if ($errors->has('locales'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
+    </div>
+
     @if (isset($domain))
     {!! Form::submit(trans('cms/forms.updateButton'), ['class' => 'btn btn-warning btn-block']) !!}
     @else
@@ -37,9 +43,11 @@
     @if (\Request::ajax())<script>@endif
     @section('script')
         unikat.magnificPopupCreateCallback = function() {
+            $('#input-locales').multiselect();
         };
 
         unikat.magnificPopupEditCallback = function() {
+            $('#input-locales').multiselect();
         };
 
     @if (\Request::ajax())

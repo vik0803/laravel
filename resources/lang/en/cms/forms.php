@@ -32,6 +32,7 @@ return [
     'nativeLabel' => 'Native Name',
     'scriptLabel' => 'Script',
     'localeLabel' => 'Locale',
+    'localesLabel' => 'Locales',
     'groupLabel' => 'Group',
 
     // Placeholders

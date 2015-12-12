@@ -96,6 +96,8 @@ class DomainController extends Controller {
         $newDomain = Domain::create($request->all());
 
         if ($newDomain->id) {
+            $newDomain->locales()->sync($request->input('locales'));
+
             $successMessage = trans('cms/forms.storedSuccessfully', ['entity' => trans_choice('cms/forms.entityDomains', 1)]);
             $redirect->withSuccess([$successMessage]);
 
@@ -193,6 +195,8 @@ class DomainController extends Controller {
         $redirect = redirect(\Locales::route($this->route));
 
         if ($domain->update($request->all())) {
+            $domain->locales()->sync($request->input('locales'));
+
             $successMessage = trans('cms/forms.updatedSuccessfully', ['entity' => trans_choice('cms/forms.entityDomains', 1)]);
             $redirect->withSuccess([$successMessage]);
 
