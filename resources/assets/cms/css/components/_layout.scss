@@ -68,7 +68,8 @@ body {
     }
 
     #main-wrapper {
-        overflow: hidden;
+        overflow: auto;
+        height: 100%;
         margin-left: 18.75em; /* 300/16 */;
         @include transition(margin 0.1s ease-in-out 0s);
     }
