@@ -108,6 +108,7 @@
                         multiselectCheckAll: '{{ trans('cms/js.multiselectCheckAll') }}',
                         multiselectUncheckAll: '{{ trans('cms/js.multiselectUncheckAll') }}',
                         multiselectNoneSelected: '{{ trans('cms/js.multiselectNoneSelected') }}',
+                        multiselectNoneSelectedSingle: '{{ trans('cms/js.multiselectNoneSelectedSingle') }}',
                         multiselectSelected: '{{ trans('cms/js.multiselectSelected') }}',
                         multiselectFilterLabel: '{{ trans('cms/js.multiselectFilterLabel') }}',
                         multiselectFilterPlaceholder: '{{ trans('cms/js.multiselectFilterPlaceholder') }}',

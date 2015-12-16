@@ -258,13 +258,19 @@
                 }
             });
 
-            // filter
-            self.filter.on('keydown', function(e) {
+            // dropdown menu
+            self.menu.on('keydown', function(e) {
                 switch (e.which) {
                     case 27: // esc
                         e.preventDefault();
                         self.close();
                     break;
+                }
+            });
+
+            // filter
+            self.filter.on('keydown', function(e) {
+                switch (e.which) {
                     case 13: // prevent the enter key from submitting the form / closing the widget
                         e.preventDefault();
                     break;
@@ -353,9 +359,6 @@
                                 self._traverse(40, this);
                             }
                         }
-                    break;
-                    case 27: // esc
-                        self.close();
                     break;
                     case 38: // up
                     case 40: // down

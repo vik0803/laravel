@@ -23,6 +23,7 @@ return [
     'multiselectCheckAll' => 'Check all',
     'multiselectUncheckAll' => 'Uncheck all',
     'multiselectNoneSelected' => 'Select options',
+    'multiselectNoneSelectedSingle' => 'Select option',
     'multiselectSelected' => '# of # selected',
     'multiselectFilterLabel' => '',
     'multiselectFilterPlaceholder' => 'Enter keywords',
