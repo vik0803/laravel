@@ -31,6 +31,7 @@ return [
     'slugLabel' => 'Slug',
     'nativeLabel' => 'Native Name',
     'scriptLabel' => 'Script',
+    'defaultLocaleLabel' => 'Default Locale',
     'localeLabel' => 'Locale',
     'localesLabel' => 'Locales',
     'groupLabel' => 'Group',

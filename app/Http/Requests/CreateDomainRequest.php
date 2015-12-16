@@ -26,7 +26,8 @@ class CreateDomainRequest extends Request
         return [
             'name' => 'required|max:255',
             'slug' => 'required|max:255|unique:domains',
-            'locales' => 'required',
+            'locales' => 'required|array',
+            'default_locale_id' => 'required|numeric',
         ];
     }
 }

@@ -58,6 +58,11 @@ class DomainController extends Controller {
                 'name' => 'name',
                 'subText' => 'native',
             ],
+            'default_locale_id' => [
+                'id' => 'id',
+                'name' => 'name',
+                'subText' => 'native',
+            ],
         ];
     }
 
@@ -78,6 +83,10 @@ class DomainController extends Controller {
     {
         $this->multiselect['locales']['options'] = $locale->select($this->multiselect['locales']['id'], $this->multiselect['locales']['name'], $this->multiselect['locales']['subText'])->get()->toArray();
         $this->multiselect['locales']['selected'] = $domain->locales->lists('id')->toArray();
+
+        $this->multiselect['default_locale_id']['options'] = [];
+        $this->multiselect['default_locale_id']['selected'] = [];
+
         $multiselect = $this->multiselect;
 
         $table = $request->input('table') ?: $this->route;
@@ -177,6 +186,16 @@ class DomainController extends Controller {
 
         $this->multiselect['locales']['options'] = $locale->select($this->multiselect['locales']['id'], $this->multiselect['locales']['name'], $this->multiselect['locales']['subText'])->get()->toArray();
         $this->multiselect['locales']['selected'] = $domain->locales->lists('id')->toArray();
+
+        $this->multiselect['default_locale_id']['options'] = array_where($this->multiselect['locales']['options'], function($key, $value) {
+            if (in_array($value['id'], $this->multiselect['locales']['selected'])) {
+                return true;
+            }
+
+            return false;
+        });
+        $this->multiselect['default_locale_id']['selected'] = $domain->default_locale_id;
+
         $multiselect = $this->multiselect;
 
         $table = $request->input('table') ?: $this->route;

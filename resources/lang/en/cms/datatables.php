@@ -12,6 +12,7 @@ return [
     'slug' => 'Slug',
     'locale' => 'Locale',
     'locales' => 'Locales',
+    'defaultLocale' => 'Default Locale',
     'name' => 'Name',
     'native' => 'Native',
     'script' => 'Script',

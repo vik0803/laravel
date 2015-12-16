@@ -11,7 +11,7 @@ class Domain extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'description'];
+    protected $fillable = ['name', 'slug', 'description', 'default_locale_id'];
 
     /**
      * Get the locales for the domain.

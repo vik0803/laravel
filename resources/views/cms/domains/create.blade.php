@@ -32,6 +32,16 @@
         @if ($errors->has('locales'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
     </div>
 
+    <div class="form-group{!! ($errors->has('default_locale_id') ? ' has-error has-feedback' : '') !!}">
+        {!! Form::label('input-default_locale_id', trans('cms/forms.defaultLocaleLabel')) !!}
+        @if (count($multiselect['default_locale_id']['options']))
+            {!! Form::multiselect('default_locale_id', $multiselect['default_locale_id'], ['id' => 'input-default_locale_id', 'class' => 'form-control']) !!}
+        @else
+            {!! Form::multiselect('default_locale_id', $multiselect['default_locale_id'], ['id' => 'input-default_locale_id', 'class' => 'form-control', 'disabled' => 'disabled']) !!}
+        @endif
+        @if ($errors->has('default_locale_id'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
+    </div>
+
     @if (isset($domain))
     {!! Form::submit(trans('cms/forms.updateButton'), ['class' => 'btn btn-warning btn-block']) !!}
     @else
@@ -43,11 +53,33 @@
     @if (\Request::ajax())<script>@endif
     @section('script')
         unikat.magnificPopupCreateCallback = function() {
-            $('#input-locales').multiselect();
-        };
+            $('#input-locales').multiselect({
+                close: function(event, ui) {
+                    var select = $('#input-default_locale_id');
+                    var value = select.val();
+                    var values = $(this).val();
 
-        unikat.magnificPopupEditCallback = function() {
-            $('#input-locales').multiselect();
+                    var options = $('option', $(this)).map(function() {
+                        if ($.inArray(this.value, values) !== -1) {
+                            $(this).removeAttr('aria-selected').removeAttr('checked');
+                            return this;
+                        }
+
+                        return null;
+                    });
+
+                    select.html(options.clone()).val(value).multiselect('refresh');
+
+                    if (values) {
+                        select.multiselect('enable');
+                    } else {
+                        select.multiselect('disable');
+                    }
+                },
+            });
+            $('#input-default_locale_id').multiselect({
+                multiple: false,
+            });
         };
 
     @if (\Request::ajax())

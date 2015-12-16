@@ -29,7 +29,8 @@ class EditDomainRequest extends Request
         return [
             'name' => 'required|max:255',
             'slug' => 'required|max:255|unique:domains,slug,' . $domain->id,
-            'locales' => 'required',
+            'locales' => 'required|array',
+            'default_locale_id' => 'required|numeric',
         ];
     }
 }
