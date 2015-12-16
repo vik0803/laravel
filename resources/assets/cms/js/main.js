@@ -614,7 +614,7 @@ var unikat = function() {
         var columns = [];
 
         if (checkbox) {
-            columns.push({ data: 'id', title: '<input type="checkbox" value="1" name="check-' + id + '" id="input-check-' + id + '">' });
+            columns.push({ data: checkbox.id, title: '<input type="checkbox" value="1" name="check-' + id + '" id="input-check-' + id + '">' });
         }
 
         $.each(data, function(key, value) {
