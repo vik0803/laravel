@@ -82,6 +82,8 @@
             });
         };
 
+        unikat.magnificPopupEditCallback = unikat.magnificPopupCreateCallback;
+
     @if (\Request::ajax())
         @show
         </script>

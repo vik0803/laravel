@@ -151,7 +151,9 @@ var unikat = function() {
                     },
                     callbacks: {
                         ajaxContentAdded: function() {
-                            unikat.magnificPopupCreateCallback();
+                            if (typeof unikat.magnificPopupCreateCallback == 'function') {
+                                unikat.magnificPopupCreateCallback();
+                            }
                         }
                     },
                 }));
@@ -191,7 +193,9 @@ var unikat = function() {
                     },
                     callbacks: {
                         ajaxContentAdded: function() {
-                            unikat.magnificPopupEditCallback();
+                            if (typeof unikat.magnificPopupEditCallback == 'function') {
+                                unikat.magnificPopupEditCallback();
+                            }
                         }
                     },
                 }));
