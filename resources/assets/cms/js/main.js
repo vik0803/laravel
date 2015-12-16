@@ -532,16 +532,17 @@ var unikat = function() {
     function ajax_reset(that, data) {
         var excluded = [];
         var included = [];
+        var i;
 
         if (data.resetOnly) {
-            for (var i = 0; i < data.resetOnly.length; i++) {
+            for (i = 0; i < data.resetOnly.length; i++) {
                 included.push('#input-' + data.resetOnly[i]);
             }
             if (included.length) {
                 ajax_reset_form(that, null, included.join());
             }
         } else if (data.resetExcept) {
-            for (var i = 0; i < data.resetExcept.length; i++) {
+            for (i = 0; i < data.resetExcept.length; i++) {
                 excluded.push('#input-' + data.resetExcept[i]);
             }
             if (excluded.length) {
@@ -551,8 +552,22 @@ var unikat = function() {
             ajax_reset_form(that);
         }
 
-        if (data.multiselectRefresh) {
-            $('#' + data.multiselectRefresh).multiselect('refresh');
+        if (data.resetMultiselect) {
+            $.each(data.resetMultiselect, function(key, value) {
+                var $multiselect = $('#' + key);
+
+                if ($.inArray('empty', value) !== -1) {
+                    $multiselect.empty();
+                }
+
+                if ($.inArray('disable', value) !== -1) {
+                    $multiselect.multiselect('disable');
+                }
+
+                if ($.inArray('refresh', value) !== -1) {
+                    $multiselect.multiselect('refresh');
+                }
+            });
         }
     }
 

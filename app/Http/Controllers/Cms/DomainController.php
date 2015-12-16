@@ -118,7 +118,10 @@ class DomainController extends Controller {
                 return response()->json($datatables + [
                     'success' => $successMessage,
                     'reset' => true,
-                    'multiselectRefresh' => 'input-locales',
+                    'resetMultiselect' => [
+                        'input-locales' => ['refresh'],
+                        'input-default_locale_id' => ['empty', 'disable', 'refresh'],
+                    ],
                 ]);
             }
         } else {
