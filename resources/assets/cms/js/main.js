@@ -125,7 +125,7 @@ var unikat = function() {
             var magnificPopupOptions = {
                 type: 'ajax',
                 key: 'popup-form',
-                focus: 'input',
+                focus: 'input:visible',
                 closeOnBgClick: false,
                 // alignTop: true,
                 tClose: variables.magnificPopupClose,
