@@ -18,7 +18,7 @@ class Domain extends Model
      */
     public function locales()
     {
-        return $this->belongsToMany(Locale::class)->withTimestamps()->withPivot('default');
+        return $this->belongsToMany(Locale::class)->withTimestamps();
     }
 
     /**

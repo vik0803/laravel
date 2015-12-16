@@ -18,6 +18,6 @@ class Locale extends Model
      */
     public function domains()
     {
-        return $this->belongsToMany(Domain::class)->withTimestamps()->withPivot('default');
+        return $this->belongsToMany(Domain::class)->withTimestamps();
     }
 }

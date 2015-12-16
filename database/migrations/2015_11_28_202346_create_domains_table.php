@@ -18,6 +18,7 @@ class CreateDomainsTable extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('description')->nullable();
+            $table->boolean('default_locale_id')->default(false);
         });
     }
 

@@ -14,7 +14,6 @@ class CreateDomainLocaleTable extends Migration
     {
         Schema::create('domain_locale', function (Blueprint $table) {
             $table->timestamps();
-            $table->boolean('default')->default(false);
             $table->integer('domain_id')->unsigned();
             $table->integer('locale_id')->unsigned();
 
