@@ -116,6 +116,7 @@ var unikat = function() {
                     checkAllText: variables.multiselectCheckAll,
                     uncheckAllText: variables.multiselectUncheckAll,
                     noneSelectedText: variables.multiselectNoneSelected,
+                    noneSelectedSingleText: variables.multiselectNoneSelectedSingle,
                     selectedText: variables.multiselectSelected,
                     filterLabel: variables.multiselectFilterLabel,
                     filterPlaceholder: variables.multiselectFilterPlaceholder,
