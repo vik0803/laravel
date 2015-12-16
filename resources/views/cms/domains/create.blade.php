@@ -28,7 +28,7 @@
 
     <div class="form-group{!! ($errors->has('locales') ? ' has-error has-feedback' : '') !!}">
         {!! Form::label('input-locales', trans('cms/forms.localesLabel')) !!}
-        {!! Form::multiselect('locales[]', $multiselect['locales'], ['id' => 'input-locales', 'class' => 'form-control']) !!}
+        {!! Form::multiselect('locales[]', $multiselect['locales'], ['id' => 'input-locales', 'class' => 'form-control', 'multiple' => 'multiple']) !!}
         @if ($errors->has('locales'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
     </div>
 

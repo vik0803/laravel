@@ -25,19 +25,21 @@ class Form extends \Illuminate\Html\FormBuilder
 
         $html = [];
 
-        foreach ($data['options'] as $option) {
-            if (isset($option['optgroup'])) {
-                $html[] = $this->multiselectOptionGroup($data, $option['optgroup']);
-            }
+        if (count($data)) {
+            foreach ($data['options'] as $option) {
+                if (isset($option['optgroup'])) {
+                    $html[] = $this->multiselectOptionGroup($data, $option['optgroup']);
+                }
 
-            $html[] = $this->multiselectOption($data, $option);
+                $html[] = $this->multiselectOption($data, $option);
+            }
         }
 
         $options = $this->html->attributes($options);
 
         $list = implode('', $html);
 
-        return "<select multiple {$options}>{$list}</select>";
+        return "<select {$options}>{$list}</select>";
     }
 
     protected function multiselectOptionGroup($data, $options)
