@@ -294,7 +294,11 @@ MagnificPopup.prototype = {
 			// Close on ESC key
 			_document.on('keydown' + EVENT_NS, function(e) {
 				if(e.keyCode === 27) {
-					if (!$.contains($('.multiselectWrapper')[0], e.target)) { // unikat: !esc on multiselect dropdown
+					if ($('.multiselectWrapper').length) {
+                        if (!$.contains($('.multiselectWrapper')[0], e.target)) { // unikat: !esc on multiselect dropdown
+                            mfp.close();
+                        }
+                    } else {
                         mfp.close();
                     }
 				}
