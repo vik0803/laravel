@@ -20,11 +20,12 @@ class DomainController extends Controller {
             $this->route => [
                 'url' => \Locales::route('settings/' . $this->route),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => true,
+                'checkbox' => ['selector' => $this->route . '.id', 'id' => 'id'],
                 'columns' => [
-                    ['id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
-                    ['id' => 'slug', 'name' => trans('cms/datatables.slug'), 'search' => true],
-                    ['id' => 'locales', 'name' => trans('cms/datatables.locales'), 'aggregate' => 'localesCount'],
+                    ['selector' => $this->route . '.name', 'id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
+                    ['selector' => $this->route . '.slug', 'id' => 'slug', 'name' => trans('cms/datatables.slug'), 'search' => true],
+                    ['selector' => '', 'id' => 'locales', 'name' => trans('cms/datatables.locales'), 'aggregate' => 'localesCount'],
+                    ['selector' => 'locales.name as defaultLocale', 'id' => 'defaultLocale', 'name' => trans('cms/datatables.defaultLocale'), 'join' => ['locales', 'locales.id', '=', $this->route . '.default_locale_id']],
                 ],
                 'orderByColumn' => 0,
                 'order' => 'asc',

@@ -35,6 +35,11 @@ class DataTable
             $model = $model->with($aggregate['aggregate']);
         }
 
+        foreach ($columnsData['join'] as $join) {
+            array_push($columnsData['columns'], $join['selector']);
+            $model = $model->join($join['join'][0], $join['join'][1], $join['join'][2], $join['join'][3]);
+        }
+
         if ($this->request->ajax()) {
             $this->setOption('ajax', true);
             if ($internal) {
@@ -59,9 +64,9 @@ class DataTable
                     foreach ($this->getOption('columns') as $column) {
                         if (isset($column['search'])) {
                             if ($i == 0) {
-                                $query->where($column['id'], 'like', '%' . $this->request->input('search.value') . '%');
+                                $query->where($column['selector'], 'like', '%' . $this->request->input('search.value') . '%');
                             } else {
-                                $query->orWhere($column['id'], 'like', '%' . $this->request->input('search.value') . '%');
+                                $query->orWhere($column['selector'], 'like', '%' . $this->request->input('search.value') . '%');
                             }
                         }
                         $i++;
@@ -81,7 +86,13 @@ class DataTable
                 $model = $model->take($this->request->input('length'));
             }
 
-            $this->setOption('data', $model->get()->toArray());
+            $data = $model->get()->toArray();
+
+            if (count($columnsData['aggregates'])) {
+                $data = $this->aggregate($data, $columnsData['aggregates']);
+            }
+
+            $this->setOption('data', $data);
         } else {
             $this->setOption('count', $count);
             $this->setOption('ajax', $count > \Config::get('datatables.clientSideLimit'));
@@ -93,18 +104,7 @@ class DataTable
                 $data = $model->get()->toArray();
 
                 if (count($columnsData['aggregates'])) {
-                    foreach ($data as $key => $items) {
-                        foreach ($columnsData['aggregates'] as $aggregate) {
-                            $relation = snake_case($aggregate['aggregate']);
-                            if (count($items[$relation])) {
-                                $data[$key][$aggregate['id']] = $items[$relation][0]['aggregate'];
-                            } else {
-                                $data[$key][$aggregate['id']] = 0;
-                            }
-
-                            unset($data[$key][$relation]);
-                        }
-                    }
+                    $data = $this->aggregate($data, $columnsData['aggregates']);
                 }
 
                 $this->setOption('data', $data);
@@ -144,9 +144,12 @@ class DataTable
 
     public function getColumnsData()
     {
-        $columnsData = ['aggregates' => []];
+        $columnsData = ['join' => [], 'aggregates' => []];
         $columns = array_where($this->getOption('columns'), function ($key, $column) use (&$columnsData) {
-            if (isset($column['aggregate'])) {
+            if (isset($column['join'])) {
+                array_push($columnsData['join'], $column);
+                return false;
+            } elseif (isset($column['aggregate'])) {
                 array_push($columnsData['aggregates'], $column);
                 return false;
             } else {
@@ -154,13 +157,31 @@ class DataTable
             }
         });
 
-        $columnsData['columns'] = array_column($columns, 'id');
+        $columnsData['columns'] = array_column($columns, 'selector');
         if ($this->getOption('checkbox')) {
-            array_unshift($columnsData['columns'], 'id');
+            array_unshift($columnsData['columns'], $this->getOption('checkbox')['selector']);
         }
 
-        $columnsData['orderByColumn'] = $this->getOption('columns')[$this->getOption('orderByColumn')]['id'];
+        $columnsData['orderByColumn'] = $this->getOption('columns')[$this->getOption('orderByColumn')]['selector'];
 
         return $columnsData;
+    }
+
+    public function aggregate($data, $aggregates)
+    {
+        foreach ($data as $key => $items) {
+            foreach ($aggregates as $aggregate) {
+                $relation = snake_case($aggregate['aggregate']);
+                if (count($items[$relation])) {
+                    $data[$key][$aggregate['id']] = $items[$relation][0]['aggregate'];
+                } else {
+                    $data[$key][$aggregate['id']] = 0;
+                }
+
+                unset($data[$key][$relation]);
+            }
+        }
+
+        return $data;
     }
 }

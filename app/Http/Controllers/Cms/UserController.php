@@ -31,10 +31,10 @@ class UserController extends Controller {
             'admins' => [
                 'url' => \Locales::route($this->route, true),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => true,
+                'checkbox' => ['selector' => $this->route . '.id', 'id' => 'id'],
                 'columns' => [
-                    ['id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
-                    ['id' => 'email', 'name' => trans('cms/datatables.email'), 'search' => true],
+                    ['selector' => $this->route . '.name', 'id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
+                    ['selector' => $this->route . '.email', 'id' => 'email', 'name' => trans('cms/datatables.email'), 'search' => true],
                 ],
                 'orderByColumn' => 0,
                 'order' => 'asc',
@@ -62,10 +62,10 @@ class UserController extends Controller {
             'operators' => [
                 'url' => \Locales::route($this->route, true),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => true,
+                'checkbox' => ['selector' => $this->route . '.id', 'id' => 'id'],
                 'columns' => [
-                    ['id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
-                    ['id' => 'email', 'name' => trans('cms/datatables.email'), 'search' => true],
+                    ['selector' => $this->route . '.name', 'id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
+                    ['selector' => $this->route . '.email', 'id' => 'email', 'name' => trans('cms/datatables.email'), 'search' => true],
                 ],
                 'orderByColumn' => 0,
                 'order' => 'asc',
@@ -93,10 +93,10 @@ class UserController extends Controller {
             $this->route => [
                 'url' => \Locales::route($this->route),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => true,
+                'checkbox' => ['selector' => $this->route . '.id', 'id' => 'id'],
                 'columns' => [
-                    ['id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
-                    ['id' => 'email', 'name' => trans('cms/datatables.email'), 'search' => true],
+                    ['selector' => $this->route . '.name', 'id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
+                    ['selector' => $this->route . '.email', 'id' => 'email', 'name' => trans('cms/datatables.email'), 'search' => true],
                 ],
                 'orderByColumn' => 0,
                 'order' => 'asc',

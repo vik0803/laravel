@@ -18,12 +18,12 @@ class LocaleController extends Controller {
             $this->route => [
                 'url' => \Locales::route('settings/' . $this->route),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => true,
+                'checkbox' => ['selector' => $this->route . '.id', 'id' => 'id'],
                 'columns' => [
-                    ['id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
-                    ['id' => 'native', 'name' => trans('cms/datatables.native'), 'search' => true],
-                    ['id' => 'locale', 'name' => trans('cms/datatables.locale'), 'search' => true],
-                    ['id' => 'script', 'name' => trans('cms/datatables.script'), 'search' => true],
+                    ['selector' => $this->route . '.name', 'id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
+                    ['selector' => $this->route . '.native', 'id' => 'native', 'name' => trans('cms/datatables.native'), 'search' => true],
+                    ['selector' => $this->route . '.locale', 'id' => 'locale', 'name' => trans('cms/datatables.locale'), 'search' => true],
+                    ['selector' => $this->route . '.script', 'id' => 'script', 'name' => trans('cms/datatables.script'), 'search' => true],
                 ],
                 'orderByColumn' => 0,
                 'order' => 'asc',
