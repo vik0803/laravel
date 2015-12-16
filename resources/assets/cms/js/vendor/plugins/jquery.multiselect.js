@@ -26,6 +26,7 @@
             checkAllText: 'Check all',
             uncheckAllText: 'Uncheck all',
             noneSelectedText: 'Select options',
+            noneSelectedSingleText: 'Select option',
             selectedText: '# selected',
             selectedList: 3,
             speed: null,
@@ -58,7 +59,7 @@
 
             this.button = $('<button type="button"><span class="caret"></span></button>').addClass('btn btn-block btn-default').addClass(o.classes).attr({ 'title': el.attr('title'), 'aria-haspopup': true, 'tabIndex': el.attr('tabIndex') }).insertAfter(el);
 
-            this.buttonlabel = $('<div />').html(o.noneSelectedText).appendTo(this.button);
+            this.buttonlabel = $('<div />').html(o.multiple ? o.noneSelectedText : o.noneSelectedSingleText).appendTo(this.button);
 
             this.menu = $('<section />').addClass('dropdown-menu').addClass(o.classes).insertAfter(this.button);
             if (!o.multiple) { // some addl. logic for single selects
@@ -213,7 +214,7 @@
             var value;
 
             if (numChecked === 0) {
-                value = self.options.noneSelectedText;
+                value = self.options.multiple ? self.options.noneSelectedText : self.options.noneSelectedSingleText;
             } else {
                 if ($.isFunction(self.options.selectedText)) {
                     value = self.options.selectedText.call(self, numChecked, self.inputs.length, $checked.get());
@@ -683,6 +684,7 @@
                 case 'selectedText':
                 case 'selectedList':
                 case 'noneSelectedText':
+                case 'noneSelectedSingleText':
                     this.options[key] = value; // these all needs to update immediately for the update() call
                     this.update();
                 break;
