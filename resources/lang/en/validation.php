@@ -106,6 +106,17 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => 'Name',
+        'email' => 'E-mail',
+        'password' => 'Password',
+        'slug' => 'Slug',
+        'locale' => 'Locale',
+        'locales' => 'Locales',
+        'default_locale_id' => 'Default Locale',
+        'native' => 'Native Name',
+        'script' => 'Script',
+        'group' => 'Group',
+    ],
 
 ];
