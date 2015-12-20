@@ -26,13 +26,13 @@ class Locales
     public function __construct()
     {
         $this->defaultLocale = \Config::get('app.fallback_locale');
-        $this->supportedLocales = \Config::get('locales.supportedLocales');
+        $this->setSupportedLocales(\Config::get('locales.supportedLocales'));
         $this->useAcceptLanguageHeader = \Config::get('locales.useAcceptLanguageHeader');
         $this->hideDefaultLocaleInURL = \Config::get('locales.hideDefaultLocaleInURL');
         $this->setSubdomain(explode('.', \Request::getHost())[0]);
         $this->setRoutesPath($this->getSubdomain() . '/routes.');
 
-        foreach (array_keys($this->supportedLocales) as $locale) {
+        foreach (array_keys($this->getSupportedLocales()) as $locale) {
             $this->setRoutesArray($locale, \Lang::get($this->getSubdomain() . '/routes', [], $locale));
         }
     }
@@ -124,7 +124,7 @@ class Locales
      */
     public function getScript()
     {
-        return $this->supportedLocales[$this->getCurrent()]['script'];
+        return $this->getSupportedLocales()[$this->getCurrent()]['script'];
     }
 
     /**
@@ -134,7 +134,7 @@ class Locales
      */
     public function getName()
     {
-        return $this->supportedLocales[$this->getCurrent()]['name'];
+        return $this->getSupportedLocales()[$this->getCurrent()]['name'];
     }
 
     /**
@@ -144,7 +144,7 @@ class Locales
      */
     public function getNativeName()
     {
-        return $this->supportedLocales[$this->getCurrent()]['native'];
+        return $this->getSupportedLocales()[$this->getCurrent()]['native'];
     }
 
     /**
@@ -165,6 +165,16 @@ class Locales
     public function getSupportedLocales()
     {
         return $this->supportedLocales;
+    }
+
+    /**
+     * Set all supported locales
+     *
+     * @return void
+     */
+    public function setSupportedLocales($locales)
+    {
+        $this->supportedLocales = $locales;
     }
 
     /**
@@ -564,7 +574,7 @@ class Locales
             $locale = \Request::segment(1);
         }
 
-        if (isset($this->supportedLocales[$locale])) {
+        if (isset($this->getSupportedLocales()[$locale])) {
             $this->setCurrent($locale);
         } else {
             // if the first segment/locale passed is not valid the locale could be taken by the browser depending on your configuration
@@ -603,7 +613,7 @@ class Locales
     {
         $matches = $this->getMatchesFromAcceptedLanguages();
         foreach ($matches as $key => $q) {
-            if (isset($this->supportedLocales[$key])) {
+            if (isset($this->getSupportedLocales()[$key])) {
                 return $key;
             }
         }
@@ -615,7 +625,7 @@ class Locales
         if (class_exists('Locale') && !empty(\Request::server('HTTP_ACCEPT_LANGUAGE'))) {
             $http_accept_language = Locale::acceptFromHttp(\Request::server('HTTP_ACCEPT_LANGUAGE'));
 
-            if (isset($this->supportedLocales[$http_accept_language])) {
+            if (isset($this->getSupportedLocales()[$http_accept_language])) {
                 return $http_accept_language;
             }
         }
@@ -624,7 +634,7 @@ class Locales
             $remote_host = explode('.', \Request::server('REMOTE_HOST'));
             $lang = strtolower(end($remote_host));
 
-            if (isset($this->supportedLocales[$lang])) {
+            if (isset($this->getSupportedLocales()[$lang])) {
                 return $lang;
             }
         }
