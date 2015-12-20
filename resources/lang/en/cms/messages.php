@@ -15,6 +15,8 @@ return [
     'changeLanguage' => 'Change Language',
     'contactAdmin' => 'Contact Admin',
     'all' => 'All',
+    'menu' => 'Menu',
+    'settings' => 'Settings',
     'footerText' => '&copy; ' . date("Y") . ' Vadenka.com',
 
 ];

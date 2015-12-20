@@ -1,4 +1,4 @@
-<?php $nav = (isset($item) ? $item['children'] : \Locales::getNavigation('sidebar')); ?>
+<?php $nav = (isset($item) ? $item['children'] : \Locales::getNavigation('sidebar-settings')); ?>
 @foreach ($nav as $item)
     @if ($item['divider-before'])<li class="divider"></li>@endif
     @if (isset($item['children']))
@@ -7,7 +7,7 @@
             @if ($item['icon'])<span class="glyphicon glyphicon-{{ $item['icon'] }}"></span>@endif{{ $item['name'] }}<span class="caret"></span>
         </a>
         <ul data-level="{{ $item['level'] }}"  class="slidedown-menu menu-static">
-            @include('cms/partials.sidebar-recursive')
+            @include('cms/partials.sidebar-settings-recursive')
         </ul>
     </li>
     @else
