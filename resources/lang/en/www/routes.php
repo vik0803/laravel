@@ -11,6 +11,11 @@ return [
     |
     */
 
-    '/' => '',
+    '/' => [
+        'slug' => '',
+        'name' => 'Sign In',
+        'metaTitle' => 'Sign In Title',
+        'metaDescription' => 'Sign In Description',
+    ]
 
 ];
