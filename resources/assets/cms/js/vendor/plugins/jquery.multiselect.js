@@ -176,7 +176,7 @@
                 }
 
                 // add the title and close everything off
-                html += ' />' + this.innerHTML + (subText ? '<span class="sub-text">(' + subText + ')</span>' : '') + '</label></li>';
+                html += ' />' + this.innerHTML + (subText ? '<span class="sub-text">/ ' + subText + '</span>' : '') + '</label></li>';
             });
 
             // insert into the DOM
