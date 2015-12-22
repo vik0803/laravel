@@ -10,7 +10,7 @@ class Locales
 {
     protected $defaultLocale;
     protected $locales;
-    protected $useAcceptLanguageHeader = true;
+    protected $useAcceptLanguageHeader = true; // Negotiate locale using the Accept-Language header if it's not defined in the URL
     protected $hideDefaultLocaleInURL;
     protected $currentLocale = null;
     protected $routesLocale;
