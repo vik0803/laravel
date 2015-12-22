@@ -6,13 +6,11 @@
 |--------------------------------------------------------------------------
 */
 
-$domains = App\Domain::with('locales')->get();
+foreach (\Locales::getDomains() as $domain => $value) {
+    if ($domain == 'cms') {
+        Route::group(['domain' => $domain . '.' . config('app.domain'), 'namespace' => ucfirst($domain)], function() use ($value) {
 
-foreach ($domains as $domain) {
-    if ($domain->slug == 'cms') {
-        Route::group(['domain' => $domain->slug . '.' . config('app.domain'), 'namespace' => ucfirst($domain->slug)], function() use ($domain) {
-
-            foreach ($domain->locales as $locale) {
+            foreach ($value->locales as $locale) {
                 \Locales::setRoutesLocale($locale->locale);
 
                 Route::group(['middleware' => 'guest'], function() {
@@ -67,10 +65,10 @@ foreach ($domains as $domain) {
             }
 
         });
-    } elseif ($domain->slug == 'www') {
-        Route::group(['domain' => $domain->slug . '.' . config('app.domain'), 'namespace' => ucfirst($domain->slug)], function() use ($domain) {
+    } elseif ($domain == 'www') {
+        Route::group(['domain' => $domain . '.' . config('app.domain'), 'namespace' => ucfirst($domain)], function() use ($value) {
 
-            foreach ($domain->locales as $locale) {
+            foreach ($value->locales as $locale) {
                 \Locales::setRoutesLocale($locale->locale);
 
                 Route::group(['middleware' => 'guest'], function() {
