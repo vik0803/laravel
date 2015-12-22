@@ -49,3 +49,8 @@ div {
         color: $gray-light;
     }
 }
+
+textarea {
+    resize: vertical;
+    min-height: 3.125em; /* 50/16 */
+}
