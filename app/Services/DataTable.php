@@ -35,9 +35,13 @@ class DataTable
             $model = $model->with($aggregate['aggregate']);
         }
 
-        foreach ($columnsData['join'] as $join) {
+        foreach ($columnsData['joins'] as $join) {
             array_push($columnsData['columns'], $join['selector']);
             $model = $model->leftJoin($join['join'][0], $join['join'][1], $join['join'][2], $join['join'][3]);
+        }
+
+        foreach ($columnsData['appends'] as $append) {
+            array_push($columnsData['columns'], $append['append']['selector']);
         }
 
         if ($this->request->ajax()) {
@@ -92,6 +96,10 @@ class DataTable
                 $data = $this->aggregate($data, $columnsData['aggregates']);
             }
 
+            if (count($columnsData['appends'])) {
+                $data = $this->append($data, $columnsData['appends']);
+            }
+
             $this->setOption('data', $data);
         } else {
             $this->setOption('count', $count);
@@ -105,6 +113,10 @@ class DataTable
 
                 if (count($columnsData['aggregates'])) {
                     $data = $this->aggregate($data, $columnsData['aggregates']);
+                }
+
+                if (count($columnsData['appends'])) {
+                    $data = $this->append($data, $columnsData['appends']);
                 }
 
                 $this->setOption('data', $data);
@@ -144,13 +156,26 @@ class DataTable
 
     public function getColumnsData()
     {
-        $columnsData = ['join' => [], 'aggregates' => []];
+        $columnsData = ['appends' => [], 'joins' => [], 'aggregates' => []];
         $columns = array_where($this->getOption('columns'), function ($key, $column) use (&$columnsData) {
+            $skip = false;
+
             if (isset($column['join'])) {
-                array_push($columnsData['join'], $column);
-                return false;
-            } elseif (isset($column['aggregate'])) {
+                array_push($columnsData['joins'], $column);
+                $skip = true;
+            }
+
+            if (isset($column['aggregate'])) {
                 array_push($columnsData['aggregates'], $column);
+                $skip = true;
+            }
+
+            if (isset($column['append'])) {
+                array_push($columnsData['appends'], $column);
+                $skip = true;
+            }
+
+            if ($skip) {
                 return false;
             } else {
                 return true;
@@ -179,6 +204,30 @@ class DataTable
                 }
 
                 unset($data[$key][$relation]);
+            }
+        }
+
+        return $data;
+    }
+
+    public function append($data, $appends)
+    {
+        foreach ($data as $key => $items) {
+            foreach ($appends as $append) {
+                if (array_key_exists($append['id'], $items)) {
+                    $passed = false;
+                    foreach ($append['append']['rules'] as $column => $value) {
+                        if ($items[$column] == $value) {
+                            $passed = true;
+                        } else {
+                            $passed = false;
+                        }
+                    }
+
+                    if ($passed) {
+                        $data[$key][$append['id']] .= $append['append']['text'];
+                    }
+                }
             }
         }
 
