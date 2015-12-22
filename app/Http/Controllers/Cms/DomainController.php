@@ -55,13 +55,13 @@ class DomainController extends Controller {
         $this->multiselect = [
             'locales' => [
                 'id' => 'id',
-                'name' => 'name',
-                'subText' => 'native',
+                'name' => 'native',
+                'subText' => 'name',
             ],
             'default_locale_id' => [
                 'id' => 'id',
-                'name' => 'name',
-                'subText' => 'native',
+                'name' => 'native',
+                'subText' => 'name',
             ],
         ];
     }
