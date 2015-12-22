@@ -2517,7 +2517,7 @@ class LocalesTableSeeder extends Seeder
             [
                 'id' => 279,
                 'locale' => 'mn-Mong',
-                'name' => 'Mongolian (Mongolian)',
+                'name' => 'Mongolian',
                 'script' => 'rtl',
                 'native' => 'ᠮᠣᠨᠭᠭᠣᠯ ᠬᠡᠯᠡ',
                 'created_at' => \Carbon\Carbon::now(),
@@ -2589,7 +2589,7 @@ class LocalesTableSeeder extends Seeder
             [
                 'id' => 287,
                 'locale' => 'vai',
-                'name' => 'Vai (Vai)',
+                'name' => 'Vai',
                 'script' => 'ltr',
                 'native' => 'ꕙꔤ',
                 'created_at' => \Carbon\Carbon::now(),
@@ -2598,7 +2598,7 @@ class LocalesTableSeeder extends Seeder
             [
                 'id' => 288,
                 'locale' => 'jv-Java',
-                'name' => 'Javanese (Javanese)',
+                'name' => 'Javanese',
                 'script' => 'ltr',
                 'native' => 'Javanese',
                 'created_at' => \Carbon\Carbon::now(),
