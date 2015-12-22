@@ -50,6 +50,7 @@ return [
 
     // Options
     'rememberOption' => 'Keep me signed in',
+    'hideDefaultLocaleOption' => 'Hide default locale in URL',
     'localeScripts' => [
         'ltr' => 'Left-to-Right',
         'rtl' => 'Right-to-Left',

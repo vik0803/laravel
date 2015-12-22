@@ -23,6 +23,8 @@ class CreateDomainRequest extends Request
      */
     public function rules()
     {
+        $this->merge(['hide_default_locale' => $this->input('hide_default_locale', 0)]); // set default value of the hide_default_locale checkbox
+
         return [
             'name' => 'required|max:255',
             'slug' => 'required|max:255|unique:domains',

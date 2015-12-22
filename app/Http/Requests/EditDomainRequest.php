@@ -24,6 +24,8 @@ class EditDomainRequest extends Request
      */
     public function rules()
     {
+        $this->merge(['hide_default_locale' => $this->input('hide_default_locale', 0)]); // set default value of the hide_default_locale checkbox
+
         $domain = Domain::findOrFail(\Request::input('id'))->first();
 
         return [

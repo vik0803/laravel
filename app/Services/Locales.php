@@ -29,7 +29,7 @@ class Locales
         $this->setDomains(Domain::get()->keyBy('slug'));
         $this->setDomain($this->getDomains()[explode('.', \Request::getHost())[0]]);
 
-        $this->hideDefaultLocaleInURL = $this->getDomain()->default_locale_is_hidden;
+        $this->hideDefaultLocaleInURL = $this->getDomain()->hide_default_locale;
         $this->setRoutesPath($this->getDomain()->slug . '/routes.');
         $this->setLocales($this->getDomain()->locales->keyBy('locale'));
         $this->defaultLocale = \Config::get('app.fallback_locale');

@@ -42,6 +42,9 @@
         @if ($errors->has('default_locale_id'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
     </div>
 
+    <div class="form-group">
+        {!! Form::checkboxInline('hide_default_locale', 1, null, ['id' => 'input-hide_default_locale'], trans('cms/forms.hideDefaultLocaleOption'), ['class' => 'checkbox-inline']) !!}
+    </div>
 
     <div class="form-group{!! ($errors->has('description') ? ' has-error has-feedback' : '') !!}">
         {!! Form::label('input-description', trans('cms/forms.descriptionLabel')) !!}
