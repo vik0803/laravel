@@ -14,25 +14,13 @@ class DomainLocaleTableSeeder extends Seeder
         DB::table('domain_locale')->insert([
             [
                 'domain_id' => 1,
-                'locale_id' => 1,
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
-            ],
-            [
-                'domain_id' => 1,
-                'locale_id' => 2,
+                'locale_id' => 37,
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'domain_id' => 2,
-                'locale_id' => 1,
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
-            ],
-            [
-                'domain_id' => 2,
-                'locale_id' => 2,
+                'locale_id' => 37,
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now(),
             ],
