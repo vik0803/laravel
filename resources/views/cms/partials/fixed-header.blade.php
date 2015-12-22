@@ -14,7 +14,7 @@
             @foreach (\Locales::getLanguages() as $key => $language)
                 <li{!! $language['active'] ? ' class="active"' : '' !!}>
                     <a href="{{ $language['link'] }}">
-                        {{ $language['native'] }}@if ($language['name'])<span class="sub-text">({{ $language['name'] }})</span>@endif
+                        {{ $language['native'] }}@if ($language['name'])<span class="sub-text">/ {{ $language['name'] }}</span>@endif
                     </a>
                 </li>
             @endforeach
