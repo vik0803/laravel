@@ -4,6 +4,7 @@
         Vadenka.com
     </a>
     <ul>
+    @if (count(\Locales::getLocales()) > 1)
         <li class="submenu">
             <a class="dropdown-toggle">
                 {{ trans('cms/messages.changeLanguage') }}
@@ -19,6 +20,7 @@
             @endforeach
             </ul>
         </li>
+    @endif
         <li class="submenu">
             <a class="dropdown-toggle">{{ Auth::user()->name }} <span class="caret"></span></a>
             <ul class="dropdown-menu dropdown-menu-small dropdown-menu-right">

@@ -30,6 +30,7 @@
 
         <div class="auth-box">@yield('content')</div>
 
+        @if (count(\Locales::getLocales()) > 1)
         <div class="languages-wrapper">
             <div class="submenu">
                 <a href="#" class="btn btn-default dropdown-toggle dropdown-toggle-left">
@@ -48,6 +49,7 @@
                 </ul>
             </div>
         </div>
+        @endif
     </div>
 
 	<script>
