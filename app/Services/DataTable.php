@@ -37,7 +37,7 @@ class DataTable
 
         foreach ($columnsData['join'] as $join) {
             array_push($columnsData['columns'], $join['selector']);
-            $model = $model->join($join['join'][0], $join['join'][1], $join['join'][2], $join['join'][3]);
+            $model = $model->leftJoin($join['join'][0], $join['join'][1], $join['join'][2], $join['join'][3]);
         }
 
         if ($this->request->ajax()) {
