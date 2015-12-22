@@ -35,6 +35,7 @@ return [
     'localeLabel' => 'Locale',
     'localesLabel' => 'Locales',
     'groupLabel' => 'Group',
+    'descriptionLabel' => 'Description',
 
     // Placeholders
     'emailPlaceholder' => 'E-mail',
@@ -45,6 +46,7 @@ return [
     'scriptPlaceholder' => 'Script',
     'localePlaceholder' => 'Locale',
     'slugPlaceholder' => 'Slug',
+    'descriptionPlaceholder' => 'Description',
 
     // Options
     'rememberOption' => 'Keep me signed in',
