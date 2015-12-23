@@ -37,7 +37,7 @@ class DataTable
 
         foreach ($columnsData['joins'] as $join) {
             array_push($columnsData['columns'], $join['selector']);
-            $model = $model->leftJoin($join['join'][0], $join['join'][1], $join['join'][2], $join['join'][3]);
+            $model = $model->leftJoin($join['join']['table'], $join['join']['localColumn'], $join['join']['constrain'], $join['join']['foreignColumn']);
         }
 
         foreach ($columnsData['appends'] as $append) {

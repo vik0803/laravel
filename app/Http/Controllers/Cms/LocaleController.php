@@ -18,12 +18,35 @@ class LocaleController extends Controller {
             $this->route => [
                 'url' => \Locales::route('settings/' . $this->route),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => ['selector' => $this->route . '.id', 'id' => 'id'],
+                'checkbox' => [
+                    'selector' => $this->route . '.id',
+                    'id' => 'id',
+                ],
                 'columns' => [
-                    ['selector' => $this->route . '.name', 'id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
-                    ['selector' => $this->route . '.native', 'id' => 'native', 'name' => trans('cms/datatables.native'), 'search' => true],
-                    ['selector' => $this->route . '.locale', 'id' => 'locale', 'name' => trans('cms/datatables.locale'), 'search' => true],
-                    ['selector' => $this->route . '.script', 'id' => 'script', 'name' => trans('cms/datatables.script'), 'search' => true],
+                    [
+                        'selector' => $this->route . '.name',
+                        'id' => 'name',
+                        'name' => trans('cms/datatables.name'),
+                        'search' => true,
+                    ],
+                    [
+                        'selector' => $this->route . '.native',
+                        'id' => 'native',
+                        'name' => trans('cms/datatables.native'),
+                        'search' => true,
+                    ],
+                    [
+                        'selector' => $this->route . '.locale',
+                        'id' => 'locale',
+                        'name' => trans('cms/datatables.locale'),
+                        'search' => true,
+                    ],
+                    [
+                        'selector' => $this->route . '.script',
+                        'id' => 'script',
+                        'name' => trans('cms/datatables.script'),
+                        'search' => true,
+                    ],
                 ],
                 'orderByColumn' => 0,
                 'order' => 'asc',
@@ -32,19 +55,19 @@ class LocaleController extends Controller {
                         'url' => \Locales::route('settings/' . $this->route . '/create'),
                         'class' => 'btn-primary js-create',
                         'icon' => 'plus',
-                        'name' => trans('cms/forms.createButton')
+                        'name' => trans('cms/forms.createButton'),
                     ],
                     [
                         'url' => \Locales::route('settings/' . $this->route . '/edit'),
                         'class' => 'btn-warning disabled js-edit',
                         'icon' => 'edit',
-                        'name' => trans('cms/forms.editButton')
+                        'name' => trans('cms/forms.editButton'),
                     ],
                     [
                         'url' => \Locales::route('settings/' . $this->route . '/delete'),
                         'class' => 'btn-danger disabled js-destroy',
                         'icon' => 'trash',
-                        'name' => trans('cms/forms.deleteButton')
+                        'name' => trans('cms/forms.deleteButton'),
                     ],
                 ],
             ],

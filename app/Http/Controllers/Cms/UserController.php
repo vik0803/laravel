@@ -31,10 +31,23 @@ class UserController extends Controller {
             'admins' => [
                 'url' => \Locales::route($this->route, true),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => ['selector' => $this->route . '.id', 'id' => 'id'],
+                'checkbox' => [
+                    'selector' => $this->route . '.id',
+                    'id' => 'id',
+                ],
                 'columns' => [
-                    ['selector' => $this->route . '.name', 'id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
-                    ['selector' => $this->route . '.email', 'id' => 'email', 'name' => trans('cms/datatables.email'), 'search' => true],
+                    [
+                        'selector' => $this->route . '.name',
+                        'id' => 'name',
+                        'name' => trans('cms/datatables.name'),
+                        'search' => true,
+                    ],
+                    [
+                        'selector' => $this->route . '.email',
+                        'id' => 'email',
+                        'name' => trans('cms/datatables.email'),
+                        'search' => true,
+                    ],
                 ],
                 'orderByColumn' => 0,
                 'order' => 'asc',
@@ -43,29 +56,42 @@ class UserController extends Controller {
                         'url' => \Locales::route($this->route . '/create'),
                         'class' => 'btn-primary js-create',
                         'icon' => 'plus',
-                        'name' => trans('cms/forms.createButton')
+                        'name' => trans('cms/forms.createButton'),
                     ],
                     [
                         'url' => \Locales::route($this->route . '/edit'),
                         'class' => 'btn-warning disabled js-edit',
                         'icon' => 'edit',
-                        'name' => trans('cms/forms.editButton')
+                        'name' => trans('cms/forms.editButton'),
                     ],
                     [
                         'url' => \Locales::route($this->route . '/delete'),
                         'class' => 'btn-danger disabled js-destroy',
                         'icon' => 'trash',
-                        'name' => trans('cms/forms.deleteButton')
+                        'name' => trans('cms/forms.deleteButton'),
                     ],
-                ]
+                ],
             ],
             'operators' => [
                 'url' => \Locales::route($this->route, true),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => ['selector' => $this->route . '.id', 'id' => 'id'],
+                'checkbox' => [
+                    'selector' => $this->route . '.id',
+                    'id' => 'id',
+                ],
                 'columns' => [
-                    ['selector' => $this->route . '.name', 'id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
-                    ['selector' => $this->route . '.email', 'id' => 'email', 'name' => trans('cms/datatables.email'), 'search' => true],
+                    [
+                        'selector' => $this->route . '.name',
+                        'id' => 'name',
+                        'name' => trans('cms/datatables.name'),
+                        'search' => true,
+                    ],
+                    [
+                        'selector' => $this->route . '.email',
+                        'id' => 'email',
+                        'name' => trans('cms/datatables.email'),
+                        'search' => true,
+                    ],
                 ],
                 'orderByColumn' => 0,
                 'order' => 'asc',
@@ -74,29 +100,42 @@ class UserController extends Controller {
                         'url' => \Locales::route($this->route . '/create'),
                         'class' => 'btn-primary js-create',
                         'icon' => 'plus',
-                        'name' => trans('cms/forms.createButton')
+                        'name' => trans('cms/forms.createButton'),
                     ],
                     [
                         'url' => \Locales::route($this->route . '/edit'),
                         'class' => 'btn-warning disabled js-edit',
                         'icon' => 'edit',
-                        'name' => trans('cms/forms.editButton')
+                        'name' => trans('cms/forms.editButton'),
                     ],
                     [
                         'url' => \Locales::route($this->route . '/delete'),
                         'class' => 'btn-danger disabled js-destroy',
                         'icon' => 'trash',
-                        'name' => trans('cms/forms.deleteButton')
+                        'name' => trans('cms/forms.deleteButton'),
                     ],
-                ]
+                ],
             ],
             $this->route => [
                 'url' => \Locales::route($this->route),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => ['selector' => $this->route . '.id', 'id' => 'id'],
+                'checkbox' => [
+                    'selector' => $this->route . '.id',
+                    'id' => 'id',
+                ],
                 'columns' => [
-                    ['selector' => $this->route . '.name', 'id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
-                    ['selector' => $this->route . '.email', 'id' => 'email', 'name' => trans('cms/datatables.email'), 'search' => true],
+                    [
+                        'selector' => $this->route . '.name',
+                        'id' => 'name',
+                        'name' => trans('cms/datatables.name'),
+                        'search' => true,
+                    ],
+                    [
+                        'selector' => $this->route . '.email',
+                        'id' => 'email',
+                        'name' => trans('cms/datatables.email'),
+                        'search' => true,
+                    ],
                 ],
                 'orderByColumn' => 0,
                 'order' => 'asc',
@@ -105,22 +144,22 @@ class UserController extends Controller {
                         'url' => \Locales::route($this->route . '/create'),
                         'class' => 'btn-primary js-create',
                         'icon' => 'plus',
-                        'name' => trans('cms/forms.createButton')
+                        'name' => trans('cms/forms.createButton'),
                     ],
                     [
                         'url' => \Locales::route($this->route . '/edit'),
                         'class' => 'btn-warning disabled js-edit',
                         'icon' => 'edit',
-                        'name' => trans('cms/forms.editButton')
+                        'name' => trans('cms/forms.editButton'),
                     ],
                     [
                         'url' => \Locales::route($this->route . '/delete'),
                         'class' => 'btn-danger disabled js-destroy',
                         'icon' => 'trash',
-                        'name' => trans('cms/forms.deleteButton')
+                        'name' => trans('cms/forms.deleteButton'),
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
