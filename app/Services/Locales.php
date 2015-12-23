@@ -601,12 +601,9 @@ class Locales
             $locale = \Request::segment(1);
         }
 
-        if (isset($this->getLocales()[$locale])) {
+        if ($locale && isset($this->getLocales()[$locale])) {
             $this->setCurrent($locale);
-        } else {
-            // if the first segment/locale passed is not valid the locale could be taken by the browser depending on your configuration
-            $locale = null;
-
+        } else { // if the first segment/locale passed is not valid the locale could be taken by the browser depending on your configuration
             if ($this->hideDefaultLocaleInURL) { // if we reached this point and hideDefaultLocaleInURL is true we have to assume we are routing to a defaultLocale route.
                 $this->setCurrent($this->getDefault());
             } elseif ($this->useAcceptLanguageHeader) { // but if hideDefaultLocaleInURL is false && useAcceptLanguageHeader is true, we have to retrieve it from the browser...
@@ -614,9 +611,15 @@ class Locales
             } else { // or just get application default locale
                 $this->setCurrent($this->getDefault());
             }
+
+            if (!$this->hideDefaultLocaleInURL) {
+                return false;
+            }
         }
 
         \App::setLocale($this->getCurrent());
+
+        return true;
     }
 
     /**

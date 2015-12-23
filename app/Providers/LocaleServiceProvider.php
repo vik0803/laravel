@@ -24,6 +24,8 @@ class LocaleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Locales::set();
+        if (!\Locales::set()) {
+            \Redirect::to(trim(\Request::root() . '/' . \Locales::getCurrent() . (\Request::path() != '/' ? '/' . \Request::path() : '') . str_replace(\Request::url(), '', \Request::fullUrl()), '/'), 301)->send();
+        }
     }
 }
