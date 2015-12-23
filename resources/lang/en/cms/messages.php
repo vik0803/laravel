@@ -17,6 +17,7 @@ return [
     'all' => 'All',
     'menu' => 'Menu',
     'settings' => 'Settings',
+    'localeIsHidden' => ' (hidden in URL)',
     'footerText' => '&copy; ' . date("Y") . ' Vadenka.com',
 
 ];

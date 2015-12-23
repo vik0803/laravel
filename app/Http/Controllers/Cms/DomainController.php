@@ -25,7 +25,7 @@ class DomainController extends Controller {
                     ['selector' => $this->route . '.name', 'id' => 'name', 'name' => trans('cms/datatables.name'), 'search' => true],
                     ['selector' => $this->route . '.slug', 'id' => 'slug', 'name' => trans('cms/datatables.slug'), 'search' => true],
                     ['selector' => '', 'id' => 'locales', 'name' => trans('cms/datatables.locales'), 'aggregate' => 'localesCount'],
-                    ['selector' => 'locales.name as defaultLocale', 'id' => 'defaultLocale', 'name' => trans('cms/datatables.defaultLocale'), 'append' => ['selector' => $this->route . '.hide_default_locale', 'column' => 'defaultLocale', 'rules' => ['hide_default_locale' => 1], 'text' => ' (hidden)'], 'join' => ['locales', 'locales.id', '=', $this->route . '.default_locale_id']],
+                    ['selector' => 'locales.name as defaultLocale', 'id' => 'defaultLocale', 'name' => trans('cms/datatables.defaultLocale'), 'append' => ['selector' => $this->route . '.hide_default_locale', 'column' => 'defaultLocale', 'rules' => ['hide_default_locale' => 1], 'text' => trans('cms/messages.localeIsHidden')], 'join' => ['locales', 'locales.id', '=', $this->route . '.default_locale_id']],
                 ],
                 'orderByColumn' => 0,
                 'order' => 'asc',
