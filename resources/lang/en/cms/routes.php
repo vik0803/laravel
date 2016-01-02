@@ -208,23 +208,5 @@ return [
     'settings/locales/destroy' => [
         'slug' => 'settings/locales/destroy',
     ],
-    'profile' => [
-        'slug' => 'profile',
-        'name' => 'Profile',
-        'metaTitle' => 'Profile Title',
-        'metaDescription' => 'Profile Description',
-        'category' => 'header',
-        'order' => 1,
-        'icon' => 'user',
-    ],
-    'messages' => [
-        'slug' => 'messages',
-        'name' => 'Messages',
-        'metaTitle' => 'Messages Title',
-        'metaDescription' => 'Messages Description',
-        'category' => 'header',
-        'order' => 2,
-        'icon' => 'inbox',
-    ],
 
 ];

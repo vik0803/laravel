@@ -155,23 +155,5 @@ return [
         'category' => 'sidebar',
         'order' => 2
     ],
-    'profile' => [
-        'slug' => 'профил',
-        'name' => 'Профил',
-        'metaTitle' => 'Профил Title',
-        'metaDescription' => 'Профил Description',
-        'category' => 'header',
-        'order' => 1,
-        'icon' => 'user'
-    ],
-    'messages' => [
-        'slug' => 'съобщения',
-        'name' => 'Съобщения',
-        'metaTitle' => 'Съобщения Title',
-        'metaDescription' => 'Съобщения Description',
-        'category' => 'header',
-        'order' => 2,
-        'icon' => 'inbox'
-    ],
 
 ];
