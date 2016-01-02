@@ -44,6 +44,10 @@ class DataTable
             array_push($columnsData['columns'], $append['append']['selector']);
         }
 
+        foreach ($columnsData['prepends'] as $prepend) {
+            array_push($columnsData['columns'], $prepend['prepend']['selector']);
+        }
+
         if ($this->request->ajax()) {
             $this->setOption('ajax', true);
             if ($internal) {
@@ -100,6 +104,10 @@ class DataTable
                 $data = $this->append($data, $columnsData['appends']);
             }
 
+            if (count($columnsData['prepends'])) {
+                $data = $this->prepend($data, $columnsData['prepends']);
+            }
+
             $this->setOption('data', $data);
         } else {
             $this->setOption('count', $count);
@@ -117,6 +125,10 @@ class DataTable
 
                 if (count($columnsData['appends'])) {
                     $data = $this->append($data, $columnsData['appends']);
+                }
+
+                if (count($columnsData['prepends'])) {
+                    $data = $this->prepend($data, $columnsData['prepends']);
                 }
 
                 $this->setOption('data', $data);
@@ -156,7 +168,7 @@ class DataTable
 
     public function getColumnsData()
     {
-        $columnsData = ['appends' => [], 'joins' => [], 'aggregates' => []];
+        $columnsData = ['prepends' => [], 'appends' => [], 'joins' => [], 'aggregates' => []];
         $columns = array_where($this->getOption('columns'), function ($key, $column) use (&$columnsData) {
             $skip = false;
 
@@ -172,7 +184,10 @@ class DataTable
 
             if (isset($column['append'])) {
                 array_push($columnsData['appends'], $column);
-                $skip = true;
+            }
+
+            if (isset($column['prepend'])) {
+                array_push($columnsData['prepends'], $column);
             }
 
             if ($skip) {
@@ -226,6 +241,30 @@ class DataTable
 
                     if ($passed) {
                         $data[$key][$append['id']] .= $append['append']['text'];
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    public function prepend($data, $prepends)
+    {
+        foreach ($data as $key => $items) {
+            foreach ($prepends as $prepend) {
+                if (array_key_exists($prepend['id'], $items)) {
+                    $passed = false;
+                    foreach ($prepend['prepend']['rules'] as $column => $value) {
+                        if ($items[$column] == $value) {
+                            $passed = true;
+                        } else {
+                            $passed = false;
+                        }
+                    }
+
+                    if ($passed) {
+                        $data[$key][$prepend['id']] = $prepend['prepend']['text'] . $data[$key][$prepend['id']];
                     }
                 }
             }
