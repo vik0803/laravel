@@ -48,6 +48,10 @@ class DataTable
             array_push($columnsData['columns'], $prepend['prepend']['selector']);
         }
 
+        foreach ($columnsData['links'] as $link) {
+            array_push($columnsData['columns'], $link['link']['selector']);
+        }
+
         if ($this->request->ajax()) {
             $this->setOption('ajax', true);
             if ($internal) {
@@ -108,6 +112,10 @@ class DataTable
                 $data = $this->prepend($data, $columnsData['prepends']);
             }
 
+            if (count($columnsData['links'])) {
+                $data = $this->link($data, $columnsData['links']);
+            }
+
             $this->setOption('data', $data);
         } else {
             $this->setOption('count', $count);
@@ -129,6 +137,10 @@ class DataTable
 
                 if (count($columnsData['prepends'])) {
                     $data = $this->prepend($data, $columnsData['prepends']);
+                }
+
+                if (count($columnsData['links'])) {
+                    $data = $this->link($data, $columnsData['links']);
                 }
 
                 $this->setOption('data', $data);
@@ -168,7 +180,7 @@ class DataTable
 
     public function getColumnsData()
     {
-        $columnsData = ['prepends' => [], 'appends' => [], 'joins' => [], 'aggregates' => []];
+        $columnsData = ['prepends' => [], 'appends' => [], 'links' => [], 'joins' => [], 'aggregates' => []];
         $columns = array_where($this->getOption('columns'), function ($key, $column) use (&$columnsData) {
             $skip = false;
 
@@ -188,6 +200,10 @@ class DataTable
 
             if (isset($column['prepend'])) {
                 array_push($columnsData['prepends'], $column);
+            }
+
+            if (isset($column['link'])) {
+                array_push($columnsData['links'], $column);
             }
 
             if ($skip) {
@@ -265,6 +281,30 @@ class DataTable
 
                     if ($passed) {
                         $data[$key][$prepend['id']] = $prepend['prepend']['text'] . $data[$key][$prepend['id']];
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    public function link($data, $links)
+    {
+        foreach ($data as $key => $items) {
+            foreach ($links as $link) {
+                if (array_key_exists($link['id'], $items)) {
+                    $passed = false;
+                    foreach ($link['link']['rules'] as $column => $value) {
+                        if ($items[$column] == $value) {
+                            $passed = true;
+                        } else {
+                            $passed = false;
+                        }
+                    }
+
+                    if ($passed) {
+                        $data[$key][$link['id']] = '<a href="' . \Locales::route($link['link']['route'], (isset($link['link']['routeParameter']) ? $data[$key][$link['link']['routeParameter']] : '')) . '">' . (isset($link['link']['icon']) ? '<span class="glyphicon glyphicon-' . $link['link']['icon'] . ' glyphicon-left"></span>' : '') . $data[$key][$link['id']] . '</a>';
                     }
                 }
             }
