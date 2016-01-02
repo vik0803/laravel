@@ -3,7 +3,6 @@
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Role;
-use Validator;
 use App\Services\DataTable;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateUserRequest;
@@ -163,11 +162,6 @@ class UserController extends Controller {
         ];
     }
 
-    /**
-     * Show users.
-     *
-     * @return View
-     */
     public function index(DataTable $datatable, User $user, Role $role, Request $request, $group = null)
     {
         $routeParameter = \Locales::getDefaultParameter($this->route, $group);
@@ -188,11 +182,6 @@ class UserController extends Controller {
         }
     }
 
-    /**
-     * Show create new users view.
-     *
-     * @return View
-     */
     public function create(Role $role, Request $request)
     {
         $group = null;
@@ -219,12 +208,6 @@ class UserController extends Controller {
         return $view;
     }
 
-    /**
-     * Store new user.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(DataTable $datatable, User $user, Role $role, CreateUserRequest $request)
     {
         $userRole = $role->select('id')->where('slug', $request->input('group'))->firstOrFail()->id;
@@ -266,11 +249,6 @@ class UserController extends Controller {
         return $redirect;
     }
 
-    /**
-     * Show delete users confirmation.
-     *
-     * @return View
-     */
     public function delete(Request $request)
     {
         $table = $this->route;
@@ -286,12 +264,6 @@ class UserController extends Controller {
         return $view;
     }
 
-    /**
-     * Destroy users.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(DataTable $datatable, User $user, Role $role, Request $request)
     {
         $group = ($request->input('table') == $this->route ? null : $request->input('table'));
@@ -336,11 +308,6 @@ class UserController extends Controller {
         return $redirect;
     }
 
-    /**
-     * Edit user.
-     *
-     * @return View
-     */
     public function edit(Role $role, Request $request, $id = null)
     {
         $user = User::findOrFail($id);
@@ -364,12 +331,6 @@ class UserController extends Controller {
         return $view;
     }
 
-    /**
-     * Update user.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function update(DataTable $datatable, Role $role, EditUserRequest $request)
     {
         $user = User::findOrFail($request->input('id'))->first();
