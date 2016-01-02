@@ -30,7 +30,7 @@ foreach (\Locales::getDomains() as $domain => $value) {
 
                     Route::get(\Locales::getRoute('signout'), 'AuthController@getLogout')->name(\Locales::getRoutePrefix('signout'));
 
-                    Route::get(\Locales::getRoute(\Config::get('app.defaultAuthRoute')), 'PageController@' . \Config::get('app.defaultAuthRoute'))->name(\Locales::getRoutePrefix(\Config::get('app.defaultAuthRoute')));
+                    Route::get(\Locales::getRoute(\Config::get('app.defaultAuthRoute')), 'DashboardController@' . \Config::get('app.defaultAuthRoute'))->name(\Locales::getRoutePrefix(\Config::get('app.defaultAuthRoute')));
 
                     \Locales::isTranslatedRoute('pages') ? Route::get(\Locales::getRoute('pages'), 'PageController@pages')->name(\Locales::getRoutePrefix('pages')) : '';
 
