@@ -49,7 +49,6 @@ class DomainController extends Controller {
                         'name' => trans('cms/datatables.defaultLocale'),
                         'append' => [
                             'selector' => $this->route . '.hide_default_locale',
-                            'column' => 'defaultLocale',
                             'rules' => [
                                 'hide_default_locale' => 1,
                             ],
