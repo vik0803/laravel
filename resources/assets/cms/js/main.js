@@ -692,7 +692,7 @@ var unikat = function() {
                 pagingType: variables.datatablesPagingType[param.size],
                 pageLength: variables.datatablesPageLength[param.size],
                 lengthMenu: variables.datatablesLengthMenu[param.size],
-                order: [[(param.checkbox ? ++param.orderByColumn : param.orderByColumn), param.order]],
+                order: !isNaN(param.orderByColumn) ? [[(param.checkbox ? ++param.orderByColumn : param.orderByColumn), param.order]] : [],
                 ajax: param.ajax ? ajaxifyDatatables({ url: param.url }) : null,
                 data: param.data ? param.data : null,
                 columns: datatablesColumns(id, param.columns, param.checkbox),

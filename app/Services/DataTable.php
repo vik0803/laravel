@@ -218,7 +218,7 @@ class DataTable
             array_unshift($columnsData['columns'], $this->getOption('checkbox')['selector']);
         }
 
-        $columnsData['orderByColumn'] = $this->getOption('columns')[$this->getOption('orderByColumn')]['selector'];
+        $columnsData['orderByColumn'] = (is_numeric($this->getOption('orderByColumn')) ? $this->getOption('columns')[$this->getOption('orderByColumn')]['selector'] : $this->getOption('orderByColumn'));
 
         return $columnsData;
     }
