@@ -678,9 +678,9 @@ var unikat = function() {
             variables.tables[tableId] = $('#' + tableId).DataTable({
                 dom: "<'clearfix'<'dataTableL'l><'dataTableF'f>>tr<'clearfix'<'dataTableI'i><'dataTableP'p>>",
                 stateSave: true,
+                stateDuration: -1,
                 deferRender: true,
                 retrieve: true,
-                stateDuration: 0,
                 rowId: 'id',
                 defaultContent: '',
                 language: {
