@@ -209,13 +209,13 @@ class AuthController extends Controller
     protected function sendLockoutResponse(Request $request)
     {
         $seconds = app(RateLimiter::class)->availableIn(
-            $request->input($this->loginUsername()) . $request->ip()
+            $this->getThrottleKey($request)
         );
 
         if ($request->ajax()) {
             return response()->json(['errors' => [$this->getLockoutErrorMessage($seconds)], 'ids' => [$this->loginUsername()], 'resetOnly' => ['password']]);
         } else {
-            return redirect($this->loginPath())
+            return redirect()->back()
             ->withInput($request->only($this->loginUsername(), 'remember'))
             ->withErrors([
                 $this->loginUsername() => $this->getLockoutErrorMessage($seconds),
