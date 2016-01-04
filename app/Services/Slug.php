@@ -110,6 +110,16 @@ class Slug
      *
      * @return string
      */
+    public function getRouteParameter()
+    {
+        return implode('/', array_values($this->getRouteParameters())); // str_replace($this->getRouteSlug(), '', $this->getSlug());
+    }
+
+    /**
+     * Get the Route parameters
+     *
+     * @return array
+     */
     public function getRouteParameters()
     {
         return $this->routeParameters ?: [];

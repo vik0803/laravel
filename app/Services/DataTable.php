@@ -304,7 +304,7 @@ class DataTable
                     }
 
                     if ($passed) {
-                        $data[$key][$link['id']] = '<a href="' . \Locales::route($link['link']['route'], (isset($link['link']['routeParameter']) ? $data[$key][$link['link']['routeParameter']] : '')) . '">' . (isset($link['link']['icon']) ? '<span class="glyphicon glyphicon-' . $link['link']['icon'] . ' glyphicon-left"></span>' : '') . $data[$key][$link['id']] . '</a>';
+                        $data[$key][$link['id']] = '<a href="' . \Locales::route($link['link']['route'], ltrim(\Slug::getRouteParameter() . (isset($link['link']['routeParameter']) ? '/' . $data[$key][$link['link']['routeParameter']] : ''), '/')) . '">' . (isset($link['link']['icon']) ? '<span class="glyphicon glyphicon-' . $link['link']['icon'] . ' glyphicon-left"></span>' : '') . $data[$key][$link['id']] . '</a>';
                     }
                 }
             }
