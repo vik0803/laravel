@@ -4,8 +4,6 @@
 <div class="magnific-popup">
     <h1>{{ \Locales::getMetaTitle() }}</h1>
 
-    @include('cms/shared.errors')
-
     @if (isset($domain))
     {!! Form::model($domain, ['method' => 'put', 'url' => \Locales::route('settings/domains/update'), 'id' => 'edit-domain-form', 'data-ajax-queue' => 'sync', 'class' => 'ajax-lock', 'role' => 'form']) !!}
     @else

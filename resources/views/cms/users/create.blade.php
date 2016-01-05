@@ -4,8 +4,6 @@
 <div class="magnific-popup">
     <h1>{{ \Locales::getMetaTitle() }}</h1>
 
-    @include('cms/shared.errors')
-
     @if (isset($user))
     {!! Form::model($user, ['method' => 'put', 'url' => \Locales::route('users/update'), 'id' => 'edit-user-form', 'data-ajax-queue' => 'sync', 'class' => 'ajax-lock', 'role' => 'form']) !!}
     @else
