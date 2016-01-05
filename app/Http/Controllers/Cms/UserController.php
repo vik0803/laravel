@@ -201,19 +201,13 @@ class UserController extends Controller {
         }
 
         $view = \View::make('cms.' . $this->route . '.create', compact('roles', 'group', 'table'));
-        if ($request->ajax()) {
-            $sections = $view->renderSections();
-            return $sections['content'];
-        }
-        return $view;
+        $sections = $view->renderSections();
+        return $sections['content'];
     }
 
     public function store(DataTable $datatable, User $user, Role $role, CreateUserRequest $request)
     {
         $userRole = $role->select('id')->where('slug', $request->input('group'))->firstOrFail()->id;
-        $group = ($request->input('table') == $this->route ? null : $request->input('table'));
-        $param = $group ? \Locales::getRouteParameters($this->route)[$group] : true;
-        $redirect = redirect(\Locales::route($this->route, $param));
 
         $newUser = User::create([
             'role_id' => $userRole,
@@ -224,29 +218,22 @@ class UserController extends Controller {
 
         if ($newUser->id) {
             $successMessage = trans('cms/forms.storedSuccessfully', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($request->input('group')), 1)]);
-            $redirect->withSuccess([$successMessage]);
 
-            if ($request->ajax()) {
-                $user = $user->where('role_id', $userRole);
-                $datatable->setup($user, $request->input('table'), $this->datatables[$request->input('table')], true);
-                $datatable->setOption('url', \Locales::route($this->route, $param));
-                $datatables = $datatable->getTables();
+            $group = ($request->input('table') == $this->route ? null : $request->input('table'));
+            $param = $group ? \Locales::getRouteParameters($this->route)[$group] : true;
+            $user = $user->where('role_id', $userRole);
+            $datatable->setup($user, $request->input('table'), $this->datatables[$request->input('table')], true);
+            $datatable->setOption('url', \Locales::route($this->route, $param));
+            $datatables = $datatable->getTables();
 
-                return response()->json($datatables + [
-                    'success' => $successMessage,
-                    'resetExcept' => ['group']
-                ]);
-            }
+            return response()->json($datatables + [
+                'success' => $successMessage,
+                'resetExcept' => ['group']
+            ]);
         } else {
             $errorMessage = trans('cms/forms.createError', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($request->input('group')), 1)]);
-            $redirect->withError([$errorMessage]);
-
-            if ($request->ajax()) {
-                return response()->json(['errors' => [$errorMessage]]);
-            }
+            return response()->json(['errors' => [$errorMessage]]);
         }
-
-        return $redirect;
     }
 
     public function delete(Request $request)
@@ -257,40 +244,31 @@ class UserController extends Controller {
         }
 
         $view = \View::make('cms.' . $this->route . '.delete', compact('table'));
-        if ($request->ajax()) {
-            $sections = $view->renderSections();
-            return $sections['content'];
-        }
-        return $view;
+        $sections = $view->renderSections();
+        return $sections['content'];
     }
 
     public function destroy(DataTable $datatable, User $user, Role $role, Request $request)
     {
         $group = ($request->input('table') == $this->route ? null : $request->input('table'));
-        $param = true;
-        if ($group) {
-            $param = \Locales::getRouteParameters($this->route)[$group];
-        }
-        $redirect = redirect(\Locales::route($this->route, $param));
         $count = count($request->input('id'));
 
         if ($count > 0 && $user->destroy($request->input('id'))) {
             $successMessage = trans('cms/forms.destroyedSuccessfully', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($group), $count)]);
-            $redirect->withSuccess([$successMessage]);
 
-            if ($request->ajax()) {
-                if ($group) {
-                    $user = $user->where('role_id', $role->select('id')->where('slug', $group)->firstOrFail()->id);
-                }
-                $datatable->setup($user, $request->input('table'), $this->datatables[$request->input('table')], true);
-                $datatable->setOption('url', \Locales::route($this->route, $param));
-                $datatables = $datatable->getTables();
-
-                return response()->json($datatables + [
-                    'success' => $successMessage,
-                    'closePopup' => true
-                ]);
+            $param = true;
+            if ($group) {
+                $param = \Locales::getRouteParameters($this->route)[$group];
+                $user = $user->where('role_id', $role->select('id')->where('slug', $group)->firstOrFail()->id);
             }
+            $datatable->setup($user, $request->input('table'), $this->datatables[$request->input('table')], true);
+            $datatable->setOption('url', \Locales::route($this->route, $param));
+            $datatables = $datatable->getTables();
+
+            return response()->json($datatables + [
+                'success' => $successMessage,
+                'closePopup' => true
+            ]);
         } else {
             if ($count > 0) {
                 $errorMessage = trans('cms/forms.deleteError', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($group), $count)]);
@@ -298,14 +276,8 @@ class UserController extends Controller {
                 $errorMessage = trans('cms/forms.countError', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($group), 1)]);
             }
 
-            $redirect->withError([$errorMessage]);
-
-            if ($request->ajax()) {
-                return response()->json(['errors' => [$errorMessage]]);
-            }
+            return response()->json(['errors' => [$errorMessage]]);
         }
-
-        return $redirect;
     }
 
     public function edit(Role $role, Request $request, $id = null)
@@ -324,11 +296,8 @@ class UserController extends Controller {
         }
 
         $view = \View::make('cms.' . $this->route . '.create', compact('user', 'roles', 'group', 'table'));
-        if ($request->ajax()) {
-            $sections = $view->renderSections();
-            return $sections['content'];
-        }
-        return $view;
+        $sections = $view->renderSections();
+        return $sections['content'];
     }
 
     public function update(DataTable $datatable, Role $role, EditUserRequest $request)
@@ -337,38 +306,27 @@ class UserController extends Controller {
 
         $userRole = $role->select('id')->where('slug', $request->input('group'))->firstOrFail()->id;
 
-        $group = ($request->input('table') == $this->route ? null : $request->input('table'));
-        $param = $group ? \Locales::getRouteParameters($this->route)[$group] : true;
-        $redirect = redirect(\Locales::route($this->route, $param));
-
         if ($user->update([
             'role_id' => $userRole,
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
         ])) {
+            $group = ($request->input('table') == $this->route ? null : $request->input('table'));
             $successMessage = trans('cms/forms.updatedSuccessfully', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($group), 1)]);
-            $redirect->withSuccess([$successMessage]);
 
-            if ($request->ajax()) {
-                $datatable->setup(($group ? $user->where('role_id', $role->select('id')->where('slug', $group)->firstOrFail()->id) : $user), $request->input('table'), $this->datatables[$request->input('table')], true);
-                $datatable->setOption('url', \Locales::route($this->route, $param));
-                $datatables = $datatable->getTables();
+            $param = $group ? \Locales::getRouteParameters($this->route)[$group] : true;
+            $datatable->setup(($group ? $user->where('role_id', $role->select('id')->where('slug', $group)->firstOrFail()->id) : $user), $request->input('table'), $this->datatables[$request->input('table')], true);
+            $datatable->setOption('url', \Locales::route($this->route, $param));
+            $datatables = $datatable->getTables();
 
-                return response()->json($datatables + [
-                    'success' => $successMessage,
-                    'closePopup' => true
-                ]);
-            }
+            return response()->json($datatables + [
+                'success' => $successMessage,
+                'closePopup' => true
+            ]);
         } else {
             $errorMessage = trans('cms/forms.editError', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($request->input('group')), 1)]);
-            $redirect->withError([$errorMessage]);
-
-            if ($request->ajax()) {
-                return response()->json(['errors' => [$errorMessage]]);
-            }
+            return response()->json(['errors' => [$errorMessage]]);
         }
-
-        return $redirect;
     }
 }

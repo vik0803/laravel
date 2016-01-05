@@ -127,48 +127,34 @@ class DomainController extends Controller {
         $table = $request->input('table') ?: $this->route;
 
         $view = \View::make('cms.' . $this->route . '.create', compact('multiselect', 'table'));
-        if ($request->ajax()) {
-            $sections = $view->renderSections();
-            return $sections['content'];
-        }
-        return $view;
+        $sections = $view->renderSections();
+        return $sections['content'];
     }
 
     public function store(DataTable $datatable, Domain $domain, CreateDomainRequest $request)
     {
-        $redirect = redirect(\Locales::route($this->route));
-
         $newDomain = Domain::create($request->all());
 
         if ($newDomain->id) {
             $newDomain->locales()->sync($request->input('locales'));
 
             $successMessage = trans('cms/forms.storedSuccessfully', ['entity' => trans_choice('cms/forms.entityDomains', 1)]);
-            $redirect->withSuccess([$successMessage]);
 
-            if ($request->ajax()) {
-                $datatable->setup($domain, $request->input('table'), $this->datatables[$request->input('table')], true);
-                $datatables = $datatable->getTables();
+            $datatable->setup($domain, $request->input('table'), $this->datatables[$request->input('table')], true);
+            $datatables = $datatable->getTables();
 
-                return response()->json($datatables + [
-                    'success' => $successMessage,
-                    'reset' => true,
-                    'resetMultiselect' => [
-                        'input-locales' => ['refresh'],
-                        'input-default_locale_id' => ['empty', 'disable', 'refresh'],
-                    ],
-                ]);
-            }
+            return response()->json($datatables + [
+                'success' => $successMessage,
+                'reset' => true,
+                'resetMultiselect' => [
+                    'input-locales' => ['refresh'],
+                    'input-default_locale_id' => ['empty', 'disable', 'refresh'],
+                ],
+            ]);
         } else {
             $errorMessage = trans('cms/forms.createError', ['entity' => trans_choice('cms/forms.entityDomains', 1)]);
-            $redirect->withError([$errorMessage]);
-
-            if ($request->ajax()) {
-                return response()->json(['errors' => [$errorMessage]]);
-            }
+            return response()->json(['errors' => [$errorMessage]]);
         }
-
-        return $redirect;
     }
 
     public function delete(Request $request)
@@ -176,31 +162,24 @@ class DomainController extends Controller {
         $table = $request->input('table') ?: $this->route;
 
         $view = \View::make('cms.' . $this->route . '.delete', compact('table'));
-        if ($request->ajax()) {
-            $sections = $view->renderSections();
-            return $sections['content'];
-        }
-        return $view;
+        $sections = $view->renderSections();
+        return $sections['content'];
     }
 
     public function destroy(DataTable $datatable, Domain $domain, Request $request)
     {
-        $redirect = redirect(\Locales::route($this->route));
         $count = count($request->input('id'));
 
         if ($count > 0 && $domain->destroy($request->input('id'))) {
             $successMessage = trans('cms/forms.destroyedSuccessfully', ['entity' => trans_choice('cms/forms.entityDomains', $count)]);
-            $redirect->withSuccess([$successMessage]);
 
-            if ($request->ajax()) {
-                $datatable->setup($domain, $request->input('table'), $this->datatables[$request->input('table')], true);
-                $datatables = $datatable->getTables();
+            $datatable->setup($domain, $request->input('table'), $this->datatables[$request->input('table')], true);
+            $datatables = $datatable->getTables();
 
-                return response()->json($datatables + [
-                    'success' => $successMessage,
-                    'closePopup' => true
-                ]);
-            }
+            return response()->json($datatables + [
+                'success' => $successMessage,
+                'closePopup' => true
+            ]);
         } else {
             if ($count > 0) {
                 $errorMessage = trans('cms/forms.deleteError', ['entity' => trans_choice('cms/forms.entityDomains', $count)]);
@@ -208,14 +187,8 @@ class DomainController extends Controller {
                 $errorMessage = trans('cms/forms.countError', ['entity' => trans_choice('cms/forms.entityDomains', 1)]);
             }
 
-            $redirect->withError([$errorMessage]);
-
-            if ($request->ajax()) {
-                return response()->json(['errors' => [$errorMessage]]);
-            }
+            return response()->json(['errors' => [$errorMessage]]);
         }
-
-        return $redirect;
     }
 
     public function edit(Locale $locale, Request $request, $id = null)
@@ -239,44 +212,30 @@ class DomainController extends Controller {
         $table = $request->input('table') ?: $this->route;
 
         $view = \View::make('cms.' . $this->route . '.create', compact('multiselect', 'domain', 'table'));
-        if ($request->ajax()) {
-            $sections = $view->renderSections();
-            return $sections['content'];
-        }
-        return $view;
+        $sections = $view->renderSections();
+        return $sections['content'];
     }
 
     public function update(DataTable $datatable, EditDomainRequest $request)
     {
         $domain = Domain::findOrFail($request->input('id'))->first();
 
-        $redirect = redirect(\Locales::route($this->route));
-
         if ($domain->update($request->all())) {
             $domain->locales()->sync($request->input('locales'));
 
             $successMessage = trans('cms/forms.updatedSuccessfully', ['entity' => trans_choice('cms/forms.entityDomains', 1)]);
-            $redirect->withSuccess([$successMessage]);
 
-            if ($request->ajax()) {
-                $datatable->setup($domain, $request->input('table'), $this->datatables[$request->input('table')], true);
-                $datatables = $datatable->getTables();
+            $datatable->setup($domain, $request->input('table'), $this->datatables[$request->input('table')], true);
+            $datatables = $datatable->getTables();
 
-                return response()->json($datatables + [
-                    'success' => $successMessage,
-                    'closePopup' => true
-                ]);
-            }
+            return response()->json($datatables + [
+                'success' => $successMessage,
+                'closePopup' => true
+            ]);
         } else {
             $errorMessage = trans('cms/forms.editError', ['entity' => trans_choice('cms/forms.entityDomains', 1)]);
-            $redirect->withError([$errorMessage]);
-
-            if ($request->ajax()) {
-                return response()->json(['errors' => [$errorMessage]]);
-            }
+            return response()->json(['errors' => [$errorMessage]]);
         }
-
-        return $redirect;
     }
 
 }

@@ -95,42 +95,28 @@ class LocaleController extends Controller {
         $scripts = ['' => ''] + trans('cms/forms.localeScripts');
 
         $view = \View::make('cms.' . $this->route . '.create', compact('table', 'scripts', 'script'));
-        if ($request->ajax()) {
-            $sections = $view->renderSections();
-            return $sections['content'];
-        }
-        return $view;
+        $sections = $view->renderSections();
+        return $sections['content'];
     }
 
     public function store(DataTable $datatable, Locale $locale, CreateLocaleRequest $request)
     {
-        $redirect = redirect(\Locales::route($this->route));
-
         $newLocale = Locale::create($request->all());
 
         if ($newLocale->id) {
             $successMessage = trans('cms/forms.storedSuccessfully', ['entity' => trans_choice('cms/forms.entityLocales', 1)]);
-            $redirect->withSuccess([$successMessage]);
 
-            if ($request->ajax()) {
-                $datatable->setup($locale, $request->input('table'), $this->datatables[$request->input('table')], true);
-                $datatables = $datatable->getTables();
+            $datatable->setup($locale, $request->input('table'), $this->datatables[$request->input('table')], true);
+            $datatables = $datatable->getTables();
 
-                return response()->json($datatables + [
-                    'success' => $successMessage,
-                    'reset' => true,
-                ]);
-            }
+            return response()->json($datatables + [
+                'success' => $successMessage,
+                'reset' => true,
+            ]);
         } else {
             $errorMessage = trans('cms/forms.createError', ['entity' => trans_choice('cms/forms.entityLocales', 1)]);
-            $redirect->withError([$errorMessage]);
-
-            if ($request->ajax()) {
-                return response()->json(['errors' => [$errorMessage]]);
-            }
+            return response()->json(['errors' => [$errorMessage]]);
         }
-
-        return $redirect;
     }
 
     public function delete(Request $request)
@@ -138,31 +124,24 @@ class LocaleController extends Controller {
         $table = $request->input('table') ?: $this->route;
 
         $view = \View::make('cms.' . $this->route . '.delete', compact('table'));
-        if ($request->ajax()) {
-            $sections = $view->renderSections();
-            return $sections['content'];
-        }
-        return $view;
+        $sections = $view->renderSections();
+        return $sections['content'];
     }
 
     public function destroy(DataTable $datatable, Locale $locale, Request $request)
     {
-        $redirect = redirect(\Locales::route($this->route));
         $count = count($request->input('id'));
 
         if ($count > 0 && $locale->destroy($request->input('id'))) {
             $successMessage = trans('cms/forms.destroyedSuccessfully', ['entity' => trans_choice('cms/forms.entityLocales', $count)]);
-            $redirect->withSuccess([$successMessage]);
 
-            if ($request->ajax()) {
-                $datatable->setup($locale, $request->input('table'), $this->datatables[$request->input('table')], true);
-                $datatables = $datatable->getTables();
+            $datatable->setup($locale, $request->input('table'), $this->datatables[$request->input('table')], true);
+            $datatables = $datatable->getTables();
 
-                return response()->json($datatables + [
-                    'success' => $successMessage,
-                    'closePopup' => true
-                ]);
-            }
+            return response()->json($datatables + [
+                'success' => $successMessage,
+                'closePopup' => true
+            ]);
         } else {
             if ($count > 0) {
                 $errorMessage = trans('cms/forms.deleteError', ['entity' => trans_choice('cms/forms.entityLocales', $count)]);
@@ -170,14 +149,8 @@ class LocaleController extends Controller {
                 $errorMessage = trans('cms/forms.countError', ['entity' => trans_choice('cms/forms.entityLocales', 1)]);
             }
 
-            $redirect->withError([$errorMessage]);
-
-            if ($request->ajax()) {
-                return response()->json(['errors' => [$errorMessage]]);
-            }
+            return response()->json(['errors' => [$errorMessage]]);
         }
-
-        return $redirect;
     }
 
     public function edit(Request $request, $id = null)
@@ -189,42 +162,28 @@ class LocaleController extends Controller {
         $scripts = trans('cms/forms.localeScripts');
 
         $view = \View::make('cms.' . $this->route . '.create', compact('locale', 'table', 'scripts', 'script'));
-        if ($request->ajax()) {
-            $sections = $view->renderSections();
-            return $sections['content'];
-        }
-        return $view;
+        $sections = $view->renderSections();
+        return $sections['content'];
     }
 
     public function update(DataTable $datatable, EditLocaleRequest $request)
     {
         $locale = Locale::findOrFail($request->input('id'))->first();
 
-        $redirect = redirect(\Locales::route($this->route));
-
         if ($locale->update($request->all())) {
             $successMessage = trans('cms/forms.updatedSuccessfully', ['entity' => trans_choice('cms/forms.entityLocales', 1)]);
-            $redirect->withSuccess([$successMessage]);
 
-            if ($request->ajax()) {
-                $datatable->setup($locale, $request->input('table'), $this->datatables[$request->input('table')], true);
-                $datatables = $datatable->getTables();
+            $datatable->setup($locale, $request->input('table'), $this->datatables[$request->input('table')], true);
+            $datatables = $datatable->getTables();
 
-                return response()->json($datatables + [
-                    'success' => $successMessage,
-                    'closePopup' => true
-                ]);
-            }
+            return response()->json($datatables + [
+                'success' => $successMessage,
+                'closePopup' => true
+            ]);
         } else {
             $errorMessage = trans('cms/forms.editError', ['entity' => trans_choice('cms/forms.entityLocales', 1)]);
-            $redirect->withError([$errorMessage]);
-
-            if ($request->ajax()) {
-                return response()->json(['errors' => [$errorMessage]]);
-            }
+            return response()->json(['errors' => [$errorMessage]]);
         }
-
-        return $redirect;
     }
 
 }
