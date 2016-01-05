@@ -93,6 +93,8 @@ class Slug
         foreach ($this->getRouteParameters() as $param) {
             $this->routeSlug .= '/' . array_search($param, $parameters);
         }
+
+        $this->routeSlug = StaticStringy::removeRight($this->routeSlug, '/');
     }
 
     /**
