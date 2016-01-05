@@ -58,7 +58,7 @@
 
     {!! Form::close() !!}
 
-    @if (\Request::ajax())<script>@endif
+    <script>
     @section('script')
         unikat.magnificPopupCreateCallback = function() {
             $('#input-locales').multiselect({
@@ -92,16 +92,7 @@
 
         unikat.magnificPopupEditCallback = unikat.magnificPopupCreateCallback;
 
-    @if (\Request::ajax())
-        @show
-        </script>
-    @else
-        @if (isset($domain))
-            unikat.magnificPopupEditCallback();
-        @else
-            unikat.magnificPopupCreateCallback();
-        @endif
-    @endsection
-    @endif
+    @show
+    </script>
 </div>
 @endsection
