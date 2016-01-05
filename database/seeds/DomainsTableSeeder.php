@@ -16,15 +16,11 @@ class DomainsTableSeeder extends Seeder
                 'name' => 'Default Public Website',
                 'slug' => 'www',
                 'default_locale_id' => 37,
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'name' => 'CMS (Admin Control Panel)',
                 'slug' => 'cms',
                 'default_locale_id' => 37,
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
         ]);
     }

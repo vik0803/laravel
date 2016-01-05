@@ -15,14 +15,10 @@ class DomainLocaleTableSeeder extends Seeder
             [
                 'domain_id' => 1,
                 'locale_id' => 37,
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'domain_id' => 2,
                 'locale_id' => 37,
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
         ]);
     }

@@ -117,7 +117,7 @@ class DomainController extends Controller {
     public function create(Domain $domain, Locale $locale, Request $request)
     {
         $this->multiselect['locales']['options'] = $locale->select($this->multiselect['locales']['id'], $this->multiselect['locales']['name'], $this->multiselect['locales']['subText'])->get()->toArray();
-        $this->multiselect['locales']['selected'] = $domain->locales->lists('id')->toArray();
+        $this->multiselect['locales']['selected'] = $domain->locales->pluck('id')->toArray();
 
         $this->multiselect['default_locale_id']['options'] = [];
         $this->multiselect['default_locale_id']['selected'] = [];
@@ -223,7 +223,7 @@ class DomainController extends Controller {
         $domain = Domain::findOrFail($id);
 
         $this->multiselect['locales']['options'] = $locale->select($this->multiselect['locales']['id'], $this->multiselect['locales']['name'], $this->multiselect['locales']['subText'])->get()->toArray();
-        $this->multiselect['locales']['selected'] = $domain->locales->lists('id')->toArray();
+        $this->multiselect['locales']['selected'] = $domain->locales->pluck('id')->toArray();
 
         $this->multiselect['default_locale_id']['options'] = array_where($this->multiselect['locales']['options'], function($key, $value) {
             if (in_array($value['id'], $this->multiselect['locales']['selected'])) {

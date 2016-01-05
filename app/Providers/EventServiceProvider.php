@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        'Illuminate\Routing\Events\RouteMatched' => [
+            'App\Listeners\RouteMatchedEventListener',
         ],
     ];
 
@@ -28,9 +28,6 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot($events);
 
-        $events->listen('router.matched', function($route, $request) {
-            \Slug::setRouteParameters($route->parameters());
-            \Slug::setRouteSlug($route->getName());
-        });
+        //
     }
 }

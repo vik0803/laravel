@@ -15,14 +15,10 @@ class RolesTableSeeder extends Seeder
             [
                 'name' => 'Admins',
                 'slug' => 'admins',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'name' => 'Operators',
                 'slug' => 'operators',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
         ]);
     }

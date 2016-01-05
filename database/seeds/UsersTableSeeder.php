@@ -16,8 +16,6 @@ class UsersTableSeeder extends Seeder
             'email' => 'mitko@sunsetresort.bg',
             'password' => bcrypt('unikat'),
             'role_id' => 1,
-            'created_at' => \Carbon\Carbon::now(),
-            'updated_at' => \Carbon\Carbon::now(),
         ]);
     }
 }

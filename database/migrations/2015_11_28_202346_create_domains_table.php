@@ -14,7 +14,7 @@ class CreateDomainsTable extends Migration
     {
         Schema::create('domains', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+            $table->nullableTimestamps();
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('description')->nullable();

@@ -18,8 +18,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Achinese',
                 'script' => 'ltr',
                 'native' => 'Aceh',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 2,
@@ -27,8 +25,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Afrikaans',
                 'script' => 'ltr',
                 'native' => 'Afrikaans',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 3,
@@ -36,8 +32,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Aghem',
                 'script' => 'ltr',
                 'native' => 'Aghem',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 4,
@@ -45,8 +39,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Akan',
                 'script' => 'ltr',
                 'native' => 'Akan',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 5,
@@ -54,8 +46,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Aragonese',
                 'script' => 'ltr',
                 'native' => 'aragonés',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 6,
@@ -63,8 +53,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Atsam',
                 'script' => 'ltr',
                 'native' => 'Atsam',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 7,
@@ -72,8 +60,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Guaraní',
                 'script' => 'ltr',
                 'native' => 'Avañe’ẽ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 8,
@@ -81,8 +67,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Avestan',
                 'script' => 'ltr',
                 'native' => 'avesta',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 9,
@@ -90,8 +74,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Aymara',
                 'script' => 'ltr',
                 'native' => 'aymar aru',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 10,
@@ -99,8 +81,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Azerbaijani (Latin)',
                 'script' => 'ltr',
                 'native' => 'azərbaycanca',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 11,
@@ -108,8 +88,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Indonesian',
                 'script' => 'ltr',
                 'native' => 'Bahasa Indonesia',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 12,
@@ -117,8 +95,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Malay',
                 'script' => 'ltr',
                 'native' => 'Bahasa Melayu',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 13,
@@ -126,8 +102,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Bambara',
                 'script' => 'ltr',
                 'native' => 'bamanakan',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 14,
@@ -135,8 +109,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Javanese (Latin)',
                 'script' => 'ltr',
                 'native' => 'Basa Jawa',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 15,
@@ -144,8 +116,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Sundanese',
                 'script' => 'ltr',
                 'native' => 'Basa Sunda',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 16,
@@ -153,8 +123,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Bihari',
                 'script' => 'ltr',
                 'native' => 'Bihari',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 17,
@@ -162,8 +130,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Bislama',
                 'script' => 'ltr',
                 'native' => 'Bislama',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 18,
@@ -171,8 +137,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Norwegian Bokmål',
                 'script' => 'ltr',
                 'native' => 'Bokmål',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 19,
@@ -180,8 +144,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Bosnian',
                 'script' => 'ltr',
                 'native' => 'bosanski',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 20,
@@ -189,8 +151,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Breton',
                 'script' => 'ltr',
                 'native' => 'brezhoneg',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 21,
@@ -198,8 +158,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Catalan',
                 'script' => 'ltr',
                 'native' => 'català',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 22,
@@ -207,8 +165,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Chamorro',
                 'script' => 'ltr',
                 'native' => 'Chamoru',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 23,
@@ -216,8 +172,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Chewa',
                 'script' => 'ltr',
                 'native' => 'chiCheŵa',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 24,
@@ -225,8 +179,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Makonde',
                 'script' => 'ltr',
                 'native' => 'Chimakonde',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 25,
@@ -234,8 +186,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Shona',
                 'script' => 'ltr',
                 'native' => 'chiShona',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 26,
@@ -243,8 +193,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Corsican',
                 'script' => 'ltr',
                 'native' => 'corsu',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 27,
@@ -252,8 +200,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Welsh',
                 'script' => 'ltr',
                 'native' => 'Cymraeg',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 28,
@@ -261,8 +207,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Danish',
                 'script' => 'ltr',
                 'native' => 'dansk',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 29,
@@ -270,8 +214,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Northern Sami',
                 'script' => 'ltr',
                 'native' => 'davvisámegiella',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 30,
@@ -279,8 +221,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'German',
                 'script' => 'ltr',
                 'native' => 'Deutsch',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 31,
@@ -288,8 +228,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Luo',
                 'script' => 'ltr',
                 'native' => 'Dholuo',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 32,
@@ -297,8 +235,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Navajo',
                 'script' => 'ltr',
                 'native' => 'Diné bizaad',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 33,
@@ -306,8 +242,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Duala',
                 'script' => 'ltr',
                 'native' => 'duálá',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 34,
@@ -315,8 +249,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Estonian',
                 'script' => 'ltr',
                 'native' => 'eesti',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 35,
@@ -324,8 +256,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Nauru',
                 'script' => 'ltr',
                 'native' => 'Ekakairũ Naoero',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 36,
@@ -333,8 +263,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Ekegusii',
                 'script' => 'ltr',
                 'native' => 'Ekegusii',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 37,
@@ -342,8 +270,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'English',
                 'script' => 'ltr',
                 'native' => 'English',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 38,
@@ -351,8 +277,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Australian English',
                 'script' => 'ltr',
                 'native' => 'Australian English',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 39,
@@ -360,8 +284,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'British English',
                 'script' => 'ltr',
                 'native' => 'British English',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 40,
@@ -369,8 +291,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'U.S. English',
                 'script' => 'ltr',
                 'native' => 'U.S. English',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 41,
@@ -378,8 +298,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Spanish',
                 'script' => 'ltr',
                 'native' => 'español',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 42,
@@ -387,8 +305,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Esperanto',
                 'script' => 'ltr',
                 'native' => 'esperanto',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 43,
@@ -396,8 +312,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Basque',
                 'script' => 'ltr',
                 'native' => 'euskara',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 44,
@@ -405,8 +319,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Ewondo',
                 'script' => 'ltr',
                 'native' => 'ewondo',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 45,
@@ -414,8 +326,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Ewe',
                 'script' => 'ltr',
                 'native' => 'eʋegbe',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 46,
@@ -423,8 +333,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Filipino',
                 'script' => 'ltr',
                 'native' => 'Filipino',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 47,
@@ -432,8 +340,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'French',
                 'script' => 'ltr',
                 'native' => 'français',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 48,
@@ -441,8 +347,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Canadian French',
                 'script' => 'ltr',
                 'native' => 'français canadien',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 49,
@@ -450,8 +354,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Western Frisian',
                 'script' => 'ltr',
                 'native' => 'frysk',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 50,
@@ -459,8 +361,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Friulian',
                 'script' => 'ltr',
                 'native' => 'furlan',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 51,
@@ -468,8 +368,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Faroese',
                 'script' => 'ltr',
                 'native' => 'føroyskt',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 52,
@@ -477,8 +375,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Ga',
                 'script' => 'ltr',
                 'native' => 'Ga',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 53,
@@ -486,8 +382,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Irish',
                 'script' => 'ltr',
                 'native' => 'Gaeilge',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 54,
@@ -495,8 +389,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Manx',
                 'script' => 'ltr',
                 'native' => 'Gaelg',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 55,
@@ -504,8 +396,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Samoan',
                 'script' => 'ltr',
                 'native' => 'Gagana fa’a Sāmoa',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 56,
@@ -513,8 +403,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Galician',
                 'script' => 'ltr',
                 'native' => 'galego',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 57,
@@ -522,8 +410,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kikuyu',
                 'script' => 'ltr',
                 'native' => 'Gikuyu',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 58,
@@ -531,8 +417,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Scottish Gaelic',
                 'script' => 'ltr',
                 'native' => 'Gàidhlig',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 59,
@@ -540,8 +424,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Hausa',
                 'script' => 'ltr',
                 'native' => 'Hausa',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 60,
@@ -549,8 +431,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Bena',
                 'script' => 'ltr',
                 'native' => 'Hibena',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 61,
@@ -558,8 +438,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Hiri Motu',
                 'script' => 'ltr',
                 'native' => 'Hiri Motu',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 62,
@@ -567,8 +445,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Croatian',
                 'script' => 'ltr',
                 'native' => 'hrvatski',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 63,
@@ -576,8 +452,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Bemba',
                 'script' => 'ltr',
                 'native' => 'Ichibemba',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 64,
@@ -585,8 +459,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Ido',
                 'script' => 'ltr',
                 'native' => 'Ido',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 65,
@@ -594,8 +466,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Igbo',
                 'script' => 'ltr',
                 'native' => 'Igbo',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 66,
@@ -603,8 +473,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Rundi',
                 'script' => 'ltr',
                 'native' => 'Ikirundi',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 67,
@@ -612,8 +480,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Interlingua',
                 'script' => 'ltr',
                 'native' => 'interlingua',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 68,
@@ -621,8 +487,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Inuktitut (Latin)',
                 'script' => 'ltr',
                 'native' => 'Inuktitut',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 69,
@@ -630,8 +494,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Sileibi',
                 'script' => 'ltr',
                 'native' => 'Ishisangu',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 70,
@@ -639,8 +501,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'North Ndebele',
                 'script' => 'ltr',
                 'native' => 'isiNdebele',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 71,
@@ -648,8 +508,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'South Ndebele',
                 'script' => 'ltr',
                 'native' => 'isiNdebele',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 72,
@@ -657,8 +515,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Xhosa',
                 'script' => 'ltr',
                 'native' => 'isiXhosa',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 73,
@@ -666,8 +522,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Zulu',
                 'script' => 'ltr',
                 'native' => 'isiZulu',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 74,
@@ -675,8 +529,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Italian',
                 'script' => 'ltr',
                 'native' => 'italiano',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 75,
@@ -684,8 +536,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Inupiaq',
                 'script' => 'ltr',
                 'native' => 'Iñupiaq',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 76,
@@ -693,8 +543,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Jola-Fonyi',
                 'script' => 'ltr',
                 'native' => 'joola',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 77,
@@ -702,8 +550,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kabuverdianu',
                 'script' => 'ltr',
                 'native' => 'kabuverdianu',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 78,
@@ -711,8 +557,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Jju',
                 'script' => 'ltr',
                 'native' => 'Kaje',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 79,
@@ -720,8 +564,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Marshallese',
                 'script' => 'ltr',
                 'native' => 'Kajin M̧ajeļ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 80,
@@ -729,8 +571,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kalaallisut',
                 'script' => 'ltr',
                 'native' => 'kalaallisut',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 81,
@@ -738,8 +578,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kalenjin',
                 'script' => 'ltr',
                 'native' => 'Kalenjin',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 82,
@@ -747,8 +585,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kanuri',
                 'script' => 'ltr',
                 'native' => 'Kanuri',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 83,
@@ -756,8 +592,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tyap',
                 'script' => 'ltr',
                 'native' => 'Katab',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 84,
@@ -765,8 +599,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Cornish',
                 'script' => 'ltr',
                 'native' => 'kernewek',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 85,
@@ -774,8 +606,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Nama',
                 'script' => 'ltr',
                 'native' => 'Khoekhoegowab',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 86,
@@ -783,8 +613,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Rombo',
                 'script' => 'ltr',
                 'native' => 'Kihorombo',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 87,
@@ -792,8 +620,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kamba',
                 'script' => 'ltr',
                 'native' => 'Kikamba',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 88,
@@ -801,8 +627,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kongo',
                 'script' => 'ltr',
                 'native' => 'Kikongo',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 89,
@@ -810,8 +634,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Machame',
                 'script' => 'ltr',
                 'native' => 'Kimachame',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 90,
@@ -819,8 +641,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kinyarwanda',
                 'script' => 'ltr',
                 'native' => 'Kinyarwanda',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 91,
@@ -828,8 +648,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kipare',
                 'script' => 'ltr',
                 'native' => 'Kipare',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 92,
@@ -837,8 +655,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Rwa',
                 'script' => 'ltr',
                 'native' => 'Kiruwa',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 93,
@@ -846,8 +662,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Samburu',
                 'script' => 'ltr',
                 'native' => 'Kisampur',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 94,
@@ -855,8 +669,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Shambala',
                 'script' => 'ltr',
                 'native' => 'Kishambaa',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 95,
@@ -864,8 +676,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Congo Swahili',
                 'script' => 'ltr',
                 'native' => 'Kiswahili ya Kongo',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 96,
@@ -873,8 +683,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Swahili',
                 'script' => 'ltr',
                 'native' => 'Kiswahili',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 97,
@@ -882,8 +690,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Dawida',
                 'script' => 'ltr',
                 'native' => 'Kitaita',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 98,
@@ -891,8 +697,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Teso',
                 'script' => 'ltr',
                 'native' => 'Kiteso',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 99,
@@ -900,8 +704,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Koyra Chiini',
                 'script' => 'ltr',
                 'native' => 'Koyra ciini',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 100,
@@ -909,8 +711,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Songhay',
                 'script' => 'ltr',
                 'native' => 'Koyraboro senni',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 101,
@@ -918,8 +718,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Morisyen',
                 'script' => 'ltr',
                 'native' => 'kreol morisien',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 102,
@@ -927,8 +725,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Haitian',
                 'script' => 'ltr',
                 'native' => 'Kreyòl ayisyen',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 103,
@@ -936,8 +732,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kuanyama',
                 'script' => 'ltr',
                 'native' => 'Kwanyama',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 104,
@@ -945,8 +739,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kölsch',
                 'script' => 'ltr',
                 'native' => 'Kölsch',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 105,
@@ -954,8 +746,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kiembu',
                 'script' => 'ltr',
                 'native' => 'Kĩembu',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 106,
@@ -963,8 +753,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kimîîru',
                 'script' => 'ltr',
                 'native' => 'Kĩmĩrũ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 107,
@@ -972,8 +760,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Langi',
                 'script' => 'ltr',
                 'native' => 'Kɨlaangi',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 108,
@@ -981,8 +767,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Lahnda',
                 'script' => 'ltr',
                 'native' => 'Lahnda',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 109,
@@ -990,8 +774,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Latin',
                 'script' => 'ltr',
                 'native' => 'latine',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 110,
@@ -999,8 +781,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Latvian',
                 'script' => 'ltr',
                 'native' => 'latviešu',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 111,
@@ -1008,8 +788,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tongan',
                 'script' => 'ltr',
                 'native' => 'lea fakatonga',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 112,
@@ -1017,8 +795,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Lithuanian',
                 'script' => 'ltr',
                 'native' => 'lietuvių',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 113,
@@ -1026,8 +802,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Limburgish',
                 'script' => 'ltr',
                 'native' => 'Limburgs',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 114,
@@ -1035,8 +809,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Lingala',
                 'script' => 'ltr',
                 'native' => 'lingála',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 115,
@@ -1044,8 +816,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Ganda',
                 'script' => 'ltr',
                 'native' => 'Luganda',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 116,
@@ -1053,8 +823,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Oluluyia',
                 'script' => 'ltr',
                 'native' => 'Luluhia',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 117,
@@ -1062,8 +830,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Luxembourgish',
                 'script' => 'ltr',
                 'native' => 'Lëtzebuergesch',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 118,
@@ -1071,8 +837,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Hungarian',
                 'script' => 'ltr',
                 'native' => 'magyar',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 119,
@@ -1080,8 +844,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Makhuwa-Meetto',
                 'script' => 'ltr',
                 'native' => 'Makua',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 120,
@@ -1089,8 +851,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Malagasy',
                 'script' => 'ltr',
                 'native' => 'Malagasy',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 121,
@@ -1098,8 +858,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Maltese',
                 'script' => 'ltr',
                 'native' => 'Malti',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 122,
@@ -1107,8 +865,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Mewari',
                 'script' => 'ltr',
                 'native' => 'Mewari',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 123,
@@ -1116,8 +872,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Mundang',
                 'script' => 'ltr',
                 'native' => 'Mundang',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 124,
@@ -1125,8 +879,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Māori',
                 'script' => 'ltr',
                 'native' => 'Māori',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 125,
@@ -1134,8 +886,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Dutch',
                 'script' => 'ltr',
                 'native' => 'Nederlands',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 126,
@@ -1143,8 +893,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kwasio',
                 'script' => 'ltr',
                 'native' => 'ngumba',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 127,
@@ -1152,8 +900,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Yangben',
                 'script' => 'ltr',
                 'native' => 'nuasue',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 128,
@@ -1161,8 +907,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Norwegian Nynorsk',
                 'script' => 'ltr',
                 'native' => 'nynorsk',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 129,
@@ -1170,8 +914,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Occitan',
                 'script' => 'ltr',
                 'native' => 'occitan',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 130,
@@ -1179,8 +921,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Old English',
                 'script' => 'ltr',
                 'native' => 'Old English',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 131,
@@ -1188,8 +928,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Soga',
                 'script' => 'ltr',
                 'native' => 'Olusoga',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 132,
@@ -1197,8 +935,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Oromo',
                 'script' => 'ltr',
                 'native' => 'Oromoo',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 133,
@@ -1206,8 +942,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Ndonga',
                 'script' => 'ltr',
                 'native' => 'OshiNdonga',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 134,
@@ -1215,8 +949,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Herero',
                 'script' => 'ltr',
                 'native' => 'Otjiherero',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 135,
@@ -1224,8 +956,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Uzbek (Latin)',
                 'script' => 'ltr',
                 'native' => 'oʼzbekcha',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 136,
@@ -1233,8 +963,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Low German',
                 'script' => 'ltr',
                 'native' => 'Plattdüütsch',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 137,
@@ -1242,8 +970,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Polish',
                 'script' => 'ltr',
                 'native' => 'polski',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 138,
@@ -1251,8 +977,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Portuguese',
                 'script' => 'ltr',
                 'native' => 'português',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 139,
@@ -1260,8 +984,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Brazilian Portuguese',
                 'script' => 'ltr',
                 'native' => 'português do Brasil',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 140,
@@ -1269,8 +991,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Fulah',
                 'script' => 'ltr',
                 'native' => 'Pulaar',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 141,
@@ -1278,8 +998,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Pahari-Potwari',
                 'script' => 'ltr',
                 'native' => 'Pāli',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 142,
@@ -1287,8 +1005,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Afar',
                 'script' => 'ltr',
                 'native' => 'Qafar',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 143,
@@ -1296,8 +1012,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tahitian',
                 'script' => 'ltr',
                 'native' => 'Reo Māohi',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 144,
@@ -1305,8 +1019,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Bafia',
                 'script' => 'ltr',
                 'native' => 'rikpa',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 145,
@@ -1314,8 +1026,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Romanian',
                 'script' => 'ltr',
                 'native' => 'română',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 146,
@@ -1323,8 +1033,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Chiga',
                 'script' => 'ltr',
                 'native' => 'Rukiga',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 147,
@@ -1332,8 +1040,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Romansh',
                 'script' => 'ltr',
                 'native' => 'rumantsch',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 148,
@@ -1341,8 +1047,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Quechua',
                 'script' => 'ltr',
                 'native' => 'Runa Simi',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 149,
@@ -1350,8 +1054,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Nyankole',
                 'script' => 'ltr',
                 'native' => 'Runyankore',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 150,
@@ -1359,8 +1061,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Saho',
                 'script' => 'ltr',
                 'native' => 'Saho',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 151,
@@ -1368,8 +1068,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Sardinian',
                 'script' => 'ltr',
                 'native' => 'sardu',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 152,
@@ -1377,8 +1075,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Swiss High German',
                 'script' => 'ltr',
                 'native' => 'Schweizer Hochdeutsch',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 153,
@@ -1386,8 +1082,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Swiss German',
                 'script' => 'ltr',
                 'native' => 'Schwiizertüütsch',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 154,
@@ -1395,8 +1089,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Taroko',
                 'script' => 'ltr',
                 'native' => 'Seediq',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 155,
@@ -1404,8 +1096,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Sena',
                 'script' => 'ltr',
                 'native' => 'sena',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 156,
@@ -1413,8 +1103,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Northern Sotho',
                 'script' => 'ltr',
                 'native' => 'Sesotho sa Leboa',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 157,
@@ -1422,8 +1110,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Southern Sotho',
                 'script' => 'ltr',
                 'native' => 'Sesotho',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 158,
@@ -1431,8 +1117,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tswana',
                 'script' => 'ltr',
                 'native' => 'Setswana',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 159,
@@ -1440,8 +1124,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Albanian',
                 'script' => 'ltr',
                 'native' => 'shqip',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 160,
@@ -1449,8 +1131,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Sidamo',
                 'script' => 'ltr',
                 'native' => 'Sidaamu Afo',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 161,
@@ -1458,8 +1138,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Swati',
                 'script' => 'ltr',
                 'native' => 'Siswati',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 162,
@@ -1467,8 +1145,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Slovak',
                 'script' => 'ltr',
                 'native' => 'slovenčina',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 163,
@@ -1476,8 +1152,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Slovene',
                 'script' => 'ltr',
                 'native' => 'slovenščina',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 164,
@@ -1485,8 +1159,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Somali',
                 'script' => 'ltr',
                 'native' => 'Soomaali',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 165,
@@ -1494,8 +1166,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Serbian (Latin)',
                 'script' => 'ltr',
                 'native' => 'Srpski',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 166,
@@ -1503,8 +1173,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Serbo-Croatian',
                 'script' => 'ltr',
                 'native' => 'srpskohrvatski',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 167,
@@ -1512,8 +1180,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Finnish',
                 'script' => 'ltr',
                 'native' => 'suomi',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 168,
@@ -1521,8 +1187,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Swedish',
                 'script' => 'ltr',
                 'native' => 'svenska',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 169,
@@ -1530,8 +1194,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Sango',
                 'script' => 'ltr',
                 'native' => 'Sängö',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 170,
@@ -1539,8 +1201,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tagalog',
                 'script' => 'ltr',
                 'native' => 'Tagalog',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 171,
@@ -1548,8 +1208,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Central Atlas Tamazight (Latin)',
                 'script' => 'ltr',
                 'native' => 'Tamazight',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 172,
@@ -1557,8 +1215,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kabyle',
                 'script' => 'ltr',
                 'native' => 'Taqbaylit',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 173,
@@ -1566,8 +1222,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tasawaq',
                 'script' => 'ltr',
                 'native' => 'Tasawaq senni',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 174,
@@ -1575,8 +1229,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tachelhit (Latin)',
                 'script' => 'ltr',
                 'native' => 'Tashelhit',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 175,
@@ -1584,8 +1236,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Nuer',
                 'script' => 'ltr',
                 'native' => 'Thok Nath',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 176,
@@ -1593,8 +1243,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Vietnamese',
                 'script' => 'ltr',
                 'native' => 'Tiếng Việt',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 177,
@@ -1602,8 +1250,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tajik (Latin)',
                 'script' => 'ltr',
                 'native' => 'tojikī',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 178,
@@ -1611,8 +1257,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Luba-Katanga',
                 'script' => 'ltr',
                 'native' => 'Tshiluba',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 179,
@@ -1620,8 +1264,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Venda',
                 'script' => 'ltr',
                 'native' => 'Tshivenḓa',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 180,
@@ -1629,8 +1271,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Twi',
                 'script' => 'ltr',
                 'native' => 'Twi',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 181,
@@ -1638,8 +1278,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Turkish',
                 'script' => 'ltr',
                 'native' => 'Türkçe',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 182,
@@ -1647,8 +1285,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Aleut',
                 'script' => 'ltr',
                 'native' => 'Unangax tunuu',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 183,
@@ -1656,8 +1292,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Valencian',
                 'script' => 'ltr',
                 'native' => 'valencià',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 184,
@@ -1665,8 +1299,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Vai (Latin)',
                 'script' => 'ltr',
                 'native' => 'Viyamíĩ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 185,
@@ -1674,8 +1306,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Volapük',
                 'script' => 'ltr',
                 'native' => 'Volapük',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 186,
@@ -1683,8 +1313,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Fijian',
                 'script' => 'ltr',
                 'native' => 'vosa Vakaviti',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 187,
@@ -1692,8 +1320,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Walloon',
                 'script' => 'ltr',
                 'native' => 'Walon',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 188,
@@ -1701,8 +1327,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Walser',
                 'script' => 'ltr',
                 'native' => 'Walser',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 189,
@@ -1710,8 +1334,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Sorbian',
                 'script' => 'ltr',
                 'native' => 'Wendic',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 190,
@@ -1719,8 +1341,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Wolof',
                 'script' => 'ltr',
                 'native' => 'Wolof',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 191,
@@ -1728,8 +1348,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tsonga',
                 'script' => 'ltr',
                 'native' => 'Xitsonga',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 192,
@@ -1737,8 +1355,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Zarma',
                 'script' => 'ltr',
                 'native' => 'Zarmaciine',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 193,
@@ -1746,8 +1362,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Yoruba',
                 'script' => 'ltr',
                 'native' => 'Èdè Yorùbá',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 194,
@@ -1755,8 +1369,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Austrian German',
                 'script' => 'ltr',
                 'native' => 'Österreichisches Deutsch',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 195,
@@ -1764,8 +1376,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Icelandic',
                 'script' => 'ltr',
                 'native' => 'íslenska',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 196,
@@ -1773,8 +1383,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Czech',
                 'script' => 'ltr',
                 'native' => 'čeština',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 197,
@@ -1782,8 +1390,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Basa',
                 'script' => 'ltr',
                 'native' => 'Ɓàsàa',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 198,
@@ -1791,8 +1397,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Masai',
                 'script' => 'ltr',
                 'native' => 'ɔl-Maa',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 199,
@@ -1800,8 +1404,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Hawaiian',
                 'script' => 'ltr',
                 'native' => 'ʻŌlelo Hawaiʻi',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 200,
@@ -1809,8 +1411,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Greek',
                 'script' => 'ltr',
                 'native' => 'Ελληνικά',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 201,
@@ -1818,8 +1418,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Uzbek (Cyrillic)',
                 'script' => 'ltr',
                 'native' => 'Ўзбек',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 202,
@@ -1827,8 +1425,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Azerbaijani (Cyrillic)',
                 'script' => 'ltr',
                 'native' => 'Азәрбајҹан',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 203,
@@ -1836,8 +1432,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Abkhazian',
                 'script' => 'ltr',
                 'native' => 'Аҧсуа',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 204,
@@ -1845,8 +1439,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Ossetic',
                 'script' => 'ltr',
                 'native' => 'Ирон',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 205,
@@ -1854,8 +1446,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kyrgyz',
                 'script' => 'ltr',
                 'native' => 'Кыргыз',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 206,
@@ -1863,8 +1453,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Serbian (Cyrillic)',
                 'script' => 'ltr',
                 'native' => 'Српски',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 207,
@@ -1872,8 +1460,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Avaric',
                 'script' => 'ltr',
                 'native' => 'авар мацӀ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 208,
@@ -1881,8 +1467,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Adyghe',
                 'script' => 'ltr',
                 'native' => 'адыгэбзэ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 209,
@@ -1890,8 +1474,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Bashkir',
                 'script' => 'ltr',
                 'native' => 'башҡорт теле',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 210,
@@ -1899,8 +1481,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Belarusian',
                 'script' => 'ltr',
                 'native' => 'беларуская',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 211,
@@ -1908,8 +1488,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Bulgarian',
                 'script' => 'ltr',
                 'native' => 'български',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 212,
@@ -1917,8 +1495,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Komi',
                 'script' => 'ltr',
                 'native' => 'коми кыв',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 213,
@@ -1926,8 +1502,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Macedonian',
                 'script' => 'ltr',
                 'native' => 'македонски',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 214,
@@ -1935,8 +1509,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Mongolian (Cyrillic)',
                 'script' => 'ltr',
                 'native' => 'монгол',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 215,
@@ -1944,8 +1516,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Chechen',
                 'script' => 'ltr',
                 'native' => 'нохчийн мотт',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 216,
@@ -1953,8 +1523,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Russian',
                 'script' => 'ltr',
                 'native' => 'русский',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 217,
@@ -1962,8 +1530,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Yakut',
                 'script' => 'ltr',
                 'native' => 'саха тыла',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 218,
@@ -1971,8 +1537,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tatar',
                 'script' => 'ltr',
                 'native' => 'татар теле',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 219,
@@ -1980,8 +1544,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tajik (Cyrillic)',
                 'script' => 'ltr',
                 'native' => 'тоҷикӣ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 220,
@@ -1989,8 +1551,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Turkmen',
                 'script' => 'ltr',
                 'native' => 'түркменче',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 221,
@@ -1998,8 +1558,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Ukrainian',
                 'script' => 'ltr',
                 'native' => 'українська',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 222,
@@ -2007,8 +1565,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Chuvash',
                 'script' => 'ltr',
                 'native' => 'чӑваш чӗлхи',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 223,
@@ -2016,8 +1572,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Church Slavic',
                 'script' => 'ltr',
                 'native' => 'ѩзыкъ словѣньскъ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 224,
@@ -2025,8 +1579,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kazakh',
                 'script' => 'ltr',
                 'native' => 'қазақ тілі',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 225,
@@ -2034,8 +1586,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Armenian',
                 'script' => 'ltr',
                 'native' => 'Հայերէն',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 226,
@@ -2043,8 +1593,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Yiddish',
                 'script' => 'rtl',
                 'native' => 'ייִדיש',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 227,
@@ -2052,8 +1600,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Hebrew',
                 'script' => 'rtl',
                 'native' => 'עברית',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 228,
@@ -2061,8 +1607,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Uyghur',
                 'script' => 'rtl',
                 'native' => 'ئۇيغۇرچە',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 229,
@@ -2070,8 +1614,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Urdu',
                 'script' => 'rtl',
                 'native' => 'اردو',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 230,
@@ -2079,8 +1621,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Arabic',
                 'script' => 'rtl',
                 'native' => 'العربية',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 231,
@@ -2088,8 +1628,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Uzbek (Arabic)',
                 'script' => 'rtl',
                 'native' => 'اۉزبېک',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 232,
@@ -2097,8 +1635,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tajik (Arabic)',
                 'script' => 'rtl',
                 'native' => 'تاجیکی',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 233,
@@ -2106,8 +1642,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Sindhi',
                 'script' => 'rtl',
                 'native' => 'سنڌي',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 234,
@@ -2115,8 +1649,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Persian',
                 'script' => 'rtl',
                 'native' => 'فارسی',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 235,
@@ -2124,8 +1656,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Punjabi (Arabic)',
                 'script' => 'rtl',
                 'native' => 'پنجاب',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 236,
@@ -2133,8 +1663,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Pashto',
                 'script' => 'rtl',
                 'native' => 'پښتو',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 237,
@@ -2142,8 +1670,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kashmiri (Arabic)',
                 'script' => 'rtl',
                 'native' => 'کأشُر',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 238,
@@ -2151,8 +1677,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kurdish',
                 'script' => 'rtl',
                 'native' => 'کوردی',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 239,
@@ -2160,8 +1684,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Divehi',
                 'script' => 'rtl',
                 'native' => 'ދިވެހިބަސް',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 240,
@@ -2169,8 +1691,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kashmiri (Devaganari)',
                 'script' => 'ltr',
                 'native' => 'कॉशुर',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 241,
@@ -2178,8 +1698,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Konkani',
                 'script' => 'ltr',
                 'native' => 'कोंकणी',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 242,
@@ -2187,8 +1705,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Dogri',
                 'script' => 'ltr',
                 'native' => 'डोगरी',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 243,
@@ -2196,8 +1712,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Nepali',
                 'script' => 'ltr',
                 'native' => 'नेपाली',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 244,
@@ -2205,8 +1719,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Prakrit',
                 'script' => 'ltr',
                 'native' => 'प्राकृत',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 245,
@@ -2214,8 +1726,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Bodo',
                 'script' => 'ltr',
                 'native' => 'बड़ो',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 246,
@@ -2223,8 +1733,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Braj',
                 'script' => 'ltr',
                 'native' => 'ब्रज भाषा',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 247,
@@ -2232,8 +1740,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Marathi',
                 'script' => 'ltr',
                 'native' => 'मराठी',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 248,
@@ -2241,8 +1747,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Maithili',
                 'script' => 'ltr',
                 'native' => 'मैथिली',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 249,
@@ -2250,8 +1754,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Rajasthani',
                 'script' => 'ltr',
                 'native' => 'राजस्थानी',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 250,
@@ -2259,8 +1761,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Sanskrit',
                 'script' => 'ltr',
                 'native' => 'संस्कृतम्',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 251,
@@ -2268,8 +1768,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Hindi',
                 'script' => 'ltr',
                 'native' => 'हिन्दी',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 252,
@@ -2277,8 +1775,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Assamese',
                 'script' => 'ltr',
                 'native' => 'অসমীয়া',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 253,
@@ -2286,8 +1782,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Bengali',
                 'script' => 'ltr',
                 'native' => 'বাংলা',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 254,
@@ -2295,8 +1789,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Manipuri',
                 'script' => 'ltr',
                 'native' => 'মৈতৈ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 255,
@@ -2304,8 +1796,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Punjabi (Gurmukhi)',
                 'script' => 'ltr',
                 'native' => 'ਪੰਜਾਬੀ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 256,
@@ -2313,8 +1803,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Gujarati',
                 'script' => 'ltr',
                 'native' => 'ગુજરાતી',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 257,
@@ -2322,8 +1810,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Oriya',
                 'script' => 'ltr',
                 'native' => 'ଓଡ଼ିଆ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 258,
@@ -2331,8 +1817,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tamil',
                 'script' => 'ltr',
                 'native' => 'தமிழ்',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 259,
@@ -2340,8 +1824,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Telugu',
                 'script' => 'ltr',
                 'native' => 'తెలుగు',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 260,
@@ -2349,8 +1831,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Kannada',
                 'script' => 'ltr',
                 'native' => 'ಕನ್ನಡ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 261,
@@ -2358,8 +1838,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Malayalam',
                 'script' => 'ltr',
                 'native' => 'മലയാളം',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 262,
@@ -2367,8 +1845,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Sinhala',
                 'script' => 'ltr',
                 'native' => 'සිංහල',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 263,
@@ -2376,8 +1852,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Thai',
                 'script' => 'ltr',
                 'native' => 'ไทย',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 264,
@@ -2385,8 +1859,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Lao',
                 'script' => 'ltr',
                 'native' => 'ລາວ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 265,
@@ -2394,8 +1866,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tibetan',
                 'script' => 'ltr',
                 'native' => 'པོད་སྐད་',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 266,
@@ -2403,8 +1873,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Dzongkha',
                 'script' => 'ltr',
                 'native' => 'རྫོང་ཁ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 267,
@@ -2412,8 +1880,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Burmese',
                 'script' => 'ltr',
                 'native' => 'Burmese',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 268,
@@ -2421,8 +1887,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Georgian',
                 'script' => 'ltr',
                 'native' => 'ქართული',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 269,
@@ -2430,8 +1894,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Blin',
                 'script' => 'ltr',
                 'native' => 'ብሊን',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 270,
@@ -2439,8 +1901,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tigre',
                 'script' => 'ltr',
                 'native' => 'ትግረ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 271,
@@ -2448,8 +1908,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tigrinya',
                 'script' => 'ltr',
                 'native' => 'ትግርኛ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 272,
@@ -2457,8 +1915,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Amharic',
                 'script' => 'ltr',
                 'native' => 'አማርኛ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 273,
@@ -2466,8 +1922,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Wolaytta',
                 'script' => 'ltr',
                 'native' => 'ወላይታቱ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 274,
@@ -2475,8 +1929,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Cherokee',
                 'script' => 'ltr',
                 'native' => 'ᏣᎳᎩ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 275,
@@ -2484,8 +1936,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Inuktitut (Canadian Aboriginal Syllabics)',
                 'script' => 'ltr',
                 'native' => 'ᐃᓄᒃᑎᑐᑦ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 276,
@@ -2493,8 +1943,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Ojibwa',
                 'script' => 'ltr',
                 'native' => 'ᐊᓂᔑᓈᐯᒧᐎᓐ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 277,
@@ -2502,8 +1950,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Cree',
                 'script' => 'ltr',
                 'native' => 'ᓀᐦᐃᔭᐍᐏᐣ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 278,
@@ -2511,8 +1957,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Khmer',
                 'script' => 'ltr',
                 'native' => 'ភាសាខ្មែរ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 279,
@@ -2520,8 +1964,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Mongolian',
                 'script' => 'rtl',
                 'native' => 'ᠮᠣᠨᠭᠭᠣᠯ ᠬᠡᠯᠡ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 280,
@@ -2529,8 +1971,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Tachelhit (Tifinagh)',
                 'script' => 'rtl',
                 'native' => 'ⵜⴰⵎⴰⵣⵉⵖⵜ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 281,
@@ -2538,8 +1978,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Central Atlas Tamazight (Tifinagh)',
                 'script' => 'rtl',
                 'native' => 'ⵜⴰⵎⴰⵣⵉⵖⵜ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 282,
@@ -2547,8 +1985,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Yue',
                 'script' => 'ltr',
                 'native' => '廣州話',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 283,
@@ -2556,8 +1992,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Japanese',
                 'script' => 'ltr',
                 'native' => '日本語',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 284,
@@ -2565,8 +1999,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Chinese (Simplified)',
                 'script' => 'ltr',
                 'native' => '简体中文',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 285,
@@ -2574,8 +2006,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Chinese (Traditional)',
                 'script' => 'ltr',
                 'native' => '繁體中文',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 286,
@@ -2583,8 +2013,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Sichuan Yi',
                 'script' => 'ltr',
                 'native' => 'ꆈꌠꉙ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 287,
@@ -2592,8 +2020,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Vai',
                 'script' => 'ltr',
                 'native' => 'ꕙꔤ',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 288,
@@ -2601,8 +2027,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Javanese',
                 'script' => 'ltr',
                 'native' => 'Javanese',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'id' => 289,
@@ -2610,8 +2034,6 @@ class LocalesTableSeeder extends Seeder
                 'name' => 'Korean',
                 'script' => 'ltr',
                 'native' => '한국어',
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
             ],
         ]);
     }

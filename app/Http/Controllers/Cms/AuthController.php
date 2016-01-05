@@ -28,7 +28,6 @@ class AuthController extends Controller
 
     public $redirectPath;
     public $redirectAfterLogout;
-    public $loginPath;
     public $maxLoginAttempts = 5;
     public $lockoutTime = 60;
 
@@ -41,7 +40,6 @@ class AuthController extends Controller
     {
         $this->redirectPath = \Locales::route();
         $this->redirectAfterLogout = \Locales::route('/');
-        $this->loginPath = \Locales::route('/');
     }
 
     /**
@@ -79,54 +77,9 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getLogin()
+    public function showLoginForm()
     {
         return view('cms.auth.login');
-    }
-
-    /**
-     * Handle a login request to the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function postLogin(Request $request)
-    {
-        $this->validate($request, [
-            $this->loginUsername() => 'required', 'password' => 'required',
-        ]);
-
-        // If the class is using the ThrottlesLogins trait, we can automatically throttle
-        // the login attempts for this application. We'll key this by the username and
-        // the IP address of the client making these requests into this application.
-        $throttles = $this->isUsingThrottlesLoginsTrait();
-
-        if ($throttles && $this->hasTooManyLoginAttempts($request)) {
-            return $this->sendLockoutResponse($request);
-        }
-
-        $credentials = $this->getCredentials($request);
-
-        if (Auth::attempt($credentials, $request->has('remember'))) {
-            return $this->handleUserWasAuthenticated($request, $throttles);
-        }
-
-        // If the login attempt was unsuccessful we will increment the number of attempts
-        // to login and redirect the user back to the login form. Of course, when this
-        // user surpasses their maximum number of attempts they will get locked out.
-        if ($throttles) {
-            $this->incrementLoginAttempts($request);
-        }
-
-        if ($request->ajax()) {
-            return response()->json(['errors' => [$this->getFailedLoginMessage()], 'ids' => [$this->loginUsername()], 'resetOnly' => ['password']]);
-        } else {
-            return redirect($this->loginPath())
-                ->withInput($request->only($this->loginUsername(), 'remember'))
-                ->withErrors([
-                    $this->loginUsername() => $this->getFailedLoginMessage(),
-                ]);
-        }
     }
 
     /**
@@ -155,6 +108,25 @@ class AuthController extends Controller
     }
 
     /**
+     * Get the failed login response instance.
+     *
+     * @param \Illuminate\Http\Request  $response
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        if ($request->ajax()) {
+            return response()->json(['errors' => [$this->getFailedLoginMessage()], 'ids' => [$this->loginUsername()], 'resetOnly' => ['password']]);
+        } else {
+            return redirect()->back()
+                ->withInput($request->only($this->loginUsername(), 'remember'))
+                ->withErrors([
+                    $this->loginUsername() => $this->getFailedLoginMessage(),
+                ]);
+        }
+    }
+
+    /**
      * Get the failed login message.
      *
      * @return string
@@ -169,7 +141,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getRegister()
+    public function showRegistrationForm()
     {
         return view('cms.auth.register');
     }
@@ -180,7 +152,7 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function postRegister(Request $request)
+    public function register(Request $request)
     {
         $validator = $this->validator($request->all());
 

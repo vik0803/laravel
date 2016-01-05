@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class PasswordController extends Controller
@@ -43,7 +42,7 @@ class PasswordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getEmail()
+    public function showLinkRequestForm()
     {
         return view('cms.auth.password');
     }
@@ -54,7 +53,7 @@ class PasswordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function postEmail(Request $request)
+    public function sendResetLinkEmail(Request $request)
     {
         $this->validate($request, ['email' => 'required|email']);
 
@@ -82,16 +81,21 @@ class PasswordController extends Controller
     /**
      * Display the password reset view for the given token.
      *
-     * @param  string  $token
+     * If no token is present, display the link request form.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string|null  $token
      * @return \Illuminate\Http\Response
      */
-    public function getReset($token = null)
+    public function showResetForm(Request $request, $token = null)
     {
         if (is_null($token)) {
-            throw new NotFoundHttpException;
+            return $this->getEmail();
         }
 
-        return view('cms.auth.reset')->with('token', $token);
+        $email = $request->input('email');
+
+        return view('auth.reset')->with(compact('token', 'email'));
     }
 
     /**
@@ -100,7 +104,7 @@ class PasswordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function postReset(Request $request)
+    public function reset(Request $request)
     {
         $this->validate($request, [
             'token' => 'required',

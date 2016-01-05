@@ -13,7 +13,7 @@ class CreateDomainLocaleTable extends Migration
     public function up()
     {
         Schema::create('domain_locale', function (Blueprint $table) {
-            $table->timestamps();
+            $table->nullableTimestamps();
             $table->integer('domain_id')->unsigned();
             $table->integer('locale_id')->unsigned();
 

@@ -34,7 +34,12 @@ class VerifyCsrfToken extends BaseVerifier
      */
     public function handle($request, \Closure $next)
     {
-        if ($this->isReading($request) || $this->shouldPassThrough($request) || $this->tokensMatch($request)) {
+        if (
+            $this->isReading($request) ||
+            $this->runningUnitTests() ||
+            $this->shouldPassThrough($request) ||
+            $this->tokensMatch($request)
+        ) {
             return $this->addCookieToResponse($request, $next($request));
         }
 
