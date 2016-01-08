@@ -3,36 +3,19 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Support\Facades\Auth;
 
 class Authenticate
 {
-    /**
-     * The Guard implementation.
-     *
-     * @var Guard
-     */
-    protected $auth;
-
-    /**
-     * Create a new filter instance.
-     *
-     * @param  Guard  $auth
-     * @return void
-     */
-    public function __construct(Guard $auth)
-    {
-        $this->auth = $auth;
-    }
-
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
+     * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
         /* This however doe not take into account the 'remember me' checkbox.
         if (\Session::has('lastActivityTime')) {
@@ -49,8 +32,9 @@ class Authenticate
             }
         }*/
 
-        if ($this->auth->guest()) {
+        if (Auth::guard($guard)->guest()) {
             $redirect = redirect()->guest(\Locales::route('/'))->withErrors([trans('messages.sessionExpired')])->with('session_expired', true);
+
             if ($request->ajax()) {
                 // return response('Unauthorized.', 401);
                 return response()->json(['redirect' => $redirect->getTargetUrl()]);
