@@ -254,8 +254,6 @@ class UserController extends Controller {
         $count = count($request->input('id'));
 
         if ($count > 0 && $user->destroy($request->input('id'))) {
-            $successMessage = trans('cms/forms.destroyedSuccessfully', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($group), $count)]);
-
             $param = true;
             if ($group) {
                 $param = \Locales::getRouteParameters($this->route)[$group];
@@ -266,14 +264,14 @@ class UserController extends Controller {
             $datatables = $datatable->getTables();
 
             return response()->json($datatables + [
-                'success' => $successMessage,
+                'success' => trans('cms/forms.destroyedSuccessfully'),
                 'closePopup' => true
             ]);
         } else {
             if ($count > 0) {
-                $errorMessage = trans('cms/forms.deleteError', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($group), $count)]);
+                $errorMessage = trans('cms/forms.deleteError');
             } else {
-                $errorMessage = trans('cms/forms.countError', ['entity' => trans_choice('cms/forms.entityUsers' . ucfirst($group), 1)]);
+                $errorMessage = trans('cms/forms.countError');
             }
 
             return response()->json(['errors' => [$errorMessage]]);

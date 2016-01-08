@@ -59,13 +59,13 @@ return [
     // Successful messages
     'storedSuccessfully' => ':entity created successfully',
     'updatedSuccessfully' => ':entity updated successfully',
-    'destroyedSuccessfully' => 'The selected :entity have been deleted successfully',
+    'destroyedSuccessfully' => 'The selected entries have been deleted successfully',
 
     // Error messages
     'createError' => ':entity can not be created',
     'editError' => ':entity can not be updated',
-    'deleteError' => 'The selected :entity can not be deleted',
-    'countError' => 'Please select at least one :entity',
+    'deleteError' => 'The selected entries can not be deleted',
+    'countError' => 'Please select at least one entry',
 
     // Entities
     'entityLocales' => 'Locale|Locales',

@@ -171,20 +171,18 @@ class DomainController extends Controller {
         $count = count($request->input('id'));
 
         if ($count > 0 && $domain->destroy($request->input('id'))) {
-            $successMessage = trans('cms/forms.destroyedSuccessfully', ['entity' => trans_choice('cms/forms.entityDomains', $count)]);
-
             $datatable->setup($domain, $request->input('table'), $this->datatables[$request->input('table')], true);
             $datatables = $datatable->getTables();
 
             return response()->json($datatables + [
-                'success' => $successMessage,
+                'success' => trans('cms/forms.destroyedSuccessfully'),
                 'closePopup' => true
             ]);
         } else {
             if ($count > 0) {
-                $errorMessage = trans('cms/forms.deleteError', ['entity' => trans_choice('cms/forms.entityDomains', $count)]);
+                $errorMessage = trans('cms/forms.deleteError');
             } else {
-                $errorMessage = trans('cms/forms.countError', ['entity' => trans_choice('cms/forms.entityDomains', 1)]);
+                $errorMessage = trans('cms/forms.countError');
             }
 
             return response()->json(['errors' => [$errorMessage]]);
