@@ -45,6 +45,39 @@ return [
         'order' => 2,
         'icon' => 'book',
     ],
+    'pages/create' => [
+        'slug' => 'pages/create',
+        'name' => 'Create',
+        'metaTitle' => 'Create Page Title',
+        'metaDescription' => 'Create Page Description',
+    ],
+    'pages/create-category' => [
+        'slug' => 'pages/create-category',
+        'name' => 'Create Category',
+        'metaTitle' => 'Create Category Title',
+        'metaDescription' => 'Create Category Description',
+    ],
+    'pages/store' => [
+        'slug' => 'pages/store',
+    ],
+    'pages/edit' => [
+        'slug' => 'pages/edit',
+        'name' => 'Edit',
+        'metaTitle' => 'Edit Page Title',
+        'metaDescription' => 'Edit Page Description',
+    ],
+    'pages/update' => [
+        'slug' => 'pages/update',
+    ],
+    'pages/delete' => [
+        'slug' => 'pages/delete',
+        'name' => 'Delete',
+        'metaTitle' => 'Are you sure that you want to permanently delete the selected pages?',
+        'metaDescription' => 'Are you sure that you want to permanently delete the selected pages?',
+    ],
+    'pages/destroy' => [
+        'slug' => 'pages/destroy',
+    ],
     'pf' => [
         'slug' => 'pf',
         'name' => 'Password Forgotten',

@@ -17,6 +17,8 @@ return [
     'resetPasswordButton' => 'Reset Password',
     'registerButton' => 'Register',
     'createButton' => 'Create',
+    'createCategoryButton' => 'Create Category',
+    'createPageButton' => 'Create Page',
     'storeButton' => 'Save',
     'editButton' => 'Edit',
     'updateButton' => 'Update',
@@ -28,6 +30,7 @@ return [
     'passwordLabel' => 'Password',
     'confirmPasswordLabel' => 'Confirm Password',
     'nameLabel' => 'Name',
+    'titleLabel' => 'Title',
     'slugLabel' => 'Slug',
     'nativeLabel' => 'Native Name',
     'scriptLabel' => 'Script',
@@ -36,21 +39,25 @@ return [
     'localesLabel' => 'Locales',
     'groupLabel' => 'Group',
     'descriptionLabel' => 'Description',
+    'contentLabel' => 'Content',
 
     // Placeholders
     'emailPlaceholder' => 'E-mail',
     'passwordPlaceholder' => 'Password',
     'confirmPasswordPlaceholder' => 'Confirm Password',
     'namePlaceholder' => 'Name',
+    'titlePlaceholder' => 'Title',
     'nativePlaceholder' => 'Native Name',
     'scriptPlaceholder' => 'Script',
     'localePlaceholder' => 'Locale',
     'slugPlaceholder' => 'Slug',
     'descriptionPlaceholder' => 'Description',
+    'contentPlaceholder' => 'Content',
 
     // Options
     'rememberOption' => 'Keep me signed in',
     'hideDefaultLocaleOption' => 'Hide default locale in URL',
+    'isDropdownOption' => 'Is this a dropdown category?',
     'localeScripts' => [
         'ltr' => 'Left-to-Right',
         'rtl' => 'Right-to-Left',
@@ -70,6 +77,7 @@ return [
     // Entities
     'entityLocales' => 'Locale|Locales',
     'entityDomains' => 'Domain|Domains',
+    'entityPages' => 'Page|Pages',
     'entityUsers' => 'User|Users',
     'entityUsersAdmins' => 'Admin|Admins',
     'entityUsersOperators' => 'Operator|Operators',

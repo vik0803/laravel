@@ -37,15 +37,6 @@ return [
         'icon' => 'dashboard',
         'divider-after' => true
     ],
-    'pages' => [
-        'slug' => 'страници',
-        'name' => 'Страници',
-        'metaTitle' => 'Страници Title',
-        'metaDescription' => 'Страници Description',
-        'category' => 'sidebar',
-        'order' => 2,
-        'icon' => 'book'
-    ],
     'pf' => [
         'slug' => 'забравена-парола',
         'name' => 'Забравена парола',
