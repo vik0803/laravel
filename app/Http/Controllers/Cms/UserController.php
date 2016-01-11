@@ -5,8 +5,7 @@ use App\User;
 use App\Role;
 use App\Services\DataTable;
 use Illuminate\Http\Request;
-use App\Http\Requests\CreateUserRequest;
-use App\Http\Requests\EditUserRequest;
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller {
 
@@ -205,7 +204,7 @@ class UserController extends Controller {
         return $sections['content'];
     }
 
-    public function store(DataTable $datatable, User $user, Role $role, CreateUserRequest $request)
+    public function store(DataTable $datatable, User $user, Role $role, UserRequest $request)
     {
         $userRole = $role->select('id')->where('slug', $request->input('group'))->firstOrFail()->id;
 
@@ -298,7 +297,7 @@ class UserController extends Controller {
         return $sections['content'];
     }
 
-    public function update(DataTable $datatable, Role $role, EditUserRequest $request)
+    public function update(DataTable $datatable, Role $role, UserRequest $request)
     {
         $user = User::findOrFail($request->input('id'))->first();
 

@@ -4,8 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Services\DataTable;
 use Illuminate\Http\Request;
 use App\Locale;
-use App\Http\Requests\CreateLocaleRequest;
-use App\Http\Requests\EditLocaleRequest;
+use App\Http\Requests\LocaleRequest;
 
 class LocaleController extends Controller {
 
@@ -99,7 +98,7 @@ class LocaleController extends Controller {
         return $sections['content'];
     }
 
-    public function store(DataTable $datatable, Locale $locale, CreateLocaleRequest $request)
+    public function store(DataTable $datatable, Locale $locale, LocaleRequest $request)
     {
         $newLocale = Locale::create($request->all());
 
@@ -164,7 +163,7 @@ class LocaleController extends Controller {
         return $sections['content'];
     }
 
-    public function update(DataTable $datatable, EditLocaleRequest $request)
+    public function update(DataTable $datatable, LocaleRequest $request)
     {
         $locale = Locale::findOrFail($request->input('id'))->first();
 

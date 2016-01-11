@@ -4,8 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Services\DataTable;
 use Illuminate\Http\Request;
 use App\Page;
-use App\Http\Requests\CreatePageRequest;
-use App\Http\Requests\EditPageRequest;
+use App\Http\Requests\PageRequest;
 
 class PageController extends Controller {
 
@@ -143,7 +142,7 @@ class PageController extends Controller {
         return $sections['content'];
     }
 
-    public function store(DataTable $datatable, Page $page, CreatePageRequest $request)
+    public function store(DataTable $datatable, Page $page, PageRequest $request)
     {
         $parent = $request->session()->get($page->getTable() . 'Parent', null);
 
@@ -229,7 +228,7 @@ class PageController extends Controller {
         return $sections['content'];
     }
 
-    public function update(DataTable $datatable, EditPageRequest $request)
+    public function update(DataTable $datatable, PageRequest $request)
     {
         $page = Page::findOrFail($request->input('id'))->first();
 

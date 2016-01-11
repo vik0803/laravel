@@ -5,8 +5,7 @@ use App\Services\DataTable;
 use Illuminate\Http\Request;
 use App\Domain;
 use App\Locale;
-use App\Http\Requests\CreateDomainRequest;
-use App\Http\Requests\EditDomainRequest;
+use App\Http\Requests\DomainRequest;
 
 class DomainController extends Controller {
 
@@ -131,7 +130,7 @@ class DomainController extends Controller {
         return $sections['content'];
     }
 
-    public function store(DataTable $datatable, Domain $domain, CreateDomainRequest $request)
+    public function store(DataTable $datatable, Domain $domain, DomainRequest $request)
     {
         $newDomain = Domain::create($request->all());
 
@@ -214,7 +213,7 @@ class DomainController extends Controller {
         return $sections['content'];
     }
 
-    public function update(DataTable $datatable, EditDomainRequest $request)
+    public function update(DataTable $datatable, DomainRequest $request)
     {
         $domain = Domain::findOrFail($request->input('id'))->first();
 
