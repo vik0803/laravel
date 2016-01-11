@@ -1,5 +1,5 @@
 //@prepros-prepend plugins/*.js
-//@prepros-prepend vendor/plugins/*.js
+//@prepros-prepend vendor/plugins/combine/*.js
 //@prepros-prepend vendor/headroom.min.js
 //@prepros-prepend vendor/js.cookie.js
 //@prepros-prepend vendor/history.min.js
