@@ -50,6 +50,12 @@
 
 	<script>
     'use strict';
+
+    var jsFiles = [];
+    @section('jsFiles')
+        jsFiles.push('{{ \App\Helpers\autover('/js/cms/main.min.js') }}');
+    @show
+
     Modernizr.load([
         {
             test: typeof isOldIe == 'undefined',
@@ -66,7 +72,7 @@
             }
         },
         {
-            load: ['{{ \App\Helpers\autover('/js/cms/main.min.js') }}'],
+            load: jsFiles,
             complete: function() {
                 $.extend(unikat.variables, {
                     ajaxErrorMessage: '{!! trans('cms/js.ajaxErrorMessage') !!}',

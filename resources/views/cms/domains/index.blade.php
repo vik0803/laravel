@@ -10,6 +10,13 @@
     @endif
 @endsection
 
+@section('jsFiles')
+    jsFiles.push('{{ \App\Helpers\autover('/js/cms/vendor/jquery-ui.min.js') }}');
+    jsFiles.push('{{ \App\Helpers\autover('/js/cms/vendor/jquery.multiselect.min.js') }}');
+
+    @parent
+@endsection
+
 @if (isset($datatables) && count($datatables) > 0)
 @section('script')
     unikat.callback = function() {
