@@ -85,6 +85,7 @@
                     magnificPopupAjaxError: '{!! trans('cms/js.magnificPopupAjaxError') !!}',
                     urlGoogleAnalytics: '{{ \App\Helpers\autover('/js/cms/google.min.js') }}',
                     headroomOffset: 300,
+                    language: '{{ \Locales::getCurrent() }}',
 
                     @if (isset($datatables) && count($datatables) > 0)
                         datatables: true,
