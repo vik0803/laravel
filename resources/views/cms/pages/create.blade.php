@@ -38,7 +38,7 @@
 
     <div class="form-group{!! ($errors->has('content') ? ' has-error has-feedback' : '') !!}">
         {!! Form::label('input-content', trans('cms/forms.contentLabel')) !!}
-        {!! Form::textarea('content', null, ['id' => 'input-content', 'class' => 'form-control', 'placeholder' => trans('cms/forms.contentPlaceholder')]) !!}
+        {!! Form::textarea('content', null, ['id' => 'input-content', 'class' => 'form-control ckeditor', 'placeholder' => trans('cms/forms.contentPlaceholder')]) !!}
         @if ($errors->has('content'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
     </div>
 

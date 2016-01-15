@@ -10,6 +10,13 @@
     @endif
 @endsection
 
+@section('jsFiles')
+    jsFiles.push('{{ \App\Helpers\autover('/js/cms/vendor/ckfinder/ckfinder.js') }}');
+    jsFiles.push('{{ \App\Helpers\autover('/js/cms/vendor/ckeditor/ckeditor.js') }}');
+
+    @parent
+@endsection
+
 @if (isset($datatables) && count($datatables) > 0)
 @section('script')
     unikat.callback = function() {

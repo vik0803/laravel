@@ -152,6 +152,10 @@ var unikat = function() {
                     },
                     callbacks: {
                         ajaxContentAdded: function() {
+                            if (typeof CKEDITOR == 'object') {
+                                ckeditorSetup(unikat.ckeditorConfig);
+                            }
+
                             if (typeof unikat.magnificPopupCreateCallback == 'function') {
                                 unikat.magnificPopupCreateCallback();
                             }
@@ -194,6 +198,10 @@ var unikat = function() {
                     },
                     callbacks: {
                         ajaxContentAdded: function() {
+                            if (typeof CKEDITOR == 'object') {
+                                ckeditorSetup(unikat.ckeditorConfig);
+                            }
+
                             if (typeof unikat.magnificPopupEditCallback == 'function') {
                                 unikat.magnificPopupEditCallback();
                             }
@@ -358,6 +366,74 @@ var unikat = function() {
             url: variables.urlGoogleAnalytics,
             dataType: "script",
             cache: true,
+        });
+    }
+
+    function ckeditorSetup(config) {
+        CKFinder.basePath = CKEDITOR.basePath.replace('ckeditor', 'ckfinder');
+
+        CKFinder.config({
+            configPath: '', // don't load config.js
+            language: variables.language,
+            defaultLanguage: variables.defaultLanguage, // used if language is not available
+            defaultDisplayDate: false,
+            defaultDisplayFileName: false,
+            defaultDisplayFileSize: false,
+            defaultSortBy: 'date',
+            defaultSortByOrder: 'desc',
+            editImageAdjustments: [
+                'brightness', 'clip', 'contrast', 'exposure', 'gamma', 'hue', 'noise', 'saturation', 'sepia',
+                'sharpen', 'stackBlur', 'vibrance'
+            ],
+            editImagePresets: [
+                'clarity', 'concentrate', 'crossProcess', 'glowingSun', 'grungy', 'hazyDays', 'hemingway', 'herMajesty',
+                'jarques', 'lomo', 'love', 'nostalgia', 'oldBoot', 'orangePeel', 'pinhole', 'sinCity', 'sunrise', 'vintage'
+            ],
+            jquery: '//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js',
+            // connectorInfo: 'token=7901a26e4bc422aef54eb45', // Additional (GET) parameters to send to the server with each request.
+        });
+
+        CKFinder.setupCKEditor();
+
+        var defaultConfig = {
+            customConfig: '', // don't load config.js
+            language: variables.language,
+            disableNativeSpellChecker: false,
+            removePlugins: '',
+            extraPlugins: '',
+            autosave_delay: 30, // seconds
+            autoGrow_maxHeight: 1000,
+            autoGrow_minHeight: 150,
+            autoGrow_bottomSpace: 20,
+            disallowedContent: 'img{width,height,border*}', // Disallow setting inline borders, width & height for images.
+            /*filebrowserBrowseUrl: '/js/cms/vendor/ckfinder/ckfinder.html',
+            filebrowserUploadUrl: '/js/cms/vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',*/
+            uploadUrl: '/js/cms/vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json',
+            colorButton_colors: '5ca4a1,db6969', // set brand colors
+            contentsCss: 'css/cms/main.min.css', // replace with css/www/main.min.css
+            contentsLangDirection: variables.languageScript,
+            defaultLanguage: variables.defaultLanguage, // used if language is not available
+            fontSize_sizes: '12/.75em;14/.875em;16/1em;20/1.25em',
+            font_names: 'Helvetica Neue/Helvetica Neue, Helvetica, Arial, sans-serif; Roboto/Roboto, Helvetica Neue, Helvetica, Arial, sans-serif; Oswald/Oswald, Helvetica Neue, Helvetica, Arial, sans-serif',
+            format_tags: 'p;h1;h2;h3;h4;h5;h6;div;address',
+            justifyClasses: ['text-left', 'text-center', 'text-right', 'text-justify'],
+            removeButtons: '', // maybe needed
+            removeDialogTabs: '', // maybe needed
+            stylesSet: [ // see the styles.js
+                { name: 'Strong Emphasis', element: 'strong' },
+                { name: 'Emphasis', element: 'em' },
+            ],
+            // templates_files: '', // maybe usefull
+        };
+
+        $.extend(defaultConfig, config);
+
+        CKEDITOR.replaceAll(function(textarea, config) {
+            if ($(textarea).hasClass('ckeditor')) {
+                $.extend(config, defaultConfig);
+            } else {
+                return false;
+            }
         });
     }
 

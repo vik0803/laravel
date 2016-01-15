@@ -51,6 +51,8 @@
 	<script>
     'use strict';
 
+    var CKEDITOR_BASEPATH = '/js/cms/vendor/ckeditor/';
+
     var jsFiles = [];
     @section('jsFiles')
         jsFiles.push('{{ \App\Helpers\autover('/js/cms/main.min.js') }}');
@@ -86,6 +88,8 @@
                     urlGoogleAnalytics: '{{ \App\Helpers\autover('/js/cms/google.min.js') }}',
                     headroomOffset: 300,
                     language: '{{ \Locales::getCurrent() }}',
+                    defaultLanguage: '{{ \Locales::getDefault() }}',
+                    languageScript: '{{ \Locales::getScript() }}',
 
                     @if (isset($datatables) && count($datatables) > 0)
                         datatables: true,
