@@ -294,17 +294,11 @@ class DataTable
         foreach ($data as $key => $items) {
             foreach ($links as $link) {
                 if (array_key_exists($link['id'], $items)) {
-                    $passed = false;
-                    foreach ($link['link']['rules'] as $column => $value) {
-                        if ($items[$column] == $value) {
-                            $passed = true;
-                        } else {
-                            $passed = false;
+                    foreach ($link['link']['rules'] as $rules) {
+                        if ($items[$rules['column']] == $rules['value']) {
+                            $data[$key][$link['id']] = '<a href="' . \Locales::route($link['link']['route'], ltrim(\Slug::getRouteParameter() . (isset($link['link']['routeParameter']) ? '/' . $data[$key][$link['link']['routeParameter']] : ''), '/')) . '">' . (isset($rules['icon']) ? '<span class="glyphicon glyphicon-' . $rules['icon'] . ' glyphicon-left"></span>' : '') . $data[$key][$link['id']] . '</a>';
+                            break;
                         }
-                    }
-
-                    if ($passed) {
-                        $data[$key][$link['id']] = '<a href="' . \Locales::route($link['link']['route'], ltrim(\Slug::getRouteParameter() . (isset($link['link']['routeParameter']) ? '/' . $data[$key][$link['link']['routeParameter']] : ''), '/')) . '">' . (isset($link['link']['icon']) ? '<span class="glyphicon glyphicon-' . $link['link']['icon'] . ' glyphicon-left"></span>' : '') . $data[$key][$link['id']] . '</a>';
                     }
                 }
             }

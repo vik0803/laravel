@@ -30,11 +30,19 @@ class PageController extends Controller {
                         'link' => [
                             'selector' => $this->route . '.is_category',
                             'rules' => [
-                                'is_category' => 1,
+                                0 => [
+                                    'column' => 'is_category',
+                                    'value' => 0,
+                                    'icon' => 'file',
+                                ],
+                                1 => [
+                                    'column' => 'is_category',
+                                    'value' => 1,
+                                    'icon' => 'folder-open',
+                                ],
                             ],
                             'route' => $this->route,
                             'routeParameter' => 'slug',
-                            'icon' => 'folder-open',
                         ],
                     ],
                     [
