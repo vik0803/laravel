@@ -378,7 +378,7 @@ MagnificPopup.prototype = {
 			}
 
 			// Trap the focus in popup
-			_document.on('focusin' + EVENT_NS, mfp._onFocusIn);
+			// _document.on('focusin' + EVENT_NS, mfp._onFocusIn); // unikat : disable this focus trap because otherwise the ckeditor can't focus input fields.
 
 		}, 16);
 
