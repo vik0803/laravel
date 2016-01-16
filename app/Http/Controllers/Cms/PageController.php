@@ -223,7 +223,7 @@ class PageController extends Controller {
 
         $table = $request->input('table') ?: $this->route;
 
-        $view = \View::make('cms.' . $this->route . '.create', compact('page', 'table'));
+        $view = \View::make('cms.' . $this->route . '.create' . ($gallery->is_category ? '-category' : ''), compact('page', 'table'));
         $sections = $view->renderSections();
         return $sections['content'];
     }
