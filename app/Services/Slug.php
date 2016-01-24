@@ -182,4 +182,26 @@ class Slug
         $class = $this->isActive($slug, $index);
         return $class ? ' class="' . $class . '"' : null;
     }
+
+    public function arrayMatchSlugsRecursive($slugs, $array)
+    {
+        $slug = array_shift($slugs);
+        foreach ($array as $key => $value) {
+            if (is_array($value) && isset($value['slug'])) {
+                if ($value['slug'] == $slug) {
+                    if (count($slugs)) {
+                        if (isset($value['children'])) {
+                            return $this->arrayMatchSlugsRecursive($slugs, $value['children']);
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }
