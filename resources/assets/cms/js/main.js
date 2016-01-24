@@ -741,6 +741,7 @@ var unikat = function() {
                 data: value.id,
                 title: value.name,
                 searchable: (value.search ? true : false),
+                orderable: (typeof value.order !== 'undefined' ? false : true),
                 className: (value.class ? value.class : ''),
             });
         });
