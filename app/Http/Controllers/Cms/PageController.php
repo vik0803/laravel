@@ -85,31 +85,27 @@ class PageController extends Controller {
         ];
     }
 
-    public function index(DataTable $datatable, Page $page, Request $request, $categories = null)
+    public function index(DataTable $datatable, Page $page, Request $request, $slugs = null)
     {
-        if ($categories) {
-            $categoriesArray = explode('/', $categories);
-            $count = count($categoriesArray);
 
-            $category = $page->where('slug', last($categoriesArray));
-            $category = $category->first();
+        $is_page = false;
+        if ($slugs) {
+            $slugsArray = explode('/', $slugs);
 
-            if ($category) { // the last category slug is valid
-                $parents = \DB::select('select slug, parent from (select slug, @r := (select parent from pages where id = @r) as parent from (select @r := ?) tmp1, pages where @r is not null) tmp2 where parent is not null', [$category->id]);
-                if (count($parents) === ($count - 1)) { // if there are parents they must be equal to the number of slugs in the URL
-                    $valid = true;
-                    foreach ($parents as $key => $parent) { // check if parent slugs are also valid and in the correct order
-                        if ($parent->slug !== $categoriesArray[$key]) {
-                            $valid = false;
-                            break;
-                        }
-                    }
+            $row = $page->where('slug', last($slugsArray));
+            $row = $row->first();
 
-                    if ($valid) {
-                        $request->session()->put($page->getTable() . 'Parent', $category->id); // save current category for proper store/update/destroy actions
-                        $page = $page->where('parent', $category->id);
-                    } else {
-                        abort(404);
+            if ($row) { // the last slug exist in DB
+                $pages = Page::select('id', 'parent', 'slug')->get()->toArray();
+                $pages = \App\Helpers\arrayToTree($pages);
+                if (\Slug::arrayMatchSlugsRecursive($slugsArray, $pages)) { // match slugs against the pages array
+                    $request->session()->put('routeSlugs', $slugsArray); // save current slugs for proper file upload actions
+                    if ($row->is_category) { // it's a category
+                        $request->session()->put($page->getTable() . 'Parent', $row->id); // save current category for proper store/update/destroy actions
+                        $page = $page->where('parent', $row->id);
+
+                    } else { // it's a page
+                        $is_page = true;
                     }
                 } else {
                     abort(404);
@@ -119,6 +115,7 @@ class PageController extends Controller {
             }
         } else {
             $request->session()->put($page->getTable() . 'Parent', null); // save current category for proper store/update/destroy actions
+            $request->session()->put('routeSlugs', []); // save current slugs for proper file upload actions
             $page = $page->where('parent', null);
         }
 

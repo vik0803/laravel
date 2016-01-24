@@ -48,7 +48,7 @@ Route::group(['middleware' => ['web']], function () {
                             \Locales::isTranslatedRoute('pages/delete') ? Route::get(\Locales::getRoute('pages/delete'), 'PageController@delete')->name(\Locales::getRoutePrefix('pages/delete')) : '';
                             \Locales::isTranslatedRoute('pages/destroy') ? Route::delete(\Locales::getRoute('pages/destroy'), 'PageController@destroy')->name(\Locales::getRoutePrefix('pages/destroy')) : '';
                         });
-                        \Locales::isTranslatedRoute('pages') ? Route::get(\Locales::getRoute('pages') . '/{categories?}', 'PageController@index')->name(\Locales::getRoutePrefix('pages'))->where('categories', '(.*)') : '';
+                        \Locales::isTranslatedRoute('pages') ? Route::get(\Locales::getRoute('pages') . '/{slugs?}', 'PageController@index')->name(\Locales::getRoutePrefix('pages'))->where('slugs', '(.*)') : '';
 
                         \Locales::isTranslatedRoute('users') ? Route::get(\Locales::getRoute('users') . '/{group?}', 'UserController@index')->name(\Locales::getRoutePrefix('users'))->where('group', \Locales::getRouteRegex('users')) : '';
                         Route::group(['middleware' => 'ajax'], function() {
