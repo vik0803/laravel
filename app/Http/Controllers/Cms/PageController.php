@@ -82,6 +82,63 @@ class PageController extends Controller {
                     ],
                 ],
             ],
+            'gallery' => [
+                'url' => \Locales::route($this->route, true),
+                'class' => 'table-checkbox table-striped table-bordered table-hover table-thumbnails popup-gallery',
+                'checkbox' => [
+                    'selector' => 'page_images.id',
+                    'id' => 'id',
+                ],
+                'columns' => [
+                    [
+                        'selector' => 'page_images.name',
+                        'id' => 'name',
+                        'name' => trans('cms/datatables.name'),
+                        'search' => true,
+                    ],
+                    [
+                        'selector' => 'page_images.file',
+                        'id' => 'file',
+                        'name' => trans('cms/datatables.image'),
+                        'order' => false,
+                        'class' => 'text-center',
+                        'thumbnail' => [
+                            'selector' => 'page_images.extension',
+                            'folder' => 'pages/',
+                            'popup' => true,
+                        ],
+                    ],
+                    [
+                        'selector' => 'page_images.size',
+                        'id' => 'size',
+                        'name' => trans('cms/datatables.size'),
+                    ],
+                ],
+                'orderByColumn' => 'order',
+                'order' => 'asc',
+                'buttons' => [
+                    [
+                        'upload' => true,
+                        'id' => 'fine-uploader',
+                        'url' => \Locales::route($this->route . '/upload'),
+                        'class' => 'btn-primary js-upload',
+                        'icon' => 'upload',
+                        'name' => trans('cms/forms.uploadButton'),
+                    ],
+                    [
+                        'url' => \Locales::route($this->route . '/edit'),
+                        'class' => 'btn-warning disabled js-edit',
+                        'icon' => 'edit',
+                        'name' => trans('cms/forms.editButton'),
+                    ],
+                    [
+                        'url' => \Locales::route($this->route . '/delete'),
+                        'class' => 'btn-danger disabled js-destroy',
+                        'icon' => 'trash',
+                        'name' => trans('cms/forms.deleteButton'),
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -119,7 +176,11 @@ class PageController extends Controller {
             $page = $page->where('parent', null);
         }
 
-        $datatable->setup($page, $this->route, $this->datatables[$this->route]);
+        if ($is_page) {
+            $datatable->setup(PageImage::where('page_id', $row->id), 'page_images', $this->datatables['gallery']);
+        } else {
+            $datatable->setup($page, $this->route, $this->datatables[$this->route]);
+        }
 
         $datatables = $datatable->getTables();
 
