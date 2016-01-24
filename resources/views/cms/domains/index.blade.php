@@ -5,6 +5,8 @@
         <h1>{{ \Locales::getMetaTitle() }}</h1>
     </div>
 
+    @include('cms/shared.errors')
+
     @if (isset($datatables) && count($datatables) > 0)
         @include('cms/partials.datatables')
     @endif
