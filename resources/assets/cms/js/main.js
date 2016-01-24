@@ -740,7 +740,7 @@ var unikat = function() {
             columns.push({
                 data: value.id,
                 title: value.name,
-                searchable: (value.search ? value.search : false),
+                searchable: (value.search ? true : false),
                 className: (value.class ? value.class : ''),
             });
         });
