@@ -18,7 +18,7 @@ class CreatePagesTable extends Migration
             $table->integer('parent')->unsigned()->nullable();
             $table->string('name');
             $table->string('title')->nullable();
-            $table->string('slug');
+            $table->string('slug')->nullable();
             $table->string('description')->nullable();
             $table->string('content')->nullable();
             $table->integer('order')->unsigned()->default(0);
