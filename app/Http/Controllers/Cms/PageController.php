@@ -122,6 +122,7 @@ class PageController extends Controller {
                         'selector' => 'page_images.size',
                         'id' => 'size',
                         'name' => trans('cms/datatables.size'),
+                        'filesize' => true,
                     ],
                 ],
                 'orderByColumn' => 'order',

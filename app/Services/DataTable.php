@@ -125,6 +125,10 @@ class DataTable
                 $data = $this->thumbnail($data, $columnsData['thumbnails']);
             }
 
+            if (count($columnsData['filesizes'])) {
+                $data = $this->filesize($data, $columnsData['filesizes']);
+            }
+
             $this->setOption('data', $data);
         } else {
             $this->setOption('count', $count);
@@ -154,6 +158,10 @@ class DataTable
 
                 if (count($columnsData['thumbnails'])) {
                     $data = $this->thumbnail($data, $columnsData['thumbnails']);
+                }
+
+                if (count($columnsData['filesizes'])) {
+                    $data = $this->filesize($data, $columnsData['filesizes']);
                 }
 
                 $this->setOption('data', $data);
@@ -193,7 +201,7 @@ class DataTable
 
     public function getColumnsData()
     {
-        $columnsData = ['prepends' => [], 'appends' => [], 'links' => [], 'thumbnails' => [], 'joins' => [], 'aggregates' => []];
+        $columnsData = ['prepends' => [], 'appends' => [], 'links' => [], 'thumbnails' => [], 'filesizes' => [], 'joins' => [], 'aggregates' => []];
         $columns = array_where($this->getOption('columns'), function ($key, $column) use (&$columnsData) {
             $skip = false;
 
@@ -221,6 +229,10 @@ class DataTable
 
             if (isset($column['thumbnail'])) {
                 array_push($columnsData['thumbnails'], $column);
+            }
+
+            if (isset($column['filesize'])) {
+                array_push($columnsData['filesizes'], $column);
             }
 
             if ($skip) {
@@ -320,6 +332,12 @@ class DataTable
         return $data;
     }
 
+    public function filesize($data, $filesizes)
+    {
+        foreach ($data as $key => $items) {
+            foreach ($filesizes as $filesize) {
+                if (array_key_exists($filesize['id'], $items)) {
+                    $data[$key][$filesize['id']] = \App\Helpers\formatBytes($data[$key][$filesize['id']]);
                 }
             }
         }
