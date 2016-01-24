@@ -7,6 +7,7 @@
 @import 'vendor/magnific-popup';
 @import 'vendor/jquery-ui';
 @import 'vendor/multiselect';
+@import 'vendor/datatables';
 
 $susy: (
   columns: 12,
@@ -50,15 +51,40 @@ div {
     }
 }
 
-textarea {
-    resize: vertical;
-    min-height: 3.125em; /* 50/16 */
-}
-
 .glyphicon-left {
     margin-right: 0.625em; /* 10/16 */
 }
 
 .glyphicon-right {
     margin-left: 0.625em; /* 10/16 */
+}
+
+.progress {
+    height: auto;
+    margin-top: 0.625em; /* 10/16 */
+}
+
+.progress-bar {
+    min-width: 1.875em; /* 30/16 */
+}
+
+.alert-messages {
+    > .alert {
+        margin: $form-group-margin-bottom 0;
+        font-size: $font-size-h5;
+        text-align: left;
+
+        > ul {
+            padding: 0;
+            list-style-type: none;
+
+            > li {
+                margin-top: 0.3125em; /* 5/16 */
+            }
+        }
+    }
+
+    .glyphicon {
+        margin-right: 0.3125em; /* 5/16 */
+    }
 }

@@ -27,23 +27,7 @@ html .form-horizontal {
     }
 }
 
-.alert-messages {
-    > .alert {
-        margin-bottom: $form-group-margin-bottom;
-        font-size: $font-size-h5;
-        text-align: left;
-
-        > ul {
-            padding: 0;
-            list-style-type: none;
-
-            > li {
-                margin-top: 0.3125em; /* 5/16 */
-            }
-        }
-    }
-
-    .glyphicon {
-        margin-right: 0.3125em; /* 5/16 */
-    }
+textarea {
+    resize: vertical;
+    min-height: 3.125em; /* 50/16 */
 }

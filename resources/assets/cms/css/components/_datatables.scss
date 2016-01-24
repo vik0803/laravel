@@ -21,6 +21,10 @@ table.dataTable.table-checkbox {
     }
 }
 
+table.dataTable.table-thumbnails tbody td {
+    vertical-align: middle;
+}
+
 .dataTableL {
     @include span(6);
 }
