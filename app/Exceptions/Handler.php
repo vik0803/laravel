@@ -62,23 +62,20 @@ class Handler extends ExceptionHandler
         }
 
         if ($e instanceof \PDOException) {
-            if ($e instanceof \Illuminate\Database\QueryException) {
-                $response = new Response('', 503);
-                $status = $response->getStatusCode();
-                $statusText = \Illuminate\Http\Response::$statusTexts[$response->getStatusCode()];
+            $response = new Response('', 503);
+            $status = $response->getStatusCode();
+            $statusText = \Illuminate\Http\Response::$statusTexts[$response->getStatusCode()];
 
+            if ($request->ajax()) {
+                return response()->json(['error' => $status . ' ' . $statusText . '<br>' . $e->getMessage(), 'preventRetry' => true], $status); // preventRetry is for FineUploader
+            } else {
                 $content = view('errors.db', compact('status', 'statusText'))->with('message', $e->getMessage())->render();
                 $response->setContent($content);
+            }
 
+            if ($e instanceof \Illuminate\Database\QueryException) {
                 return $response;
             } else {
-                $response = new Response('', 503);
-                $status = $response->getStatusCode();
-                $statusText = \Illuminate\Http\Response::$statusTexts[$response->getStatusCode()];
-
-                $content = view('errors.db', compact('status', 'statusText'))->with('message', $e->getMessage())->render();
-                $response->setContent($content);
-
                 $response->sendHeaders();
                 die ($response->getContent());
                 // return $response; // returns the content twice
