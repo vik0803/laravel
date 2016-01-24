@@ -45,11 +45,12 @@ class VerifyCsrfToken extends BaseVerifier
 
         // throw new TokenMismatchException;
 
-        $redirect = redirect($request->fullUrl())->withInput(\Input::except('_token'))->withErrors([trans('validation.tokenMismatchException')]);
         if ($request->ajax()) {
-            return response()->json(['redirect' => $redirect->getTargetUrl()]);
+            $request->flashExcept('_token', 'qqfile'); // qqfile is the name of the uploaded file
+            $request->session()->flash('errors', new \Illuminate\Support\MessageBag([trans('validation.tokenMismatchException')]));
+            return response()->json(['refresh' => true]);
         } else {
-            return $redirect;
+            return redirect($request->fullUrl())->withInput($request->except('_token'))->withErrors([trans('validation.tokenMismatchException')]);
         }
     }
 }
