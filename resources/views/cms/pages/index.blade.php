@@ -15,6 +15,7 @@
 @section('jsFiles')
     jsFiles.push('{{ \App\Helpers\autover('/js/cms/vendor/ckfinder/ckfinder.js') }}');
     jsFiles.push('{{ \App\Helpers\autover('/js/cms/vendor/ckeditor/ckeditor.js') }}');
+    jsFiles.push('{{ \App\Helpers\autover('/js/cms/vendor/fine-uploader.min.js') }}');
 
     @parent
 @endsection

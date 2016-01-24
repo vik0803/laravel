@@ -100,6 +100,12 @@
                         @endforeach
                     },
 
+                    fineUploader: {
+                        @foreach (\Lang::get('cms/plugins.fineUploader') as $key => $value)
+                            {{ $key }}: '{!! $value !!}',
+                        @endforeach
+                    },
+
                     @if (isset($datatables) && count($datatables) > 0)
                         datatables: true,
                         datatablesLanguage: '{{ \App\Helpers\autover('/lng/datatables/' . \Locales::getCurrent() . '.json') }}',

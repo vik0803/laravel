@@ -14,6 +14,7 @@ var unikat = function() {
         jsCreateHook: '.js-create',
         jsEditHook: '.js-edit',
         jsDestroyHook: '.js-destroy',
+        jsUploadHook: '.js-upload',
         filterClass: '.dataTables_filter',
         datatablePrefix: 'datatable',
     };
@@ -221,6 +222,18 @@ var unikat = function() {
                 }));
 
                 ajax_unlock($(this).closest(ajaxLockClass));
+            });
+
+            $(variables.jsUploadHook).each(function() {
+                if (typeof qq !== 'undefined') {
+                    var params = {
+                        id: $(this).attr('id'),
+                        table: $(this).data('table'),
+                        url: $(this).data('url'),
+                    };
+
+                    fineUploaderSetup(params, unikat.fineUploaderConfig);
+                }
             });
 
             if (variables.datatables) {
@@ -460,6 +473,169 @@ var unikat = function() {
             filterLabel: variables.multiselect.filterLabel,
             filterPlaceholder: variables.multiselect.filterPlaceholder,
         }, config);
+    }
+
+    function fineUploaderSetup(params, config) {
+        var config = config || {};
+        params.buttonGroupWrapper = $('#' + params.id).closest('.btn-group-wrapper');
+
+        var defaultConfig = {
+            debug: true,
+            button: document.getElementById(params.id),
+            chunking: {
+                enabled: true,
+                concurrent: {
+                    enabled: true,
+                },
+                success: {
+                    endpoint: params.url + '/done',
+                },
+            },
+            paste: {
+                targetElement: document,
+            },
+            request: {
+                endpoint: params.url,
+                customHeaders: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+            },
+            resume: {
+                enabled: true,
+            },
+            retry: {
+               enableAuto: true,
+            },
+            validation: {
+                allowedExtensions: ['jpg', 'png', 'gif', 'jpeg'],
+                stopOnFirstInvalidFile: false,
+            },
+            text: {
+                defaultResponseError: variables.fineUploader.defaultResponseError,
+            },
+            messages: {
+                emptyError: variables.fineUploader.emptyError,
+                maxHeightImageError: variables.fineUploader.maxHeightImageError,
+                maxWidthImageError: variables.fineUploader.maxWidthImageError,
+                minHeightImageError: variables.fineUploader.minHeightImageError,
+                minWidthImageError: variables.fineUploader.minWidthImageError,
+                minSizeError: variables.fineUploader.minSizeError,
+                noFilesError: variables.fineUploader.noFilesError,
+                onLeave: variables.fineUploader.onLeave,
+                retryFailTooManyItemsError: variables.fineUploader.retryFailTooManyItemsError,
+                sizeError: variables.fineUploader.sizeError,
+                tooManyItemsError: variables.fineUploader.tooManyItemsError,
+                typeError: variables.fineUploader.typeError,
+                unsupportedBrowserIos8Safari: variables.fineUploader.unsupportedBrowserIos8Safari,
+            },
+            callbacks: {
+                onTotalProgress: function(totalUploadedBytes, totalBytes) {
+                    var progress;
+                    var speed = '';
+                    var minSamples = 6;
+                    var maxSamples = 20;
+                    var uploadSpeeds = [];
+                    var progressPercent = (totalUploadedBytes / totalBytes).toFixed(2);
+                    var totalSize = formatSize(totalBytes, this._options.text.sizeSymbols);
+                    var totalUploadedSize = formatSize(totalUploadedBytes, this._options.text.sizeSymbols);
+
+                    uploadSpeeds.push({
+                        totalUploadedBytes: totalUploadedBytes,
+                        currentTime: new Date().getTime(),
+                    });
+
+                    if (uploadSpeeds.length > maxSamples) {
+                        uploadSpeeds.shift(); // remove first element
+                    }
+
+                    if (uploadSpeeds.length >= minSamples) {
+                        var firstSample = uploadSpeeds[0];
+                        var lastSample = uploadSpeeds[uploadSpeeds.length - 1];
+                        var progressBytes = lastSample.totalUploadedBytes - firstSample.totalUploadedBytes;
+                        var progressTimeMS = lastSample.currentTime - firstSample.currentTime;
+                        var Mbps = ((progressBytes * 8) / (progressTimeMS / 1000) / (1000 * 1000)).toFixed(2); // megabits per second
+                        // var MBps = (progressBytes / (progressTimeMS / 1000) / (1024 * 1024)).toFixed(2); // megabytes per second
+
+                        if (Mbps > 0) {
+                            speed = ' / ' + Mbps + ' Mbps';
+                        }
+                    }
+
+                    if (isNaN(progressPercent)) {
+                        progress = '0%';
+                    } else {
+                        progress = (progressPercent * 100).toFixed() + '%';
+                    }
+
+                    $('#upload-progress-bar').css('width', progress).text(progress + ' (' + totalUploadedSize + ' of ' + totalSize + speed + ')');
+                },
+                onAllComplete: function(succeeded, failed) {
+                    $('#upload-progress-bar-container').remove();
+
+                    if (failed.length > 0) {
+                        var that = this;
+                        var msg = errorWrapperHtmlStart + errorMessageHtmlStart;
+                        $.each(failed, function(key) {
+                            msg += errorListHtmlStart + glyphiconWarning + that.getName(key) + errorListHtmlEnd;
+                        });
+                        msg += errorMessageHtmlEnd + errorWrapperHtmlEnd;
+                        ajax_message(params.buttonGroupWrapper, msg, 'insertAfter');
+                    }
+
+                    if (succeeded.length > 0) {
+                        ajax_message(params.buttonGroupWrapper, successWrapperHtmlStart + variables.fineUploader.uploadComplete + successWrapperHtmlEnd, 'insertAfter');
+                    }
+                },
+                onComplete: function(id, name, responseJSON, xhr) {
+                    var table = variables.tables[variables.datatablePrefix + params.table]; // get the DataTables api
+                    if (typeof table.ajax.url() == 'function') {
+                        table.clearPipeline().draw(false); // update clearPipeline to reset only current table // no pipeline: table.ajax.reload();
+                    } else {
+                        table.row.add({
+                            id: responseJSON.id,
+                            name: '',
+                            size: formatSize(responseJSON.fileSize, this._options.text.sizeSymbols),
+                            image: '<img alt="" src="' + responseJSON.src + '">',
+                        }).draw(false);
+                    }
+                },
+                onSubmit: function(id, name) {
+                    this.setParams({
+                        id: $('#' + params.id).data('pageId'),
+                    });
+                },
+                onSubmitted: function(id, name) {
+                    ajax_clear_messages(params.buttonGroupWrapper);
+                    if (!$('#upload-progress-bar-container').length) {
+                        params.buttonGroupWrapper.append('<div id="upload-progress-bar-container" class="qq-total-progress-bar-container-selector progress"><div id="upload-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector progress-bar progress-bar-success progress-bar-striped active"></div></div>');
+                    }
+                },
+                onError: function(id, name, errorReason, xhr) {
+                    var response = $.parseJSON(xhr.responseText);
+                    if (response.refresh) { // VerifyCsrfToken exception
+                        this.cancelAll();
+                        window.location.reload(true);
+                    } else {
+                        var msg = errorWrapperHtmlStart + glyphiconWarning + errorReason + ' [<strong>' + name + '</strong>]' + errorWrapperHtmlEnd;
+                        ajax_message(params.buttonGroupWrapper, msg, 'insertAfter');
+                    }
+                },
+            },
+        };
+
+        $.extend(defaultConfig, config);
+
+        var uploader = new qq.FineUploaderBasic(defaultConfig);
+    }
+
+    function formatSize(bytes, sizeSymbols) {
+        var i = -1;
+        do {
+            bytes = bytes / 1024;
+            i++;
+        } while (bytes > 1023);
+
+        return Math.max(bytes, 0.1).toFixed(1) + sizeSymbols[i];
     }
 
     function ajaxify(params) {

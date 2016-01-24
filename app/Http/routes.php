@@ -48,6 +48,7 @@ Route::group(['middleware' => ['web']], function () {
                             \Locales::isTranslatedRoute('pages/delete') ? Route::get(\Locales::getRoute('pages/delete'), 'PageController@delete')->name(\Locales::getRoutePrefix('pages/delete')) : '';
                             \Locales::isTranslatedRoute('pages/destroy') ? Route::delete(\Locales::getRoute('pages/destroy'), 'PageController@destroy')->name(\Locales::getRoutePrefix('pages/destroy')) : '';
                         });
+                        \Locales::isTranslatedRoute('pages/upload') ? Route::post(\Locales::getRoute('pages/upload') . '/{chunk?}', 'PageController@upload')->name(\Locales::getRoutePrefix('pages/upload'))->where('chunk', 'done') : '';
                         \Locales::isTranslatedRoute('pages') ? Route::get(\Locales::getRoute('pages') . '/{slugs?}', 'PageController@index')->name(\Locales::getRoutePrefix('pages'))->where('slugs', '(.*)') : '';
 
                         \Locales::isTranslatedRoute('users') ? Route::get(\Locales::getRoute('users') . '/{group?}', 'UserController@index')->name(\Locales::getRoutePrefix('users'))->where('group', \Locales::getRouteRegex('users')) : '';

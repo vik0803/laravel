@@ -78,6 +78,9 @@ return [
     'pages/destroy' => [
         'slug' => 'pages/destroy',
     ],
+    'pages/upload' => [
+        'slug' => 'pages/upload',
+    ],
     'pf' => [
         'slug' => 'pf',
         'name' => 'Password Forgotten',

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use Illuminate\Http\Request;
 
 class DataTable
@@ -50,6 +51,10 @@ class DataTable
 
         foreach ($columnsData['links'] as $link) {
             array_push($columnsData['columns'], $link['link']['selector']);
+        }
+
+        foreach ($columnsData['thumbnails'] as $thumbnail) {
+            array_push($columnsData['columns'], $thumbnail['thumbnail']['selector']);
         }
 
         if ($this->request->ajax()) {
@@ -116,6 +121,10 @@ class DataTable
                 $data = $this->link($data, $columnsData['links']);
             }
 
+            if (count($columnsData['thumbnails'])) {
+                $data = $this->thumbnail($data, $columnsData['thumbnails']);
+            }
+
             $this->setOption('data', $data);
         } else {
             $this->setOption('count', $count);
@@ -141,6 +150,10 @@ class DataTable
 
                 if (count($columnsData['links'])) {
                     $data = $this->link($data, $columnsData['links']);
+                }
+
+                if (count($columnsData['thumbnails'])) {
+                    $data = $this->thumbnail($data, $columnsData['thumbnails']);
                 }
 
                 $this->setOption('data', $data);
@@ -180,7 +193,7 @@ class DataTable
 
     public function getColumnsData()
     {
-        $columnsData = ['prepends' => [], 'appends' => [], 'links' => [], 'joins' => [], 'aggregates' => []];
+        $columnsData = ['prepends' => [], 'appends' => [], 'links' => [], 'thumbnails' => [], 'joins' => [], 'aggregates' => []];
         $columns = array_where($this->getOption('columns'), function ($key, $column) use (&$columnsData) {
             $skip = false;
 
@@ -204,6 +217,10 @@ class DataTable
 
             if (isset($column['link'])) {
                 array_push($columnsData['links'], $column);
+            }
+
+            if (isset($column['thumbnail'])) {
+                array_push($columnsData['thumbnails'], $column);
             }
 
             if ($skip) {
@@ -246,17 +263,10 @@ class DataTable
         foreach ($data as $key => $items) {
             foreach ($appends as $append) {
                 if (array_key_exists($append['id'], $items)) {
-                    $passed = false;
                     foreach ($append['append']['rules'] as $column => $value) {
                         if ($items[$column] == $value) {
-                            $passed = true;
-                        } else {
-                            $passed = false;
+                            $data[$key][$append['id']] .= $append['append']['text'];
                         }
-                    }
-
-                    if ($passed) {
-                        $data[$key][$append['id']] .= $append['append']['text'];
                     }
                 }
             }
@@ -270,17 +280,10 @@ class DataTable
         foreach ($data as $key => $items) {
             foreach ($prepends as $prepend) {
                 if (array_key_exists($prepend['id'], $items)) {
-                    $passed = false;
                     foreach ($prepend['prepend']['rules'] as $column => $value) {
                         if ($items[$column] == $value) {
-                            $passed = true;
-                        } else {
-                            $passed = false;
+                            $data[$key][$prepend['id']] = $prepend['prepend']['text'] . $data[$key][$prepend['id']];
                         }
-                    }
-
-                    if ($passed) {
-                        $data[$key][$prepend['id']] = $prepend['prepend']['text'] . $data[$key][$prepend['id']];
                     }
                 }
             }
@@ -296,10 +299,23 @@ class DataTable
                 if (array_key_exists($link['id'], $items)) {
                     foreach ($link['link']['rules'] as $rules) {
                         if ($items[$rules['column']] == $rules['value']) {
-                            $data[$key][$link['id']] = '<a href="' . \Locales::route($link['link']['route'], ltrim(\Slug::getRouteParameter() . (isset($link['link']['routeParameter']) ? '/' . $data[$key][$link['link']['routeParameter']] : ''), '/')) . '">' . (isset($rules['icon']) ? '<span class="glyphicon glyphicon-' . $rules['icon'] . ' glyphicon-left"></span>' : '') . $data[$key][$link['id']] . '</a>';
+                            $data[$key][$link['id']] = '<a href="' . \Locales::route($link['link']['route'], ltrim(implode('/', $this->request->session()->get('routeSlugs', [])) . (isset($link['link']['routeParameter']) ? '/' . $data[$key][$link['link']['routeParameter']] : ''), '/')) . '">' . (isset($rules['icon']) ? '<span class="glyphicon glyphicon-' . $rules['icon'] . ' glyphicon-left"></span>' : '') . $data[$key][$link['id']] . '</a>';
                             break;
                         }
                     }
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    public function thumbnail($data, $thumbnails)
+    {
+        foreach ($data as $key => $items) {
+            foreach ($thumbnails as $thumbnail) {
+                if (array_key_exists($thumbnail['id'], $items)) {
+                    $data[$key][$thumbnail['id']] = ($thumbnail['thumbnail']['popup'] ? '<a href="' . asset('/img/www/' . $thumbnail['thumbnail']['folder'] . $data[$key][$thumbnail['id']]) . '">' : '') . \HTML::image('/img/www/' . $thumbnail['thumbnail']['folder'] . 'thumbnails/' . $data[$key][$thumbnail['id']], $data[$key]['name']) . ($thumbnail['thumbnail']['popup'] ? '</a>' : '');
                 }
             }
         }

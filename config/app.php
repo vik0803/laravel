@@ -194,6 +194,7 @@ return [
         App\Providers\FormServiceProvider::class, // Illuminate\Html\HtmlServiceProvider::class,
         App\Providers\SlugServiceProvider::class, // Slugs management
         App\Providers\DataTableServiceProvider::class, // DataTables Integration
+        App\Providers\FineUploaderServiceProvider::class, // FineUploader Integration
         App\Providers\ComposerServiceProvider::class, // View Composers
     ],
 

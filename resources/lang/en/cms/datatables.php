@@ -17,5 +17,7 @@ return [
     'native' => 'Native',
     'script' => 'Script',
     'email' => 'E-mail',
+    'image' => 'Image',
+    'size' => 'Size',
 
 ];

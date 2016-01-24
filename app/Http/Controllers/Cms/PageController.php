@@ -2,21 +2,24 @@
 
 use App\Http\Controllers\Controller;
 use App\Services\DataTable;
+use App\Services\FineUploader;
 use Illuminate\Http\Request;
 use App\Page;
 use App\PageImage;
+use Storage;
 use App\Http\Requests\PageRequest;
 
 class PageController extends Controller {
 
     protected $route = 'pages';
+    protected $uploadDirectory = 'pages';
     protected $datatables;
 
     public function __construct()
     {
         $this->datatables = [
             $this->route => [
-                'url' => \Locales::route($this->route),
+                'url' => \Locales::route($this->route, true),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
                 'checkbox' => [
                     'selector' => $this->route . '.id',
@@ -144,8 +147,13 @@ class PageController extends Controller {
 
     public function index(DataTable $datatable, Page $page, Request $request, $slugs = null)
     {
+        $uploadDirectory = $this->uploadDirectory;
+        if (!Storage::disk('local-public')->exists($uploadDirectory)) {
+            Storage::disk('local-public')->makeDirectory($uploadDirectory);
+        }
 
         $is_page = false;
+        $pageId = '';
         if ($slugs) {
             $slugsArray = explode('/', $slugs);
 
@@ -161,8 +169,15 @@ class PageController extends Controller {
                         $request->session()->put($page->getTable() . 'Parent', $row->id); // save current category for proper store/update/destroy actions
                         $page = $page->where('parent', $row->id);
 
+                        foreach($slugsArray as $slug) { // ensure the list of the current subdirectories exist for proper upload actions
+                            $uploadDirectory .= DIRECTORY_SEPARATOR . $slug;
+                            if (!Storage::disk('local-public')->exists($uploadDirectory)) {
+                                Storage::disk('local-public')->makeDirectory($uploadDirectory);
+                            }
+                        }
                     } else { // it's a page
                         $is_page = true;
+                        $pageId = $row->id;
                     }
                 } else {
                     abort(404);
@@ -187,7 +202,7 @@ class PageController extends Controller {
         if ($request->ajax()) {
             return response()->json($datatables);
         } else {
-            return view('cms.' . $this->route . '.index', compact('datatables'));
+            return view('cms.' . $this->route . '.index', compact('datatables', 'pageId'));
         }
     }
 
@@ -232,10 +247,17 @@ class PageController extends Controller {
         $newPage = Page::create($request->all());
 
         if ($newPage->id) {
+            $slugs = $request->session()->get('routeSlugs', []);
+
+            $uploadDirectory = $this->uploadDirectory . DIRECTORY_SEPARATOR . trim(implode(DIRECTORY_SEPARATOR, $slugs), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $newPage->slug;
+            if (!Storage::disk('local-public')->exists($uploadDirectory)) {
+                Storage::disk('local-public')->makeDirectory($uploadDirectory);
+            }
+
             $successMessage = trans('cms/forms.storedSuccessfully', ['entity' => trans_choice('cms/forms.' . ($request->input('is_category') ? 'entityCategories' : 'entityPages'), 1)]);
 
             $datatable->setup($page, $request->input('table'), $this->datatables[$request->input('table')], true);
-            $datatable->setOption('url', \Locales::route($this->route, true));
+            $datatable->setOption('url', \Locales::route($this->route, implode('/', $slugs)));
             $datatables = $datatable->getTables();
 
             return response()->json($datatables + [
@@ -261,12 +283,20 @@ class PageController extends Controller {
     {
         $count = count($request->input('id'));
 
+        $directories = Page::find($request->input('id'))->lists('slug');
+
         if ($count > 0 && $page->destroy($request->input('id'))) {
+            $slugs = $request->session()->get('routeSlugs', []);
+            $path = DIRECTORY_SEPARATOR . trim(implode(DIRECTORY_SEPARATOR, $slugs), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            foreach ($directories as $directory) {
+                Storage::disk('local-public')->deleteDirectory($this->uploadDirectory . $path . $directory);
+            }
+
             $parent = $request->session()->get($page->getTable() . 'Parent', null);
             $page = $page->where('parent', $parent);
 
             $datatable->setup($page, $request->input('table'), $this->datatables[$request->input('table')], true);
-            $datatable->setOption('url', \Locales::route($this->route, true));
+            $datatable->setOption('url', \Locales::route($this->route, implode('/', $slugs)));
             $datatables = $datatable->getTables();
 
             return response()->json($datatables + [
@@ -298,14 +328,30 @@ class PageController extends Controller {
     public function update(DataTable $datatable, PageRequest $request)
     {
         $page = Page::findOrFail($request->input('id'))->first();
+        $oldPage = $page->replicate();
 
         if ($page->update($request->all())) {
+            $slugs = $request->session()->get('routeSlugs', []);
+
+            $uploadDirectory = $this->uploadDirectory . DIRECTORY_SEPARATOR . trim(implode(DIRECTORY_SEPARATOR, $slugs), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            if ($oldPage->slug == $page->slug) {
+                if (!Storage::disk('local-public')->exists($uploadDirectory . $page->slug)) {
+                    Storage::disk('local-public')->makeDirectory($uploadDirectory . $page->slug);
+                }
+            } else {
+                if (!Storage::disk('local-public')->exists($uploadDirectory . $oldPage->slug)) {
+                    Storage::disk('local-public')->makeDirectory($uploadDirectory . $oldPage->slug);
+                }
+
+                Storage::disk('local-public')->move($uploadDirectory . $oldPage->slug, $uploadDirectory . $page->slug);
+            }
+
             $successMessage = trans('cms/forms.updatedSuccessfully', ['entity' => trans_choice('cms/forms.' . ($page->is_category ? 'entityCategories' : 'entityPages'), 1)]);
 
             $page = $page->where('parent', $page->parent);
 
             $datatable->setup($page, $request->input('table'), $this->datatables[$request->input('table')], true);
-            $datatable->setOption('url', \Locales::route($this->route, true));
+            $datatable->setOption('url', \Locales::route($this->route, implode('/', $slugs)));
             $datatables = $datatable->getTables();
 
             return response()->json($datatables + [
@@ -316,6 +362,38 @@ class PageController extends Controller {
             $errorMessage = trans('cms/forms.editError', ['entity' => trans_choice('cms/forms.' . ($page->is_category ? 'entityCategories' : 'entityPages'), 1)]);
             return response()->json(['errors' => [$errorMessage]]);
         }
+    }
+
+    public function upload(Request $request, FineUploader $uploader, $chunk = null)
+    {
+        $slugs = $request->session()->get('routeSlugs', []);
+        $uploader->uploadDirectory = $this->uploadDirectory . DIRECTORY_SEPARATOR . trim(implode(DIRECTORY_SEPARATOR, $slugs), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'images';
+        if (!Storage::disk('local-public')->exists($uploader->uploadDirectory)) {
+            Storage::disk('local-public')->makeDirectory($uploader->uploadDirectory);
+        }
+
+        if ($chunk) {
+            $response = $uploader->combineChunks();
+        } else {
+            $response = $uploader->handleUpload();
+        }
+
+        if (isset($response['success']) && $response['success'] && isset($response['fileName'])) {
+            $response['src'] = asset('upload/' . str_replace(DIRECTORY_SEPARATOR, '/', $uploader->uploadDirectory) . '/' . $response['uuid'] . '/' . $response['fileName']);
+
+            $image = new PageImage;
+            $image->file = $response['fileName'];
+            $image->uuid = $response['uuid'];
+            $image->extension = $response['fileExtension'];
+            $image->size = $response['fileSize'];
+            $image->order = PageImage::where('page_id', $request->input('id'))->max('order') + 1;
+            $image->page_id = $request->input('id');
+            $image->save();
+
+            $response['id'] = $image->id;
+        }
+
+        return response()->json($response, $uploader->getStatus())->header('Content-Type', 'text/plain');
     }
 
 }
