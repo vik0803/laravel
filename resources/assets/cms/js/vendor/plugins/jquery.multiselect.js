@@ -16,7 +16,7 @@
     var multiselectID = 0;
     var rEscape = /[\-\[\]{}()*+?.,\\\^$|#\s]/g;
 
-    $.widget("unikat.multiselect", {
+    $.widget('multiselect.multiselect', {
 
         options: {
             header: true,
