@@ -381,6 +381,7 @@ var unikat = function() {
     }
 
     function ckeditorSetup(config) {
+        var config = config || {};
         CKFinder.basePath = CKEDITOR.basePath.replace('ckeditor', 'ckfinder');
 
         CKFinder.config({
