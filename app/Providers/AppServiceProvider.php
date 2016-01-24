@@ -14,6 +14,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         require app_path('Helpers/helpers.php');
+
+        /*\DB::listen(function($query) {
+            \Log::debug($query->sql);
+            \Log::debug($query->bindings);
+        });*/
     }
 
     /**
