@@ -19,11 +19,14 @@ class DomainController extends Controller {
             $this->route => [
                 'url' => \Locales::route('settings/' . $this->route),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => [
-                    'selector' => $this->route . '.id',
-                    'id' => 'id',
-                ],
                 'columns' => [
+                    [
+                        'selector' => $this->route . '.id',
+                        'id' => 'id',
+                        'checkbox' => true,
+                        'order' => false,
+                        'class' => 'text-center',
+                    ],
                     [
                         'selector' => $this->route . '.name',
                         'id' => 'name',
@@ -61,7 +64,7 @@ class DomainController extends Controller {
                         ],
                     ],
                 ],
-                'orderByColumn' => 0,
+                'orderByColumn' => 1,
                 'order' => 'asc',
                 'buttons' => [
                     [

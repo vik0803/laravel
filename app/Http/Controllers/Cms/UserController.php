@@ -29,11 +29,14 @@ class UserController extends Controller {
             'admins' => [
                 'url' => \Locales::route($this->route, true),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => [
-                    'selector' => $this->route . '.id',
-                    'id' => 'id',
-                ],
                 'columns' => [
+                    [
+                        'selector' => $this->route . '.id',
+                        'id' => 'id',
+                        'checkbox' => true,
+                        'order' => false,
+                        'class' => 'text-center',
+                    ],
                     [
                         'selector' => $this->route . '.name',
                         'id' => 'name',
@@ -47,7 +50,7 @@ class UserController extends Controller {
                         'search' => true,
                     ],
                 ],
-                'orderByColumn' => 0,
+                'orderByColumn' => 1,
                 'order' => 'asc',
                 'buttons' => [
                     [
@@ -73,11 +76,14 @@ class UserController extends Controller {
             'operators' => [
                 'url' => \Locales::route($this->route, true),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => [
-                    'selector' => $this->route . '.id',
-                    'id' => 'id',
-                ],
                 'columns' => [
+                    [
+                        'selector' => $this->route . '.id',
+                        'id' => 'id',
+                        'checkbox' => true,
+                        'order' => false,
+                        'class' => 'text-center',
+                    ],
                     [
                         'selector' => $this->route . '.name',
                         'id' => 'name',
@@ -117,11 +123,14 @@ class UserController extends Controller {
             $this->route => [
                 'url' => \Locales::route($this->route),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => [
-                    'selector' => $this->route . '.id',
-                    'id' => 'id',
-                ],
                 'columns' => [
+                    [
+                        'selector' => $this->route . '.id',
+                        'id' => 'id',
+                        'checkbox' => true,
+                        'order' => false,
+                        'class' => 'text-center',
+                    ],
                     [
                         'selector' => $this->route . '.name',
                         'id' => 'name',

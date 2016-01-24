@@ -85,7 +85,7 @@ class PageController extends Controller {
                     ],
                 ],
             ],
-            'gallery' => [
+            'page_images' => [
                 'url' => \Locales::route($this->route, true),
                 'class' => 'table-checkbox table-striped table-bordered table-hover table-thumbnails popup-gallery',
                 'checkbox' => [
@@ -192,7 +192,7 @@ class PageController extends Controller {
         }
 
         if ($is_page) {
-            $datatable->setup(PageImage::where('page_id', $row->id), 'page_images', $this->datatables['gallery']);
+            $datatable->setup(PageImage::where('page_id', $row->id), 'page_images', $this->datatables['page_images']);
         } else {
             $datatable->setup($page, $this->route, $this->datatables[$this->route]);
         }

@@ -905,17 +905,13 @@ var unikat = function() {
         ajax_message(that, msg);
     };
 
-    function datatablesColumns(id, data, checkbox) {
+    function datatablesColumns(id, data) {
         var columns = [];
-
-        if (checkbox) {
-            columns.push({ data: checkbox.id, title: '<input type="checkbox" value="1" name="check-' + id + '" id="input-check-' + id + '">' });
-        }
 
         $.each(data, function(key, value) {
             columns.push({
                 data: value.id,
-                title: value.name,
+                title: (value.checkbox ? '<input type="checkbox" value="1" name="check-' + id + '" id="input-check-' + id + '">' : value.name),
                 searchable: (value.search ? true : false),
                 orderable: (typeof value.order !== 'undefined' ? false : true),
                 className: (value.class ? value.class : ''),
@@ -925,7 +921,28 @@ var unikat = function() {
         return columns;
     }
 
-    // Updates "Select all" checkbox in a data table
+    function datatablesColumnDefs(data) {
+        var columnDefs = [];
+
+        $.each(data, function(key, value) {
+            if (value.checkbox) {
+                columnDefs.push({
+                    targets: key,
+                    width: '1.25em',
+                    searchable: (value.search ? true : false),
+                    orderable: (typeof value.order !== 'undefined' ? false : true),
+                    className: (value.class ? value.class : ''),
+                    render: function (data, type, full, meta) {
+                        return '<input type="checkbox">';
+                    }
+                });
+            }
+        });
+
+        return columnDefs;
+    }
+
+    // Updates "Select all" checkbox in a datatable
     function datatablesUpdateCheckbox(tableId) {
         var table = $('#' + tableId);
         var $checkbox_all = $('tbody input[type="checkbox"]', table);
@@ -968,6 +985,14 @@ var unikat = function() {
             var tableId = variables.datatablePrefix + id;
             variables.rows_selected[tableId] = [];
 
+            var checkbox = false;
+            $.each(param.columns, function(key, value) {
+                if (value.checkbox) {
+                    checkbox = true;
+                    return false;
+                }
+            });
+
             variables.tables[tableId] = $('#' + tableId).DataTable({
                 dom: "<'clearfix'<'dataTableL'l><'dataTableF'f>>tr<'clearfix'<'dataTableI'i><'dataTableP'p>>",
                 stateSave: true,
@@ -985,27 +1010,18 @@ var unikat = function() {
                 pagingType: variables.datatablesPagingType[param.size],
                 pageLength: variables.datatablesPageLength[param.size],
                 lengthMenu: variables.datatablesLengthMenu[param.size],
-                order: !isNaN(param.orderByColumn) ? [[(param.checkbox ? ++param.orderByColumn : param.orderByColumn), param.order]] : [],
+                order: isNaN(param.orderByColumn) ? [] : [[param.orderByColumn, param.order]],
                 ajax: param.ajax ? ajaxifyDatatables({ url: param.url }) : null,
                 data: param.data ? param.data : null,
-                columns: datatablesColumns(id, param.columns, param.checkbox),
-                columnDefs: param.checkbox ? [{
-                    targets: 0,
-                    width: '1.25em',
-                    searchable: false,
-                    orderable: false,
-                    className: 'text-center',
-                    render: function (data, type, full, meta) {
-                        return '<input type="checkbox">';
-                    }
-                }] : null,
-                createdRow: param.checkbox ? function(row, data, dataIndex) {
+                columns: datatablesColumns(id, param.columns),
+                columnDefs: datatablesColumnDefs(param.columns),
+                createdRow: checkbox ? function(row, data, dataIndex) {
                     if ($.inArray(row.id, variables.rows_selected[tableId]) !== -1) {
                         $(row).find('input[type="checkbox"]').prop('checked', true);
                         $(row).addClass('selected');
                     }
                 } : null,
-                drawCallback: param.checkbox ? function(settings) {
+                drawCallback: checkbox ? function(settings) {
                     // Update state of "Select all" checkbox
                     datatablesUpdateCheckbox(tableId);
                 } : null,
