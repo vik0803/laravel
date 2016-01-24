@@ -106,8 +106,9 @@ class PageController extends Controller {
                         'order' => false,
                         'class' => 'text-center',
                         'thumbnail' => [
-                            'selector' => 'page_images.extension',
-                            'folder' => 'pages/',
+                            'selector' => 'page_images.uuid',
+                            'id' => 'uuid',
+                            'directory' => 'pages',
                             'popup' => true,
                         ],
                     ],
