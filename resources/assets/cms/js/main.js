@@ -501,6 +501,8 @@ var unikat = function() {
 
             if (data.redirect) {
                 window.location.href = data.redirect;
+            } else if (data.refresh) {
+                window.location.reload(true);
             } else {
                 ajax_unlock(params.that);
                 ajax_reset(params.that, data);
