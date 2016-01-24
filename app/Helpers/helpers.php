@@ -58,3 +58,17 @@ function multiKsort(&$array)
         }
     }
 }
+
+function arrayToTree($array, $parent = null)
+{
+    $array = array_combine(array_column($array, 'id'), array_values($array));
+    foreach ($array as $k => &$v) {
+        if (isset($array[$v['parent']])) {
+            $array[$v['parent']]['children'][$k] = &$v;
+        }
+        unset($v);
+    }
+    return array_filter($array, function($v) use ($parent) {
+        return $v['parent'] == $parent;
+    });
+}
