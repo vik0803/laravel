@@ -21,11 +21,14 @@ class PageController extends Controller {
             $this->route => [
                 'url' => \Locales::route($this->route, true),
                 'class' => 'table-checkbox table-striped table-bordered table-hover',
-                'checkbox' => [
-                    'selector' => $this->route . '.id',
-                    'id' => 'id',
-                ],
                 'columns' => [
+                    [
+                        'selector' => $this->route . '.id',
+                        'id' => 'id',
+                        'checkbox' => true,
+                        'order' => false,
+                        'class' => 'text-center',
+                    ],
                     [
                         'selector' => $this->route . '.name',
                         'id' => 'name',
@@ -88,11 +91,14 @@ class PageController extends Controller {
             'page_images' => [
                 'url' => \Locales::route($this->route, true),
                 'class' => 'table-checkbox table-striped table-bordered table-hover table-thumbnails popup-gallery',
-                'checkbox' => [
-                    'selector' => 'page_images.id',
-                    'id' => 'id',
-                ],
                 'columns' => [
+                    [
+                        'selector' => 'page_images.id',
+                        'id' => 'id',
+                        'checkbox' => true,
+                        'order' => false,
+                        'class' => 'text-center',
+                    ],
                     [
                         'selector' => 'page_images.name',
                         'id' => 'name',
