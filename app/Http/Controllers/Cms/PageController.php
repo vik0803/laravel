@@ -171,7 +171,7 @@ class PageController extends Controller {
         $newPage = Page::create($request->all());
 
         if ($newPage->id) {
-            $successMessage = trans('cms/forms.storedSuccessfully', ['entity' => trans_choice('cms/forms.entityPages', 1)]);
+            $successMessage = trans('cms/forms.storedSuccessfully', ['entity' => trans_choice('cms/forms.' . ($request->input('is_category') ? 'entityCategories' : 'entityPages'), 1)]);
 
             $datatable->setup($page, $request->input('table'), $this->datatables[$request->input('table')], true);
             $datatable->setOption('url', \Locales::route($this->route, true));
@@ -182,7 +182,7 @@ class PageController extends Controller {
                 'reset' => true,
             ]);
         } else {
-            $errorMessage = trans('cms/forms.createError', ['entity' => trans_choice('cms/forms.entityPages', 1)]);
+            $errorMessage = trans('cms/forms.createError', ['entity' => trans_choice('cms/forms.' . ($request->input('is_category') ? 'entityCategories' : 'entityPages'), 1)]);
             return response()->json(['errors' => [$errorMessage]]);
         }
     }
@@ -229,7 +229,7 @@ class PageController extends Controller {
 
         $table = $request->input('table') ?: $this->route;
 
-        $view = \View::make('cms.' . $this->route . '.create' . ($gallery->is_category ? '-category' : ''), compact('page', 'table'));
+        $view = \View::make('cms.' . $this->route . '.create' . ($page->is_category ? '-category' : ''), compact('page', 'table'));
         $sections = $view->renderSections();
         return $sections['content'];
     }
@@ -239,7 +239,7 @@ class PageController extends Controller {
         $page = Page::findOrFail($request->input('id'))->first();
 
         if ($page->update($request->all())) {
-            $successMessage = trans('cms/forms.updatedSuccessfully', ['entity' => trans_choice('cms/forms.entityPages', 1)]);
+            $successMessage = trans('cms/forms.updatedSuccessfully', ['entity' => trans_choice('cms/forms.' . ($page->is_category ? 'entityCategories' : 'entityPages'), 1)]);
 
             $page = $page->where('parent', $page->parent);
 
@@ -252,7 +252,7 @@ class PageController extends Controller {
                 'closePopup' => true
             ]);
         } else {
-            $errorMessage = trans('cms/forms.editError', ['entity' => trans_choice('cms/forms.entityPages', 1)]);
+            $errorMessage = trans('cms/forms.editError', ['entity' => trans_choice('cms/forms.' . ($page->is_category ? 'entityCategories' : 'entityPages'), 1)]);
             return response()->json(['errors' => [$errorMessage]]);
         }
     }
