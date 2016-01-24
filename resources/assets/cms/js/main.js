@@ -43,6 +43,7 @@ var unikat = function() {
     var ajaxLockClass = '.ajax-lock';
     var ajaxLockedClass = '.ajax-locked';
     var alertMessagesClass = '.alert-messages';
+    var alertClass = '.alert';
     var inputGroupAddonClass = 'input-group-addon';
     var buttonCloseClass = 'button.close';
 
@@ -328,7 +329,7 @@ var unikat = function() {
         });
 
         $(document).on('click', alertMessagesClass + ' ' + buttonCloseClass, function() {
-            $(this).closest(alertMessagesClass).remove();
+            $(this).closest(alertClass).remove();
         });
 
         if (typeof this.callback == 'function') {
