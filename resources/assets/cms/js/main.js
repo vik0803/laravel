@@ -258,7 +258,7 @@ var unikat = function() {
 
                 // Handle click on table cells with checkboxes
                 $(document).on('click', '.table-checkbox tbody td, .table-checkbox thead th:first-child', function(e) {
-                    if (e.target.tagName.toLowerCase() !== 'a') {
+                    if (e.target.tagName.toLowerCase() !== 'a' && e.target.tagName.toLowerCase() !== 'img') {
                         $(this).parent().find('input[type="checkbox"]').trigger('click');
                     }
                 });
