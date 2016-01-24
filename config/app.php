@@ -190,6 +190,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Barryvdh\Debugbar\ServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
         App\Providers\FormServiceProvider::class, // Illuminate\Html\HtmlServiceProvider::class,
         App\Providers\SlugServiceProvider::class, // Slugs management
@@ -246,6 +247,7 @@ return [
         'Form'      => Illuminate\Html\FormFacade::class,
         'HTML'      => Illuminate\Html\HtmlFacade::class,
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
+        'Image'     => Intervention\Image\Facades\Image::class,
         'Locales'   => App\Facades\Locale::class,
         'Slug'      => App\Facades\Slug::class,
         'DataTable' => App\Facades\DataTable::class,
