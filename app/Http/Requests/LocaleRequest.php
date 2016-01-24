@@ -35,7 +35,7 @@ class LocaleRequest extends Request
             $locale = Locale::findOrFail(\Request::input('id'))->first();
 
             array_forget($this->rules, 'locale');
-            array_add($this->rules, 'locale', 'required|size:2|unique:locales,locale,' . $locale->id);
+            $this->rules = array_add($this->rules, 'locale', 'required|size:2|unique:locales,locale,' . $locale->id);
         }
 
         return $this->rules;

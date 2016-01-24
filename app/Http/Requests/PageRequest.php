@@ -32,11 +32,11 @@ class PageRequest extends Request
             $page = Page::findOrFail(\Request::input('id'))->first();
             $parent = $page->parent;
 
-            array_add($this->rules, 'slug', 'max:255|unique:pages,slug,' . $page->id . ',id,parent,' . $parent);
+            $this->rules = array_add($this->rules, 'slug', 'required|max:255|unique:pages,slug,' . $page->id . ',id,parent,' . ($parent ?: 'NULL'));
         } else {
             $parent = \Request::session()->get($page->getTable() . 'Parent', 0);
 
-            array_add($this->rules, 'slug', 'max:255|unique:pages,slug,null,id,parent,' . $parent);
+            $this->rules = array_add($this->rules, 'slug', 'required|max:255|unique:pages,slug,NULL,id,parent,' . ($parent ?: 'NULL'));
         }
 
         return $this->rules;

@@ -35,7 +35,7 @@ class UserRequest extends Request
             $user = User::findOrFail(\Request::input('id'))->first();
 
             array_forget($this->rules, 'email');
-            array_add($this->rules, 'email', 'required|email|max:255|unique:users,email,' . $user->id);
+            $this->rules = array_add($this->rules, 'email', 'required|email|max:255|unique:users,email,' . $user->id);
         }
 
         return $this->rules;

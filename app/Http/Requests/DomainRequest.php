@@ -37,7 +37,7 @@ class DomainRequest extends Request
             $domain = Domain::findOrFail(\Request::input('id'))->first();
 
             array_forget($this->rules, 'slug');
-            array_add($this->rules, 'slug', 'required|max:255|unique:domains,slug,' . $domain->id);
+            $this->rules = array_add($this->rules, 'slug', 'required|max:255|unique:domains,slug,' . $domain->id);
         }
 
         return $this->rules;
