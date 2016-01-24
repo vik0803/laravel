@@ -111,17 +111,23 @@ var unikat = function() {
                 Cookies.set('jsCookies', { sidebar: $index, navState: (jsCookies ? jsCookies.navState : null) }, { expires: 365 });
             });
 
-            if (variables.multiselect) {
-                $.extend($.unikat.multiselect.prototype.options, {
-                    checkAllText: variables.multiselectCheckAll,
-                    uncheckAllText: variables.multiselectUncheckAll,
-                    noneSelectedText: variables.multiselectNoneSelected,
-                    noneSelectedSingleText: variables.multiselectNoneSelectedSingle,
-                    selectedText: variables.multiselectSelected,
-                    filterLabel: variables.multiselectFilterLabel,
-                    filterPlaceholder: variables.multiselectFilterPlaceholder,
-                });
-            }
+            $('.popup-gallery').magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                tClose: variables.magnificPopup.close,
+                tLoading: variables.magnificPopup.loading,
+                gallery: {
+                    enabled: true,
+                    preload: [0, 2],
+                    tPrev: variables.magnificPopup.prev,
+                    tNext: variables.magnificPopup.next,
+                },
+                preloader: true,
+                mainClass: 'mfp-zoom-in',
+                zoom: {
+                    enabled: true,
+                },
+            });
 
             var magnificPopupOptions = {
                 type: 'ajax',
@@ -129,10 +135,10 @@ var unikat = function() {
                 focus: 'input:visible',
                 closeOnBgClick: false,
                 alignTop: true,
-                tClose: variables.magnificPopupClose,
-                tLoading: variables.magnificPopupLoading,
+                tClose: variables.magnificPopup.close,
+                tLoading: variables.magnificPopup.loading,
                 ajax: {
-                    tError: variables.magnificPopupAjaxError
+                    tError: variables.magnificPopup.ajaxError
                 },
                 preloader: true,
                 removalDelay: 500,
@@ -154,6 +160,10 @@ var unikat = function() {
                         ajaxContentAdded: function() {
                             if (typeof CKEDITOR == 'object') {
                                 ckeditorSetup(unikat.ckeditorConfig);
+                            }
+
+                            if (typeof $.multiselect == 'object') {
+                                multiselectSetup(unikat.multiselectConfig);
                             }
 
                             if (typeof unikat.magnificPopupCreateCallback == 'function') {
@@ -435,6 +445,19 @@ var unikat = function() {
                 return false;
             }
         });
+    }
+
+    function multiselectSetup(config) {
+        var config = config || {};
+        $.extend($.multiselect.multiselect.prototype.options, {
+            checkAllText: variables.multiselect.checkAll,
+            uncheckAllText: variables.multiselect.uncheckAll,
+            noneSelectedText: variables.multiselect.noneSelected,
+            noneSelectedSingleText: variables.multiselect.noneSelectedSingle,
+            selectedText: variables.multiselect.selected,
+            filterLabel: variables.multiselect.filterLabel,
+            filterPlaceholder: variables.multiselect.filterPlaceholder,
+        }, config);
     }
 
     function ajaxify(params) {

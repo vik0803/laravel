@@ -82,14 +82,23 @@
                     loadingImageAlt: '{{ trans('cms/js.loadingImageAlt') }}',
                     loadingImageTitle: '{{ trans('cms/js.loadingImageTitle') }}',
                     loadingText: '{{ trans('cms/js.loadingText') }}',
-                    magnificPopupClose: '{{ trans('cms/js.magnificPopupClose') }}',
-                    magnificPopupLoading: '{{ trans('cms/js.magnificPopupLoading') }}',
-                    magnificPopupAjaxError: '{!! trans('cms/js.magnificPopupAjaxError') !!}',
                     urlGoogleAnalytics: '{{ \App\Helpers\autover('/js/cms/google.min.js') }}',
                     headroomOffset: 300,
                     language: '{{ \Locales::getCurrent() }}',
                     defaultLanguage: '{{ \Locales::getDefault() }}',
                     languageScript: '{{ \Locales::getScript() }}',
+
+                    magnificPopup: {
+                        @foreach (\Lang::get('cms/plugins.magnificPopup') as $key => $value)
+                            {{ $key }}: '{!! $value !!}',
+                        @endforeach
+                    },
+
+                    multiselect: {
+                        @foreach (\Lang::get('cms/plugins.multiselect') as $key => $value)
+                            {{ $key }}: '{!! $value !!}',
+                        @endforeach
+                    },
 
                     @if (isset($datatables) && count($datatables) > 0)
                         datatables: true,
@@ -112,17 +121,6 @@
                                 {{ $size }}: {!! str_replace('all', trans('cms/messages.all'), \Config::get('datatables.lengthMenu.' . $size)) !!},
                             @endforeach
                         },
-                    @endif
-
-                    @if (isset($multiselect) && count($multiselect) > 0)
-                        multiselect: true,
-                        multiselectCheckAll: '{{ trans('cms/js.multiselectCheckAll') }}',
-                        multiselectUncheckAll: '{{ trans('cms/js.multiselectUncheckAll') }}',
-                        multiselectNoneSelected: '{{ trans('cms/js.multiselectNoneSelected') }}',
-                        multiselectNoneSelectedSingle: '{{ trans('cms/js.multiselectNoneSelectedSingle') }}',
-                        multiselectSelected: '{{ trans('cms/js.multiselectSelected') }}',
-                        multiselectFilterLabel: '{{ trans('cms/js.multiselectFilterLabel') }}',
-                        multiselectFilterPlaceholder: '{{ trans('cms/js.multiselectFilterPlaceholder') }}',
                     @endif
                 });
 
