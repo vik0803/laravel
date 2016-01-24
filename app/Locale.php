@@ -11,7 +11,9 @@ class Locale extends Model
      *
      * @var array
      */
-    protected $fillable = ['locale', 'name', 'description', 'native', 'script'];
+    protected $fillable = [
+        'locale', 'name', 'description', 'native', 'script',
+    ];
 
     /**
      * Get the domains using the locale.
