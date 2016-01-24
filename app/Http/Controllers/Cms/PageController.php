@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Services\DataTable;
 use Illuminate\Http\Request;
 use App\Page;
+use App\PageImage;
 use App\Http\Requests\PageRequest;
 
 class PageController extends Controller {

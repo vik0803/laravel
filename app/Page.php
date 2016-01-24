@@ -14,4 +14,9 @@ class Page extends Model
     protected $fillable = [
         'name', 'title', 'slug', 'description', 'content', 'is_category', 'is_dropdown', 'order', 'parent',
     ];
+
+    public function images()
+    {
+        return $this->hasMany(PageImage::class);
+    }
 }
