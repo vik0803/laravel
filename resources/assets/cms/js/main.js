@@ -580,7 +580,7 @@ var unikat = function() {
 
     function ajax_unlock(that) {
         window.clearTimeout(that.lock_timer);
-        that.prev(alertMessagesClass).empty();
+        ajax_clear_messages(that);
         $('[type=submit]', that).prop('disabled', false);
         $(ajaxLockedClass, that).remove();
         return true;
@@ -592,18 +592,31 @@ var unikat = function() {
         }
     };
 
-    function ajax_message(that, msg) {
-        var $messages = that.prev(alertMessagesClass);
+    function ajax_message(that, msg, method) {
+        var method = method || 'insertBefore';
+        var $messages;
+
+        $messages = that.prev(alertMessagesClass);
         if ($messages.length > 0) {
             $messages.append(msg)
         } else {
-            $(alertMessagesHtmlStart + msg + alertMessagesHtmlEnd).insertBefore(that);
-            $messages = that.prev(alertMessagesClass);
+            $messages = that.next(alertMessagesClass);
+            if ($messages.length > 0) {
+                $messages.append(msg)
+            } else {
+                $messages = $(alertMessagesHtmlStart + msg + alertMessagesHtmlEnd);
+                $messages[method](that);
+            }
         }
 
         if (!isElementInViewport($messages[0])) {
             $.scrollTo($messages[0]);
         }
+    };
+
+    function ajax_clear_messages(that) {
+        that.prev(alertMessagesClass).empty();
+        that.next(alertMessagesClass).empty();
     };
 
     function ajax_clear(that) {
