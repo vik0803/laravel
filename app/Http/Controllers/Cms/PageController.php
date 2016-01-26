@@ -375,7 +375,7 @@ class PageController extends Controller {
     public function upload(Request $request, FineUploader $uploader, $chunk = null)
     {
         $slugs = $request->session()->get('routeSlugs', []);
-        $uploader->uploadDirectory = $this->uploadDirectory . DIRECTORY_SEPARATOR . trim(implode(DIRECTORY_SEPARATOR, $slugs), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'images';
+        $uploader->uploadDirectory = $this->uploadDirectory . DIRECTORY_SEPARATOR . trim(implode(DIRECTORY_SEPARATOR, $slugs), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . \Config::get('images.rootDirectory');
         if (!Storage::disk('local-public')->exists($uploader->uploadDirectory)) {
             Storage::disk('local-public')->makeDirectory($uploader->uploadDirectory);
         }
@@ -387,7 +387,9 @@ class PageController extends Controller {
         }
 
         if (isset($response['success']) && $response['success'] && isset($response['fileName'])) {
-            $response['src'] = asset('upload/' . str_replace(DIRECTORY_SEPARATOR, '/', $uploader->uploadDirectory) . '/' . $response['uuid'] . '/' . $response['fileName']);
+            $directory = asset('upload/' . str_replace(DIRECTORY_SEPARATOR, '/', $uploader->uploadDirectory) . '/' . $response['uuid']);
+
+            $response['file'] = '<a href="' . asset($directory . '/' . $response['fileName']) . '">' . \HTML::image($directory . '/' . \Config::get('images.thumbnailSmallDirectory') . '/' . $response['fileName']) . '</a>';
 
             $image = new PageImage;
             $image->file = $response['fileName'];

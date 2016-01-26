@@ -21,6 +21,8 @@ var unikat = function() {
 
     var htmlLoading;
 
+    var progressBarHtml = '<div id="upload-progress-bar-container" class="qq-total-progress-bar-container-selector progress"><div id="upload-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector progress-bar progress-bar-success progress-bar-striped active"></div></div>';
+
     var errorWrapperHtmlStart = '<div class="alert alert-danger alert-dismissible"><button type="button" class="close"><span aria-hidden="true">&times;</span></button>';
     var errorMessageHtmlStart =  '<ul>';
     var errorListHtmlStart =      '<li>';
@@ -480,7 +482,7 @@ var unikat = function() {
         params.buttonGroupWrapper = $('#' + params.id).closest('.btn-group-wrapper');
 
         var defaultConfig = {
-            debug: true,
+            // debug: true,
             button: document.getElementById(params.id),
             chunking: {
                 enabled: true,
@@ -587,16 +589,18 @@ var unikat = function() {
                     }
                 },
                 onComplete: function(id, name, responseJSON, xhr) {
-                    var table = variables.tables[variables.datatablePrefix + params.table]; // get the DataTables api
-                    if (typeof table.ajax.url() == 'function') {
-                        table.clearPipeline().draw(false); // update clearPipeline to reset only current table // no pipeline: table.ajax.reload();
-                    } else {
-                        table.row.add({
-                            id: responseJSON.id,
-                            name: '',
-                            size: formatSize(responseJSON.fileSize, this._options.text.sizeSymbols),
-                            image: '<img alt="" src="' + responseJSON.src + '">',
-                        }).draw(false);
+                    if (responseJSON.id) {
+                        var table = variables.tables[variables.datatablePrefix + params.table]; // get the DataTables api
+                        if (typeof table.ajax.url() == 'function') {
+                            table.clearPipeline().draw(false); // update clearPipeline to reset only current table // no pipeline: table.ajax.reload();
+                        } else {
+                            table.row.add({
+                                id: responseJSON.id,
+                                name: '',
+                                size: formatSize(responseJSON.fileSize, this._options.text.sizeSymbols),
+                                file: responseJSON.file,
+                            }).draw(false);
+                        }
                     }
                 },
                 onSubmit: function(id, name) {
@@ -607,18 +611,20 @@ var unikat = function() {
                 onSubmitted: function(id, name) {
                     ajax_clear_messages(params.buttonGroupWrapper);
                     if (!$('#upload-progress-bar-container').length) {
-                        params.buttonGroupWrapper.append('<div id="upload-progress-bar-container" class="qq-total-progress-bar-container-selector progress"><div id="upload-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector progress-bar progress-bar-success progress-bar-striped active"></div></div>');
+                        params.buttonGroupWrapper.append(progressBarHtml);
                     }
                 },
                 onError: function(id, name, errorReason, xhr) {
-                    var response = $.parseJSON(xhr.responseText);
-                    if (response.refresh) { // VerifyCsrfToken exception
-                        this.cancelAll();
-                        window.location.reload(true);
-                    } else {
-                        var msg = errorWrapperHtmlStart + glyphiconWarning + errorReason + ' [<strong>' + name + '</strong>]' + errorWrapperHtmlEnd;
-                        ajax_message(params.buttonGroupWrapper, msg, 'insertAfter');
+                    if (xhr && xhr.responseText) {
+                        var response = $.parseJSON(xhr.responseText);
+                        if (response.refresh) { // VerifyCsrfToken exception
+                            this.cancelAll();
+                            window.location.reload(true);
+                        }
                     }
+
+                    var msg = errorWrapperHtmlStart + glyphiconWarning + errorReason + ' [<strong>' + name + '</strong>]' + errorWrapperHtmlEnd;
+                    ajax_message(params.buttonGroupWrapper, msg, 'insertAfter');
                 },
             },
         };

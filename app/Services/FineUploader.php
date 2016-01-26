@@ -8,15 +8,12 @@ use File;
 
 class FineUploader
 {
-    const IMAGE_EXTENSIONS = ['jpg', 'png', 'gif', 'jpeg'];
-    const ALL_EXTENSIONS = [];
-
     public $request;
     public $status = 200;
     public $allowedExtensions = [];
     public $sizeLimit = null;
     public $inputName = 'qqfile';
-    public $chunksDirectory = 'chunks';
+    public $chunksDirectory;
     public $chunksPath;
     public $chunksDisk = 'local-private';
     public $uploadDirectory;
@@ -31,7 +28,8 @@ class FineUploader
     public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->allowedExtensions = $this::IMAGE_EXTENSIONS;
+        $this->chunksDirectory = \Config::get('images.chunksDirectory');
+        $this->allowedExtensions = \Config::get('images.extensions');
         $this->chunksPath = $this->getDiskPath($this->chunksDisk);
         $this->uploadPath = $this->getDiskPath($this->uploadDisk);
     }
@@ -67,44 +65,51 @@ class FineUploader
     public function combineChunks()
     {
         $uuid = $this->request->input('qquuid');
-        $this->uploadName = $this->getName();
         $chunksDirectory = $this->chunksDirectory . DIRECTORY_SEPARATOR . $uuid;
-        $totalParts = (int)$this->request->input('qqtotalparts', 1);
+        if (Storage::disk($this->chunksDisk)->exists($chunksDirectory)) {
+            $this->uploadName = $this->getName();
+            $totalParts = (int)$this->request->input('qqtotalparts', 1);
 
-        $uploadFile = join(DIRECTORY_SEPARATOR, [$this->uploadDirectory, $uuid, $this->getUploadName()]);
+            $rootDirectory = $this->uploadDirectory . DIRECTORY_SEPARATOR . $uuid;
+            if (!Storage::disk($this->uploadDisk)->exists($rootDirectory)) {
+                Storage::disk($this->uploadDisk)->makeDirectory($rootDirectory);
+            }
 
-        if (!Storage::disk($this->uploadDisk)->exists($uploadFile)) {
-            Storage::disk($this->uploadDisk)->makeDirectory(dirname($uploadFile));
+            $uploadDirectory = $rootDirectory . DIRECTORY_SEPARATOR . \Config::get('images.originalDirectory');
+            if (!Storage::disk($this->uploadDisk)->exists($uploadDirectory)) {
+                Storage::disk($this->uploadDisk)->makeDirectory($uploadDirectory);
+            }
+
+            $uploadFile = $uploadDirectory . DIRECTORY_SEPARATOR . $this->getUploadName();
+
+            $destination = fopen($this->uploadPath . $uploadFile, 'wb');
+
+            for ($i = 0; $i < $totalParts; $i++) {
+                $source = fopen($this->chunksPath . $chunksDirectory . DIRECTORY_SEPARATOR . $i, 'rb');
+                stream_copy_to_stream($source, $destination);
+                fclose($source);
+            }
+
+            fclose($destination);
+
+            Storage::disk($this->chunksDisk)->deleteDirectory($chunksDirectory);
+
+            if (!is_null($this->sizeLimit) && Storage::disk($this->uploadDisk)->size($uploadFile) > $this->sizeLimit) {
+                Storage::disk($this->uploadDisk)->delete($uploadFile);
+                $this->status = 413;
+                return ['success' => false, 'uuid' => $uuid, 'preventRetry' => true];
+            }
+
+            $this->processUploaded($rootDirectory, $this->getUploadName());
+
+            return [
+                'success'=> true,
+                'uuid' => $uuid,
+                'fileName' => $this->getUploadName(),
+                'fileExtension' => File::extension($this->getUploadName()),
+                'fileSize' => Storage::disk($this->uploadDisk)->size($uploadFile),
+            ];
         }
-
-        $destination = fopen($this->uploadPath . $uploadFile, 'wb');
-
-        for ($i = 0; $i < $totalParts; $i++) {
-            $source = fopen($this->chunksPath . $chunksDirectory . DIRECTORY_SEPARATOR . $i, 'rb');
-            stream_copy_to_stream($source, $destination);
-            fclose($source);
-        }
-
-        fclose($destination);
-
-        Storage::disk($this->chunksDisk)->deleteDirectory($chunksDirectory);
-
-        if (!is_null($this->sizeLimit) && Storage::disk($this->uploadDisk)->size($uploadFile) > $this->sizeLimit) {
-            Storage::disk($this->uploadDisk)->delete($uploadFile);
-            $this->status = 413;
-            return ['success' => false, 'uuid' => $uuid, 'preventRetry' => true];
-        }
-
-        // $file = Storage::disk($this->uploadDisk)->get($uploadFile);
-        // make thumbnail ?
-
-        return [
-            'success'=> true,
-            'uuid' => $uuid,
-            'fileName' => $this->getUploadName(),
-            'fileExtension' => File::extension($this->getUploadName()),
-            'fileSize' => Storage::disk($this->uploadDisk)->size($uploadFile),
-        ];
     }
 
     /**
@@ -113,6 +118,8 @@ class FineUploader
      */
     public function handleUpload($name = null)
     {
+        clearstatcache();
+
         if (File::isWritable($this->chunksPath . $this->chunksDirectory) && 1 == mt_rand(1, 1 / $this->chunksCleanupProbability)) {
             $this->cleanupChunks();
         }
@@ -156,6 +163,7 @@ class FineUploader
 
         $ext = strtolower(File::extension($name));
         $name = File::name($name) . '.' . $ext; // use lowercase extension
+        $this->uploadName = $name;
 
         if ($this->allowedExtensions && !in_array($ext, array_map('strtolower', $this->allowedExtensions))) {
             $these = implode(', ', $this->allowedExtensions);
@@ -182,29 +190,65 @@ class FineUploader
 
             return ['success' => true, 'uuid' => $uuid];
         } else { // non-chunked upload
-            $uploadFile = join(DIRECTORY_SEPARATOR, [$this->uploadDirectory, $uuid, $name]);
+            $rootDirectory = $this->uploadDirectory . DIRECTORY_SEPARATOR . $uuid;
+            if (!Storage::disk($this->uploadDisk)->exists($rootDirectory)) {
+                Storage::disk($this->uploadDisk)->makeDirectory($rootDirectory);
+            }
 
-            if ($uploadFile) {
-                $uploadDirectory = dirname($uploadFile);
-                $this->uploadName = basename($uploadFile);
+            $uploadDirectory = $rootDirectory . DIRECTORY_SEPARATOR . \Config::get('images.originalDirectory');
+            if (!Storage::disk($this->uploadDisk)->exists($uploadDirectory)) {
+                Storage::disk($this->uploadDisk)->makeDirectory($uploadDirectory);
+            }
 
-                if (!Storage::disk($this->uploadDisk)->exists($uploadDirectory)) {
-                    Storage::disk($this->uploadDisk)->makeDirectory($uploadDirectory);
-                }
+            if (($response = $file->move($this->uploadPath . $uploadDirectory, $this->getUploadName())) !== false) {
+                $this->processUploaded($rootDirectory, $this->getUploadName());
 
-                if (($response = $file->move($this->uploadPath . $uploadDirectory, $uploadFile)) !== false) {
-                    return [
-                        'success'=> true,
-                        'uuid' => $uuid,
-                        'fileName' => $response->getFilename(),
-                        'fileExtension' => $response->getExtension(),
-                        'fileSize' => $response->getSize(),
-                    ];
-                }
+                return [
+                    'success'=> true,
+                    'uuid' => $uuid,
+                    'fileName' => $response->getFilename(),
+                    'fileExtension' => $response->getExtension(),
+                    'fileSize' => $response->getSize(),
+                ];
             }
 
             return ['error' => trans('cms/fineuploader.errorSave')];
         }
+    }
+
+    protected function processUploaded($directory, $filename) {
+        $thumbnailDirectory = $directory . DIRECTORY_SEPARATOR . \Config::get('images.thumbnailSmallDirectory');
+        if (!Storage::disk($this->uploadDisk)->exists($thumbnailDirectory)) {
+            Storage::disk($this->uploadDisk)->makeDirectory($thumbnailDirectory);
+        }
+
+        $file = $this->uploadPath . $directory . DIRECTORY_SEPARATOR . \Config::get('images.originalDirectory') . DIRECTORY_SEPARATOR . $filename;
+
+        $img = \Image::make($file);
+
+        // resize
+        if ($img->width() > \Config::get('images.imageMaxWidth') || $img->height() > \Config::get('images.imageMaxHeight')) {
+            $img->resize(\Config::get('images.imageMaxWidth'), \Config::get('images.imageMaxHeight'), function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+        }
+
+        // watermark
+        $img->insert(\Config::get('images.watermark'), \Config::get('images.watermarkPosition'), \Config::get('images.watermarkOffsetX'), \Config::get('images.watermarkOffsetY'));
+
+        $img->save($this->uploadPath . $directory . DIRECTORY_SEPARATOR . $filename, \Config::get('images.quality'));
+
+        $thumb = \Image::make($file);
+        $thumb->fit(\Config::get('images.thumbnailSmallWidth'), \Config::get('images.thumbnailSmallHeight'), function ($constraint) {
+            $constraint->upsize();
+        });
+
+        if ($thumb->width() < \Config::get('images.thumbnailSmallWidth') || $thumb->height() < \Config::get('images.thumbnailSmallHeight')) {
+            $thumb->resizeCanvas(\Config::get('images.thumbnailSmallWidth'), \Config::get('images.thumbnailSmallHeight'), 'center', false, \Config::get('images.thumbnailCanvasBackground'));
+        }
+
+        $thumb->save($this->uploadPath . $thumbnailDirectory . DIRECTORY_SEPARATOR . $filename);
     }
 
     /**
@@ -216,8 +260,10 @@ class FineUploader
         foreach (Storage::disk($this->chunksDisk)->directories($this->chunksDirectory) as $dir) {
             $path = $this->chunksDirectory . DIRECTORY_SEPARATOR . $dir;
 
-            if (time() - filemtime($this->chunksPath . $path) > $this->chunksExpireIn) {
-                Storage::disk($this->chunksDisk)->deleteDirectory($path);
+            if ($time = @filemtime($this->chunksPath . $path)) {
+                if (time() - $time > $this->chunksExpireIn) {
+                    Storage::disk($this->chunksDisk)->deleteDirectory($path);
+                }
             }
         }
     }
