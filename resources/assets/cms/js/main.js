@@ -46,6 +46,8 @@ var unikat = function() {
     var ajaxLockClass = '.ajax-lock';
     var ajaxLockedClass = '.ajax-locked';
     var alertMessagesClass = '.alert-messages';
+    var alertSuccessClass = '.alert-success';
+    var alertErrorClass = '.alert-danger';
     var alertClass = '.alert';
     var inputGroupAddonClass = 'input-group-addon';
     var buttonCloseClass = 'button.close';
@@ -609,7 +611,7 @@ var unikat = function() {
                     });
                 },
                 onSubmitted: function(id, name) {
-                    ajax_clear_messages(params.buttonGroupWrapper);
+                    ajax_clear_messages(params.buttonGroupWrapper, alertSuccessClass);
                     if (!$('#upload-progress-bar-container').length) {
                         params.buttonGroupWrapper.append(progressBarHtml);
                     }
@@ -796,9 +798,14 @@ var unikat = function() {
         }
     };
 
-    function ajax_clear_messages(that) {
-        that.prev(alertMessagesClass).empty();
-        that.next(alertMessagesClass).empty();
+    function ajax_clear_messages(that, group) {
+        if (group) {
+            that.prev(alertMessagesClass).find(group).remove();
+            that.next(alertMessagesClass).find(group).remove();
+        } else {
+            that.prev(alertMessagesClass).empty();
+            that.next(alertMessagesClass).empty();
+        }
     };
 
     function ajax_clear(that) {
