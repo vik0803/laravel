@@ -61,7 +61,21 @@ class Handler extends ExceptionHandler
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
 
-        if ($e instanceof \PDOException) {
+        if ($e instanceof \ErrorException) { // fatal php exceptions
+            $response = new Response('', 500);
+            $status = $response->getStatusCode();
+            $statusText = \Illuminate\Http\Response::$statusTexts[$response->getStatusCode()];
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json(['error' => $status . ' ' . $statusText . '<br>' . $e->getMessage(), 'preventRetry' => true], $status); // preventRetry is for FineUploader
+            } else {
+                $content = view('errors.500', compact('status', 'statusText'))->with('message', $e->getMessage())->render();
+                $response->setContent($content);
+                return $response;
+            }
+        }
+
+        if ($e instanceof \PDOException) { // db exceptions
             $response = new Response('', 503);
             $status = $response->getStatusCode();
             $statusText = \Illuminate\Http\Response::$statusTexts[$response->getStatusCode()];
