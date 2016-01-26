@@ -60,12 +60,11 @@ div {
 }
 
 .progress {
-    height: auto;
-    margin-top: 0.625em; /* 10/16 */
+    margin: 0.625em 0 0; /* 10/16 */
 }
 
 .progress-bar {
-    min-width: 1.875em; /* 30/16 */
+    line-height: ($line-height-computed / $font-size-small);
 }
 
 .alert-messages {
