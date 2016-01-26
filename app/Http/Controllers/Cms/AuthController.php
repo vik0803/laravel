@@ -100,7 +100,7 @@ class AuthController extends Controller
         }
 
         $redirect = redirect()->intended($this->redirectPath());
-        if ($request->ajax()) {
+        if ($request->ajax() || $request->wantsJson()) {
             return response()->json(['redirect' => $redirect->getTargetUrl()]);
         } else {
             return $redirect;
@@ -115,7 +115,7 @@ class AuthController extends Controller
      */
     protected function sendFailedLoginResponse(Request $request)
     {
-        if ($request->ajax()) {
+        if ($request->ajax() || $request->wantsJson()) {
             return response()->json(['errors' => [$this->getFailedLoginMessage()], 'ids' => [$this->loginUsername()], 'resetOnly' => ['password']]);
         } else {
             return redirect()->back()
@@ -165,7 +165,7 @@ class AuthController extends Controller
         Auth::login($this->create($request->all()));
 
         $redirect = redirect($this->redirectPath());
-        if ($request->ajax()) {
+        if ($request->ajax() || $request->wantsJson()) {
             return response()->json(['redirect' => $redirect->getTargetUrl()]);
         } else {
             return $redirect;
@@ -184,7 +184,7 @@ class AuthController extends Controller
             $this->getThrottleKey($request)
         );
 
-        if ($request->ajax()) {
+        if ($request->ajax() || $request->wantsJson()) {
             return response()->json(['errors' => [$this->getLockoutErrorMessage($seconds)], 'ids' => [$this->loginUsername()], 'resetOnly' => ['password']]);
         } else {
             return redirect()->back()

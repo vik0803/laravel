@@ -66,7 +66,7 @@ class Handler extends ExceptionHandler
             $status = $response->getStatusCode();
             $statusText = \Illuminate\Http\Response::$statusTexts[$response->getStatusCode()];
 
-            if ($request->ajax()) {
+            if ($request->ajax() || $request->wantsJson()) {
                 return response()->json(['error' => $status . ' ' . $statusText . '<br>' . $e->getMessage(), 'preventRetry' => true], $status); // preventRetry is for FineUploader
             } else {
                 $content = view('errors.db', compact('status', 'statusText'))->with('message', $e->getMessage())->render();

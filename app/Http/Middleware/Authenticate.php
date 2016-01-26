@@ -24,7 +24,7 @@ class Authenticate
                 $this->auth->logout();
 
                 $redirect = redirect(\Locales::route('/'))->withErrors([trans('messages.sessionExpired')]);
-                if ($request->ajax()) {
+                if ($request->ajax() || $request->wantsJson()) {
                     return response()->json(['redirect' => $redirect->getTargetUrl()]);
                 } else {
                     return $redirect;
@@ -35,7 +35,7 @@ class Authenticate
         if (Auth::guard($guard)->guest()) {
             $redirect = redirect()->guest(\Locales::route('/'))->withErrors([trans('messages.sessionExpired')])->with('session_expired', true);
 
-            if ($request->ajax()) {
+            if ($request->ajax() || $request->wantsJson()) {
                 // return response('Unauthorized.', 401);
                 return response()->json(['redirect' => $redirect->getTargetUrl()]);
             } else {

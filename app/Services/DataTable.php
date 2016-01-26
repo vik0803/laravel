@@ -57,7 +57,7 @@ class DataTable
             array_push($columnsData['columns'], $thumbnail['thumbnail']['selector']);
         }
 
-        if ($this->request->ajax()) {
+        if ($this->request->ajax() || $this->request->wantsJson()) {
             $this->setOption('ajax', true);
             if ($internal) {
                 $this->setOption('updateTable', true);

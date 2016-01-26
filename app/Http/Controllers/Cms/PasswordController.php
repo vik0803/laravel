@@ -63,14 +63,14 @@ class PasswordController extends Controller
 
         switch ($response) {
             case Password::RESET_LINK_SENT:
-                if ($request->ajax()) {
+                if ($request->ajax() || $request->wantsJson()) {
                     return response()->json(['success' => trans($response)]);
                 } else {
                     return redirect()->back()->withSuccess([trans($response)]);
                 }
 
             case Password::INVALID_USER:
-                if ($request->ajax()) {
+                if ($request->ajax() || $request->wantsJson()) {
                     return response()->json(['errors' => [trans($response)], 'ids' => ['email']]);
                 } else {
                     return redirect()->back()->withErrors(['email' => trans($response)]);
@@ -123,14 +123,14 @@ class PasswordController extends Controller
         switch ($response) {
             case Password::PASSWORD_RESET:
                 $redirect = redirect($this->redirectPath());
-                if ($request->ajax()) {
+                if ($request->ajax() || $request->wantsJson()) {
                     return response()->json(['redirect' => $redirect->getTargetUrl()]);
                 } else {
                     return $redirect;
                 }
 
             default:
-                if ($request->ajax()) {
+                if ($request->ajax() || $request->wantsJson()) {
                     return response()->json(['errors' => [trans($response)], 'ids' => ['email'], 'resetExcept' => ['email']]);
                 } else {
                     return redirect()->back()

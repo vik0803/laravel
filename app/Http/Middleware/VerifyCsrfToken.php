@@ -45,7 +45,7 @@ class VerifyCsrfToken extends BaseVerifier
 
         // throw new TokenMismatchException;
 
-        if ($request->ajax()) {
+        if ($request->ajax() || $request->wantsJson()) {
             $request->flashExcept('_token', 'qqfile'); // qqfile is the name of the uploaded file
             $request->session()->flash('errors', new \Illuminate\Support\MessageBag([trans('validation.tokenMismatchException')]));
             return response()->json(['refresh' => true]);

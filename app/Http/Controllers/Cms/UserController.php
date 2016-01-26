@@ -183,7 +183,7 @@ class UserController extends Controller {
 
         $datatables = $datatable->getTables();
 
-        if ($request->ajax()) {
+        if ($request->ajax() || $request->wantsJson()) {
             return response()->json($datatables);
         } else {
             return view('cms.' . $this->route . '.index', compact('datatables'));
