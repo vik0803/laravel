@@ -156,6 +156,7 @@ class PageController extends Controller {
     public function index(DataTable $datatable, Page $page, Request $request, $slugs = null)
     {
         $uploadDirectory = $this->uploadDirectory;
+        $request->session()->put('ckfinderBaseUrl', $uploadDirectory . '/');
         if (!Storage::disk('local-public')->exists($uploadDirectory)) {
             Storage::disk('local-public')->makeDirectory($uploadDirectory);
         }

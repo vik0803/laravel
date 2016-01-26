@@ -1,5 +1,10 @@
 <?php
 
+// Load Laravel Instance
+require '../../../../../../../../bootstrap/autoload.php';
+$app = require_once '../../../../../../../../bootstrap/app.php';
+$app->make('Illuminate\Contracts\Http\Kernel')->handle(Illuminate\Http\Request::capture());
+
 /*
  * CKFinder Configuration File
  *
@@ -26,7 +31,8 @@ $config = array();
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_authentication
 
 $config['authentication'] = function () {
-    return true;
+    $guard = 'web';
+    return Auth::guard($guard)->check();
 };
 
 /*============================ License Key ============================================*/
@@ -54,13 +60,13 @@ $config['privateDir'] = array(
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_images
 
 $config['images'] = array(
-    'maxWidth'  => 1920,
-    'maxHeight' => 1920,
-    'quality'   => 80,
+    'maxWidth'  => Config::get('images.imageMaxWidth'),
+    'maxHeight' => Config::get('images.imageMaxHeight'),
+    'quality'   => Config::get('images.quality'),
     'sizes' => array(
-        'small'  => array('width' => 480, 'height' => 320, 'quality' => 80),
-        'medium' => array('width' => 600, 'height' => 480, 'quality' => 80),
-        'large'  => array('width' => 800, 'height' => 600, 'quality' => 80)
+        'small'  => array('width' => Config::get('images.thumbnailSmallWidth'), 'height' => Config::get('images.thumbnailSmallHeight'), 'quality' => Config::get('images.quality')),
+        'medium' => array('width' => Config::get('images.thumbnailMediumWidth'), 'height' => Config::get('images.thumbnailMediumHeight'), 'quality' => Config::get('images.quality')),
+        'large'  => array('width' => Config::get('images.thumbnailLargeWidth'), 'height' => Config::get('images.thumbnailLargeHeight'), 'quality' => Config::get('images.quality'))
     )
 );
 
@@ -70,7 +76,7 @@ $config['images'] = array(
 $config['backends'][] = array(
     'name'         => 'default',
     'adapter'      => 'local',
-    'baseUrl'      => '/img/cms/ckfinder/userfiles/',
+    'baseUrl'      => '/upload/' . Session::get('ckfinderBaseUrl', '') . 'ckfinder/',
 //  'root'         => '', // Can be used to explicitly set the CKFinder user files directory.
     'chmodFiles'   => 0777,
     'chmodFolders' => 0755,
