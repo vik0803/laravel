@@ -67,32 +67,36 @@ class UploadedFile extends File
         $this->uploadedFile = $uploadedFile;
         $this->workingFolder = $app['working_folder'];
 
-        $this->tempFilePath = tempnam($this->config->get('tempDirectory'), 'ckf');
-        $pathinfo = pathinfo($this->tempFilePath);
+        if (strtolower($this->config->get('tempDirectory')) == strtolower($this->uploadedFile->getPath())) {
+            $this->tempFilePath = $this->uploadedFile->getPathname();
+        } else {
+            $this->tempFilePath = tempnam($this->config->get('tempDirectory'), 'ckf');
+            $pathinfo = pathinfo($this->tempFilePath);
 
-        if (!is_writable($this->tempFilePath)) {
-            throw new InvalidUploadException('The temporary folder is not writable for CKFinder');
-        }
+            if (!is_writable($this->tempFilePath)) {
+                throw new InvalidUploadException('The temporary folder is not writable for CKFinder');
+            }
 
-        try {
-            $uploadedFile->move($pathinfo['dirname'], $pathinfo['basename']);
-        } catch (\Exception $e) {
-            $errorMessage = $uploadedFile->getErrorMessage();
-            switch ($uploadedFile->getError()) {
-                case UPLOAD_ERR_INI_SIZE:
-                case UPLOAD_ERR_FORM_SIZE:
-                    throw new InvalidUploadException($errorMessage, Error::UPLOADED_TOO_BIG, array(), $e);
+            try {
+                $uploadedFile->move($pathinfo['dirname'], $pathinfo['basename']);
+            } catch (\Exception $e) {
+                $errorMessage = $uploadedFile->getErrorMessage();
+                switch ($uploadedFile->getError()) {
+                    case UPLOAD_ERR_INI_SIZE:
+                    case UPLOAD_ERR_FORM_SIZE:
+                        throw new InvalidUploadException($errorMessage, Error::UPLOADED_TOO_BIG, array(), $e);
 
-                case UPLOAD_ERR_PARTIAL:
-                case UPLOAD_ERR_NO_FILE:
-                    throw new InvalidUploadException($errorMessage, Error::UPLOADED_CORRUPT, array(), $e);
+                    case UPLOAD_ERR_PARTIAL:
+                    case UPLOAD_ERR_NO_FILE:
+                        throw new InvalidUploadException($errorMessage, Error::UPLOADED_CORRUPT, array(), $e);
 
-                case UPLOAD_ERR_NO_TMP_DIR:
-                    throw new InvalidUploadException($errorMessage, Error::UPLOADED_NO_TMP_DIR, array(), $e);
+                    case UPLOAD_ERR_NO_TMP_DIR:
+                        throw new InvalidUploadException($errorMessage, Error::UPLOADED_NO_TMP_DIR, array(), $e);
 
-                case UPLOAD_ERR_CANT_WRITE:
-                case UPLOAD_ERR_EXTENSION:
-                    throw new AccessDeniedException($errorMessage, array(), $e);
+                    case UPLOAD_ERR_CANT_WRITE:
+                    case UPLOAD_ERR_EXTENSION:
+                        throw new AccessDeniedException($errorMessage, array(), $e);
+                }
             }
         }
     }
@@ -288,7 +292,7 @@ class UploadedFile extends File
     public function __destruct()
     {
         if (file_exists($this->tempFilePath)) {
-            unlink($this->tempFilePath);
+            @unlink($this->tempFilePath);
         }
     }
 }
