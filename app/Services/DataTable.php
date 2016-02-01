@@ -37,24 +37,24 @@ class DataTable
         }
 
         foreach ($columnsData['joins'] as $join) {
-            array_push($columnsData['columns'], $join['selector']);
+            $columnsData['columns'] = array_merge($columnsData['columns'], $join['selector']);
             $model = $model->leftJoin($join['join']['table'], $join['join']['localColumn'], $join['join']['constrain'], $join['join']['foreignColumn']);
         }
 
         foreach ($columnsData['appends'] as $append) {
-            array_push($columnsData['columns'], $append['append']['selector']);
+            $columnsData['columns'] = array_merge($columnsData['columns'], $append['append']['selector']);
         }
 
         foreach ($columnsData['prepends'] as $prepend) {
-            array_push($columnsData['columns'], $prepend['prepend']['selector']);
+            $columnsData['columns'] = array_merge($columnsData['columns'], $prepend['prepend']['selector']);
         }
 
         foreach ($columnsData['links'] as $link) {
-            array_push($columnsData['columns'], $link['link']['selector']);
+            $columnsData['columns'] = array_merge($columnsData['columns'], $link['link']['selector']);
         }
 
         foreach ($columnsData['thumbnails'] as $thumbnail) {
-            array_push($columnsData['columns'], $thumbnail['thumbnail']['selector']);
+            $columnsData['columns'] = array_merge($columnsData['columns'], $thumbnail['thumbnail']['selector']);
         }
 
         if ($this->request->ajax() || $this->request->wantsJson()) {

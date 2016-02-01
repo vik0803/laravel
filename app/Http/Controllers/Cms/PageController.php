@@ -112,7 +112,7 @@ class PageController extends Controller {
                         'order' => false,
                         'class' => 'text-center',
                         'thumbnail' => [
-                            'selector' => 'page_images.uuid',
+                            'selector' => ['page_images.uuid', 'page_images.title'],
                             'id' => 'uuid',
                             'directory' => 'pages',
                             'popup' => true,
