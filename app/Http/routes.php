@@ -47,6 +47,10 @@ Route::group(['middleware' => ['web']], function () {
                             \Locales::isTranslatedRoute('pages/update') ? Route::put(\Locales::getRoute('pages/update'), 'PageController@update')->name(\Locales::getRoutePrefix('pages/update')) : '';
                             \Locales::isTranslatedRoute('pages/delete') ? Route::get(\Locales::getRoute('pages/delete'), 'PageController@delete')->name(\Locales::getRoutePrefix('pages/delete')) : '';
                             \Locales::isTranslatedRoute('pages/destroy') ? Route::delete(\Locales::getRoute('pages/destroy'), 'PageController@destroy')->name(\Locales::getRoutePrefix('pages/destroy')) : '';
+                            \Locales::isTranslatedRoute('pages/delete-image') ? Route::get(\Locales::getRoute('pages/delete-image'), 'PageController@deleteImage')->name(\Locales::getRoutePrefix('pages/delete-image')) : '';
+                            \Locales::isTranslatedRoute('pages/destroy-image') ? Route::delete(\Locales::getRoute('pages/destroy-image'), 'PageController@destroyImage')->name(\Locales::getRoutePrefix('pages/destroy-image')) : '';
+                            \Locales::isTranslatedRoute('pages/edit-image') ? Route::get(\Locales::getRoute('pages/edit-image') . '/{image?}', 'PageController@editImage')->name(\Locales::getRoutePrefix('pages/edit-image'))->where('image', '[0-9]+') : '';
+                            \Locales::isTranslatedRoute('pages/update-image') ? Route::put(\Locales::getRoute('pages/update-image'), 'PageController@updateImage')->name(\Locales::getRoutePrefix('pages/update-image')) : '';
                         });
                         \Locales::isTranslatedRoute('pages/upload') ? Route::post(\Locales::getRoute('pages/upload') . '/{chunk?}', 'PageController@upload')->name(\Locales::getRoutePrefix('pages/upload'))->where('chunk', 'done') : '';
                         \Locales::isTranslatedRoute('pages') ? Route::get(\Locales::getRoute('pages') . '/{slugs?}', 'PageController@index')->name(\Locales::getRoutePrefix('pages'))->where('slugs', '(.*)') : '';

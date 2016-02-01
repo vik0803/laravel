@@ -80,6 +80,7 @@ return [
     'entityLocales' => 'Locale|Locales',
     'entityDomains' => 'Domain|Domains',
     'entityPages' => 'Page|Pages',
+    'entityImages' => 'Image|Images',
     'entityCategories' => 'Category|Categories',
     'entityGalleries' => 'Gallery|Galleries',
     'entityUsers' => 'User|Users',

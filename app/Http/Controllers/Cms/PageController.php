@@ -8,6 +8,7 @@ use App\Page;
 use App\PageImage;
 use Storage;
 use App\Http\Requests\PageRequest;
+use App\Http\Requests\PageImageRequest;
 
 class PageController extends Controller {
 
@@ -115,7 +116,6 @@ class PageController extends Controller {
                             'selector' => ['page_images.uuid', 'page_images.title'],
                             'id' => 'uuid',
                             'directory' => 'pages',
-                            'popup' => true,
                         ],
                     ],
                     [
@@ -137,13 +137,13 @@ class PageController extends Controller {
                         'name' => trans('cms/forms.uploadButton'),
                     ],
                     [
-                        'url' => \Locales::route($this->route . '/edit'),
+                        'url' => \Locales::route($this->route . '/edit-image'),
                         'class' => 'btn-warning disabled js-edit',
                         'icon' => 'edit',
                         'name' => trans('cms/forms.editButton'),
                     ],
                     [
-                        'url' => \Locales::route($this->route . '/delete'),
+                        'url' => \Locales::route($this->route . '/delete-image'),
                         'class' => 'btn-danger disabled js-destroy',
                         'icon' => 'trash',
                         'name' => trans('cms/forms.deleteButton'),
@@ -201,7 +201,7 @@ class PageController extends Controller {
         }
 
         if ($is_page) {
-            $datatable->setup(PageImage::where('page_id', $row->id), 'page_images', $this->datatables['page_images']);
+            $datatable->setup(PageImage::where('page_id', $pageId), 'page_images', $this->datatables['page_images']);
         } else {
             $datatable->setup($page, $this->route, $this->datatables[$this->route]);
         }
@@ -405,6 +405,83 @@ class PageController extends Controller {
         }
 
         return response()->json($response, $uploader->getStatus())->header('Content-Type', 'text/plain');
+    }
+
+    public function deleteImage(Request $request)
+    {
+        $table = $request->input('table') ?: $this->route;
+
+        $view = \View::make('cms.' . $this->route . '.delete-image', compact('table'));
+        $sections = $view->renderSections();
+        return $sections['content'];
+    }
+
+    public function destroyImage(DataTable $datatable, PageImage $image, Request $request)
+    {
+        $count = count($request->input('id'));
+
+        $uuids = PageImage::find($request->input('id'))->lists('page_id', 'uuid');
+
+        if ($count > 0 && $image->destroy($request->input('id'))) {
+            $slugs = $request->session()->get('routeSlugs', []);
+            $path = DIRECTORY_SEPARATOR . trim(implode(DIRECTORY_SEPARATOR, $slugs), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . \Config::get('images.rootDirectory') . DIRECTORY_SEPARATOR;
+            foreach ($uuids as $uuid => $page) {
+                Storage::disk('local-public')->deleteDirectory($this->uploadDirectory . $path . $uuid);
+            }
+
+            $datatable->setup(PageImage::where('page_id', $page), 'page_images', $this->datatables[$request->input('table')], true);
+            $datatable->setOption('url', \Locales::route($this->route, implode('/', $slugs)));
+            $datatables = $datatable->getTables();
+
+            return response()->json($datatables + [
+                'success' => trans('cms/forms.destroyedSuccessfully'),
+                'closePopup' => true
+            ]);
+        } else {
+            if ($count > 0) {
+                $errorMessage = trans('cms/forms.deleteError');
+            } else {
+                $errorMessage = trans('cms/forms.countError');
+            }
+
+            return response()->json(['errors' => [$errorMessage]]);
+        }
+    }
+
+    public function editImage(Request $request, $id = null)
+    {
+        $image = PageImage::findOrFail($id);
+
+        $table = $request->input('table') ?: $this->route;
+
+        $view = \View::make('cms.' . $this->route . '.edit-image', compact('image', 'table'));
+        $sections = $view->renderSections();
+        return $sections['content'];
+    }
+
+    public function updateImage(DataTable $datatable, PageImageRequest $request)
+    {
+        $image = PageImage::findOrFail($request->input('id'))->first();
+
+        if ($image->update($request->all())) {
+            $slugs = $request->session()->get('routeSlugs', []);
+
+            $successMessage = trans('cms/forms.updatedSuccessfully', ['entity' => trans_choice('cms/forms.entityImages', 1)]);
+
+            $image = $image->where('page_id', $image->page_id);
+
+            $datatable->setup($image, $request->input('table'), $this->datatables[$request->input('table')], true);
+            $datatable->setOption('url', \Locales::route($this->route, implode('/', $slugs)));
+            $datatables = $datatable->getTables();
+
+            return response()->json($datatables + [
+                'success' => $successMessage,
+                'closePopup' => true
+            ]);
+        } else {
+            $errorMessage = trans('cms/forms.editError', ['entity' => trans_choice('cms/forms.entityImages', 1)]);
+            return response()->json(['errors' => [$errorMessage]]);
+        }
     }
 
 }

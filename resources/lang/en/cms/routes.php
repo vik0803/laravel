@@ -81,6 +81,24 @@ return [
     'pages/upload' => [
         'slug' => 'pages/upload',
     ],
+    'pages/delete-image' => [
+        'slug' => 'pages/delete-image',
+        'name' => 'Delete Image',
+        'metaTitle' => 'Are you sure that you want to permanently delete the selected images?',
+        'metaDescription' => 'Are you sure that you want to permanently delete the selected images?',
+    ],
+    'pages/destroy-image' => [
+        'slug' => 'pages/destroy-image',
+    ],
+    'pages/edit-image' => [
+        'slug' => 'pages/edit-image',
+        'name' => 'Edit Image',
+        'metaTitle' => 'Edit Image Title',
+        'metaDescription' => 'Edit Image Description',
+    ],
+    'pages/update-image' => [
+        'slug' => 'pages/update-image',
+    ],
     'pf' => [
         'slug' => 'pf',
         'name' => 'Password Forgotten',
