@@ -486,6 +486,7 @@ var unikat = function() {
         var defaultConfig = {
             // debug: true,
             button: document.getElementById(params.id),
+            maxConnections: 1, // there are problems with multiple connections: the files are not uploaded or the records in the DB are duplicated.
             chunking: {
                 enabled: true,
                 concurrent: {
