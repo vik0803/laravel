@@ -324,7 +324,7 @@ class DataTable
             foreach ($thumbnails as $thumbnail) {
                 if (array_key_exists($thumbnail['id'], $items)) {
                     $uploadDirectory = 'upload/' . $thumbnail['thumbnail']['directory'] . '/' . trim(implode('/', $this->request->session()->get('routeSlugs', [])), '/') . '/images/' . $data[$key][$thumbnail['thumbnail']['id']] . '/';
-                    $data[$key][$thumbnail['id']] = ($thumbnail['thumbnail']['popup'] ? '<a href="' . asset($uploadDirectory . $data[$key][$thumbnail['id']]) . '">' : '') . \HTML::image($uploadDirectory . \Config::get('images.thumbnailSmallDirectory') . '/' . $data[$key][$thumbnail['id']], $data[$key]['name']) . ($thumbnail['thumbnail']['popup'] ? '</a>' : '');
+                    $data[$key][$thumbnail['id']] = '<a title="' . \HTML::entities($data[$key]['title']) . '" href="' . asset($uploadDirectory . $data[$key][$thumbnail['id']]) . '">' . \HTML::image($uploadDirectory . \Config::get('images.thumbnailSmallDirectory') . '/' . $data[$key][$thumbnail['id']], $data[$key]['name']) . '</a>';
                 }
             }
         }
