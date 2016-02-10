@@ -435,7 +435,7 @@ class Locales
         $parameters = $this->rawParameters($locale);
         $parameters = $parameters ?: \Slug::getRouteParameters();
 
-        return \Route::has($slug) ? route($slug, $parameters) : route($prefix . \Config::get('app.defaultAuthRoute'), $parameters);
+        return \Route::has($slug) ? route($slug, $parameters) : route($prefix . $this->getDomain()->route, $parameters);
     }
 
     /**
@@ -444,7 +444,7 @@ class Locales
      * @return string
      */
     public function route($route = null, $parameters = null) {
-        $route = $this->getLanguage() . ($route ?: \Config::get('app.defaultAuthRoute'));
+        $route = $this->getLanguage() . ($route ?: $this->getDomain()->route);
 
         if ($parameters === true) {
             $parameters = \Slug::getRouteParameters();
@@ -465,8 +465,8 @@ class Locales
         $breadcrumbs = [];
         $breadcrumbPath = '';
 
-        if (head($slugs) != \Config::get('app.defaultAuthRoute')) {
-            array_unshift($slugs, \Config::get('app.defaultAuthRoute'));
+        if (head($slugs) != $this->getDomain()->route) {
+            array_unshift($slugs, $this->getDomain()->route);
         }
 
         foreach ($slugs as $slug) {
@@ -497,7 +497,7 @@ class Locales
                     $breadcrumbs[$slug]['last'] = $last;
                 }
 
-                if ($breadcrumbPath == \Config::get('app.defaultAuthRoute')) {
+                if ($breadcrumbPath == $this->getDomain()->route) {
                     $breadcrumbPath = '';
                 }
             }

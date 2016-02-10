@@ -20,7 +20,7 @@ class DashboardController extends Controller {
      */
     public function dashboard()
     {
-        return view('cms.' . \Config::get('app.defaultAuthRoute'));
+        return view('cms.dashboard');
     }
 
 }

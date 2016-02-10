@@ -27,12 +27,12 @@ return [
         'icon' => 'remove',
         'divider-before' => true
     ],
-    \Config::get('app.defaultAuthRoute') => [
+    'dashboard' => [
         'slug' => 'начало',
         'name' => 'Начало',
         'metaTitle' => 'Начало Title',
         'metaDescription' => 'Начало Description',
-        'category' => 'sidebar',
+        'category' => 'sidebar-menu',
         'order' => 1,
         'icon' => 'dashboard',
         'divider-after' => true
@@ -64,7 +64,7 @@ return [
         'name' => 'Потребители',
         'metaTitle' => 'Потребители Title',
         'metaDescription' => 'Потребители Description',
-        'category' => 'sidebar',
+        'category' => 'sidebar-menu',
         'parent' => true,
         'order' => 3,
         'icon' => 'user'
@@ -74,7 +74,7 @@ return [
         'name' => 'Всички потребители',
         'metaTitle' => 'Всички потребители Title',
         'metaDescription' => 'Всички потребители Description',
-        'category' => 'sidebar',
+        'category' => 'sidebar-menu',
         'order' => 1
     ],
     'users/admins' => [
@@ -82,7 +82,7 @@ return [
         'name' => 'Администратори',
         'metaTitle' => 'Администратори Title',
         'metaDescription' => 'Администратори Description',
-        'category' => 'sidebar',
+        'category' => 'sidebar-menu',
         'order' => 2
     ],
     'users/operators' => [
@@ -90,7 +90,7 @@ return [
         'name' => 'Оператори',
         'metaTitle' => 'Оператори Title',
         'metaDescription' => 'Оператори Description',
-        'category' => 'sidebar',
+        'category' => 'sidebar-menu',
         'order' => 3
     ],
     'users/create' => [
@@ -125,7 +125,7 @@ return [
         'name' => 'Настройки',
         'metaTitle' => 'Настройки Title',
         'metaDescription' => 'Настройки Description',
-        'category' => 'sidebar',
+        'category' => 'sidebar-menu',
         'parent' => true,
         'order' => 4,
         'icon' => 'cog'
@@ -135,7 +135,7 @@ return [
         'name' => 'Домейни',
         'metaTitle' => 'Домейни Title',
         'metaDescription' => 'Домейни Description',
-        'category' => 'sidebar',
+        'category' => 'sidebar-menu',
         'order' => 1
     ],
     'settings/locales' => [
@@ -143,7 +143,7 @@ return [
         'name' => 'Езици',
         'metaTitle' => 'Езици Title',
         'metaDescription' => 'Езици Description',
-        'category' => 'sidebar',
+        'category' => 'sidebar-menu',
         'order' => 2
     ],
 

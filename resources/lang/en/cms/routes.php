@@ -27,7 +27,7 @@ return [
         'icon' => 'remove',
         'divider-before' => true,
     ],
-    \Config::get('app.defaultAuthRoute') => [
+    'dashboard' => [
         'slug' => 'dashboard',
         'name' => 'Dashboard',
         'metaTitle' => 'Dashboard Title',

@@ -37,7 +37,7 @@ Route::group(['middleware' => ['web']], function () {
 
                         Route::get(\Locales::getRoute('signout'), 'AuthController@getLogout')->name(\Locales::getRoutePrefix('signout'));
 
-                        Route::get(\Locales::getRoute(\Config::get('app.defaultAuthRoute')), 'DashboardController@' . \Config::get('app.defaultAuthRoute'))->name(\Locales::getRoutePrefix(\Config::get('app.defaultAuthRoute')));
+                        Route::get(\Locales::getRoute('dashboard'), 'DashboardController@dashboard')->name(\Locales::getRoutePrefix('dashboard'));
 
                         Route::group(['middleware' => 'ajax'], function() {
                             \Locales::isTranslatedRoute('pages/create') ? Route::get(\Locales::getRoute('pages/create'), 'PageController@create')->name(\Locales::getRoutePrefix('pages/create')) : '';
