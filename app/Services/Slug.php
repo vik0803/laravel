@@ -76,6 +76,7 @@ class Slug
      */
     public function setRouteSlug($slug)
     {
+        $slug = StaticStringy::removeLeft($slug, \Locales::getDomain()->slug . '/');
         $this->routeName = trim(StaticStringy::removeLeft($slug, \Locales::getCurrent() . '/'), '/');
         $this->routeSlug = $this->routeName;
 

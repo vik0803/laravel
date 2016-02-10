@@ -15,6 +15,8 @@ Route::group(['middleware' => ['web']], function () {
 
     foreach (\Locales::getDomains() as $domain => $value) {
         if ($domain == 'cms') {
+            \Locales::setRoutesDomain($domain);
+
             Route::group(['domain' => $domain . '.' . config('app.domain'), 'namespace' => ucfirst($domain)], function() use ($value) {
 
                 foreach ($value->locales as $locale) {

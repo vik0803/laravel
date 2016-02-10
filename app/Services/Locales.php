@@ -14,6 +14,7 @@ class Locales
     protected $hideDefaultLocaleInURL;
     protected $currentLocale = null;
     protected $routesLocale;
+    protected $routesDomain;
     protected $routesArray = [];
     protected $routesPath;
     protected $slug;
@@ -273,7 +274,7 @@ class Locales
      */
     public function getRoute($route, $prefix = true)
     {
-        return ($prefix ? $this->getRoutePrefix() : '') . \Lang::get($this->getRoutesPath() . $route . '.slug', [], $this->getRoutesLocale());
+        return ($prefix ? $this->getLanguage($this->getRoutesLocale()) : '') . \Lang::get($this->getRoutesPath() . $route . '.slug', [], $this->getRoutesLocale());
     }
 
     /**
@@ -283,7 +284,7 @@ class Locales
      */
     public function getRoutePrefix($name = '')
     {
-        return $this->getLanguage($this->getRoutesLocale()) . $name;
+        return $this->getRoutesDomain() . '/' . $this->getLanguage($this->getRoutesLocale()) . $name;
     }
 
     /**
@@ -324,6 +325,26 @@ class Locales
     public function setRoutesLocale($locale)
     {
         return $this->routesLocale = $locale;
+    }
+
+    /**
+     * Get route domain
+     *
+     * @return string Returns current route domain
+     */
+    public function getRoutesDomain()
+    {
+        return $this->routesDomain;
+    }
+
+    /**
+     * Set route domain
+     *
+     * @return void
+     */
+    public function setRoutesDomain($domain)
+    {
+        return $this->routesDomain = $domain;
     }
 
     /**
@@ -430,7 +451,7 @@ class Locales
     public function url($locale = null)
     {
         $locale = $locale ?: $this->getCurrent();
-        $prefix = $this->getLanguage($locale);
+        $prefix = $this->getDomain()->slug . '/' . $this->getLanguage($locale);
         $slug = $prefix . \Slug::getRouteName();
         $parameters = $this->rawParameters($locale);
         $parameters = $parameters ?: \Slug::getRouteParameters();
@@ -444,13 +465,14 @@ class Locales
      * @return string
      */
     public function route($route = null, $parameters = null) {
+        $prefix = $this->getDomain()->slug . '/';
         $route = $this->getLanguage() . ($route ?: $this->getDomain()->route);
 
         if ($parameters === true) {
             $parameters = \Slug::getRouteParameters();
         }
 
-        return \Route::has($route) ? ($parameters ? route($route, $parameters) : route($route)) : url($route);
+        return \Route::has($prefix . $route) ? ($parameters ? route($prefix . $route, $parameters) : route($prefix . $route)) : url($route);
     }
 
     /**
