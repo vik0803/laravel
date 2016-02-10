@@ -37,7 +37,6 @@ class DataTable
         }
 
         foreach ($columnsData['joins'] as $join) {
-            $columnsData['columns'] = array_merge($columnsData['columns'], $join['selector']);
             $model = $model->leftJoin($join['join']['table'], $join['join']['localColumn'], $join['join']['constrain'], $join['join']['foreignColumn']);
         }
 
@@ -205,14 +204,13 @@ class DataTable
         $columns = array_where($this->getOption('columns'), function ($key, $column) use (&$columnsData) {
             $skip = false;
 
-            if (isset($column['join'])) {
-                array_push($columnsData['joins'], $column);
-                $skip = true;
-            }
-
             if (isset($column['aggregate'])) {
                 array_push($columnsData['aggregates'], $column);
                 $skip = true;
+            }
+
+            if (isset($column['join'])) {
+                array_push($columnsData['joins'], $column);
             }
 
             if (isset($column['append'])) {

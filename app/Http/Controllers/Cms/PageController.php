@@ -36,7 +36,7 @@ class PageController extends Controller {
                         'name' => trans('cms/datatables.name'),
                         'search' => true,
                         'link' => [
-                            'selector' => $this->route . '.is_category',
+                            'selector' => [$this->route . '.is_category'],
                             'rules' => [
                                 0 => [
                                     'column' => 'is_category',
