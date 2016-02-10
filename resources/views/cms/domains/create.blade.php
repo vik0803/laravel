@@ -24,6 +24,12 @@
         @if ($errors->has('slug'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
     </div>
 
+    <div class="form-group{!! ($errors->has('route') ? ' has-error has-feedback' : '') !!}">
+        {!! Form::label('input-route', trans('cms/forms.defaultRouteLabel')) !!}
+        {!! Form::text('route', null, ['id' => 'input-route', 'class' => 'form-control', 'placeholder' => trans('cms/forms.defaultRoutePlaceholder')]) !!}
+        @if ($errors->has('route'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
+    </div>
+
     <div class="form-group{!! ($errors->has('locales') ? ' has-error has-feedback' : '') !!}">
         {!! Form::label('input-locales', trans('cms/forms.localesLabel')) !!}
         {!! Form::multiselect('locales[]', $multiselect['locales'], ['id' => 'input-locales', 'class' => 'form-control', 'multiple' => 'multiple']) !!}

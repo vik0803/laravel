@@ -13,6 +13,7 @@ return [
     'locale' => 'Locale',
     'locales' => 'Locales',
     'defaultLocale' => 'Default Locale',
+    'defaultRoute' => 'Default Route',
     'name' => 'Name',
     'native' => 'Native',
     'script' => 'Script',

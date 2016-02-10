@@ -112,6 +112,7 @@ return [
         'email' => 'E-mail',
         'password' => 'Password',
         'slug' => 'Slug',
+        'route' => 'Route',
         'locale' => 'Locale',
         'locales' => 'Locales',
         'default_locale_id' => 'Default Locale',

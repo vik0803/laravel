@@ -40,6 +40,11 @@ class DomainController extends Controller {
                         'search' => true,
                     ],
                     [
+                        'selector' => $this->route . '.route',
+                        'id' => 'route',
+                        'name' => trans('cms/datatables.defaultRoute'),
+                    ],
+                    [
                         'selector' => '',
                         'id' => 'locales',
                         'name' => trans('cms/datatables.locales'),

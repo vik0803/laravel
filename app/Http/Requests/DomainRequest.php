@@ -10,6 +10,7 @@ class DomainRequest extends Request
     protected $rules = [
         'name' => 'required|max:255',
         'slug' => 'required|max:255|unique:domains',
+        'route' => 'required|max:255',
         'locales' => 'required|array',
         'default_locale_id' => 'required|numeric',
     ];

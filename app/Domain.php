@@ -12,7 +12,7 @@ class Domain extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'slug', 'description', 'default_locale_id', 'hide_default_locale',
+        'name', 'slug', 'route', 'description', 'default_locale_id', 'hide_default_locale',
     ];
 
     /**

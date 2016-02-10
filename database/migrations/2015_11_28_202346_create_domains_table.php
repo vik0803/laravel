@@ -17,6 +17,7 @@ class CreateDomainsTable extends Migration
             $table->nullableTimestamps();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->string('route');
             $table->string('description')->nullable();
             $table->boolean('hide_default_locale')->default(true);
 

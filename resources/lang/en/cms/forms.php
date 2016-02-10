@@ -37,6 +37,7 @@ return [
     'nativeLabel' => 'Native Name',
     'scriptLabel' => 'Script',
     'defaultLocaleLabel' => 'Default Locale',
+    'defaultRouteLabel' => 'Default Route',
     'localeLabel' => 'Locale',
     'localesLabel' => 'Locales',
     'groupLabel' => 'Group',
@@ -55,6 +56,7 @@ return [
     'slugPlaceholder' => 'Slug',
     'descriptionPlaceholder' => 'Description',
     'contentPlaceholder' => 'Content',
+    'defaultRoutePlaceholder' => 'Default Route',
 
     // Options
     'rememberOption' => 'Keep me signed in',
