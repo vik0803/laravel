@@ -61,14 +61,14 @@
     Modernizr.load([
         {
             test: typeof isOldIe == 'undefined',
-            yep: { 'v2' : '//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js' },
-            nope: { 'v1' : '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js' },
+            yep: { 'v2' : '//ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js' },
+            nope: { 'v1' : '//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js' },
             callback: function(url, result, key) {
                 if (!window.jQuery) {
                     if (key === 'v1') {
-                        Modernizr.load('{{ \App\Helpers\autover('/js/cms/vendor/jquery-1.11.3.min.js') }}');
+                        Modernizr.load('{{ \App\Helpers\autover('/js/cms/vendor/jquery-1.12.0.min.js') }}');
                     } else {
-                        Modernizr.load('{{ \App\Helpers\autover('/js/cms/vendor/jquery-2.1.4.min.js') }}');
+                        Modernizr.load('{{ \App\Helpers\autover('/js/cms/vendor/jquery-2.2.0.min.js') }}');
                     }
                 }
             }
