@@ -27,8 +27,8 @@
 
     > .mobile-logo {
         float: left;
-        margin: 0 (((5px / $font-size-root) + $font-unit) / $font-size-large) + $font-unit;
-        line-height: ((46px / $font-size-root) + $font-unit) / $font-size-large;
+        margin: 0 pxEmFont(5px, $font-size-large);
+        line-height: pxEmFont(46px, $font-size-large);
         text-decoration: none;
         font-family: $font-family-special;
         color: #fff;

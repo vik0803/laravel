@@ -16,14 +16,14 @@
             padding: 0;
             margin: 0;
             height: 100%;
-            line-height: (((29px / $font-size-root) + $font-unit) / 0.875em) + $font-unit;
+            line-height: pxEmFont(29px, 0.875em);
             font-size: 0.875em; /* 14/16 */
 
             &.nav-toggle {
                 font-size: $font-size-base;
-                line-height: (((29px / $font-size-root) + $font-unit) / $font-size-base) + $font-unit;
+                line-height: pxEmFont(29px, $font-size-base);
                 border-right: 1px solid #ddd;
-                margin-right: (((10px / $font-size-root) + $font-unit) / $font-size-base) + $font-unit;
+                margin-right: pxEmFont(10px, $font-size-base);
 
                 &:hover,
                 &.collapsed {
@@ -57,7 +57,7 @@
 
             > span {
                 color: $gray-light;
-                padding: 0 (((8px / $font-size-root) + $font-unit) / $font-size-small) + $font-unit;
+                padding: 0 pxEmFont(8px, $font-size-small);
                 font-size: $font-size-small;
                 font-weight: lighter;
             }

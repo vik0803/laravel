@@ -44,8 +44,8 @@
                 > span {
                     font-size: 1.25em; /* 20/16 */
                     vertical-align: top;
-                    margin-right: (((5px / $font-size-root) + $font-unit) / 1.25em) + $font-unit;
-                    line-height: (((24px / $font-size-root) + $font-unit) / 1.25em) + $font-unit
+                    margin-right: pxEmFont(5px, 1.25em);
+                    line-height: pxEmFont(24px, 1.25em);
                 }
             }
         }
