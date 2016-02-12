@@ -272,6 +272,7 @@ class PageController extends Controller {
             return response()->json($datatables + [
                 'success' => $successMessage,
                 'reset' => true,
+                'resetEditor' => true,
             ]);
         } else {
             $errorMessage = trans('cms/forms.createError', ['entity' => trans_choice('cms/forms.' . ($request->input('is_category') ? 'entityCategories' : 'entityPages'), 1)]);

@@ -878,6 +878,12 @@ var unikat = function() {
                 }
             });
         }
+
+        if (data.resetEditor) {
+            $.each(CKEDITOR.instances, function(key) {
+                CKEDITOR.instances[key].setData();
+            });
+        }
     }
 
     function ajax_error(that, data) {
