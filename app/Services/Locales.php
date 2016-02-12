@@ -448,13 +448,17 @@ class Locales
      *
      * @return string
      */
-    public function url($locale = null)
+    public function url($locale = null, $root = false)
     {
         $locale = $locale ?: $this->getCurrent();
         $prefix = $this->getDomain()->slug . '/' . $this->getLanguage($locale);
         $slug = $prefix . \Slug::getRouteName();
-        $parameters = $this->rawParameters($locale);
-        $parameters = $parameters ?: \Slug::getRouteParameters();
+        if ($root) {
+            $parameters = null;
+        } else {
+            $parameters = $this->rawParameters($locale);
+            $parameters = $parameters ?: \Slug::getRouteParameters();
+        }
 
         return \Route::has($slug) ? route($slug, $parameters) : route($prefix . $this->getDomain()->route, $parameters);
     }
@@ -533,14 +537,14 @@ class Locales
      *
      * @return array
      */
-    public function getLanguages() {
+    public function getLanguages($root = false) {
         $languages = [];
 
         if (count($this->getLocales()) > 1) {
             foreach ($this->getLocales() as $locale => $data) {
                 $active = ($locale == $this->getCurrent() ? true : false);
                 $language['active'] = $active;
-                $language['link'] = $this->url($locale);
+                $language['link'] = $this->url($locale, $root);
                 $language['native'] = $data->native;
                 $language['name'] = ($data->name != $data->native ? $data->name : '');
 
