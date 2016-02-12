@@ -222,6 +222,11 @@ class FineUploader
             Storage::disk($this->uploadDisk)->makeDirectory($thumbnailDirectory);
         }
 
+        $sliderDirectory = $directory . DIRECTORY_SEPARATOR . \Config::get('images.sliderDirectory');
+        if (!Storage::disk($this->uploadDisk)->exists($sliderDirectory)) {
+            Storage::disk($this->uploadDisk)->makeDirectory($sliderDirectory);
+        }
+
         $file = $this->uploadPath . $directory . DIRECTORY_SEPARATOR . \Config::get('images.originalDirectory') . DIRECTORY_SEPARATOR . $filename;
 
         $img = \Image::make($file);
@@ -239,6 +244,7 @@ class FineUploader
 
         $img->save($this->uploadPath . $directory . DIRECTORY_SEPARATOR . $filename, \Config::get('images.quality'));
 
+        // thumbnail
         $thumb = \Image::make($file);
         $thumb->fit(\Config::get('images.thumbnailSmallWidth'), \Config::get('images.thumbnailSmallHeight'), function ($constraint) {
             $constraint->upsize();
@@ -249,6 +255,14 @@ class FineUploader
         }
 
         $thumb->save($this->uploadPath . $thumbnailDirectory . DIRECTORY_SEPARATOR . $filename);
+
+        // slider
+        $slider = \Image::make($file);
+        $slider->fit(\Config::get('images.sliderWidth'), \Config::get('images.sliderHeight'), function ($constraint) {
+            $constraint->upsize();
+        });
+
+        $slider->save($this->uploadPath . $sliderDirectory . DIRECTORY_SEPARATOR . $filename);
     }
 
     /**

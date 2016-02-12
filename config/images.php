@@ -8,6 +8,7 @@ return [
     'thumbnailSmallDirectory' => 's',
     'thumbnailMediumDirectory' => 'm',
     'thumbnailLargeDirectory' => 'l',
+    'sliderDirectory' => 'slider',
 
     'extensions' => ['jpg', 'png', 'gif', 'jpeg'],
     'quality' => 90,
@@ -22,6 +23,9 @@ return [
     'thumbnailLargeWidth' => 800,
     'thumbnailLargeHeight' => 600,
     'thumbnailCanvasBackground' => [255, 255, 255, 0], // transparent [png] or white [jpg]
+
+    'sliderWidth' => 1920,
+    'sliderHeight' => 500,
 
     'watermark' => storage_path('app/images/watermark.png'),
     'watermarkPosition' => 'bottom-right',
