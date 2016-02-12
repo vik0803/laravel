@@ -52,7 +52,7 @@
 
     <div class="form-group{!! ($errors->has('description') ? ' has-error has-feedback' : '') !!}">
         {!! Form::label('input-description', trans('cms/forms.descriptionLabel')) !!}
-        {!! Form::textarea('description', null, ['id' => 'input-description', 'class' => 'form-control', 'placeholder' => trans('cms/forms.descriptionPlaceholder')]) !!}
+        {!! Form::text('description', null, ['id' => 'input-description', 'class' => 'form-control', 'placeholder' => trans('cms/forms.descriptionPlaceholder')]) !!}
         @if ($errors->has('description'))<span class="glyphicon glyphicon-remove form-control-feedback"></span>@endif
     </div>
 
