@@ -28,6 +28,8 @@ class PageRequest extends Request
      */
     public function rules(Page $page)
     {
+        $this->merge(['is_dropdown' => $this->input('is_dropdown', 0)]); // set default value of the is_dropdown checkbox
+
         if (in_array($this->method(), ['PUT', 'PATCH'])) {
             $page = Page::findOrFail(\Request::input('id'))->first();
             $parent = $page->parent;
