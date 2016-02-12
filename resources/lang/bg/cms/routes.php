@@ -55,6 +55,15 @@ return [
         'metaTitle' => 'Регистрация Title',
         'metaDescription' => 'Регистрация Description',
     ],
+    'pages' => [
+        'slug' => 'страници',
+        'name' => 'Страници',
+        'metaTitle' => 'Страници Title',
+        'metaDescription' => 'Страници Description',
+        'category' => 'sidebar-menu',
+        'order' => 2,
+        'icon' => 'book',
+    ],
     'users' => [
         'slug' => 'потребители',
         'parameters' => [
