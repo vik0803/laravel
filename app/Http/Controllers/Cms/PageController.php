@@ -165,31 +165,23 @@ class PageController extends Controller {
         $pageId = '';
         if ($slugs) {
             $slugsArray = explode('/', $slugs);
+            $pages = Page::select('id', 'parent', 'slug', 'is_category')->get()->toArray();
+            $pages = \App\Helpers\arrayToTree($pages);
+            if ($row = \Slug::arrayMatchSlugsRecursive($slugsArray, $pages)) { // match slugs against the pages array
+                $request->session()->put('routeSlugs', $slugsArray); // save current slugs for proper file upload actions
+                if ($row['is_category']) { // it's a category
+                    $request->session()->put($page->getTable() . 'Parent', $row['id']); // save current category for proper store/update/destroy actions
+                    $page = $page->where('parent', $row['id']);
 
-            $row = $page->where('slug', last($slugsArray));
-            $row = $row->first();
-
-            if ($row) { // the last slug exist in DB
-                $pages = Page::select('id', 'parent', 'slug')->get()->toArray();
-                $pages = \App\Helpers\arrayToTree($pages);
-                if (\Slug::arrayMatchSlugsRecursive($slugsArray, $pages)) { // match slugs against the pages array
-                    $request->session()->put('routeSlugs', $slugsArray); // save current slugs for proper file upload actions
-                    if ($row->is_category) { // it's a category
-                        $request->session()->put($page->getTable() . 'Parent', $row->id); // save current category for proper store/update/destroy actions
-                        $page = $page->where('parent', $row->id);
-
-                        foreach($slugsArray as $slug) { // ensure the list of the current subdirectories exist for proper upload actions
-                            $uploadDirectory .= DIRECTORY_SEPARATOR . $slug;
-                            if (!Storage::disk('local-public')->exists($uploadDirectory)) {
-                                Storage::disk('local-public')->makeDirectory($uploadDirectory);
-                            }
+                    foreach($slugsArray as $slug) { // ensure the list of the current subdirectories exist for proper upload actions
+                        $uploadDirectory .= DIRECTORY_SEPARATOR . $slug;
+                        if (!Storage::disk('local-public')->exists($uploadDirectory)) {
+                            Storage::disk('local-public')->makeDirectory($uploadDirectory);
                         }
-                    } else { // it's a page
-                        $is_page = true;
-                        $pageId = $row->id;
                     }
-                } else {
-                    abort(404);
+                } else { // it's a page
+                    $is_page = true;
+                    $pageId = $row['id'];
                 }
             } else {
                 abort(404);

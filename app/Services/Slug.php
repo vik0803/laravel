@@ -197,7 +197,7 @@ class Slug
                             return false;
                         }
                     } else {
-                        return true;
+                        return $value;
                     }
                 }
             }
