@@ -100,14 +100,14 @@ class FineUploader
                 return ['success' => false, 'uuid' => $uuid, 'preventRetry' => true];
             }
 
-            $this->processUploaded($rootDirectory, $this->getUploadName());
+            $size = $this->processUploaded($rootDirectory, $this->getUploadName());
 
             return [
                 'success'=> true,
                 'uuid' => $uuid,
                 'fileName' => $this->getUploadName(),
                 'fileExtension' => File::extension($this->getUploadName()),
-                'fileSize' => Storage::disk($this->uploadDisk)->size($uploadFile),
+                'fileSize' => $size,
             ];
         }
     }
@@ -201,14 +201,14 @@ class FineUploader
             }
 
             if (($response = $file->move($this->uploadPath . $uploadDirectory, $this->getUploadName())) !== false) {
-                $this->processUploaded($rootDirectory, $this->getUploadName());
+                $size = $this->processUploaded($rootDirectory, $this->getUploadName());
 
                 return [
                     'success'=> true,
                     'uuid' => $uuid,
                     'fileName' => $response->getFilename(),
                     'fileExtension' => $response->getExtension(),
-                    'fileSize' => $response->getSize(),
+                    'fileSize' => $size,
                 ];
             }
 
@@ -243,6 +243,7 @@ class FineUploader
         $img->insert(\Config::get('images.watermark'), \Config::get('images.watermarkPosition'), \Config::get('images.watermarkOffsetX'), \Config::get('images.watermarkOffsetY'));
 
         $img->save($this->uploadPath . $directory . DIRECTORY_SEPARATOR . $filename, \Config::get('images.quality'));
+        $size = $img->filesize();
 
         // thumbnail
         $thumb = \Image::make($file);
@@ -263,6 +264,8 @@ class FineUploader
         });
 
         $slider->save($this->uploadPath . $sliderDirectory . DIRECTORY_SEPARATOR . $filename);
+
+        return $size;
     }
 
     /**
