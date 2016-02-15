@@ -118,12 +118,12 @@ class DataTable
                 $data = $this->prepend($data, $columnsData['prepends']);
             }
 
-            if (count($columnsData['links'])) {
-                $data = $this->link($data, $columnsData['links']);
-            }
-
             if (count($columnsData['thumbnails'])) {
                 $data = $this->thumbnail($data, $columnsData['thumbnails']);
+            }
+
+            if (count($columnsData['links'])) {
+                $data = $this->link($data, $columnsData['links']);
             }
 
             if (count($columnsData['filesizes'])) {
@@ -153,12 +153,12 @@ class DataTable
                     $data = $this->prepend($data, $columnsData['prepends']);
                 }
 
-                if (count($columnsData['links'])) {
-                    $data = $this->link($data, $columnsData['links']);
-                }
-
                 if (count($columnsData['thumbnails'])) {
                     $data = $this->thumbnail($data, $columnsData['thumbnails']);
+                }
+
+                if (count($columnsData['links'])) {
+                    $data = $this->link($data, $columnsData['links']);
                 }
 
                 if (count($columnsData['filesizes'])) {
@@ -313,7 +313,13 @@ class DataTable
                             }
                         }
                     } else {
-                        $data[$key][$link['id']] = '<a href="' . \Locales::route($link['link']['route'], ltrim(implode('/', $this->request->session()->get('routeSlugs', [])) . (isset($link['link']['routeParameter']) ? '/' . $data[$key][$link['link']['routeParameter']] : ''), '/')) . '">' . (isset($link['link']['icon']) ? '<span class="glyphicon glyphicon-' . $link['link']['icon'] . ' glyphicon-left"></span>' : '') . $data[$key][$link['id']] . '</a>';
+                        if (isset($link['link']['route'])) {
+                            $url = \Locales::route($link['link']['route'], ltrim(implode('/', $this->request->session()->get('routeSlugs', [])) . (isset($link['link']['routeParameter']) ? '/' . $data[$key][$link['link']['routeParameter']] : ''), '/'));
+                        } else {
+                            $url = $data[$key][$link['link']['url']];
+                        }
+
+                        $data[$key][$link['id']] = ($url ? '<a href="' . $url . '">' : '') . (isset($link['link']['icon']) ? '<span class="glyphicon glyphicon-' . $link['link']['icon'] . ' glyphicon-left"></span>' : '') . $data[$key][$link['id']] . ($url ? '</a>' : '');
                     }
                 }
             }
