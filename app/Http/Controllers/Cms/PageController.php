@@ -114,6 +114,7 @@ class PageController extends Controller {
                         'class' => 'text-center',
                         'thumbnail' => [
                             'selector' => ['page_images.uuid', 'page_images.title'],
+                            'title' => 'title',
                             'id' => 'uuid',
                             'directory' => 'pages',
                         ],
