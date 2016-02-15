@@ -118,7 +118,7 @@ var unikat = function() {
             });
 
             $('.popup-gallery').magnificPopup({
-                delegate: 'a',
+                delegate: 'a.popup',
                 type: 'image',
                 tClose: variables.magnificPopup.close,
                 tLoading: variables.magnificPopup.loading,
