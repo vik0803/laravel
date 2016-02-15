@@ -27,6 +27,9 @@ return [
     'sliderWidth' => 1920,
     'sliderHeight' => 480,
 
+    'bannerWidth' => 1920,
+    'bannerHeight' => 480,
+
     'watermarkImage' => storage_path('app/images/watermark.png'),
     'watermarkPosition' => 'bottom-right',
     'watermarkOffsetX' => 25,

@@ -99,6 +99,63 @@ return [
     'pages/update-image' => [
         'slug' => 'pages/update-image',
     ],
+    'banners' => [
+        'slug' => 'banners',
+        'name' => 'Banners',
+        'metaTitle' => 'Banners Title',
+        'metaDescription' => 'Banners Description',
+        'category' => 'sidebar-menu',
+        'order' => 3,
+        'icon' => 'file',
+    ],
+    'banners/create' => [
+        'slug' => 'banners/create',
+        'name' => 'Create',
+        'metaTitle' => 'Create Banner Title',
+        'metaDescription' => 'Create Banner Description',
+    ],
+    'banners/store' => [
+        'slug' => 'banners/store',
+    ],
+    'banners/edit' => [
+        'slug' => 'banners/edit',
+        'name' => 'Edit',
+        'metaTitle' => 'Edit Banner Title',
+        'metaDescription' => 'Edit Banner Description',
+    ],
+    'banners/update' => [
+        'slug' => 'banners/update',
+    ],
+    'banners/delete' => [
+        'slug' => 'banners/delete',
+        'name' => 'Delete',
+        'metaTitle' => 'Are you sure that you want to permanently delete the selected banners?',
+        'metaDescription' => 'Are you sure that you want to permanently delete the selected banners?',
+    ],
+    'banners/destroy' => [
+        'slug' => 'banners/destroy',
+    ],
+    'banners/upload' => [
+        'slug' => 'banners/upload',
+    ],
+    'banners/delete-image' => [
+        'slug' => 'banners/delete-image',
+        'name' => 'Delete Image',
+        'metaTitle' => 'Are you sure that you want to permanently delete the selected images?',
+        'metaDescription' => 'Are you sure that you want to permanently delete the selected images?',
+    ],
+    'banners/destroy-image' => [
+        'slug' => 'banners/destroy-image',
+    ],
+    'banners/edit-image' => [
+        'slug' => 'banners/edit-image',
+        'name' => 'Edit Image',
+        'metaTitle' => 'Edit Image Title',
+        'metaDescription' => 'Edit Image Description',
+    ],
+    'banners/update-image' => [
+        'slug' => 'banners/update-image',
+    ],
     'pf' => [
         'slug' => 'pf',
         'name' => 'Password Forgotten',
@@ -128,7 +185,7 @@ return [
         'metaDescription' => 'Users Description',
         'category' => 'sidebar-menu',
         'parent' => true,
-        'order' => 3,
+        'order' => 4,
         'icon' => 'user',
     ],
     'users/' => [

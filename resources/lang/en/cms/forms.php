@@ -43,6 +43,8 @@ return [
     'groupLabel' => 'Group',
     'descriptionLabel' => 'Description',
     'contentLabel' => 'Content',
+    'urlLabel' => 'URL',
+    'identifierLabel' => 'Identifier',
 
     // Placeholders
     'emailPlaceholder' => 'E-mail',
@@ -56,6 +58,8 @@ return [
     'slugPlaceholder' => 'Slug',
     'descriptionPlaceholder' => 'Description',
     'contentPlaceholder' => 'Content',
+    'urlPlaceholder' => 'URL',
+    'identifierPlaceholder' => 'Identifier',
     'defaultRoutePlaceholder' => 'Default Route',
 
     // Options

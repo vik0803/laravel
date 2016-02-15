@@ -57,6 +57,21 @@ Route::group(['middleware' => ['web']], function () {
                         \Locales::isTranslatedRoute('pages/upload') ? Route::post(\Locales::getRoute('pages/upload') . '/{chunk?}', 'PageController@upload')->name(\Locales::getRoutePrefix('pages/upload'))->where('chunk', 'done') : '';
                         \Locales::isTranslatedRoute('pages') ? Route::get(\Locales::getRoute('pages') . '/{slugs?}', 'PageController@index')->name(\Locales::getRoutePrefix('pages'))->where('slugs', '(.*)') : '';
 
+                        Route::group(['middleware' => 'ajax'], function() {
+                            \Locales::isTranslatedRoute('banners/create') ? Route::get(\Locales::getRoute('banners/create'), 'BannerController@create')->name(\Locales::getRoutePrefix('banners/create')) : '';
+                            \Locales::isTranslatedRoute('banners/store') ? Route::post(\Locales::getRoute('banners/store'), 'BannerController@store')->name(\Locales::getRoutePrefix('banners/store')) : '';
+                            \Locales::isTranslatedRoute('banners/edit') ? Route::get(\Locales::getRoute('banners/edit') . '/{banner?}', 'BannerController@edit')->name(\Locales::getRoutePrefix('banners/edit'))->where('banner', '[0-9]+') : '';
+                            \Locales::isTranslatedRoute('banners/update') ? Route::put(\Locales::getRoute('banners/update'), 'BannerController@update')->name(\Locales::getRoutePrefix('banners/update')) : '';
+                            \Locales::isTranslatedRoute('banners/delete') ? Route::get(\Locales::getRoute('banners/delete'), 'BannerController@delete')->name(\Locales::getRoutePrefix('banners/delete')) : '';
+                            \Locales::isTranslatedRoute('banners/destroy') ? Route::delete(\Locales::getRoute('banners/destroy'), 'BannerController@destroy')->name(\Locales::getRoutePrefix('banners/destroy')) : '';
+                            \Locales::isTranslatedRoute('banners/delete-image') ? Route::get(\Locales::getRoute('banners/delete-image'), 'BannerController@deleteImage')->name(\Locales::getRoutePrefix('banners/delete-image')) : '';
+                            \Locales::isTranslatedRoute('banners/destroy-image') ? Route::delete(\Locales::getRoute('banners/destroy-image'), 'BannerController@destroyImage')->name(\Locales::getRoutePrefix('banners/destroy-image')) : '';
+                            \Locales::isTranslatedRoute('banners/edit-image') ? Route::get(\Locales::getRoute('banners/edit-image') . '/{image?}', 'BannerController@editImage')->name(\Locales::getRoutePrefix('banners/edit-image'))->where('image', '[0-9]+') : '';
+                            \Locales::isTranslatedRoute('banners/update-image') ? Route::put(\Locales::getRoute('banners/update-image'), 'BannerController@updateImage')->name(\Locales::getRoutePrefix('banners/update-image')) : '';
+                        });
+                        \Locales::isTranslatedRoute('banners/upload') ? Route::post(\Locales::getRoute('banners/upload') . '/{chunk?}', 'BannerController@upload')->name(\Locales::getRoutePrefix('banners/upload'))->where('chunk', 'done') : '';
+                        \Locales::isTranslatedRoute('banners') ? Route::get(\Locales::getRoute('banners') . '/{slug?}', 'BannerController@index')->name(\Locales::getRoutePrefix('banners'))->where('slug', '[a-z-]+') : '';
+
                         \Locales::isTranslatedRoute('users') ? Route::get(\Locales::getRoute('users') . '/{group?}', 'UserController@index')->name(\Locales::getRoutePrefix('users'))->where('group', \Locales::getRouteRegex('users')) : '';
                         Route::group(['middleware' => 'ajax'], function() {
                             \Locales::isTranslatedRoute('users/create') ? Route::get(\Locales::getRoute('users/create'), 'UserController@create')->name(\Locales::getRoutePrefix('users/create')) : '';
