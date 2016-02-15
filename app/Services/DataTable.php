@@ -49,7 +49,9 @@ class DataTable
         }
 
         foreach ($columnsData['links'] as $link) {
-            $columnsData['columns'] = array_merge($columnsData['columns'], $link['link']['selector']);
+            if (isset($link['link']['selector'])) {
+                $columnsData['columns'] = array_merge($columnsData['columns'], $link['link']['selector']);
+            }
         }
 
         foreach ($columnsData['thumbnails'] as $thumbnail) {
@@ -303,11 +305,15 @@ class DataTable
         foreach ($data as $key => $items) {
             foreach ($links as $link) {
                 if (array_key_exists($link['id'], $items)) {
-                    foreach ($link['link']['rules'] as $rules) {
-                        if ($items[$rules['column']] == $rules['value']) {
-                            $data[$key][$link['id']] = '<a href="' . \Locales::route($link['link']['route'], ltrim(implode('/', $this->request->session()->get('routeSlugs', [])) . (isset($link['link']['routeParameter']) ? '/' . $data[$key][$link['link']['routeParameter']] : ''), '/')) . '">' . (isset($rules['icon']) ? '<span class="glyphicon glyphicon-' . $rules['icon'] . ' glyphicon-left"></span>' : '') . $data[$key][$link['id']] . '</a>';
-                            break;
+                    if (isset($link['link']['rules'])) {
+                        foreach ($link['link']['rules'] as $rules) {
+                            if ($items[$rules['column']] == $rules['value']) {
+                                $data[$key][$link['id']] = '<a href="' . \Locales::route($link['link']['route'], ltrim(implode('/', $this->request->session()->get('routeSlugs', [])) . (isset($link['link']['routeParameter']) ? '/' . $data[$key][$link['link']['routeParameter']] : ''), '/')) . '">' . (isset($rules['icon']) ? '<span class="glyphicon glyphicon-' . $rules['icon'] . ' glyphicon-left"></span>' : '') . $data[$key][$link['id']] . '</a>';
+                                break;
+                            }
                         }
+                    } else {
+                        $data[$key][$link['id']] = '<a href="' . \Locales::route($link['link']['route'], ltrim(implode('/', $this->request->session()->get('routeSlugs', [])) . (isset($link['link']['routeParameter']) ? '/' . $data[$key][$link['link']['routeParameter']] : ''), '/')) . '">' . (isset($link['link']['icon']) ? '<span class="glyphicon glyphicon-' . $link['link']['icon'] . ' glyphicon-left"></span>' : '') . $data[$key][$link['id']] . '</a>';
                     }
                 }
             }
