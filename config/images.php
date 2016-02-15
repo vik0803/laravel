@@ -25,9 +25,9 @@ return [
     'thumbnailCanvasBackground' => [255, 255, 255, 0], // transparent [png] or white [jpg]
 
     'sliderWidth' => 1920,
-    'sliderHeight' => 500,
+    'sliderHeight' => 480,
 
-    'watermark' => storage_path('app/images/watermark.png'),
+    'watermarkImage' => storage_path('app/images/watermark.png'),
     'watermarkPosition' => 'bottom-right',
     'watermarkOffsetX' => 25,
     'watermarkOffsetY' => 25,

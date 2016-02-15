@@ -368,6 +368,8 @@ class PageController extends Controller {
 
     public function upload(Request $request, FineUploader $uploader, $chunk = null)
     {
+        $uploader->slider = true;
+
         $slugs = $request->session()->get('routeSlugs', []);
         $uploader->uploadDirectory = $this->uploadDirectory . DIRECTORY_SEPARATOR . trim(implode(DIRECTORY_SEPARATOR, $slugs), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . \Config::get('images.rootDirectory');
         if (!Storage::disk('local-public')->exists($uploader->uploadDirectory)) {

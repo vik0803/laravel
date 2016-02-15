@@ -19,6 +19,11 @@ class FineUploader
     public $uploadDirectory;
     public $uploadPath;
     public $uploadDisk = 'local-public';
+    public $thumbnail = true;
+    public $watermark = true;
+    public $resize = true;
+    public $slider = false;
+    public $banner = false;
 
     public $chunksCleanupProbability = 0.001; // Once in 1000 requests on avg
     public $chunksExpireIn = 604800; // One week
@@ -217,53 +222,61 @@ class FineUploader
     }
 
     protected function processUploaded($directory, $filename) {
-        $thumbnailDirectory = $directory . DIRECTORY_SEPARATOR . \Config::get('images.thumbnailSmallDirectory');
-        if (!Storage::disk($this->uploadDisk)->exists($thumbnailDirectory)) {
-            Storage::disk($this->uploadDisk)->makeDirectory($thumbnailDirectory);
-        }
-
-        $sliderDirectory = $directory . DIRECTORY_SEPARATOR . \Config::get('images.sliderDirectory');
-        if (!Storage::disk($this->uploadDisk)->exists($sliderDirectory)) {
-            Storage::disk($this->uploadDisk)->makeDirectory($sliderDirectory);
-        }
-
         $file = $this->uploadPath . $directory . DIRECTORY_SEPARATOR . \Config::get('images.originalDirectory') . DIRECTORY_SEPARATOR . $filename;
 
         $img = \Image::make($file);
 
-        // resize
-        if ($img->width() > \Config::get('images.imageMaxWidth') || $img->height() > \Config::get('images.imageMaxHeight')) {
-            $img->resize(\Config::get('images.imageMaxWidth'), \Config::get('images.imageMaxHeight'), function ($constraint) {
-                $constraint->aspectRatio();
+        if ($this->resize) {
+            if ($img->width() > \Config::get('images.imageMaxWidth') || $img->height() > \Config::get('images.imageMaxHeight')) {
+                $img->resize(\Config::get('images.imageMaxWidth'), \Config::get('images.imageMaxHeight'), function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+            }
+
+            if ($this->watermark) {
+                $img->insert(\Config::get('images.watermarkImage'), \Config::get('images.watermarkPosition'), \Config::get('images.watermarkOffsetX'), \Config::get('images.watermarkOffsetY'));
+            }
+        } elseif ($this->banner) {
+            $img->fit(\Config::get('images.bannerWidth'), \Config::get('images.bannerHeight'), function ($constraint) {
                 $constraint->upsize();
             });
         }
 
-        // watermark
-        $img->insert(\Config::get('images.watermark'), \Config::get('images.watermarkPosition'), \Config::get('images.watermarkOffsetX'), \Config::get('images.watermarkOffsetY'));
-
         $img->save($this->uploadPath . $directory . DIRECTORY_SEPARATOR . $filename, \Config::get('images.quality'));
         $size = $img->filesize();
 
-        // thumbnail
-        $thumb = \Image::make($file);
-        $thumb->fit(\Config::get('images.thumbnailSmallWidth'), \Config::get('images.thumbnailSmallHeight'), function ($constraint) {
-            $constraint->upsize();
-        });
+        if ($this->thumbnail) {
+            $thumbnailDirectory = $directory . DIRECTORY_SEPARATOR . \Config::get('images.thumbnailSmallDirectory');
+            if (!Storage::disk($this->uploadDisk)->exists($thumbnailDirectory)) {
+                Storage::disk($this->uploadDisk)->makeDirectory($thumbnailDirectory);
+            }
 
-        if ($thumb->width() < \Config::get('images.thumbnailSmallWidth') || $thumb->height() < \Config::get('images.thumbnailSmallHeight')) {
-            $thumb->resizeCanvas(\Config::get('images.thumbnailSmallWidth'), \Config::get('images.thumbnailSmallHeight'), 'center', false, \Config::get('images.thumbnailCanvasBackground'));
+            $thumb = \Image::make($file);
+            $thumb->fit(\Config::get('images.thumbnailSmallWidth'), \Config::get('images.thumbnailSmallHeight'), function ($constraint) {
+                $constraint->upsize();
+            });
+
+            if ($thumb->width() < \Config::get('images.thumbnailSmallWidth') || $thumb->height() < \Config::get('images.thumbnailSmallHeight')) {
+                $thumb->resizeCanvas(\Config::get('images.thumbnailSmallWidth'), \Config::get('images.thumbnailSmallHeight'), 'center', false, \Config::get('images.thumbnailCanvasBackground'));
+            }
+
+            $thumb->save($this->uploadPath . $thumbnailDirectory . DIRECTORY_SEPARATOR . $filename);
         }
 
-        $thumb->save($this->uploadPath . $thumbnailDirectory . DIRECTORY_SEPARATOR . $filename);
+        if ($this->slider) {
+            $sliderDirectory = $directory . DIRECTORY_SEPARATOR . \Config::get('images.sliderDirectory');
+            if (!Storage::disk($this->uploadDisk)->exists($sliderDirectory)) {
+                Storage::disk($this->uploadDisk)->makeDirectory($sliderDirectory);
+            }
 
-        // slider
-        $slider = \Image::make($file);
-        $slider->fit(\Config::get('images.sliderWidth'), \Config::get('images.sliderHeight'), function ($constraint) {
-            $constraint->upsize();
-        });
+            $slider = \Image::make($file);
+            $slider->fit(\Config::get('images.sliderWidth'), \Config::get('images.sliderHeight'), function ($constraint) {
+                $constraint->upsize();
+            });
 
-        $slider->save($this->uploadPath . $sliderDirectory . DIRECTORY_SEPARATOR . $filename);
+            $slider->save($this->uploadPath . $sliderDirectory . DIRECTORY_SEPARATOR . $filename);
+        }
 
         return $size;
     }
