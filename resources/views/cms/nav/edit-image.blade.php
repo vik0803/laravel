@@ -4,7 +4,7 @@
 <div class="magnific-popup">
     <h1>{{ \Locales::getMetaTitle() }}</h1>
 
-    {!! Form::model($image, ['method' => 'put', 'url' => \Locales::route('pages/update-image'), 'id' => 'edit-image-form', 'data-ajax-queue' => 'sync', 'class' => 'ajax-lock', 'role' => 'form']) !!}
+    {!! Form::model($image, ['method' => 'put', 'url' => \Locales::route('nav/update-image'), 'id' => 'edit-image-form', 'data-ajax-queue' => 'sync', 'class' => 'ajax-lock', 'role' => 'form']) !!}
 
     {!! Form::hidden('table', $table, ['id' => 'input-table']) !!}
 

@@ -42,20 +42,20 @@ Route::group(['middleware' => ['web']], function () {
                         Route::get(\Locales::getRoute('dashboard'), 'DashboardController@dashboard')->name(\Locales::getRoutePrefix('dashboard'));
 
                         Route::group(['middleware' => 'ajax'], function() {
-                            \Locales::isTranslatedRoute('pages/create') ? Route::get(\Locales::getRoute('pages/create'), 'PageController@create')->name(\Locales::getRoutePrefix('pages/create')) : '';
-                            \Locales::isTranslatedRoute('pages/create-category') ? Route::get(\Locales::getRoute('pages/create-category'), 'PageController@createCategory')->name(\Locales::getRoutePrefix('pages/create-category')) : '';
-                            \Locales::isTranslatedRoute('pages/store') ? Route::post(\Locales::getRoute('pages/store'), 'PageController@store')->name(\Locales::getRoutePrefix('pages/store')) : '';
-                            \Locales::isTranslatedRoute('pages/edit') ? Route::get(\Locales::getRoute('pages/edit') . '/{page?}', 'PageController@edit')->name(\Locales::getRoutePrefix('pages/edit'))->where('page', '[0-9]+') : '';
-                            \Locales::isTranslatedRoute('pages/update') ? Route::put(\Locales::getRoute('pages/update'), 'PageController@update')->name(\Locales::getRoutePrefix('pages/update')) : '';
-                            \Locales::isTranslatedRoute('pages/delete') ? Route::get(\Locales::getRoute('pages/delete'), 'PageController@delete')->name(\Locales::getRoutePrefix('pages/delete')) : '';
-                            \Locales::isTranslatedRoute('pages/destroy') ? Route::delete(\Locales::getRoute('pages/destroy'), 'PageController@destroy')->name(\Locales::getRoutePrefix('pages/destroy')) : '';
-                            \Locales::isTranslatedRoute('pages/delete-image') ? Route::get(\Locales::getRoute('pages/delete-image'), 'PageController@deleteImage')->name(\Locales::getRoutePrefix('pages/delete-image')) : '';
-                            \Locales::isTranslatedRoute('pages/destroy-image') ? Route::delete(\Locales::getRoute('pages/destroy-image'), 'PageController@destroyImage')->name(\Locales::getRoutePrefix('pages/destroy-image')) : '';
-                            \Locales::isTranslatedRoute('pages/edit-image') ? Route::get(\Locales::getRoute('pages/edit-image') . '/{image?}', 'PageController@editImage')->name(\Locales::getRoutePrefix('pages/edit-image'))->where('image', '[0-9]+') : '';
-                            \Locales::isTranslatedRoute('pages/update-image') ? Route::put(\Locales::getRoute('pages/update-image'), 'PageController@updateImage')->name(\Locales::getRoutePrefix('pages/update-image')) : '';
+                            \Locales::isTranslatedRoute('nav/create') ? Route::get(\Locales::getRoute('nav/create'), 'NavController@create')->name(\Locales::getRoutePrefix('nav/create')) : '';
+                            \Locales::isTranslatedRoute('nav/create-category') ? Route::get(\Locales::getRoute('nav/create-category'), 'NavController@createCategory')->name(\Locales::getRoutePrefix('nav/create-category')) : '';
+                            \Locales::isTranslatedRoute('nav/store') ? Route::post(\Locales::getRoute('nav/store'), 'NavController@store')->name(\Locales::getRoutePrefix('nav/store')) : '';
+                            \Locales::isTranslatedRoute('nav/edit') ? Route::get(\Locales::getRoute('nav/edit') . '/{page?}', 'NavController@edit')->name(\Locales::getRoutePrefix('nav/edit'))->where('page', '[0-9]+') : '';
+                            \Locales::isTranslatedRoute('nav/update') ? Route::put(\Locales::getRoute('nav/update'), 'NavController@update')->name(\Locales::getRoutePrefix('nav/update')) : '';
+                            \Locales::isTranslatedRoute('nav/delete') ? Route::get(\Locales::getRoute('nav/delete'), 'NavController@delete')->name(\Locales::getRoutePrefix('nav/delete')) : '';
+                            \Locales::isTranslatedRoute('nav/destroy') ? Route::delete(\Locales::getRoute('nav/destroy'), 'NavController@destroy')->name(\Locales::getRoutePrefix('nav/destroy')) : '';
+                            \Locales::isTranslatedRoute('nav/delete-image') ? Route::get(\Locales::getRoute('nav/delete-image'), 'NavController@deleteImage')->name(\Locales::getRoutePrefix('nav/delete-image')) : '';
+                            \Locales::isTranslatedRoute('nav/destroy-image') ? Route::delete(\Locales::getRoute('nav/destroy-image'), 'NavController@destroyImage')->name(\Locales::getRoutePrefix('nav/destroy-image')) : '';
+                            \Locales::isTranslatedRoute('nav/edit-image') ? Route::get(\Locales::getRoute('nav/edit-image') . '/{image?}', 'NavController@editImage')->name(\Locales::getRoutePrefix('nav/edit-image'))->where('image', '[0-9]+') : '';
+                            \Locales::isTranslatedRoute('nav/update-image') ? Route::put(\Locales::getRoute('nav/update-image'), 'NavController@updateImage')->name(\Locales::getRoutePrefix('nav/update-image')) : '';
                         });
-                        \Locales::isTranslatedRoute('pages/upload') ? Route::post(\Locales::getRoute('pages/upload') . '/{chunk?}', 'PageController@upload')->name(\Locales::getRoutePrefix('pages/upload'))->where('chunk', 'done') : '';
-                        \Locales::isTranslatedRoute('pages') ? Route::get(\Locales::getRoute('pages') . '/{slugs?}', 'PageController@index')->name(\Locales::getRoutePrefix('pages'))->where('slugs', '(.*)') : '';
+                        \Locales::isTranslatedRoute('nav/upload') ? Route::post(\Locales::getRoute('nav/upload') . '/{chunk?}', 'NavController@upload')->name(\Locales::getRoutePrefix('nav/upload'))->where('chunk', 'done') : '';
+                        \Locales::isTranslatedRoute('nav') ? Route::get(\Locales::getRoute('nav') . '/{slugs?}', 'NavController@index')->name(\Locales::getRoutePrefix('nav'))->where('slugs', '(.*)') : '';
 
                         Route::group(['middleware' => 'ajax'], function() {
                             \Locales::isTranslatedRoute('banners/create') ? Route::get(\Locales::getRoute('banners/create'), 'BannerController@create')->name(\Locales::getRoutePrefix('banners/create')) : '';

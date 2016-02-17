@@ -55,11 +55,11 @@ return [
         'metaTitle' => 'Регистрация Title',
         'metaDescription' => 'Регистрация Description',
     ],
-    'pages' => [
-        'slug' => 'страници',
-        'name' => 'Страници',
-        'metaTitle' => 'Страници Title',
-        'metaDescription' => 'Страници Description',
+    'nav' => [
+        'slug' => 'навигация',
+        'name' => 'Навигация',
+        'metaTitle' => 'Навигация Title',
+        'metaDescription' => 'Навигация Description',
         'category' => 'sidebar-menu',
         'order' => 2,
         'icon' => 'book',

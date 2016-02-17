@@ -4,8 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Page extends Model
+class Nav extends Model
 {
+    protected $table = 'nav';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -17,6 +19,6 @@ class Page extends Model
 
     public function images()
     {
-        return $this->hasMany(PageImage::class);
+        return $this->hasMany(NavImage::class);
     }
 }

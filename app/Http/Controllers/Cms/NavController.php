@@ -4,16 +4,16 @@ use App\Http\Controllers\Controller;
 use App\Services\DataTable;
 use App\Services\FineUploader;
 use Illuminate\Http\Request;
-use App\Page;
-use App\PageImage;
+use App\Nav;
+use App\NavImage;
 use Storage;
-use App\Http\Requests\PageRequest;
-use App\Http\Requests\PageImageRequest;
+use App\Http\Requests\NavRequest;
+use App\Http\Requests\NavImageRequest;
 
-class PageController extends Controller {
+class NavController extends Controller {
 
-    protected $route = 'pages';
-    protected $uploadDirectory = 'pages';
+    protected $route = 'nav';
+    protected $uploadDirectory = 'nav';
     protected $datatables;
 
     public function __construct()
@@ -89,38 +89,38 @@ class PageController extends Controller {
                     ],
                 ],
             ],
-            'page_images' => [
+            'nav_images' => [
                 'url' => \Locales::route($this->route, true),
                 'class' => 'table-checkbox table-striped table-bordered table-hover table-thumbnails popup-gallery',
                 'columns' => [
                     [
-                        'selector' => 'page_images.id',
+                        'selector' => 'nav_images.id',
                         'id' => 'id',
                         'checkbox' => true,
                         'order' => false,
                         'class' => 'text-center',
                     ],
                     [
-                        'selector' => 'page_images.name',
+                        'selector' => 'nav_images.name',
                         'id' => 'name',
                         'name' => trans('cms/datatables.name'),
                         'search' => true,
                     ],
                     [
-                        'selector' => 'page_images.file',
+                        'selector' => 'nav_images.file',
                         'id' => 'file',
                         'name' => trans('cms/datatables.image'),
                         'order' => false,
                         'class' => 'text-center',
                         'thumbnail' => [
-                            'selector' => ['page_images.uuid', 'page_images.title'],
+                            'selector' => ['nav_images.uuid', 'nav_images.title'],
                             'title' => 'title',
                             'id' => 'uuid',
-                            'directory' => 'pages',
+                            'directory' => 'nav',
                         ],
                     ],
                     [
-                        'selector' => 'page_images.size',
+                        'selector' => 'nav_images.size',
                         'id' => 'size',
                         'name' => trans('cms/datatables.size'),
                         'filesize' => true,
@@ -154,7 +154,7 @@ class PageController extends Controller {
         ];
     }
 
-    public function index(DataTable $datatable, Page $page, Request $request, $slugs = null)
+    public function index(DataTable $datatable, Nav $page, Request $request, $slugs = null)
     {
         $uploadDirectory = $this->uploadDirectory;
         $request->session()->put('ckfinderBaseUrl', $uploadDirectory . '/');
@@ -166,7 +166,7 @@ class PageController extends Controller {
         $pageId = '';
         if ($slugs) {
             $slugsArray = explode('/', $slugs);
-            $pages = Page::select('id', 'parent', 'slug', 'is_category')->get()->toArray();
+            $pages = Nav::select('id', 'parent', 'slug', 'is_category')->get()->toArray();
             $pages = \App\Helpers\arrayToTree($pages);
             if ($row = \Slug::arrayMatchSlugsRecursive($slugsArray, $pages)) { // match slugs against the pages array
                 $request->session()->put('routeSlugs', $slugsArray); // save current slugs for proper file upload actions
@@ -194,7 +194,7 @@ class PageController extends Controller {
         }
 
         if ($is_page) {
-            $datatable->setup(PageImage::where('page_id', $pageId), 'page_images', $this->datatables['page_images']);
+            $datatable->setup(NavImage::where('nav_id', $pageId), 'nav_images', $this->datatables['nav_images']);
         } else {
             $datatable->setup($page, $this->route, $this->datatables[$this->route]);
         }
@@ -226,7 +226,7 @@ class PageController extends Controller {
         return $sections['content'];
     }
 
-    public function store(DataTable $datatable, Page $page, PageRequest $request)
+    public function store(DataTable $datatable, Nav $page, NavRequest $request)
     {
         $parent = $request->session()->get($page->getTable() . 'Parent', null);
 
@@ -246,12 +246,12 @@ class PageController extends Controller {
             'order' => $order,
         ]);
 
-        $newPage = Page::create($request->all());
+        $newNav = Nav::create($request->all());
 
-        if ($newPage->id) {
+        if ($newNav->id) {
             $slugs = $request->session()->get('routeSlugs', []);
 
-            $uploadDirectory = $this->uploadDirectory . DIRECTORY_SEPARATOR . trim(implode(DIRECTORY_SEPARATOR, $slugs), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $newPage->slug;
+            $uploadDirectory = $this->uploadDirectory . DIRECTORY_SEPARATOR . trim(implode(DIRECTORY_SEPARATOR, $slugs), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $newNav->slug;
             if (!Storage::disk('local-public')->exists($uploadDirectory)) {
                 Storage::disk('local-public')->makeDirectory($uploadDirectory);
             }
@@ -282,11 +282,11 @@ class PageController extends Controller {
         return $sections['content'];
     }
 
-    public function destroy(DataTable $datatable, Page $page, Request $request)
+    public function destroy(DataTable $datatable, Nav $page, Request $request)
     {
         $count = count($request->input('id'));
 
-        $directories = Page::find($request->input('id'))->lists('slug');
+        $directories = Nav::find($request->input('id'))->lists('slug');
 
         if ($count > 0 && $page->destroy($request->input('id'))) {
             $slugs = $request->session()->get('routeSlugs', []);
@@ -319,7 +319,7 @@ class PageController extends Controller {
 
     public function edit(Request $request, $id = null)
     {
-        $page = Page::findOrFail($id);
+        $page = Nav::findOrFail($id);
 
         $table = $request->input('table') ?: $this->route;
 
@@ -328,25 +328,25 @@ class PageController extends Controller {
         return $sections['content'];
     }
 
-    public function update(DataTable $datatable, PageRequest $request)
+    public function update(DataTable $datatable, NavRequest $request)
     {
-        $page = Page::findOrFail($request->input('id'))->first();
-        $oldPage = $page->replicate();
+        $page = Nav::findOrFail($request->input('id'))->first();
+        $oldNav = $page->replicate();
 
         if ($page->update($request->all())) {
             $slugs = $request->session()->get('routeSlugs', []);
 
             $uploadDirectory = $this->uploadDirectory . DIRECTORY_SEPARATOR . trim(implode(DIRECTORY_SEPARATOR, $slugs), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-            if ($oldPage->slug == $page->slug) {
+            if ($oldNav->slug == $page->slug) {
                 if (!Storage::disk('local-public')->exists($uploadDirectory . $page->slug)) {
                     Storage::disk('local-public')->makeDirectory($uploadDirectory . $page->slug);
                 }
             } else {
-                if (!Storage::disk('local-public')->exists($uploadDirectory . $oldPage->slug)) {
-                    Storage::disk('local-public')->makeDirectory($uploadDirectory . $oldPage->slug);
+                if (!Storage::disk('local-public')->exists($uploadDirectory . $oldNav->slug)) {
+                    Storage::disk('local-public')->makeDirectory($uploadDirectory . $oldNav->slug);
                 }
 
-                Storage::disk('local-public')->move($uploadDirectory . $oldPage->slug, $uploadDirectory . $page->slug);
+                Storage::disk('local-public')->move($uploadDirectory . $oldNav->slug, $uploadDirectory . $page->slug);
             }
 
             $successMessage = trans('cms/forms.updatedSuccessfully', ['entity' => trans_choice('cms/forms.' . ($page->is_category ? 'entityCategories' : 'entityPages'), 1)]);
@@ -388,13 +388,13 @@ class PageController extends Controller {
 
             $response['file'] = '<a href="' . asset($directory . '/' . $response['fileName']) . '">' . \HTML::image($directory . '/' . \Config::get('images.thumbnailSmallDirectory') . '/' . $response['fileName']) . '</a>';
 
-            $image = new PageImage;
+            $image = new NavImage;
             $image->file = $response['fileName'];
             $image->uuid = $response['uuid'];
             $image->extension = $response['fileExtension'];
             $image->size = $response['fileSize'];
-            $image->order = PageImage::where('page_id', $request->input('id'))->max('order') + 1;
-            $image->page_id = $request->input('id');
+            $image->order = NavImage::where('nav_id', $request->input('id'))->max('order') + 1;
+            $image->nav_id = $request->input('id');
             $image->save();
 
             $response['id'] = $image->id;
@@ -412,11 +412,11 @@ class PageController extends Controller {
         return $sections['content'];
     }
 
-    public function destroyImage(DataTable $datatable, PageImage $image, Request $request)
+    public function destroyImage(DataTable $datatable, NavImage $image, Request $request)
     {
         $count = count($request->input('id'));
 
-        $uuids = PageImage::find($request->input('id'))->lists('page_id', 'uuid');
+        $uuids = NavImage::find($request->input('id'))->lists('nav_id', 'uuid');
 
         if ($count > 0 && $image->destroy($request->input('id'))) {
             $slugs = $request->session()->get('routeSlugs', []);
@@ -425,7 +425,7 @@ class PageController extends Controller {
                 Storage::disk('local-public')->deleteDirectory($this->uploadDirectory . $path . $uuid);
             }
 
-            $datatable->setup(PageImage::where('page_id', $page), 'page_images', $this->datatables[$request->input('table')], true);
+            $datatable->setup(NavImage::where('nav_id', $page), 'nav_images', $this->datatables[$request->input('table')], true);
             $datatable->setOption('url', \Locales::route($this->route, implode('/', $slugs)));
             $datatables = $datatable->getTables();
 
@@ -446,7 +446,7 @@ class PageController extends Controller {
 
     public function editImage(Request $request, $id = null)
     {
-        $image = PageImage::findOrFail($id);
+        $image = NavImage::findOrFail($id);
 
         $table = $request->input('table') ?: $this->route;
 
@@ -455,16 +455,16 @@ class PageController extends Controller {
         return $sections['content'];
     }
 
-    public function updateImage(DataTable $datatable, PageImageRequest $request)
+    public function updateImage(DataTable $datatable, NavImageRequest $request)
     {
-        $image = PageImage::findOrFail($request->input('id'))->first();
+        $image = NavImage::findOrFail($request->input('id'))->first();
 
         if ($image->update($request->all())) {
             $slugs = $request->session()->get('routeSlugs', []);
 
             $successMessage = trans('cms/forms.updatedSuccessfully', ['entity' => trans_choice('cms/forms.entityImages', 1)]);
 
-            $image = $image->where('page_id', $image->page_id);
+            $image = $image->where('nav_id', $image->nav_id);
 
             $datatable->setup($image, $request->input('table'), $this->datatables[$request->input('table')], true);
             $datatable->setOption('url', \Locales::route($this->route, implode('/', $slugs)));

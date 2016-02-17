@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePagesTable extends Migration
+class CreateNavTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreatePagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('nav', function (Blueprint $table) {
             $table->increments('id');
             $table->nullableTimestamps();
             $table->integer('parent')->unsigned()->nullable();
@@ -26,7 +26,7 @@ class CreatePagesTable extends Migration
             $table->boolean('is_category')->default(false);
             $table->boolean('is_dropdown')->default(false);
 
-            $table->foreign('parent')->references('id')->on('pages')->onDelete('cascade');
+            $table->foreign('parent')->references('id')->on('nav')->onDelete('cascade');
         });
     }
 
@@ -37,6 +37,6 @@ class CreatePagesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('pages');
+        Schema::drop('nav');
     }
 }

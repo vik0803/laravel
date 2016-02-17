@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class PageImageRequest extends Request
+class NavImageRequest extends Request
 {
     protected $rules = [];
 

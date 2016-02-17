@@ -36,68 +36,68 @@ return [
         'order' => 1,
         'icon' => 'dashboard',
     ],
-    'pages' => [
-        'slug' => 'pages',
-        'name' => 'Pages',
-        'metaTitle' => 'Pages Title',
-        'metaDescription' => 'Pages Description',
+    'nav' => [
+        'slug' => 'nav',
+        'name' => 'Navigation',
+        'metaTitle' => 'Navigation Title',
+        'metaDescription' => 'Navigation Description',
         'category' => 'sidebar-menu',
         'order' => 2,
         'icon' => 'book',
     ],
-    'pages/create' => [
-        'slug' => 'pages/create',
+    'nav/create' => [
+        'slug' => 'nav/create',
         'name' => 'Create',
         'metaTitle' => 'Create Page Title',
         'metaDescription' => 'Create Page Description',
     ],
-    'pages/create-category' => [
-        'slug' => 'pages/create-category',
+    'nav/create-category' => [
+        'slug' => 'nav/create-category',
         'name' => 'Create Category',
         'metaTitle' => 'Create Category Title',
         'metaDescription' => 'Create Category Description',
     ],
-    'pages/store' => [
-        'slug' => 'pages/store',
+    'nav/store' => [
+        'slug' => 'nav/store',
     ],
-    'pages/edit' => [
-        'slug' => 'pages/edit',
+    'nav/edit' => [
+        'slug' => 'nav/edit',
         'name' => 'Edit',
         'metaTitle' => 'Edit Page Title',
         'metaDescription' => 'Edit Page Description',
     ],
-    'pages/update' => [
-        'slug' => 'pages/update',
+    'nav/update' => [
+        'slug' => 'nav/update',
     ],
-    'pages/delete' => [
-        'slug' => 'pages/delete',
+    'nav/delete' => [
+        'slug' => 'nav/delete',
         'name' => 'Delete',
         'metaTitle' => 'Are you sure that you want to permanently delete the selected pages?',
         'metaDescription' => 'Are you sure that you want to permanently delete the selected pages?',
     ],
-    'pages/destroy' => [
-        'slug' => 'pages/destroy',
+    'nav/destroy' => [
+        'slug' => 'nav/destroy',
     ],
-    'pages/upload' => [
-        'slug' => 'pages/upload',
+    'nav/upload' => [
+        'slug' => 'nav/upload',
     ],
-    'pages/delete-image' => [
-        'slug' => 'pages/delete-image',
+    'nav/delete-image' => [
+        'slug' => 'nav/delete-image',
         'name' => 'Delete Image',
         'metaTitle' => 'Are you sure that you want to permanently delete the selected images?',
         'metaDescription' => 'Are you sure that you want to permanently delete the selected images?',
     ],
-    'pages/destroy-image' => [
-        'slug' => 'pages/destroy-image',
+    'nav/destroy-image' => [
+        'slug' => 'nav/destroy-image',
     ],
-    'pages/edit-image' => [
-        'slug' => 'pages/edit-image',
+    'nav/edit-image' => [
+        'slug' => 'nav/edit-image',
         'name' => 'Edit Image',
         'metaTitle' => 'Edit Image Title',
         'metaDescription' => 'Edit Image Description',
     ],
-    'pages/update-image' => [
-        'slug' => 'pages/update-image',
+    'nav/update-image' => [
+        'slug' => 'nav/update-image',
     ],
     'banners' => [
         'slug' => 'banners',

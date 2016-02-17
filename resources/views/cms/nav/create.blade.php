@@ -5,9 +5,9 @@
     <h1>{{ \Locales::getMetaTitle() }}</h1>
 
     @if (isset($page))
-    {!! Form::model($page, ['method' => 'put', 'url' => \Locales::route('pages/update'), 'id' => 'edit-page-form', 'data-ajax-queue' => 'sync', 'class' => 'ajax-lock', 'role' => 'form']) !!}
+    {!! Form::model($page, ['method' => 'put', 'url' => \Locales::route('nav/update'), 'id' => 'edit-page-form', 'data-ajax-queue' => 'sync', 'class' => 'ajax-lock', 'role' => 'form']) !!}
     @else
-    {!! Form::open(['url' => \Locales::route('pages/store'), 'id' => 'create-page-form', 'data-ajax-queue' => 'sync', 'class' => 'ajax-lock', 'role' => 'form']) !!}
+    {!! Form::open(['url' => \Locales::route('nav/store'), 'id' => 'create-page-form', 'data-ajax-queue' => 'sync', 'class' => 'ajax-lock', 'role' => 'form']) !!}
     @endif
 
     {!! Form::hidden('table', $table, ['id' => 'input-table']) !!}

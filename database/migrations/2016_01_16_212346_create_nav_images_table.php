@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePageImagesTable extends Migration
+class CreateNavImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreatePageImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('page_images', function (Blueprint $table) {
+        Schema::create('nav_images', function (Blueprint $table) {
             $table->increments('id');
             $table->nullableTimestamps();
             $table->string('name')->nullable();
@@ -23,9 +23,9 @@ class CreatePageImagesTable extends Migration
             $table->string('size');
             $table->integer('order')->unsigned()->default(0);
 
-            $table->integer('page_id')->unsigned();
-            $table->index('page_id');
-            $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
+            $table->integer('nav_id')->unsigned();
+            $table->index('nav_id');
+            $table->foreign('nav_id')->references('id')->on('nav')->onDelete('cascade');
         });
     }
 
@@ -36,6 +36,6 @@ class CreatePageImagesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('page_images');
+        Schema::drop('nav_images');
     }
 }
