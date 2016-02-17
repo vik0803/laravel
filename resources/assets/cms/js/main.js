@@ -486,6 +486,7 @@ var unikat = function() {
         var defaultConfig = {
             // debug: true,
             button: document.getElementById(params.id),
+            multiple: true,
             maxConnections: 1, // there are problems with multiple connections: the files are not uploaded or the records in the DB are duplicated.
             chunking: {
                 enabled: true,
@@ -607,6 +608,10 @@ var unikat = function() {
                     }
                 },
                 onSubmit: function(id, name) {
+                    if (!this._options.multiple) {
+                        $('#' + params.id).addClass('disabled');
+                    }
+
                     this.setParams({
                         id: $('#' + params.id).data('pageId'),
                     });
