@@ -13,6 +13,10 @@
     }
 }
 
+.mfp-title {
+    min-width: 18.75em; /* 300/16 */
+}
+
 /* overlay at start */
 .mfp-fade.mfp-bg {
   opacity: 0;
