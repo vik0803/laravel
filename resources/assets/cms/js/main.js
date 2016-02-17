@@ -698,6 +698,12 @@ var unikat = function() {
                         ajax_unlock(params.that);
                     }
 
+                    if (data.enable) {
+                        $.each(data.enable, function(key, value) {
+                            $('#' + value).removeClass('disabled');
+                        });
+                    }
+
                     ajax_success_text(params.that, data.success);
                 } else if (data.errors) {
                     ajax_error(params.that, data);
