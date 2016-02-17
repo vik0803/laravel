@@ -360,7 +360,7 @@ class BannerController extends Controller {
                 Storage::disk('local-public')->deleteDirectory($this->uploadDirectory . $path . $uuid);
             }
 
-            $datatable->setup(BannerImage::where('banner_id', $banner), 'banner_images', $this->datatables[$request->input('table')], true);
+            $datatable->setup(BannerImage::where('banner_id', $banner), $request->input('table'), $this->datatables[$request->input('table')], true);
             $datatable->setOption('url', \Locales::route($this->route, implode('/', $slugs)));
             $datatables = $datatable->getTables();
 

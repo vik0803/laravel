@@ -425,7 +425,7 @@ class NavController extends Controller {
                 Storage::disk('local-public')->deleteDirectory($this->uploadDirectory . $path . $uuid);
             }
 
-            $datatable->setup(NavImage::where('nav_id', $page), 'nav_images', $this->datatables[$request->input('table')], true);
+            $datatable->setup(NavImage::where('nav_id', $page), $request->input('table'), $this->datatables[$request->input('table')], true);
             $datatable->setOption('url', \Locales::route($this->route, implode('/', $slugs)));
             $datatables = $datatable->getTables();
 
