@@ -321,7 +321,7 @@ class BannerController extends Controller {
         if (isset($response['success']) && $response['success'] && isset($response['fileName'])) {
             $directory = asset('upload/' . str_replace(DIRECTORY_SEPARATOR, '/', $uploader->uploadDirectory) . '/' . $response['uuid']);
 
-            $response['file'] = '<a href="' . asset($directory . '/' . $response['fileName']) . '">' . \HTML::image($directory . '/' . \Config::get('images.thumbnailSmallDirectory') . '/' . $response['fileName']) . '</a>';
+            $response['file'] = '<a class="popup" href="' . asset($directory . '/' . $response['fileName']) . '">' . \HTML::image($directory . '/' . \Config::get('images.thumbnailSmallDirectory') . '/' . $response['fileName']) . '</a>';
 
             $image = new BannerImage;
             $image->file = $response['fileName'];
