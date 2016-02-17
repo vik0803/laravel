@@ -30,6 +30,9 @@ return [
     'bannerWidth' => 1920,
     'bannerHeight' => 480,
 
+    'iconWidth' => 100,
+    'iconHeight' => 100,
+
     'watermarkImage' => storage_path('app/images/watermark.png'),
     'watermarkPosition' => 'bottom-right',
     'watermarkOffsetX' => 25,

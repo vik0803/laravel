@@ -24,6 +24,7 @@ class FineUploader
     public $resize = true;
     public $slider = false;
     public $banner = false;
+    public $icon = false;
 
     public $chunksCleanupProbability = 0.001; // Once in 1000 requests on avg
     public $chunksExpireIn = 604800; // One week
@@ -239,6 +240,10 @@ class FineUploader
             }
         } elseif ($this->banner) {
             $img->fit(\Config::get('images.bannerWidth'), \Config::get('images.bannerHeight'), function ($constraint) {
+                $constraint->upsize();
+            });
+        } elseif ($this->icon) {
+            $img->fit(\Config::get('images.iconWidth'), \Config::get('images.iconHeight'), function ($constraint) {
                 $constraint->upsize();
             });
         }
